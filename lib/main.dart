@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () => (),
                 text: "Continue with Google",
                 filled: false,
-                imageAsset: 'assets/images/google_logo.png',
+                // imageAsset: 'assets/images/google_logo.png',
               ),
             ),
             const Row(
