@@ -20,7 +20,7 @@ class AuthField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // controller: controller,
+        // controller: controller,
         maxLength: maxLength,
         decoration: InputDecoration(
           labelText: labelText,

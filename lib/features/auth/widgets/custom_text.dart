@@ -24,7 +24,7 @@ class CustomText extends StatelessWidget {
       case CustomTextSize.small:
         return 12.0;
       case CustomTextSize.medium:
-        return 14.0;
+        return 18.0;
       case CustomTextSize.large:
         return 32.0;
     }

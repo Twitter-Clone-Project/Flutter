@@ -24,6 +24,8 @@ class CustomButton extends StatelessWidget {
     final assetPath = imageAsset ?? "assets/default_image.png";
 
     return Container(
+      //width: width,
+      //height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30.0),
         color: buttonColor,

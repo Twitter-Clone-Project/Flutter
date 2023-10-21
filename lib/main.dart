@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:x_clone/features/auth/view/forgotPassword_view.dart';
 import 'package:x_clone/features/auth/widgets/custom_button.dart';
 import 'package:x_clone/theme/app_theme.dart';
 import 'package:x_clone/theme/palette.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Palette.blueColor),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'X-Clone Demo Home Page'),
+      home: const forgotPassword(),
     );
   }
 }
@@ -32,7 +33,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,21 +69,22 @@ class _MyHomePageState extends State<MyHomePage> {
              * Test AuthField if you passed an error message to it
              */
             Container(
-              margin: const EdgeInsets.only(left: 20, right: 20,top: 16),
-              child: const AuthField(errorText: "error message", labelText: "Email"),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 16),
+              child: const AuthField(
+                  errorText: "error message", labelText: "Email"),
             ),
             /** ### MOU ###
              * Test AuthField without passing an error message
              */
             Container(
-              margin: const EdgeInsets.only(left: 20, right: 20,top: 16),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 16),
               child: const AuthField(errorText: null, labelText: "Password"),
             ),
             /** ### MOU ###
              * CustomText with small size and grey color
              */
             Container(
-              margin: const EdgeInsets.only(left: 20, right: 20,top: 16),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 16),
               // Specify left and right margins
               child: const CustomText(
                 "By signing up, you agree to our Terms, Privacy Policy, and Cookie Use.",
@@ -95,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
              * Filled button without an image
              */
             Container(
-              margin: const EdgeInsets.only(left: 20, right: 20,top: 16),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 16),
               child: CustomButton(
                 onPressed: () => (),
                 text: "Create account",
@@ -106,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
              * Outlined button with an image
              */
             Container(
-              margin: const EdgeInsets.only(left: 20, right: 20,top: 16),
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 16),
               child: CustomButton(
                 onPressed: () => (),
                 text: "Continue with Google",
@@ -114,19 +115,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 imageAsset: 'assets/images/google_logo.png',
               ),
             ),
-            const Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Divider()
-                  ),
-
-                  Text("OR"),
-
-                  Expanded(
-                      child: Divider()
-                  ),
-                ]
-            )
+            const Row(children: <Widget>[
+              Expanded(child: Divider()),
+              Text("OR"),
+              Expanded(child: Divider()),
+            ])
           ],
         ),
       ),
