@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'X-Clone',
+      title: 'X-Clone ',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Palette.blueColor),
         useMaterial3: true,
