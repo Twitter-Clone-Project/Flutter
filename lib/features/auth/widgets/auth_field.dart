@@ -34,7 +34,7 @@ class AuthField extends StatelessWidget {
             visible: errorText != null,
             child: const Icon(
               Icons.error,
-              color: Palette.redColor,
+              color: Colors.red,
             ),
           ),
         ));
