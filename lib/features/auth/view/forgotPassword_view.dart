@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:x_clone/constants/assets_constants.dart';
 import 'package:x_clone/features/auth/widgets/auth_field.dart';
 import 'package:x_clone/features/auth/widgets/custom_button.dart';
 import 'package:x_clone/features/auth/widgets/custom_text.dart';
 
-class forgotPassword extends StatelessWidget {
-  const forgotPassword({super.key});
+class ForgotPassword extends StatelessWidget {
+  const ForgotPassword({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +22,7 @@ class forgotPassword extends StatelessWidget {
         title: SizedBox(
           width: MediaQuery.of(context).size.width * 0.7,
           child: SvgPicture.asset(
-            'assets/svgs/twitter_logo.svg',
+            AssetsConstants.twitterLogo,
           ),
         ),
       ),

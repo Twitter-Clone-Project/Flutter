@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Palette.blueColor),
         useMaterial3: true,
       ),
-      home: const forgotPassword(),
+      home: const ForgotPassword(),
     );
   }
 }
