@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // Import the flutter_svg package
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
   final bool filled;
-  final String? svgIcon; // Use an SVG icon path instead of imageAsset
+  final String? svgIcon;
   final VoidCallback? onPressed;
 
   const CustomButton({
     super.key,
     required this.text,
     this.filled = true,
-    this.svgIcon, // Update the parameter name
+    this.svgIcon,
     required this.onPressed,
   });
 
