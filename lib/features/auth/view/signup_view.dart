@@ -36,7 +36,7 @@ class _SignUpState extends State<SignUp> {
                   color: Color.fromARGB(255, 0, 0, 0),
                 ),
                 SizedBox(height:0.025 * MediaQuery.of(context).size.height),
-                const AuthField(labelText: "Full Name",maxLength: 50),
+                const AuthField(labelText: "Name",maxLength: 50),
                 SizedBox(height: 0.0025 * MediaQuery.of(context).size.height),
                 const AuthField(labelText: "Email"),
                 SizedBox(height: 0.025 * MediaQuery.of(context).size.height),
