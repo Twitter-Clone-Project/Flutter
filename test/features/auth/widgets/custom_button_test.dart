@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:x_clone/constants/assets_constants.dart';
 import 'package:x_clone/features/auth/widgets/custom_button.dart';
 import 'package:x_clone/theme/palette.dart';
 
@@ -63,7 +64,7 @@ void main() {
           body: CustomButton(
             text: 'Submit',
             filled: false,
-            imageAsset: 'assets/images/google_logo.png',
+            svgIcon: AssetsConstants.googleIcon,
             onPressed: () {
               buttonPressed = true;
             },
@@ -73,7 +74,7 @@ void main() {
     );
     expect(find.text('Submit'), findsOneWidget);
     expect(find.byType(CustomButton), findsOneWidget);
-    expect(find.byType(Image), findsOneWidget);
+    expect(find.byType(Icon), findsOneWidget);
     expect(text.style!.color, Palette.backgroundColor);
     expect(text.style!.fontSize, 18);
     expect(text.style!.fontWeight, FontWeight.w600);
