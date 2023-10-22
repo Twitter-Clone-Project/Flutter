@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../theme/palette.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/auth_field.dart';
@@ -29,7 +30,7 @@ class _SignUpState extends State<SignUp> {
                 const CustomText(
                   "Create your account",
                   textSize: CustomTextSize.large,
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: Palette.black,
                 ),
                 SizedBox(height:0.075 * MediaQuery.of(context).size.height),
                 const AuthField(labelText: "Name",maxLength: 50),
@@ -54,7 +55,7 @@ class _SignUpState extends State<SignUp> {
                 SizedBox(height: 0.009 * MediaQuery.of(context).size.height),
                 const CustomText("By signing up, you agree to our Terms, Privacy Policy, and Cookie Use.",
                   textSize: CustomTextSize.small,
-                  color: Colors.black45,
+                  color: Palette.black45,
                 )
               ],
             ),
