@@ -64,7 +64,5 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
-void main(){
-  runApp(const MaterialApp(home: SignUp(),));
-}
+
 
