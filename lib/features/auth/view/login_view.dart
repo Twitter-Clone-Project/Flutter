@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:x_clone/features/auth/widgets/auth_field.dart';
 import 'package:x_clone/features/auth/widgets/custom_button.dart';
 import 'package:x_clone/features/auth/widgets/custom_text.dart';
+import 'package:x_clone/theme/palette.dart';
 
 // Define a `Login` widget, which is the login screen.
 class Login extends StatefulWidget {
@@ -43,11 +44,11 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // helper Text
-                CustomText("Enter Your Credentials",
+                const CustomText("Join the conversation!",
                     textSize: CustomTextSize.large),
-                SizedBox(height: mediaQuery.size.height * 0.04),
+                SizedBox(height:0.075 * MediaQuery.of(context).size.height),
                 AuthField(labelText: "Email"), // Input field for email.
-                SizedBox(height: mediaQuery.size.height * 0.02),
+                SizedBox(height: 0.025 * MediaQuery.of(context).size.height),
                 AuthField(labelText: "Password"), // Input field for password.
               ],
             ),
@@ -57,7 +58,8 @@ class _LoginState extends State<Login> {
             children: [
               Divider(
                 height: mediaQuery.size.height * 0.002,
-                color: Colors.black,
+                color: Palette.greyColor,
+
               ),
               Padding(
                 padding: EdgeInsets.all(mediaQuery.size.width * 0.03),
@@ -72,7 +74,7 @@ class _LoginState extends State<Login> {
                     ),
                     // Button for the login action.
                     CustomButton(
-                      text: 'Continue',
+                      text: 'Login',
                       onPressed: () {},
                       filled: true,
                     ),
