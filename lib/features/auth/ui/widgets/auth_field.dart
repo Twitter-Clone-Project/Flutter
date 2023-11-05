@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:x_clone/theme/palette.dart';
+
+import '../../../../theme/app_colors.dart';
 
 class AuthField extends StatelessWidget {
   const AuthField({
@@ -14,8 +15,8 @@ class AuthField extends StatelessWidget {
   final int? maxLength;
   final String labelText;
   final String? errorText;
-  final Color enabledColor = Palette.greyColor;
-  final Color focusedColor = Palette.blueColor;
+  final Color enabledColor = AppColors.borderDarkGray;
+  final Color focusedColor = AppColors.primaryColor;
 
   @override
   Widget build(BuildContext context) {

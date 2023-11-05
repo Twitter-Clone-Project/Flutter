@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:x_clone/theme/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
   final bool filled;
   final String? svgIcon;
   final VoidCallback? onPressed;
+
 
   const CustomButton({
     super.key,
@@ -18,9 +19,9 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color buttonColor = filled ? Colors.black : Colors.transparent;
-    Color textColor = filled ? Colors.white : Colors.black;
-    Color borderColor = filled ? Colors.transparent : Colors.black26;
+    Color buttonColor = filled ? AppColors.whiteColor  : Colors.transparent;
+    Color textColor = filled ? AppColors.pureBlack : AppColors.whiteColor;
+    Color borderColor = filled ? Colors.transparent : AppColors.borderDarkGray;
 
     return Container(
       decoration: BoxDecoration(
@@ -55,7 +56,7 @@ class CustomButton extends StatelessWidget {
                   ),
                 Text(
                   text,
-                  style: GoogleFonts.roboto(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: textColor,

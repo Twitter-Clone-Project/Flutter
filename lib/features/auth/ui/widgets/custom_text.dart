@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:x_clone/theme/app_colors.dart';
 
 enum CustomTextSize { small, medium, large }
 
@@ -12,7 +12,7 @@ class CustomText extends StatelessWidget {
     this.text, {
     Key? key,
     this.textSize = CustomTextSize.medium,
-    this.color = Colors.black,
+    this.color = AppColors.whiteColor,
   }) : super(key: key);
 
   FontWeight _getFontWeight() {
@@ -34,7 +34,7 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.roboto(
+      style: TextStyle(
         fontSize: _getFontSize(),
         fontWeight: _getFontWeight(),
         color: color,
