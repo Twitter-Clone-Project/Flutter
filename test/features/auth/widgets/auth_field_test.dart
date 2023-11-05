@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:x_clone/features/auth/widgets/auth_field.dart';
+import 'package:x_clone/features/auth/ui/widgets/auth_field.dart';
 
 void main() {
   testWidgets('AuthField widget test', (WidgetTester tester) async {

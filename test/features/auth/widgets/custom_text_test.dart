@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:x_clone/features/auth/widgets/custom_text.dart';
+import 'package:x_clone/features/auth/ui/widgets/custom_text.dart';
 
 void main() {
   testWidgets('CustomText widget test', (WidgetTester tester) async {

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:x_clone/features/auth/view/signup_view.dart';
-import 'package:x_clone/features/auth/widgets/auth_field.dart';
+import 'package:x_clone/features/auth/ui/signup_screen.dart';
+import 'package:x_clone/features/auth/ui/widgets/auth_field.dart';
+
 
 
 void main() {
   group('SignUp Widget Tests', () {
     testWidgets('Widget Renders Correctly', (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(home: SignUp()));
+      await tester.pumpWidget(const MaterialApp(home: RegisterScreen()));
 
       expect(find.text('Create your account'), findsOneWidget);
       expect(find.widgetWithText(AuthField, "Name"), findsNWidgets(2));
@@ -18,7 +19,7 @@ void main() {
     });
 
     testWidgets('Sign Up Button Test', (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(home: SignUp()));
+      await tester.pumpWidget(const MaterialApp(home: RegisterScreen()));
 
       expect(find.text('Sign up'), findsOneWidget);
 
@@ -30,7 +31,7 @@ void main() {
     });
 
     testWidgets('Text Field Validation', (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(home: SignUp()));
+      await tester.pumpWidget(const MaterialApp(home: RegisterScreen()));
 
 
       final nameFields = find.widgetWithText(AuthField, "Name");
