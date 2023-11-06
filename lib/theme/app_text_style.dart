@@ -22,10 +22,10 @@ class AppTextStyle {
         fontWeight: FontWeight.w400,
         letterSpacing: 0.25),
     headline5: TextStyle(
-        fontFamily: fontName, fontSize: 26, fontWeight: FontWeight.w400),
+        fontFamily: fontName, fontSize: 25, fontWeight: FontWeight.w400),
     headline6: TextStyle(
         fontFamily: fontName,
-        fontSize: 22,
+        fontSize: 21,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.15),
     subtitle1: TextStyle(
@@ -65,4 +65,3 @@ class AppTextStyle {
         letterSpacing: 1.5),
   );
 }
-

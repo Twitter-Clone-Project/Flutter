@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:x_clone/features/home/ui/widget/main_drawer_widget.dart';
 
 import '../../../app/widgets/animation/shimmer/shimmer_loading_anim.dart';
 import '../data/providers/home_provider.dart';
@@ -29,7 +30,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
     return Scaffold(
       body: SafeArea(
-        child:Center(
+        child: Center(
           child: Text("Home Screen"),
         ),
       ),
