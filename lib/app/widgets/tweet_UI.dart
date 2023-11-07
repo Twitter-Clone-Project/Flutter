@@ -284,18 +284,3 @@ class _TweetComposeState extends State<TweetCompose> {
     ));
   }
 }
-
-void main(){
-  runApp(MaterialApp(home: Scaffold(body: TweetCompose(
-    verified: true,
-    date: "1H",
-    handle: "@mohammadAlomar",
-    username: "baba",
-    viewsCount: 12123,
-    commentCount: 123123,
-    likeCount: 1213,
-    retweetCount: 123123,
-    text: "freeerasdadasdasdasd",
-    userImage: Image.asset("res/asstes/me5.jpg"),
-  )),));
-}
