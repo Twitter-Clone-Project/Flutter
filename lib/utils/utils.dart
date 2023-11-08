@@ -26,8 +26,15 @@ String getTimeDifference(DateTime notificationDate) {
   }
 }
 
+bool isEmailValid(String email) {
+  RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+  return emailRegExp.hasMatch(email);
+}
 
-
+bool isValidUsername(String username) {
+  RegExp usernameRegex = RegExp(r"^(?![_-])(?!.*[_-]{2})[a-zA-Z0-9_-]+(?<![_-])$");
+  return usernameRegex.hasMatch(username);
+}
 
 extension AppSnackbar on AppKeys {
   static show(snackBar) {
