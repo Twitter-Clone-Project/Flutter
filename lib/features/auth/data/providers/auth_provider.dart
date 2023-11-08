@@ -46,46 +46,56 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   bool isUserLoggedIn() {
     return state.user != null;
   }
-login(){
-    state = state.copyWith(
-      loading: true,
-      errorMessage: '',
-    );
-}
+// login(){
+//     // state = state.copyWith(
+//     //   loading: true,
+//     //   errorMessage: '',
+//     // );
+// }
 
-  // login({required String phone}) async {
-  //   // try {
-  //     state = state.copyWith(loading: true, errorMessage: '');
+  login({required String email,required String password}) async {
+    try {
+      state = state.copyWith(loginLoading: true, errorMessage: '');
+
+      final user = await _repo.login(email: email, password: password);
+      _onUserLoggedIn(user);
+
+      state = state.copyWith(loginLoading: false, errorMessage: '');
+
+      return true;
+    } catch (e) {
+      state = state.copyWith(errorMessage: e.toString(), loginLoading: false);
+      return false;
+    }
+  }
   //
-  //     final result = await _repo.login(phone: phone);
-  //     state = state.copyWith(loading: false, errorMessage: '');
-  //
-  //     return result;
-  //   // } catch (e) {
-  //   //   state = state.copyWith(errorMessage: e.toString(), loading: false);
-  //   //   return false;
-  //   // }
-  // }
-  //
-  // register(
-  //     {required String username,
-  //     required String email,required String mobile}) async {
-  //   try {
-  //     state = state.copyWith(loading: true, errorMessage: '');
-  //
-  //     final result = await _repo.register(
-  //         username: username,
-  //         email: email,
-  //         mobile: mobile,
-  //         );
-  //     state = state.copyWith(loading: false, errorMessage: '');
-  //
-  //     return result;
-  //   } catch (e) {
-  //     state = state.copyWith(errorMessage: e.toString(), loading: false);
-  //     return -1;
-  //   }
-  // }
+  register(
+      {required String username,
+        required String email,
+        required String name,
+        required String password,
+        required String birthDate,
+      }) async {
+    try {
+      state = state.copyWith(registerLoading: true, errorMessage: '');
+
+      final user = await _repo.register(
+        username: username,
+        email: email,
+        name: name,
+        password: password,
+        birthDate: birthDate,
+          );
+      _onUserLoggedIn(user);
+      state = state.copyWith(registerLoading: false, errorMessage: '');
+
+      return true;
+    } catch (e) {
+      state = state.copyWith(registerLoading: false, errorMessage: "");
+      state = state.copyWith(errorMessage: e.toString());
+      return false;
+    }
+  }
   //
   // Future<bool>updateUser(
   //     {
@@ -106,10 +116,13 @@ login(){
   //     return false;
   //   }
   // }
-  // void _onUserLoggedIn(User? user) {
-  //   state = state.copyWith(
-  //       loading: false, user: user, errorMessage: '', isLogin: true);
-  // }
+  void _onUserLoggedIn(User? user) {
+    state = state.copyWith(
+      googleLoading: false,
+        registerLoading: false,
+        loginLoading: false,
+        user: user, errorMessage: '', isLogin: true);
+  }
 
   getMobileNumber() {
     return _repo.getMobileNumber();
@@ -135,7 +148,9 @@ login(){
     state = state.copyWith(
       user: null,
       isLogin: false,
-      loading: false,
+      registerLoading: false,
+      loginLoading: false,
+      googleLoading: false,
     );
   }
 
@@ -157,7 +172,9 @@ login(){
     } catch (_) {}
   }
 
-  void resetErrorMessage() {
-    state = state.copyWith(loading: false, errorMessage: "");
-  }}
+  // void resetErrorMessage() {
+  //   state = state.copyWith(loading: false, errorMessage: "");
+  // }
+
+}
 

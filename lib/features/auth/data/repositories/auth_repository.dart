@@ -10,13 +10,18 @@ import '../model/user.dart';
 abstract class AuthRepository {
   Future<User?> fetchUserData();
 
-  Future<bool> login({required String phone});
+  Future<User?> login({required String email,
+    required String password,
+  });
 
-//   Future<int> register(
-//       {required String username,
-//       required String email,
-//       required String mobile,
-// });
+  Future<User?> register(
+      {required String username,
+      required String email,
+      required String name,
+      required String password,
+      required String birthDate,
+      }
+);
 //   Future<User?> updateUser({String? phone, String? name});
   Future<void> registerFCMToken({required String token});
 
@@ -47,50 +52,58 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool> login(
-      {required String phone}) async {
+  Future<User?> login(
+      {required String email,
+        required String password,
+      }) async {
     try {
       final data = {
-        "phone": phone,
+        "email": email,
+        "password": password,
       };
-      var response = await HttpClient.dio.post(EndPoints.login, data: data, options: Options(headers: {
-        "Accept": "application/json",
-      }),);
+      var response = await HttpClient.dio.post(EndPoints.login, data: data,);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return true;
+        _saveUserLoginResponse(response.data["data"]["token"]);
+        _saveUserDataResponse(response.data["data"]["user"]);
+        return User.fromJson(response.data["data"]["user"]);
       }
-      return false;
+      throw(response.data["message"]);
     } catch (e) {
       rethrow;
     }
   }
 
-  // @override
-  // Future<int> register(
-  //     {required String username,
-  //     required String email,
-  //     required String mobile,
-  //     }) async {
-  //   try {
-  //     final data = {
-  //       "name": username,
-  //       "email": email,
-  //       "phone": mobile,
-  //     };
-  //     var response = await HttpClient.dio.post(EndPoints.register, data: data,
-  //     options: Options(headers: {
-  //       "Accept": "application/json",
-  //     }),);
-  //     if (response.statusCode == 200 || response.statusCode == 201) {
-  //
-  //       return response.data["temp_user_id"];
-  //     } else {
-  //       throw(response.data["message"]);
-  //     }
-  //   } catch (e) {
-  //     throw e.toString();
-  //   }
-  // }
+  @override
+  Future<User?> register(
+      {required String username,
+        required String email,
+        required String name,
+        required String password,
+        required String birthDate,
+      }
+      ) async {
+    try {
+      final data = {
+        "name": name,
+        "username": username,
+        "email": email,
+        "password": password,
+        "passwordConfirm": password,
+        "dateOfBirth": birthDate,
+        "gRecaptchaResponse": "6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
+      };
+      var response = await HttpClient.dio.post(EndPoints.register, data: data,);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        _saveUserLoginResponse(response.data["data"]["token"]);
+        _saveUserDataResponse(response.data["data"]["user"]);
+        return User.fromJson(response.data["data"]["user"]);
+      } else {
+        throw(response.data["message"]);
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 
   void _saveUserLoginResponse(String token) {
     HiveManager.addData(StorageKeys.tokenKey, token);
