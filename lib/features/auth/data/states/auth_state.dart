@@ -10,7 +10,8 @@ class AuthState with _$AuthState {
     @Default(null) User? user,
     @Default("") String? token,
     @Default(false) bool? isLogin,
-    @Default(false) bool loading,
+    @Default(false) bool loginLoading,
+    @Default(false) bool googleLoading,
     @Default(null) String? errorMessage,
     @Default(false) bool registerLoading
   }) = _AuthState;
