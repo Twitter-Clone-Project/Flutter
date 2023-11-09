@@ -13,10 +13,11 @@ String userToJson(User data) => json.encode(data.toJson());
 @freezed
 class User with _$User {
   const factory User({
+    String? userId,
+    bool? isConfirmed,
     String? name,
-    int? id,
+    String? username,
     String? email,
-    String? phone,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
