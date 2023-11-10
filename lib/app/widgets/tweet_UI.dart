@@ -117,14 +117,17 @@ class _TweetComposeState extends State<TweetCompose> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GestureDetector(
-          onTap: () {
-            // go to user profile
-          },
-          child: CircleAvatar(
-            backgroundColor: AppColors.whiteColor,
-            backgroundImage: userImage?.image,
-            radius: 20,
+        Padding(
+          padding: const EdgeInsets.only(left: 5),
+          child: GestureDetector(
+            onTap: () {
+              // go to user profile
+            },
+            child: CircleAvatar(
+              backgroundColor: AppColors.whiteColor,
+              backgroundImage: userImage?.image,
+              radius: 20,
+            ),
           ),
         ),
         SizedBox(width: MediaQuery.of(context).size.width * 0.02),
