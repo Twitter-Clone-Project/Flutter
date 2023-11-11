@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:x_clone/features/home/ui/widget/main_drawer_widget.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import '../../chat/ui/chat_screen.dart';
 import '../../search/ui/search_screen.dart';
 import '../data/providers/home_provider.dart';
 import 'home_screen.dart';
-
 
 class NavigationScreen extends StatefulHookConsumerWidget {
   const NavigationScreen({super.key});
@@ -41,6 +41,7 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
     final homeProvider = ref.watch(homeNotifierProvider);
 
     return Scaffold(
+      drawer: const MainDrawer(),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -63,19 +64,35 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
             onTap: onTabTapped,
             items: [
               BottomNavigationBarItem(
-                  icon: Icon( ref.read(homeNotifierProvider).screenIndex == 0?Icons.home_filled:Icons.home_outlined,),
+                icon: Icon(
+                  ref.read(homeNotifierProvider).screenIndex == 0
+                      ? Icons.home_filled
+                      : Icons.home_outlined,
+                ),
                 label: 'Home',
-                  ),
+              ),
               BottomNavigationBarItem(
-                icon: Icon( ref.read(homeNotifierProvider).screenIndex == 1?Icons.search_sharp:Icons.search_outlined,),
+                icon: Icon(
+                  ref.read(homeNotifierProvider).screenIndex == 1
+                      ? Icons.search_sharp
+                      : Icons.search_outlined,
+                ),
                 label: 'Search',
               ),
               BottomNavigationBarItem(
-                icon: Icon( ref.read(homeNotifierProvider).screenIndex == 2?CupertinoIcons.bell_fill:CupertinoIcons.bell,),
+                icon: Icon(
+                  ref.read(homeNotifierProvider).screenIndex == 2
+                      ? CupertinoIcons.bell_fill
+                      : CupertinoIcons.bell,
+                ),
                 label: 'Notifications',
               ),
               BottomNavigationBarItem(
-                icon: Icon( ref.read(homeNotifierProvider).screenIndex == 3?Icons.mail:Icons.mail_outlined,),
+                icon: Icon(
+                  ref.read(homeNotifierProvider).screenIndex == 3
+                      ? Icons.mail
+                      : Icons.mail_outlined,
+                ),
                 label: 'Messages',
               ),
             ]),
