@@ -17,7 +17,6 @@ class AppColors {
   static const Color pureBlack = Color(0xFF000000);
   static const Color blackColor = Color(0xFF14171A);
   static const Color warningColor = Color(0xFFF4212E);
-
 }
 
 class ColorHex extends Color {

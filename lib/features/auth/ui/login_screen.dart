@@ -6,6 +6,7 @@ import 'package:x_clone/features/auth/ui/widgets/auth_field.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_text.dart';
 
+import '../../../app/routes.dart';
 import '../../../theme/app_assets.dart';
 import '../../../theme/app_colors.dart';
 import '../../../utils/utils.dart';
@@ -19,20 +20,20 @@ class LoginScreen extends StatefulHookConsumerWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-
     final verticalPadding = mediaQuery.size.height * 0.05;
     final horizontalPadding = mediaQuery.size.width * 0.03;
+    final auth = ref.watch(authNotifierProvider);
 
     ref.listen(authNotifierProvider.select((value) => value.errorMessage),
         (previous, nextErrorMessage) {
       if (nextErrorMessage != null && nextErrorMessage != '') {
         AppSnackbar.show(buildSnackBar(text: nextErrorMessage));
-        Future.delayed(const Duration(seconds: 3), () {
-          ref.read(authNotifierProvider.notifier).resetErrorMessage();
-        });
       }
     });
     return Scaffold(
@@ -75,10 +76,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const CustomText("Join the conversation!",
                       textSize: CustomTextSize.large),
                   SizedBox(height: 0.075 * MediaQuery.of(context).size.height),
-                  const AuthField(labelText: "Email"), // Input field for email.
+                  AuthField(labelText: "Email",
+                    controller:_emailController,
+                    validator: (value){
+                      if(value!.isEmpty){
+                        return "Email cannot be empty";
+                      }
+                      if(isEmailValid(value) == false){
+                        return "Email is not valid";
+                      }
+                      return null;
+                    },
+                  ), // Input field for email.
                   SizedBox(height: 0.025 * MediaQuery.of(context).size.height),
-                  const AuthField(
-                      labelText: "Password"), // Input field for password.
+                  AuthField(
+                      labelText: "Password",
+                    controller:_passwordController,
+                      validator: (value){
+                        if(value!.isEmpty){
+                          return "Password cannot be empty";
+                        }
+                        if(value.length < 6){
+                          return "Password length should be 6 or more";
+                        }
+                        return null;
+                      }
+                  ), // Input field for password.
                 ],
               ),
             ),
@@ -101,9 +124,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         filled: false,
                       ),
                       // Button for the login action.
+                      auth.loginLoading?
+                      const CircularProgressIndicator(
+                        color: AppColors.whiteColor,
+                        strokeWidth: 1,
+                      ):
                       CustomButton(
                         text: 'Login',
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (auth.loginLoading) return;
+                          if (AppKeys.loginFormKey.currentState!
+                              .validate()) {
+                            final result = await ref
+                                .read(authNotifierProvider.notifier)
+                                .login(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                            );
+                            if (result) {
+                              Navigator.pushNamedAndRemoveUntil(context, Routes.initRoute, (route) => false);
+                            }
+                          }
+                        },
                         filled: true,
                       ),
                     ],

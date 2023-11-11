@@ -6,22 +6,25 @@ class AuthField extends StatelessWidget {
   const AuthField({
     super.key,
     required this.labelText,
-    //required this.controller,
+    this.controller,
     this.errorText,
     this.maxLength,
+    this.validator,
   });
 
-  //final TextEditingController controller;
+  final TextEditingController? controller;
   final int? maxLength;
   final String labelText;
   final String? errorText;
   final Color enabledColor = AppColors.borderDarkGray;
   final Color focusedColor = AppColors.primaryColor;
+  final String? Function(String?)? validator;
+
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // controller: controller,
+      controller: controller,
         maxLength: maxLength,
         decoration: InputDecoration(
           labelText: labelText,
@@ -38,6 +41,8 @@ class AuthField extends StatelessWidget {
               color: Colors.red,
             ),
           ),
-        ));
+        ),
+      validator: validator,
+    );
   }
 }

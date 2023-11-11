@@ -19,7 +19,8 @@ mixin _$AuthState {
   User? get user => throw _privateConstructorUsedError;
   String? get token => throw _privateConstructorUsedError;
   bool? get isLogin => throw _privateConstructorUsedError;
-  bool get loading => throw _privateConstructorUsedError;
+  bool get loginLoading => throw _privateConstructorUsedError;
+  bool get googleLoading => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get registerLoading => throw _privateConstructorUsedError;
 
@@ -37,7 +38,8 @@ abstract class $AuthStateCopyWith<$Res> {
       {User? user,
       String? token,
       bool? isLogin,
-      bool loading,
+      bool loginLoading,
+      bool googleLoading,
       String? errorMessage,
       bool registerLoading});
 
@@ -60,7 +62,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? user = freezed,
     Object? token = freezed,
     Object? isLogin = freezed,
-    Object? loading = null,
+    Object? loginLoading = null,
+    Object? googleLoading = null,
     Object? errorMessage = freezed,
     Object? registerLoading = null,
   }) {
@@ -77,9 +80,13 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.isLogin
           : isLogin // ignore: cast_nullable_to_non_nullable
               as bool?,
-      loading: null == loading
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
+      loginLoading: null == loginLoading
+          ? _value.loginLoading
+          : loginLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      googleLoading: null == googleLoading
+          ? _value.googleLoading
+          : googleLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
@@ -117,7 +124,8 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       {User? user,
       String? token,
       bool? isLogin,
-      bool loading,
+      bool loginLoading,
+      bool googleLoading,
       String? errorMessage,
       bool registerLoading});
 
@@ -139,7 +147,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? user = freezed,
     Object? token = freezed,
     Object? isLogin = freezed,
-    Object? loading = null,
+    Object? loginLoading = null,
+    Object? googleLoading = null,
     Object? errorMessage = freezed,
     Object? registerLoading = null,
   }) {
@@ -156,9 +165,13 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.isLogin
           : isLogin // ignore: cast_nullable_to_non_nullable
               as bool?,
-      loading: null == loading
-          ? _value.loading
-          : loading // ignore: cast_nullable_to_non_nullable
+      loginLoading: null == loginLoading
+          ? _value.loginLoading
+          : loginLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      googleLoading: null == googleLoading
+          ? _value.googleLoading
+          : googleLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
@@ -179,7 +192,8 @@ class _$AuthStateImpl implements _AuthState {
       {this.user = null,
       this.token = "",
       this.isLogin = false,
-      this.loading = false,
+      this.loginLoading = false,
+      this.googleLoading = false,
       this.errorMessage = null,
       this.registerLoading = false});
 
@@ -194,7 +208,10 @@ class _$AuthStateImpl implements _AuthState {
   final bool? isLogin;
   @override
   @JsonKey()
-  final bool loading;
+  final bool loginLoading;
+  @override
+  @JsonKey()
+  final bool googleLoading;
   @override
   @JsonKey()
   final String? errorMessage;
@@ -204,7 +221,7 @@ class _$AuthStateImpl implements _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(user: $user, token: $token, isLogin: $isLogin, loading: $loading, errorMessage: $errorMessage, registerLoading: $registerLoading)';
+    return 'AuthState(user: $user, token: $token, isLogin: $isLogin, loginLoading: $loginLoading, googleLoading: $googleLoading, errorMessage: $errorMessage, registerLoading: $registerLoading)';
   }
 
   @override
@@ -215,7 +232,10 @@ class _$AuthStateImpl implements _AuthState {
             (identical(other.user, user) || other.user == user) &&
             (identical(other.token, token) || other.token == token) &&
             (identical(other.isLogin, isLogin) || other.isLogin == isLogin) &&
-            (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.loginLoading, loginLoading) ||
+                other.loginLoading == loginLoading) &&
+            (identical(other.googleLoading, googleLoading) ||
+                other.googleLoading == googleLoading) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.registerLoading, registerLoading) ||
@@ -223,8 +243,8 @@ class _$AuthStateImpl implements _AuthState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user, token, isLogin, loading,
-      errorMessage, registerLoading);
+  int get hashCode => Object.hash(runtimeType, user, token, isLogin,
+      loginLoading, googleLoading, errorMessage, registerLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -238,7 +258,8 @@ abstract class _AuthState implements AuthState {
       {final User? user,
       final String? token,
       final bool? isLogin,
-      final bool loading,
+      final bool loginLoading,
+      final bool googleLoading,
       final String? errorMessage,
       final bool registerLoading}) = _$AuthStateImpl;
 
@@ -249,7 +270,9 @@ abstract class _AuthState implements AuthState {
   @override
   bool? get isLogin;
   @override
-  bool get loading;
+  bool get loginLoading;
+  @override
+  bool get googleLoading;
   @override
   String? get errorMessage;
   @override
