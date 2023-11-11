@@ -16,7 +16,7 @@ class RootApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EasyLocalization(
-      supportedLocales: const [Locale('en', ''),Locale('ar', '')],
+      supportedLocales: const [Locale('en', '')],
       path: Constants.localizationPath,
       child: const ProviderScope(child: App()),
     );

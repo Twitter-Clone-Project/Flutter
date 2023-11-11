@@ -26,52 +26,55 @@ class IntroScreen extends ConsumerWidget {
           centerTitle: true,
           backgroundColor: AppColors.pureBlack,
         ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height*0.2,),
-              const CustomText("See what's happening\nin the world right now.",textSize: CustomTextSize.large),
-              SizedBox(height: MediaQuery.of(context).size.height*0.2,),
-              SizedBox(
-                  height: 55,
-                  child: CustomButton(text: "Continue with Google", onPressed: (){},svgIcon: AppAssets.googleIcon,)),
-              SizedBox(height: MediaQuery.of(context).size.height*0.02,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                Container(
-                  height: 1,
-                  width: MediaQuery.of(context).size.width*0.4,
-                  color: AppColors.lightGray,
-                ),
-                const CustomText("  OR  "),
-                Container(
-                  height: 1,
-                  width: MediaQuery.of(context).size.width*0.4,
-                  color: AppColors.lightGray,
-                ),
-              ],),
-              SizedBox(height: MediaQuery.of(context).size.height*0.02,),
-              SizedBox(
-                  height: 55,
-                  child: CustomButton(text: "Login", onPressed: (){
-                    Navigator.pushNamed(context, Routes.loginScreen);
-                  },)),
-              const Spacer(),
-              Row(
-                children: [
-                  const CustomText("Don't have an account yet?",color: AppColors.lightGray,),
-                  TextButton(onPressed: (){
-                    Navigator.pushNamed(context, Routes.registerScreen);
-                  }, child:const CustomText("SignUp",color: AppColors.primaryColor,),
-                  )
-                ],
-              )
-            ],
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height-120,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height*0.2,),
+                const CustomText("See what's happening\nin the world right now.",textSize: CustomTextSize.large),
+                SizedBox(height: MediaQuery.of(context).size.height*0.2,),
+                SizedBox(
+                    height: 55,
+                    child: CustomButton(text: "Continue with Google", onPressed: (){},svgIcon: AppAssets.googleIcon,)),
+                SizedBox(height: MediaQuery.of(context).size.height*0.02,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  Container(
+                    height: 1,
+                    width: MediaQuery.of(context).size.width*0.4,
+                    color: AppColors.lightGray,
+                  ),
+                  const CustomText("  OR  "),
+                  Container(
+                    height: 1,
+                    width: MediaQuery.of(context).size.width*0.4,
+                    color: AppColors.lightGray,
+                  ),
+                ],),
+                SizedBox(height: MediaQuery.of(context).size.height*0.02,),
+                SizedBox(
+                    height: 55,
+                    child: CustomButton(text: "Login", onPressed: (){
+                      Navigator.pushNamed(context, Routes.loginScreen);
+                    },)),
+                const Spacer(),
+                Row(
+                  children: [
+                    const CustomText("Don't have an account yet?",color: AppColors.lightGray,),
+                    TextButton(onPressed: (){
+                      Navigator.pushNamed(context, Routes.registerScreen);
+                    }, child:const CustomText("SignUp",color: AppColors.primaryColor,),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

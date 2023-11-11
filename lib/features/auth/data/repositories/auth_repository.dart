@@ -13,7 +13,10 @@ abstract class AuthRepository {
   Future<User?> login({required String email,
     required String password,
   });
-
+  Future<bool?> forgetPassword(
+      {required String email,
+      }
+      );
   Future<User?> register(
       {required String username,
       required String email,
@@ -22,6 +25,17 @@ abstract class AuthRepository {
       required String birthDate,
       }
 );
+  Future<bool?> confirmEmail(
+      {required String otp,
+      required String email,
+      }
+      );
+  Future<bool?> resetPassword(
+      {required String password,
+        required String passwordConfirm,
+        required String email,
+      }
+      );
 //   Future<User?> updateUser({String? phone, String? name});
   Future<void> registerFCMToken({required String token});
 
@@ -97,6 +111,76 @@ class AuthRepositoryImpl implements AuthRepository {
         _saveUserLoginResponse(response.data["data"]["token"]);
         _saveUserDataResponse(response.data["data"]["user"]);
         return User.fromJson(response.data["data"]["user"]);
+      } else {
+        throw(response.data["message"]);
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<bool?> confirmEmail(
+      {required String otp,
+        required String email,
+      }
+      ) async {
+    print(otp.length);
+    print(getToken());
+    try {
+      final data = {
+        "email": email,
+        "otp": otp,
+      };
+      var response = await HttpClient.dio.post(EndPoints.confirmEmail, data: data,);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+
+        return true;
+      } else {
+        throw(response.data["message"]);
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<bool?> resetPassword(
+      {required String password,
+        required String passwordConfirm,
+        required String email,
+      }
+      ) async {
+
+    try {
+      final data = {
+        "email": email,
+        "newPassword": password,
+        "newPasswordConfirm": passwordConfirm,
+      };
+      var response = await HttpClient.dio.post(EndPoints.resetPassword, data: data,);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+
+        return true;
+      } else {
+        throw(response.data["message"]);
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<bool?> forgetPassword(
+      {required String email,}) async {
+    try {
+      final data = {
+        "email": email,
+      };
+      var response = await HttpClient.dio.post(EndPoints.forgetPassword, data: data,);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+
+        return true;
       } else {
         throw(response.data["message"]);
       }

@@ -28,6 +28,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
+  bool obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +130,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     SizedBox(height: 0.025 * MediaQuery.of(context).size.height),
                     AuthField(controller:_passwordController,labelText: "Password",
+                      obscureText: obscureText,
+                      suffixIcon: IconButton(
+                        onPressed: () => setState(() {
+                          obscureText = !obscureText;
+                        }),
+                        icon: Icon(
+                          obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: AppColors.borderDarkGray,
+                        ),
+                      ),
                     validator: (value){
                       if(value!.isEmpty){
                         return "Password cannot be empty";
@@ -165,7 +178,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 birthDate: _dateOfBirthController.text);
 
                             if (result) {
-                              Navigator.pushNamedAndRemoveUntil(context, Routes.initRoute, (route) => false);
+                              // Navigator.pushNamedAndRemoveUntil(context, Routes.initRoute, (route) => false);
+                              Navigator.pushNamed(context, Routes.verifyOtpScreen,arguments: {
+                                "email":_emailController.text,
+                                "isSignUp":true
+                              });
                             }
                           }
                         },
