@@ -22,6 +22,7 @@ class LoginScreen extends StatefulHookConsumerWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +93,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   AuthField(
                       labelText: "Password",
                     controller:_passwordController,
+                      obscureText: obscureText,
+                      suffixIcon: IconButton(
+                        onPressed: () => setState(() {
+                          obscureText = !obscureText;
+                        }),
+                        icon: Icon(
+                          obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: AppColors.borderDarkGray,
+                        ),
+                      ),
                       validator: (value){
                         if(value!.isEmpty){
                           return "Password cannot be empty";
@@ -120,7 +133,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       // Button for "Forgot Password?" action.
                       CustomButton(
                         text: 'Forgot Password?',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.forgetPasswordScreen);
+                        },
                         filled: false,
                       ),
                       // Button for the login action.

@@ -20,7 +20,10 @@ mixin _$AuthState {
   String? get token => throw _privateConstructorUsedError;
   bool? get isLogin => throw _privateConstructorUsedError;
   bool get loginLoading => throw _privateConstructorUsedError;
+  bool get otpLoading => throw _privateConstructorUsedError;
   bool get googleLoading => throw _privateConstructorUsedError;
+  bool get forgetPasswordLoading => throw _privateConstructorUsedError;
+  bool get resetPasswordLoading => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get registerLoading => throw _privateConstructorUsedError;
 
@@ -39,7 +42,10 @@ abstract class $AuthStateCopyWith<$Res> {
       String? token,
       bool? isLogin,
       bool loginLoading,
+      bool otpLoading,
       bool googleLoading,
+      bool forgetPasswordLoading,
+      bool resetPasswordLoading,
       String? errorMessage,
       bool registerLoading});
 
@@ -63,7 +69,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? token = freezed,
     Object? isLogin = freezed,
     Object? loginLoading = null,
+    Object? otpLoading = null,
     Object? googleLoading = null,
+    Object? forgetPasswordLoading = null,
+    Object? resetPasswordLoading = null,
     Object? errorMessage = freezed,
     Object? registerLoading = null,
   }) {
@@ -84,9 +93,21 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.loginLoading
           : loginLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      otpLoading: null == otpLoading
+          ? _value.otpLoading
+          : otpLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       googleLoading: null == googleLoading
           ? _value.googleLoading
           : googleLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      forgetPasswordLoading: null == forgetPasswordLoading
+          ? _value.forgetPasswordLoading
+          : forgetPasswordLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      resetPasswordLoading: null == resetPasswordLoading
+          ? _value.resetPasswordLoading
+          : resetPasswordLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
@@ -125,7 +146,10 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       String? token,
       bool? isLogin,
       bool loginLoading,
+      bool otpLoading,
       bool googleLoading,
+      bool forgetPasswordLoading,
+      bool resetPasswordLoading,
       String? errorMessage,
       bool registerLoading});
 
@@ -148,7 +172,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? token = freezed,
     Object? isLogin = freezed,
     Object? loginLoading = null,
+    Object? otpLoading = null,
     Object? googleLoading = null,
+    Object? forgetPasswordLoading = null,
+    Object? resetPasswordLoading = null,
     Object? errorMessage = freezed,
     Object? registerLoading = null,
   }) {
@@ -169,9 +196,21 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.loginLoading
           : loginLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      otpLoading: null == otpLoading
+          ? _value.otpLoading
+          : otpLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       googleLoading: null == googleLoading
           ? _value.googleLoading
           : googleLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      forgetPasswordLoading: null == forgetPasswordLoading
+          ? _value.forgetPasswordLoading
+          : forgetPasswordLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      resetPasswordLoading: null == resetPasswordLoading
+          ? _value.resetPasswordLoading
+          : resetPasswordLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
@@ -193,7 +232,10 @@ class _$AuthStateImpl implements _AuthState {
       this.token = "",
       this.isLogin = false,
       this.loginLoading = false,
+      this.otpLoading = false,
       this.googleLoading = false,
+      this.forgetPasswordLoading = false,
+      this.resetPasswordLoading = false,
       this.errorMessage = null,
       this.registerLoading = false});
 
@@ -211,7 +253,16 @@ class _$AuthStateImpl implements _AuthState {
   final bool loginLoading;
   @override
   @JsonKey()
+  final bool otpLoading;
+  @override
+  @JsonKey()
   final bool googleLoading;
+  @override
+  @JsonKey()
+  final bool forgetPasswordLoading;
+  @override
+  @JsonKey()
+  final bool resetPasswordLoading;
   @override
   @JsonKey()
   final String? errorMessage;
@@ -221,7 +272,7 @@ class _$AuthStateImpl implements _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(user: $user, token: $token, isLogin: $isLogin, loginLoading: $loginLoading, googleLoading: $googleLoading, errorMessage: $errorMessage, registerLoading: $registerLoading)';
+    return 'AuthState(user: $user, token: $token, isLogin: $isLogin, loginLoading: $loginLoading, otpLoading: $otpLoading, googleLoading: $googleLoading, forgetPasswordLoading: $forgetPasswordLoading, resetPasswordLoading: $resetPasswordLoading, errorMessage: $errorMessage, registerLoading: $registerLoading)';
   }
 
   @override
@@ -234,8 +285,14 @@ class _$AuthStateImpl implements _AuthState {
             (identical(other.isLogin, isLogin) || other.isLogin == isLogin) &&
             (identical(other.loginLoading, loginLoading) ||
                 other.loginLoading == loginLoading) &&
+            (identical(other.otpLoading, otpLoading) ||
+                other.otpLoading == otpLoading) &&
             (identical(other.googleLoading, googleLoading) ||
                 other.googleLoading == googleLoading) &&
+            (identical(other.forgetPasswordLoading, forgetPasswordLoading) ||
+                other.forgetPasswordLoading == forgetPasswordLoading) &&
+            (identical(other.resetPasswordLoading, resetPasswordLoading) ||
+                other.resetPasswordLoading == resetPasswordLoading) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.registerLoading, registerLoading) ||
@@ -243,8 +300,18 @@ class _$AuthStateImpl implements _AuthState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user, token, isLogin,
-      loginLoading, googleLoading, errorMessage, registerLoading);
+  int get hashCode => Object.hash(
+      runtimeType,
+      user,
+      token,
+      isLogin,
+      loginLoading,
+      otpLoading,
+      googleLoading,
+      forgetPasswordLoading,
+      resetPasswordLoading,
+      errorMessage,
+      registerLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -259,7 +326,10 @@ abstract class _AuthState implements AuthState {
       final String? token,
       final bool? isLogin,
       final bool loginLoading,
+      final bool otpLoading,
       final bool googleLoading,
+      final bool forgetPasswordLoading,
+      final bool resetPasswordLoading,
       final String? errorMessage,
       final bool registerLoading}) = _$AuthStateImpl;
 
@@ -272,7 +342,13 @@ abstract class _AuthState implements AuthState {
   @override
   bool get loginLoading;
   @override
+  bool get otpLoading;
+  @override
   bool get googleLoading;
+  @override
+  bool get forgetPasswordLoading;
+  @override
+  bool get resetPasswordLoading;
   @override
   String? get errorMessage;
   @override

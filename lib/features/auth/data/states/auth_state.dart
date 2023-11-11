@@ -11,7 +11,10 @@ class AuthState with _$AuthState {
     @Default("") String? token,
     @Default(false) bool? isLogin,
     @Default(false) bool loginLoading,
+    @Default(false) bool otpLoading,
     @Default(false) bool googleLoading,
+    @Default(false) bool forgetPasswordLoading,
+    @Default(false) bool resetPasswordLoading,
     @Default(null) String? errorMessage,
     @Default(false) bool registerLoading
   }) = _AuthState;

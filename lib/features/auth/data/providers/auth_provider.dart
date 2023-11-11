@@ -132,6 +132,69 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     return _repo.getToken();
   }
 
+  confirmEmail({required String otp,required String email,required bool isSignup}) async {
+    try {
+      state = state.copyWith(otpLoading: true, errorMessage: '');
+
+      final result =await _repo.confirmEmail(
+        otp: otp,
+          email: email
+      );
+      if(result ==true) {
+        state = state.copyWith(otpLoading: false, errorMessage: '',
+      user:isSignup? state.user!.copyWith(isConfirmed: true):state.user,
+      );
+      }
+
+      return true;
+    } catch (e) {
+      state = state.copyWith(otpLoading: false, errorMessage: "");
+      state = state.copyWith(errorMessage: e.toString());
+      return false;
+    }
+  }
+
+
+  resetPassword( {required String password,
+    required String passwordConfirm,
+    required String email,
+  }) async {
+    try {
+      state = state.copyWith(resetPasswordLoading: true, );
+
+      final result =await _repo.resetPassword(
+        email: email, password: '', passwordConfirm: '',
+      );
+      if(result ==true) {
+        state = state.copyWith(resetPasswordLoading: false,);
+      }
+
+      return true;
+    } catch (e) {
+      state = state.copyWith(resetPasswordLoading: false, errorMessage: "");
+      state = state.copyWith(errorMessage: e.toString());
+      return false;
+    }
+  }
+
+  forgetPassword({required String email}) async {
+    try {
+      state = state.copyWith(forgetPasswordLoading: true, );
+
+      final result =await _repo.forgetPassword(
+        email: email,
+      );
+      if(result ==true) {
+        state = state.copyWith(forgetPasswordLoading: false,);
+      }
+
+      return true;
+    } catch (e) {
+      state = state.copyWith(forgetPasswordLoading: false, errorMessage: "");
+      state = state.copyWith(errorMessage: e.toString());
+      return false;
+    }
+  }
 
   Future<void> logout() async {
     // state = state.copyWith(
