@@ -12,8 +12,5 @@ void main() async {
   // );
   //
   // await NotificationsHandler().init();
-
   runApp(const RootApp());
 }
-
-

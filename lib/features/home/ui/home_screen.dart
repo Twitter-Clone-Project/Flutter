@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/home/ui/widget/main_drawer_widget.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
@@ -54,7 +55,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             actions: [
               GestureDetector(
                 onTap: () {
-                  // open drawer
+                  Scaffold.of(context).openDrawer();
                 },
                 child: const Padding(
                   padding: EdgeInsets.only(left: 5),
@@ -84,7 +85,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primaryColor,
         onPressed: () {
-          // Navigate to post tweet
+          Navigator.pushNamed(context, Routes.addTweet);
         },
         child: const Icon(
           Icons.add,
