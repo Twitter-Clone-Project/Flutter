@@ -11,6 +11,7 @@ class MainDrawer extends StatelessWidget {
     String _userUserName = '@BinHani8';
     int _numberOfFollowing = 13; // TODO: Provider to get it when changed
     int _numberOfFollowers = 0; // TODO: Provider to get it when changed
+
     return SafeArea(
       child: Drawer(
         backgroundColor: AppColors.pureBlack,
@@ -23,7 +24,7 @@ class MainDrawer extends StatelessWidget {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundColor: Color.fromARGB(255, 59, 158, 59),
+                    backgroundColor: const Color.fromARGB(255, 59, 158, 59),
                     child: Text(
                       _userName[0],
                       style: AppTextStyle.textThemeDark.headline6!
@@ -36,17 +37,17 @@ class MainDrawer extends StatelessWidget {
                       onPressed: () {}, icon: const Icon(Icons.more_vert))
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               Text(_userName,
                   style: AppTextStyle.textThemeDark.headline6!
                       .copyWith(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 3),
+              const SizedBox(height: 2),
               Text(
                 _userUserName,
                 style: AppTextStyle.textThemeDark.subtitle1!
                     .copyWith(color: AppColors.lightThinTextGray),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               Row(
                 children: [
                   Text(
@@ -72,12 +73,13 @@ class MainDrawer extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               const Divider(thickness: 1.5),
-              const SizedBox(height: 15),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.015),
               ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.width * 0.01,
+                    horizontal: 0),
                 leading: Icon(
                   Icons.person_outline_outlined,
                   size: 30,
@@ -90,8 +92,9 @@ class MainDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.width * 0.01,
+                    horizontal: 0),
                 leading: Icon(
                   Icons.close,
                   size: 30,
@@ -104,8 +107,9 @@ class MainDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.width * 0.01,
+                    horizontal: 0),
                 leading: Icon(
                   Icons.bookmark_outline_rounded,
                   size: 30,
@@ -118,8 +122,9 @@ class MainDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.width * 0.01,
+                    horizontal: 0),
                 leading: Icon(
                   Icons.list_alt_sharp,
                   size: 30,
@@ -132,8 +137,9 @@ class MainDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.width * 0.01,
+                    horizontal: 0),
                 leading: Icon(
                   Icons.egg_rounded,
                   size: 30,
@@ -146,8 +152,9 @@ class MainDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.width * 0.01,
+                    horizontal: 0),
                 leading: Icon(
                   Icons.money,
                   size: 30,
@@ -159,9 +166,13 @@ class MainDrawer extends StatelessWidget {
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
               const Divider(thickness: 1.5),
-              const SizedBox(height: 20),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
               ListTile(
                 contentPadding: const EdgeInsets.all(0),
                 leading: Text(
