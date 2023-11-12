@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 import 'package:x_clone/features/auth/ui/widgets/auth_field.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_text.dart';
@@ -29,6 +31,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
   bool obscureText = true;
+  String? reCaptchaText;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +73,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           padding: const EdgeInsets.all(16.0),
           child:SingleChildScrollView(
               child:SizedBox(
-                height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
+                height: MediaQuery.of(context).size.height,
                 child:Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -168,6 +171,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           if (auth.registerLoading) return;
                           if (AppKeys.registerFormKey.currentState!
                               .validate()) {
+                            while(reCaptchaText == null){
+                              await _showReCapathaDialog(context);
+                            }
                             final result = await ref
                                 .read(authNotifierProvider.notifier)
                                 .register(
@@ -175,7 +181,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 email: _emailController.text,
                                 password: _passwordController.text,
                                 name: _nameController.text,
-                                birthDate: _dateOfBirthController.text);
+                                birthDate: _dateOfBirthController.text,
+                                reCaptchaText:reCaptchaText??"",
+                            );
+                            reCaptchaText = null;
 
                             if (result) {
                               // Navigator.pushNamedAndRemoveUntil(context, Routes.initRoute, (route) => false);
@@ -217,5 +226,41 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
       });
     }
+  }
+
+  Future<String?> _showReCapathaDialog(BuildContext context,) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Container(
+            width: double.infinity,
+            child: AlertDialog(
+              content:SizedBox(
+                height: 0.25 * MediaQuery.of(context).size.height,
+                child:  WebView(
+                  initialUrl: 'http://18.212.103.71/',
+                  javascriptMode: JavascriptMode.unrestricted,
+                  javascriptChannels: Set.from([
+                    JavascriptChannel(
+                        name: 'Captcha',
+                        onMessageReceived: (JavascriptMessage message) {
+                          //This is where you receive message from
+                          //javascript code and handle in Flutter/Dart
+                          //like here, the message is just being printed
+                          //in Run/LogCat window of android studio
+                          print(message.message);
+                          // widget.callback(message.message);
+                          reCaptchaText = message.message;
+                          Navigator.of(context).pop();
+                        })
+                  ]),
+                  onWebViewCreated: (w) {
+                    var webViewController = w;
+                  },
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

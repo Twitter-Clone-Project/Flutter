@@ -14,10 +14,10 @@ String userToJson(User data) => json.encode(data.toJson());
 class User with _$User {
   const factory User({
     String? userId,
-    bool? isConfirmed,
     String? name,
     String? username,
     String? email,
+    bool? isConfirmed,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

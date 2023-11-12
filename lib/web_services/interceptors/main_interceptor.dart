@@ -12,6 +12,9 @@ class MainInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (getToken().isNotEmpty) {
       options.headers["Authorization"] = "Bearer $token";
+    }else if(getResetToken().isNotEmpty){
+      options.headers["Authorization"] = "Bearer $token";
+      token = "";
     }
 
     handler.next(options); //continue
@@ -31,6 +34,15 @@ class MainInterceptor extends Interceptor {
     if (token.isNotEmpty) return token;
 
     final tokenData = HiveManager.getData(StorageKeys.tokenKey);
+
+    if (tokenData != null) token = tokenData;
+
+    return token;
+  }
+  static getResetToken() {
+    if (token.isNotEmpty) return token;
+
+    final tokenData = HiveManager.getData("resetToken");
 
     if (tokenData != null) token = tokenData;
 

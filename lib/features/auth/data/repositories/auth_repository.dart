@@ -23,11 +23,13 @@ abstract class AuthRepository {
       required String name,
       required String password,
       required String birthDate,
+        required String reCaptchaText,
       }
 );
-  Future<bool?> confirmEmail(
+  Future<User?> confirmEmail(
       {required String otp,
       required String email,
+      required bool isSignUp,
       }
       );
   Future<bool?> resetPassword(
@@ -94,6 +96,8 @@ class AuthRepositoryImpl implements AuthRepository {
         required String name,
         required String password,
         required String birthDate,
+        required String reCaptchaText,
+
       }
       ) async {
     try {
@@ -104,11 +108,11 @@ class AuthRepositoryImpl implements AuthRepository {
         "password": password,
         "passwordConfirm": password,
         "dateOfBirth": birthDate,
-        "gRecaptchaResponse": "6LeousYoAAAAACH0uCm7e4NKQkOWgrZWxmPPCMBZ"
+        "gRecaptchaResponse": reCaptchaText,
       };
       var response = await HttpClient.dio.post(EndPoints.register, data: data,);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        _saveUserLoginResponse(response.data["data"]["token"]);
+        // _saveUserLoginResponse(response.data["data"]["token"]);
         _saveUserDataResponse(response.data["data"]["user"]);
         return User.fromJson(response.data["data"]["user"]);
       } else {
@@ -120,9 +124,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool?> confirmEmail(
+  Future<User?> confirmEmail(
       {required String otp,
         required String email,
+        required bool isSignUp,
       }
       ) async {
     print(otp.length);
@@ -134,8 +139,15 @@ class AuthRepositoryImpl implements AuthRepository {
       };
       var response = await HttpClient.dio.post(EndPoints.confirmEmail, data: data,);
       if (response.statusCode == 200 || response.statusCode == 201) {
+          if(isSignUp) {
+            _saveUserLoginResponse(response.data["data"]["token"]);
+          }
+          else{
+            _saveUserResetPassToken(response.data["data"]["token"]);
+          }
 
-        return true;
+        _saveUserDataResponse(response.data["data"]["user"]);
+        return User.fromJson(response.data["data"]["user"]);
       } else {
         throw(response.data["message"]);
       }
@@ -158,7 +170,8 @@ class AuthRepositoryImpl implements AuthRepository {
         "newPassword": password,
         "newPasswordConfirm": passwordConfirm,
       };
-      var response = await HttpClient.dio.post(EndPoints.resetPassword, data: data,);
+      var response = await HttpClient.dio.patch(EndPoints.resetPassword, data: data,);
+      deleteResetTokenData();
       if (response.statusCode == 200 || response.statusCode == 201) {
 
         return true;
@@ -193,6 +206,9 @@ class AuthRepositoryImpl implements AuthRepository {
     HiveManager.addData(StorageKeys.tokenKey, token);
     // HiveManager.addData(StorageKeys.userId, response.userId);
   }
+  void _saveUserResetPassToken(String token) {
+    HiveManager.addData("resetToken", token);
+  }
 
   void _saveUserDataResponse(response) {
     HiveManager.addData(StorageKeys.userKey, response);
@@ -219,6 +235,10 @@ class AuthRepositoryImpl implements AuthRepository {
   void deleteTokenCachedData() {
     HiveManager.remove(StorageKeys.tokenKey);
   }
+  @override
+  void deleteResetTokenData() {
+    HiveManager.remove("resetToken");
+  }
 
   @override
   getMobileNumber() {
@@ -231,7 +251,11 @@ class AuthRepositoryImpl implements AuthRepository {
     final tokenData = HiveManager.getData(StorageKeys.tokenKey);
     return tokenData;
   }
-
+  @override
+  String? getResetToken() {
+    final tokenData = HiveManager.getData("resetToken");
+    return tokenData;
+  }
   @override
   User? getUserData() {
     var data = HiveManager.getData(StorageKeys.userKey);

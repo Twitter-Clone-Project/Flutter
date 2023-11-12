@@ -13,7 +13,10 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       return ref
-          .watch(authNotifierProvider.select((value) => value.isLogin))==true?const NavigationScreen():const IntroScreen();
+          .watch(authNotifierProvider.select((value) => value.isLogin))==true && ref
+          .watch(authNotifierProvider.select((value) => value.user?.isConfirmed))==true
+
+          ?const NavigationScreen():const IntroScreen();
     });
   }
 }

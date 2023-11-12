@@ -75,6 +75,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         required String name,
         required String password,
         required String birthDate,
+        required String reCaptchaText,
       }) async {
     try {
       state = state.copyWith(registerLoading: true, errorMessage: '');
@@ -85,9 +86,10 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         name: name,
         password: password,
         birthDate: birthDate,
+          reCaptchaText : reCaptchaText
           );
-      _onUserLoggedIn(user);
-      state = state.copyWith(registerLoading: false, errorMessage: '');
+
+      state = state.copyWith(registerLoading: false, errorMessage: '',user: user);
 
       return true;
     } catch (e) {
@@ -136,16 +138,14 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     try {
       state = state.copyWith(otpLoading: true, errorMessage: '');
 
-      final result =await _repo.confirmEmail(
+      final user =await _repo.confirmEmail(
         otp: otp,
-          email: email
+          email: email,
+          isSignUp: isSignup,
       );
-      if(result ==true) {
-        state = state.copyWith(otpLoading: false, errorMessage: '',
-      user:isSignup? state.user!.copyWith(isConfirmed: true):state.user,
-      );
+      if(isSignup) {
+        _onUserLoggedIn(user);
       }
-
       return true;
     } catch (e) {
       state = state.copyWith(otpLoading: false, errorMessage: "");
@@ -163,7 +163,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(resetPasswordLoading: true, );
 
       final result =await _repo.resetPassword(
-        email: email, password: '', passwordConfirm: '',
+        email: email, password: password, passwordConfirm: passwordConfirm,
       );
       if(result ==true) {
         state = state.copyWith(resetPasswordLoading: false,);

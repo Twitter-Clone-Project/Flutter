@@ -130,7 +130,6 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                     return "Confirmation cannot be empty";
                   }
                   if(value != _passwordController.text){
-                    print("loooooooooooool");
                     print(value);
                     print(_passwordController.text);
                     return "Password and confirmation should be same";

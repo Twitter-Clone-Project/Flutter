@@ -21,10 +21,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   String? get userId => throw _privateConstructorUsedError;
-  bool? get isConfirmed => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
+  bool? get isConfirmed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,10 +38,10 @@ abstract class $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {String? userId,
-      bool? isConfirmed,
       String? name,
       String? username,
-      String? email});
+      String? email,
+      bool? isConfirmed});
 }
 
 /// @nodoc
@@ -58,20 +58,16 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @override
   $Res call({
     Object? userId = freezed,
-    Object? isConfirmed = freezed,
     Object? name = freezed,
     Object? username = freezed,
     Object? email = freezed,
+    Object? isConfirmed = freezed,
   }) {
     return _then(_value.copyWith(
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
-      isConfirmed: freezed == isConfirmed
-          ? _value.isConfirmed
-          : isConfirmed // ignore: cast_nullable_to_non_nullable
-              as bool?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -84,6 +80,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
+      isConfirmed: freezed == isConfirmed
+          ? _value.isConfirmed
+          : isConfirmed // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -97,10 +97,10 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {String? userId,
-      bool? isConfirmed,
       String? name,
       String? username,
-      String? email});
+      String? email,
+      bool? isConfirmed});
 }
 
 /// @nodoc
@@ -114,20 +114,16 @@ class __$$UserImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = freezed,
-    Object? isConfirmed = freezed,
     Object? name = freezed,
     Object? username = freezed,
     Object? email = freezed,
+    Object? isConfirmed = freezed,
   }) {
     return _then(_$UserImpl(
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
-      isConfirmed: freezed == isConfirmed
-          ? _value.isConfirmed
-          : isConfirmed // ignore: cast_nullable_to_non_nullable
-              as bool?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -140,6 +136,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
+      isConfirmed: freezed == isConfirmed
+          ? _value.isConfirmed
+          : isConfirmed // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -148,7 +148,7 @@ class __$$UserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserImpl implements _User {
   const _$UserImpl(
-      {this.userId, this.isConfirmed, this.name, this.username, this.email});
+      {this.userId, this.name, this.username, this.email, this.isConfirmed});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -156,17 +156,17 @@ class _$UserImpl implements _User {
   @override
   final String? userId;
   @override
-  final bool? isConfirmed;
-  @override
   final String? name;
   @override
   final String? username;
   @override
   final String? email;
+  @override
+  final bool? isConfirmed;
 
   @override
   String toString() {
-    return 'User(userId: $userId, isConfirmed: $isConfirmed, name: $name, username: $username, email: $email)';
+    return 'User(userId: $userId, name: $name, username: $username, email: $email, isConfirmed: $isConfirmed)';
   }
 
   @override
@@ -175,18 +175,18 @@ class _$UserImpl implements _User {
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.isConfirmed, isConfirmed) ||
-                other.isConfirmed == isConfirmed) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.username, username) ||
                 other.username == username) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.isConfirmed, isConfirmed) ||
+                other.isConfirmed == isConfirmed));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, userId, isConfirmed, name, username, email);
+      Object.hash(runtimeType, userId, name, username, email, isConfirmed);
 
   @JsonKey(ignore: true)
   @override
@@ -205,23 +205,23 @@ class _$UserImpl implements _User {
 abstract class _User implements User {
   const factory _User(
       {final String? userId,
-      final bool? isConfirmed,
       final String? name,
       final String? username,
-      final String? email}) = _$UserImpl;
+      final String? email,
+      final bool? isConfirmed}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
   String? get userId;
   @override
-  bool? get isConfirmed;
-  @override
   String? get name;
   @override
   String? get username;
   @override
   String? get email;
+  @override
+  bool? get isConfirmed;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
