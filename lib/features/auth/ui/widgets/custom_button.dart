@@ -7,6 +7,9 @@ class CustomButton extends StatelessWidget {
   final bool filled;
   final String? svgIcon;
   final VoidCallback? onPressed;
+  final double? verticalPadding; 
+  final double? horizontalPadding; 
+
 
 
   const CustomButton({
@@ -14,6 +17,8 @@ class CustomButton extends StatelessWidget {
     required this.text,
     this.filled = true,
     this.svgIcon,
+    this.horizontalPadding,
+    this.verticalPadding, 
     required this.onPressed,
   });
 
@@ -25,11 +30,12 @@ class CustomButton extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
+        
         borderRadius: BorderRadius.circular(30.0),
         color: buttonColor,
         border: Border.all(
           color: borderColor,
-          width: 1.0,
+          width: 2.0,
         ),
       ),
       child: Material(
@@ -40,7 +46,7 @@ class CustomButton extends StatelessWidget {
           ),
           onTap: onPressed,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.symmetric(vertical: verticalPadding?? 8.0, horizontal:  horizontalPadding?? 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -56,9 +62,11 @@ class CustomButton extends StatelessWidget {
                   ),
                 Text(
                   text,
+                  textScaleFactor: 1,
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 16.0,
+                    
+                    fontWeight: FontWeight.w700,
                     color: textColor,
                   ),
                 ),
