@@ -1,7 +1,8 @@
-import 'dart:ffi';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:x_clone/features/home/ui/widget/rounded_button.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
@@ -15,6 +16,15 @@ class AddTweetScreen extends StatefulWidget {
 }
 
 class _AddTweetScreenState extends State<AddTweetScreen> {
+  File? _tweetImage;
+  final ImagePicker imagepicker = ImagePicker();
+  uploadTweetImage() async {
+    var pickedimage = await imagepicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _tweetImage = File(pickedimage!.path);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +52,7 @@ class _AddTweetScreenState extends State<AddTweetScreen> {
                   padding: EdgeInsets.only(left: 10),
                   child: CircleAvatar(
                     backgroundColor: AppColors.whiteColor,
-                    //backgroundImage: Todo: UserImage,
+                    //backgroundImage: Image of user,
                     radius: 20,
                   ),
                 ),
@@ -127,7 +137,7 @@ class _AddTweetScreenState extends State<AddTweetScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10, top: 15),
                       child: GestureDetector(
-                        //onTap: onPickImages,
+                        onTap: uploadTweetImage,
                         child: SvgPicture.asset(
                           AppAssets.galleryIcon,
                           height: 25,
