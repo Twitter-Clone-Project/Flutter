@@ -6,6 +6,10 @@ import 'package:x_clone/features/auth/data/model/user.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/theme/app_colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:x_clone/features/Profile/data/states/profile_state.dart';
+import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
+
 
 class ProfileScreen extends StatefulHookConsumerWidget {
   const ProfileScreen({super.key});
@@ -30,10 +34,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
+    final userProfileState = ref.watch(userProfileProvider);
+    final userProfile = userProfileState.userProfile;
+    final isLoading = userProfileState.isLoading;
+
     var backgroundImageHeight = mediaQuery.size.height * 0.15;
     var profileImageDiameter = mediaQuery.size.width * 0.25;
     final FormatNumber =
-        NumberFormat.compact(locale: context.locale.toString()).format;
+        NumberFormat
+            .compact(locale: context.locale.toString())
+            .format;
 
     // should be compared with user profile when its passed to the widget to show different options
     var isUserProfile = false;
@@ -66,18 +76,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 Positioned(
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        CircleAvatar(
-                          radius: profileImageDiameter / 2,
+                      CircleAvatar(
+                      radius: profileImageDiameter / 2,
 
-                          backgroundImage: NetworkImage(
-                              'https://pbs.twimg.com/profile_images/1694885283081457665/aK943S-s_400x400.jpg'), // provide your image asset
-                        ),
+                      backgroundImage: NetworkImage(
+                        userProfile.profileImageUrl ?? 'https://your_default_image_url.jpg',
+                      ),
+                      ),
                       ],
                     ),
                   ),
@@ -99,7 +110,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 itemBuilder: (context) {
                   return actionMenu
                       .map((Action) =>
-                          PopupMenuItem(value: Action, child: Text(Action)))
+                      PopupMenuItem(value: Action, child: Text(Action)))
                       .toList();
                 },
               ),
@@ -118,7 +129,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "randy",
+                            userProfile?.name?? "",
                             style: TextStyle(
                               color: AppColors.whiteColor,
                               fontSize: 24,
@@ -127,14 +138,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ),
                           SizedBox(height: 4),
                           Text(
-                            "@bigrando420",
+                             "@${userProfile.id}",
                             style: TextStyle(
                               color: AppColors.lightThinTextGray,
                             ),
                           ),
                           SizedBox(height: 16),
                           Text(
-                            "Game designer. Working on a 2D survival crafter. Building a game studio one step at a time. If you've got experience I'd love to chat.",
+                            userProfile.bio ?? "",
                             softWrap: true,
                             style: TextStyle(color: AppColors.whiteColor),
                           ),
@@ -154,7 +165,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 color: AppColors.lightThinTextGray,
                               ),
                               SizedBox(width: 4),
-                              Text("Thailand",
+                              Text(userProfile.location ?? "",
                                   style: TextStyle(
                                       color: AppColors.lightThinTextGray,
                                       fontSize: 14,
@@ -172,7 +183,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               SizedBox(width: 4),
                               Link(
                                   url_string:
-                                      "https://youtube.com/@bigrando420")
+                                  userProfile.website?? "",)
                             ],
                           ),
                           Row(
@@ -248,7 +259,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         ],
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.4,
                         child: TabBarView(
                           controller: _tabcontroller,
                           children: [
@@ -278,6 +292,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 class _AppBarButton extends StatelessWidget {
   final String text;
   final VoidCallback onPress;
+
   const _AppBarButton({
     super.key,
     required this.text,

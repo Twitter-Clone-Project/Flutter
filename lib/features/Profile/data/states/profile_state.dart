@@ -8,13 +8,13 @@ part 'profile_state.freezed.dart';
 class UserProfileState with _$UserProfileState {
   const factory UserProfileState({
     required bool isLoading,
-    UserProfile? userProfile,
+    required UserProfile userProfile,
     String? error, // Add an error field for handling errors
   }) = _UserProfileState;
 
   factory UserProfileState.initial() => UserProfileState(
     isLoading: false,
-    userProfile: null,
+    userProfile: UserProfile(),
     error: null,
   );
 }

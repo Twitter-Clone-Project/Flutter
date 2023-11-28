@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UserProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
-  UserProfile? get userProfile => throw _privateConstructorUsedError;
+  UserProfile get userProfile => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,9 +31,9 @@ abstract class $UserProfileStateCopyWith<$Res> {
           UserProfileState value, $Res Function(UserProfileState) then) =
       _$UserProfileStateCopyWithImpl<$Res, UserProfileState>;
   @useResult
-  $Res call({bool isLoading, UserProfile? userProfile, String? error});
+  $Res call({bool isLoading, UserProfile userProfile, String? error});
 
-  $UserProfileCopyWith<$Res>? get userProfile;
+  $UserProfileCopyWith<$Res> get userProfile;
 }
 
 /// @nodoc
@@ -50,7 +50,7 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? userProfile = freezed,
+    Object? userProfile = null,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
@@ -58,10 +58,10 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      userProfile: freezed == userProfile
+      userProfile: null == userProfile
           ? _value.userProfile
           : userProfile // ignore: cast_nullable_to_non_nullable
-              as UserProfile?,
+              as UserProfile,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -71,12 +71,8 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
 
   @override
   @pragma('vm:prefer-inline')
-  $UserProfileCopyWith<$Res>? get userProfile {
-    if (_value.userProfile == null) {
-      return null;
-    }
-
-    return $UserProfileCopyWith<$Res>(_value.userProfile!, (value) {
+  $UserProfileCopyWith<$Res> get userProfile {
+    return $UserProfileCopyWith<$Res>(_value.userProfile, (value) {
       return _then(_value.copyWith(userProfile: value) as $Val);
     });
   }
@@ -90,10 +86,10 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       __$$UserProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, UserProfile? userProfile, String? error});
+  $Res call({bool isLoading, UserProfile userProfile, String? error});
 
   @override
-  $UserProfileCopyWith<$Res>? get userProfile;
+  $UserProfileCopyWith<$Res> get userProfile;
 }
 
 /// @nodoc
@@ -108,7 +104,7 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? userProfile = freezed,
+    Object? userProfile = null,
     Object? error = freezed,
   }) {
     return _then(_$UserProfileStateImpl(
@@ -116,10 +112,10 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      userProfile: freezed == userProfile
+      userProfile: null == userProfile
           ? _value.userProfile
           : userProfile // ignore: cast_nullable_to_non_nullable
-              as UserProfile?,
+              as UserProfile,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -132,12 +128,12 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
 
 class _$UserProfileStateImpl implements _UserProfileState {
   const _$UserProfileStateImpl(
-      {required this.isLoading, this.userProfile, this.error});
+      {required this.isLoading, required this.userProfile, this.error});
 
   @override
   final bool isLoading;
   @override
-  final UserProfile? userProfile;
+  final UserProfile userProfile;
   @override
   final String? error;
 
@@ -172,13 +168,13 @@ class _$UserProfileStateImpl implements _UserProfileState {
 abstract class _UserProfileState implements UserProfileState {
   const factory _UserProfileState(
       {required final bool isLoading,
-      final UserProfile? userProfile,
+      required final UserProfile userProfile,
       final String? error}) = _$UserProfileStateImpl;
 
   @override
   bool get isLoading;
   @override
-  UserProfile? get userProfile;
+  UserProfile get userProfile;
   @override
   String? get error;
   @override

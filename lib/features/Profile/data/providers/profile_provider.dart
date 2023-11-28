@@ -15,7 +15,7 @@ class UserProfileNotifier extends StateNotifier<UserProfileState> {
   final ProfileRepository _repo;
 
   UserProfileNotifier(this._repo, [UserProfileState? state])
-      : super(state ?? const UserProfileState(isLoading: true)) {
+      : super(state ?? const UserProfileState(isLoading: true, userProfile: UserProfile())) {
     // Additional initialization if needed
   }
 
@@ -23,7 +23,7 @@ class UserProfileNotifier extends StateNotifier<UserProfileState> {
     try {
       state = state.copyWith(isLoading: true, error: null);
       final userProfile = await _repo.fetchUserProfileData(userId: userId);
-      state = state.copyWith(isLoading: false, userProfile: userProfile);
+      state = state.copyWith(isLoading: false, userProfile: userProfile?? UserProfile());
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
