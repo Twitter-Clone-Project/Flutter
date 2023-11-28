@@ -12,6 +12,7 @@ import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 
 import '../../../app/routes.dart';
 
+import 'package:x_clone/web_services/web_services.dart';
 
 class ProfileScreen extends StatefulHookConsumerWidget {
   const ProfileScreen({super.key});
@@ -26,7 +27,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 0), () {});
+    Future.delayed(const Duration(seconds: 0), () {
+      ref.read(userProfileProvider.notifier).fetchUserProfile("1");
+    });
     _tabcontroller = TabController(length: 4, vsync: this);
 
     super.initState();
@@ -43,9 +46,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     var backgroundImageHeight = mediaQuery.size.height * 0.15;
     var profileImageDiameter = mediaQuery.size.width * 0.25;
     final FormatNumber =
-        NumberFormat
-            .compact(locale: context.locale.toString())
-            .format;
+        NumberFormat.compact(locale: context.locale.toString()).format;
 
     // should be compared with user profile when its passed to the widget to show different options
     var isUserProfile = false;
@@ -78,19 +79,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 Positioned(
                   child: Padding(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                      CircleAvatar(
-                      radius: profileImageDiameter / 2,
-
-                      backgroundImage: NetworkImage(
-                        userProfile.profileImageUrl ?? 'https://your_default_image_url.jpg',
-                      ),
-                      ),
+                        CircleAvatar(
+                          radius: profileImageDiameter / 2,
+                          backgroundImage: NetworkImage(
+                            userProfile.profileImageUrl ??
+                                'https://your_default_image_url.jpg',
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -114,7 +115,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 itemBuilder: (context) {
                   return actionMenu
                       .map((Action) =>
-                      PopupMenuItem(value: Action, child: Text(Action)))
+                          PopupMenuItem(value: Action, child: Text(Action)))
                       .toList();
                 },
               ),
@@ -133,7 +134,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            userProfile?.name?? "",
+                            userProfile?.name ?? "",
                             style: TextStyle(
                               color: AppColors.whiteColor,
                               fontSize: 24,
@@ -142,7 +143,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ),
                           SizedBox(height: 4),
                           Text(
-                             "@${userProfile.id}",
+                            "@${userProfile.id}",
                             style: TextStyle(
                               color: AppColors.lightThinTextGray,
                             ),
@@ -186,8 +187,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ),
                               SizedBox(width: 4),
                               Link(
-                                  url_string:
-                                  userProfile.website?? "",)
+                                url_string: userProfile.website ?? "",
+                              )
                             ],
                           ),
                           Row(
@@ -263,10 +264,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         ],
                       ),
                       Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.4,
                         child: TabBarView(
                           controller: _tabcontroller,
                           children: [

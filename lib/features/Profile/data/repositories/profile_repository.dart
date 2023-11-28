@@ -3,7 +3,6 @@ import 'package:x_clone/web_services/web_services.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 abstract class ProfileRepository {
   Future<UserProfile?> fetchUserProfileData({required String userId});
 
@@ -21,15 +20,14 @@ abstract class ProfileRepository {
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
-
   @override
   Future<UserProfile?> fetchUserProfileData({required String userId}) async {
     try {
-      var response = await HttpClient.dio.get(
-        EndPoints.getUserProfileUrl(userId)
-      );
+      var response =
+          await HttpClient.dio.get(EndPoints.getUserProfileUrl(userId));
+      
       if (response.statusCode == 200) {
-        return UserProfile.fromJson(response.data["data"]);
+        return userProfileFromJson(response.data);
       } else {
         throw (response.data["message"]);
       }
@@ -81,10 +79,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<bool?> updateProfile({required String name,
-    required String bio,
-    required String website,
-    required String location}) async {
+  Future<bool?> updateProfile(
+      {required String name,
+      required String bio,
+      required String website,
+      required String location}) async {
     try {
       final data = {
         "name": name,
