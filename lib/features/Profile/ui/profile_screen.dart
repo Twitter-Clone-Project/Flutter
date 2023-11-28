@@ -10,6 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/features/Profile/data/states/profile_state.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 
+import '../../../app/routes.dart';
+
 
 class ProfileScreen extends StatefulHookConsumerWidget {
   const ProfileScreen({super.key});
@@ -102,7 +104,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             actions: [
               CircularIcon(
                 icon: Icons.search,
-                onPress: () {},
+                onPress: () {
+                  Navigator.pushNamed(context, Routes.editProfileScreen);
+                },
               ),
               PopupMenuButton(
                 child: CircularIcon(icon: Icons.more_vert),
