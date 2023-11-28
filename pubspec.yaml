@@ -76,6 +76,7 @@ flutter:
   assets:
     - res/assets/
     - res/localization/
+    - assets/images/
   fonts:
     - family: Roboto
       fonts:
