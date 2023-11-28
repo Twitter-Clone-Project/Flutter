@@ -36,240 +36,229 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     var actionMenu = isUserProfile ? ["Share"] : ["Share", "Block", "Mute"];
 
-    ref.read(authNotifierProvider).user?.id;
-
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(fit: StackFit.expand, children: [
-          Column(
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        body: SafeArea(
+          child: Stack(
+            fit: StackFit.expand,
             children: [
-              Container(
-                width: mediaQuery.size.width,
-                height: backgroundImageHeight,
-                alignment: Alignment.topLeft,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                  image: NetworkImage(
-                      "https://pbs.twimg.com/profile_banners/828032731023937536/1678008682/1500x500"),
-                  fit: BoxFit.cover,
-                )),
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CircularIcon(icon: Icons.arrow_back),
-                      Row(
-                        children: [
-                          CircularIcon(icon: Icons.search),
-                          SizedBox(width: 16),
-                          PopupMenuButton(
-                              child: CircularIcon(icon: Icons.more_vert),
-                              onSelected: (value) {},
-                              itemBuilder: (context) {
-                                return actionMenu
-                                    .map((Action) => PopupMenuItem(
-                                        value: Action, child: Text(Action)))
-                                    .toList();
-                              })
-                        ],
-                      )
-                    ],
-                  ),
+              Positioned(
+                child: Column(
+                  children: [
+                    Container(
+                      width: mediaQuery.size.width,
+                      height: backgroundImageHeight,
+                      alignment: Alignment.topLeft,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: NetworkImage(
+                            "https://pbs.twimg.com/profile_banners/828032731023937536/1678008682/1500x500"),
+                        fit: BoxFit.cover,
+                      )),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-          Positioned(
-            top: backgroundImageHeight + 8 - profileImageDiameter * 0.5,
-            width: mediaQuery.size.width,
-            child: Container(
-              decoration: BoxDecoration(
-                  border: BorderDirectional(
-                      bottom: BorderSide(color: AppColors.lightThinTextGray))),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+              Padding(
+                padding: EdgeInsets.only(
+                    top: backgroundImageHeight - profileImageDiameter / 2),
                 child: Container(
+                  decoration: BoxDecoration(
+                      border: BorderDirectional(
+                          bottom:
+                              BorderSide(color: AppColors.lightThinTextGray))),
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            height: profileImageDiameter,
+                            width: profileImageDiameter,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: AppColors.pureBlack,
+                                    style: BorderStyle.solid,
+                                    width: 6),
+                                borderRadius: BorderRadius.circular(560),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        "https://pbs.twimg.com/profile_images/1694885283081457665/aK943S-s_400x400.jpg"))),
+                          ),
+                          Wrap(
+                            alignment: WrapAlignment.end,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 8,
+                            children: [
+                              CircularIcon(
+                                icon: Icons.notification_add_outlined,
+                                border: 2,
+                              ),
+                              CircularIcon(
+                                icon: Icons.email_outlined,
+                                border: 2,
+                              ),
+                              CustomButton(
+                                text: "Follow",
+                                filled: false,
+                                horizontalPadding: 32,
+                                verticalPadding: 4,
+                                onPressed: () => {},
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "randy",
+                            style: TextStyle(
+                                color: AppColors.whiteColor,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            "@bigrando420",
+                            style:
+                                TextStyle(color: AppColors.lightThinTextGray),
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            "Game designer. Working on a 2D survival crafter. Building a game studio one step at a time. If you've got experience I'd love to chat.",
+                            softWrap: true,
+                            style: TextStyle(color: AppColors.whiteColor),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Wrap(spacing: 8.0, runSpacing: 4.0, children: [
                         Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Container(
-                              height: profileImageDiameter,
-                              width: profileImageDiameter,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: AppColors.pureBlack,
-                                      style: BorderStyle.solid,
-                                      width: 6),
-                                  borderRadius: BorderRadius.circular(560),
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          "https://pbs.twimg.com/profile_images/1694885283081457665/aK943S-s_400x400.jpg"))),
-                            ),
-                            Wrap(
-                              alignment: WrapAlignment.end,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              spacing: 8,
-                              children: [
-                                CircularIcon(
-                                  icon: Icons.notification_add_outlined,
-                                  border: 2,
-                                ),
-                                CircularIcon(
-                                  icon: Icons.email_outlined,
-                                  border: 2,
-                                ),
-                                CustomButton(
-                                  text: "Follow",
-                                  filled: false,
-                                  horizontalPadding: 32,
-                                  verticalPadding: 4,
-                                  onPressed: () => {},
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "randy",
-                              style: TextStyle(
-                                  color: AppColors.whiteColor,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              "@bigrando420",
-                              style:
-                                  TextStyle(color: AppColors.lightThinTextGray),
-                            ),
-                            SizedBox(height: 16),
-                            Text(
-                              "Game designer. Working on a 2D survival crafter. Building a game studio one step at a time. If you've got experience I'd love to chat.",
-                              softWrap: true,
-                              style: TextStyle(color: AppColors.whiteColor),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 16),
-                        Wrap(spacing: 8.0, runSpacing: 4.0, children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.location_on_outlined,
-                                fill: 1,
-                                color: AppColors.lightThinTextGray,
-                              ),
-                              SizedBox(width: 4),
-                              Text("Thailand",
-                                  style: TextStyle(
-                                      color: AppColors.lightThinTextGray,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold))
-                            ],
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.link_outlined,
-                                fill: 1,
-                                color: AppColors.lightThinTextGray,
-                              ),
-                              SizedBox(width: 4),
-                              Link(
-                                  url_string:
-                                      "https://youtube.com/@bigrando420")
-                            ],
-                          ),
-                          Row(mainAxisSize: MainAxisSize.min, children: [
                             Icon(
-                              Icons.calendar_month,
+                              Icons.location_on_outlined,
                               fill: 1,
                               color: AppColors.lightThinTextGray,
                             ),
                             SizedBox(width: 4),
-                            Text("Joined February 2017",
+                            Text("Thailand",
                                 style: TextStyle(
                                     color: AppColors.lightThinTextGray,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold))
-                          ])
-                        ]),
-                        SizedBox(height: 16),
-                        Wrap(spacing: 8.0, runSpacing: 4.0, children: [
-                          Row(mainAxisSize: MainAxisSize.min, children: [
-                            Text(FormatNumber(96),
-                                style: TextStyle(
-                                    color: AppColors.whiteColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
-                            const SizedBox(width: 4),
-                            const Text(
-                              "Following",
-                              style: const TextStyle(
-                                  color: AppColors.lightThinTextGray,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ]),
-                          Row(mainAxisSize: MainAxisSize.min, children: [
-                            Text(
-                              FormatNumber(10100),
-                              style: const TextStyle(
-                                color: AppColors.whiteColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                            const Text("Followers",
-                                style: TextStyle(
-                                    color: AppColors.lightThinTextGray,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold))
-                          ]),
-                        ]),
-                        // account you follow
-
-                        SizedBox(height: 16),
+                          ],
+                        ),
                         Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              _AppBarButton(
-                                text: "Posts",
-                                onPress: () => {},
-                              ),
-                              _AppBarButton(
-                                text: "Replies",
-                                onPress: () => {},
-                              ),
-                              _AppBarButton(
-                                text: "Media",
-                                onPress: () => {},
-                              ),
-                              _AppBarButton(
-                                text: "Likes",
-                                onPress: () => {},
-                              ),
-                            ])
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.link_outlined,
+                              fill: 1,
+                              color: AppColors.lightThinTextGray,
+                            ),
+                            SizedBox(width: 4),
+                            Link(url_string: "https://youtube.com/@bigrando420")
+                          ],
+                        ),
+                        Row(mainAxisSize: MainAxisSize.min, children: [
+                          Icon(
+                            Icons.calendar_month,
+                            fill: 1,
+                            color: AppColors.lightThinTextGray,
+                          ),
+                          SizedBox(width: 4),
+                          Text("Joined February 2017",
+                              style: TextStyle(
+                                  color: AppColors.lightThinTextGray,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold))
+                        ])
                       ]),
+                      SizedBox(height: 16),
+                      Wrap(spacing: 8.0, runSpacing: 4.0, children: [
+                        Row(mainAxisSize: MainAxisSize.min, children: [
+                          Text(FormatNumber(96),
+                              style: TextStyle(
+                                  color: AppColors.whiteColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
+                          const SizedBox(width: 4),
+                          const Text(
+                            "Following",
+                            style: const TextStyle(
+                                color: AppColors.lightThinTextGray,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ]),
+                        Row(mainAxisSize: MainAxisSize.min, children: [
+                          Text(
+                            FormatNumber(10100),
+                            style: const TextStyle(
+                              color: AppColors.whiteColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Text(
+                            "Followers",
+                            style: TextStyle(
+                              color: AppColors.lightThinTextGray,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ]),
+                      ]),
+                      // account you follow
+                      SizedBox(height: 16),
+                      TabBar(
+                        tabs: [
+                          Tab(text: "helloworld"),
+                          Tab(text: "helloworld"),
+                          Tab(text: "helloworld"),
+                          Tab(text: "helloworld"),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
+              AppBar(
+                forceMaterialTransparency: true,
+                leading: CircularIcon(
+                  icon: Icons.arrow_back,
+                  onPress: () {},
+                ),
+                actions: [
+                  CircularIcon(
+                    icon: Icons.search,
+                    onPress: () {},
+                  ),
+                  PopupMenuButton(
+                      child: CircularIcon(icon: Icons.more_vert),
+                      onSelected: (value) {},
+                      itemBuilder: (context) {
+                        return actionMenu
+                            .map((Action) => PopupMenuItem(
+                                value: Action, child: Text(Action)))
+                            .toList();
+                      }),
+                ],
+              ),
+            ],
           ),
-        ]),
+        ),
       ),
     );
   }
@@ -323,27 +312,16 @@ class CircularIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: IconButton.outlined(
-        icon: Icon(
-          icon,
-          color: AppColors.whiteColor,
-        ),
-        onPressed: onPress ?? () => {},
-        splashRadius: 18,
-        iconSize: 18,
-        padding: const EdgeInsets.all(6),
-        constraints: const BoxConstraints(),
+    return IconButton.outlined(
+      icon: Icon(
+        icon,
+        color: AppColors.whiteColor,
       ),
-      decoration: BoxDecoration(
-        color: AppColors.blackColor.withOpacity(0.5),
-        border: Border.all(
-          color: AppColors.borderDarkGray,
-          style: BorderStyle.solid,
-          width: border?? 0,
-        ),
-        borderRadius: BorderRadius.circular(560),
-      ),
+      onPressed: onPress ?? () => {},
+      splashRadius: 18,
+      iconSize: 18,
+      padding: const EdgeInsets.all(6),
+      constraints: const BoxConstraints(),
     );
   }
 }
