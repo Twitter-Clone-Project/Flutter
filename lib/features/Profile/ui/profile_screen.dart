@@ -14,10 +14,14 @@ class ProfileScreen extends StatefulHookConsumerWidget {
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen>
+    with TickerProviderStateMixin {
+  late TabController _tabcontroller;
+
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {});
+    _tabcontroller = TabController(length: 4, vsync: this);
 
     super.initState();
   }
@@ -36,84 +40,79 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     var actionMenu = isUserProfile ? ["Share"] : ["Share", "Block", "Mute"];
 
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        body: SafeArea(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Positioned(
-                child: Column(
-                  children: [
-                    Container(
-                      width: mediaQuery.size.width,
-                      height: backgroundImageHeight,
-                      alignment: Alignment.topLeft,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: NetworkImage(
-                            "https://pbs.twimg.com/profile_banners/828032731023937536/1678008682/1500x500"),
-                        fit: BoxFit.cover,
-                      )),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: backgroundImageHeight + profileImageDiameter / 2,
+            floating: false,
+            pinned: false,
+            stretch: true,
+            backgroundColor: Colors.transparent,
+            flexibleSpace: Stack(
+              children: [
+                Positioned(
+                  child: Image(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      "https://images.pexels.com/photos/62389/pexels-photo-62389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
                     ),
-                  ],
+                  ),
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: profileImageDiameter / 2,
                 ),
+                Positioned(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        CircleAvatar(
+                          radius: profileImageDiameter / 2,
+
+                          backgroundImage: NetworkImage(
+                              'https://pbs.twimg.com/profile_images/1694885283081457665/aK943S-s_400x400.jpg'), // provide your image asset
+                        ),
+                      ],
+                    ),
+                  ),
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                ),
+              ],
+            ),
+            actions: [
+              CircularIcon(
+                icon: Icons.search,
+                onPress: () {},
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                    top: backgroundImageHeight - profileImageDiameter / 2),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: BorderDirectional(
-                          bottom:
-                              BorderSide(color: AppColors.lightThinTextGray))),
+              PopupMenuButton(
+                child: CircularIcon(icon: Icons.more_vert),
+                onSelected: (value) {},
+                itemBuilder: (context) {
+                  return actionMenu
+                      .map((Action) =>
+                          PopupMenuItem(value: Action, child: Text(Action)))
+                      .toList();
+                },
+              ),
+            ],
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            height: profileImageDiameter,
-                            width: profileImageDiameter,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: AppColors.pureBlack,
-                                    style: BorderStyle.solid,
-                                    width: 6),
-                                borderRadius: BorderRadius.circular(560),
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        "https://pbs.twimg.com/profile_images/1694885283081457665/aK943S-s_400x400.jpg"))),
-                          ),
-                          Wrap(
-                            alignment: WrapAlignment.end,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            spacing: 8,
-                            children: [
-                              CircularIcon(
-                                icon: Icons.notification_add_outlined,
-                                border: 2,
-                              ),
-                              CircularIcon(
-                                icon: Icons.email_outlined,
-                                border: 2,
-                              ),
-                              CustomButton(
-                                text: "Follow",
-                                filled: false,
-                                horizontalPadding: 32,
-                                verticalPadding: 4,
-                                onPressed: () => {},
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
                       SizedBox(height: 8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,15 +120,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           Text(
                             "randy",
                             style: TextStyle(
-                                color: AppColors.whiteColor,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700),
+                              color: AppColors.whiteColor,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                           SizedBox(height: 4),
                           Text(
                             "@bigrando420",
-                            style:
-                                TextStyle(color: AppColors.lightThinTextGray),
+                            style: TextStyle(
+                              color: AppColors.lightThinTextGray,
+                            ),
                           ),
                           SizedBox(height: 16),
                           Text(
@@ -140,125 +141,135 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ],
                       ),
                       SizedBox(height: 16),
-                      Wrap(spacing: 8.0, runSpacing: 4.0, children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.location_on_outlined,
-                              fill: 1,
-                              color: AppColors.lightThinTextGray,
-                            ),
-                            SizedBox(width: 4),
-                            Text("Thailand",
-                                style: TextStyle(
-                                    color: AppColors.lightThinTextGray,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.link_outlined,
-                              fill: 1,
-                              color: AppColors.lightThinTextGray,
-                            ),
-                            SizedBox(width: 4),
-                            Link(url_string: "https://youtube.com/@bigrando420")
-                          ],
-                        ),
-                        Row(mainAxisSize: MainAxisSize.min, children: [
-                          Icon(
-                            Icons.calendar_month,
-                            fill: 1,
-                            color: AppColors.lightThinTextGray,
+                      Wrap(
+                        spacing: 8.0,
+                        runSpacing: 4.0,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.location_on_outlined,
+                                fill: 1,
+                                color: AppColors.lightThinTextGray,
+                              ),
+                              SizedBox(width: 4),
+                              Text("Thailand",
+                                  style: TextStyle(
+                                      color: AppColors.lightThinTextGray,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold))
+                            ],
                           ),
-                          SizedBox(width: 4),
-                          Text("Joined February 2017",
-                              style: TextStyle(
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.link_outlined,
+                                fill: 1,
+                                color: AppColors.lightThinTextGray,
+                              ),
+                              SizedBox(width: 4),
+                              Link(
+                                  url_string:
+                                      "https://youtube.com/@bigrando420")
+                            ],
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.calendar_month,
+                                fill: 1,
+                                color: AppColors.lightThinTextGray,
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                "Joined February 2017",
+                                style: TextStyle(
                                   color: AppColors.lightThinTextGray,
                                   fontSize: 14,
-                                  fontWeight: FontWeight.bold))
-                        ])
-                      ]),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                       SizedBox(height: 16),
-                      Wrap(spacing: 8.0, runSpacing: 4.0, children: [
-                        Row(mainAxisSize: MainAxisSize.min, children: [
-                          Text(FormatNumber(96),
-                              style: TextStyle(
-                                  color: AppColors.whiteColor,
+                      Wrap(
+                        spacing: 8.0,
+                        runSpacing: 4.0,
+                        children: [
+                          Row(mainAxisSize: MainAxisSize.min, children: [
+                            Text(FormatNumber(96),
+                                style: TextStyle(
+                                    color: AppColors.whiteColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
+                            const SizedBox(width: 4),
+                            const Text(
+                              "Following",
+                              style: const TextStyle(
+                                  color: AppColors.lightThinTextGray,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.bold)),
-                          const SizedBox(width: 4),
-                          const Text(
-                            "Following",
-                            style: const TextStyle(
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ]),
+                          Row(mainAxisSize: MainAxisSize.min, children: [
+                            Text(
+                              FormatNumber(10100),
+                              style: const TextStyle(
+                                color: AppColors.whiteColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            const Text(
+                              "Followers",
+                              style: TextStyle(
                                 color: AppColors.lightThinTextGray,
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ]),
-                        Row(mainAxisSize: MainAxisSize.min, children: [
-                          Text(
-                            FormatNumber(10100),
-                            style: const TextStyle(
-                              color: AppColors.whiteColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          const Text(
-                            "Followers",
-                            style: TextStyle(
-                              color: AppColors.lightThinTextGray,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ]),
-                      ]),
-                      // account you follow
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ]),
+                        ],
+                      ),
                       SizedBox(height: 16),
                       TabBar(
-                        tabs: [
-                          Tab(text: "helloworld"),
-                          Tab(text: "helloworld"),
-                          Tab(text: "helloworld"),
-                          Tab(text: "helloworld"),
+                        controller: _tabcontroller,
+                        tabs: const [
+                          Tab(text: "Posts"),
+                          Tab(text: "Replies"),
+                          Tab(text: "Media"),
+                          Tab(text: "Likes"),
                         ],
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: TabBarView(
+                          controller: _tabcontroller,
+                          children: [
+                            ListView(
+                              children: [
+                                for (int i = 1; i <= 150; i++) Text("$i"),
+                              ],
+                            ),
+                            Text("1"),
+                            Text("3"),
+                            Text("4"),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),
-              AppBar(
-                forceMaterialTransparency: true,
-                leading: CircularIcon(
-                  icon: Icons.arrow_back,
-                  onPress: () {},
-                ),
-                actions: [
-                  CircularIcon(
-                    icon: Icons.search,
-                    onPress: () {},
-                  ),
-                  PopupMenuButton(
-                      child: CircularIcon(icon: Icons.more_vert),
-                      onSelected: (value) {},
-                      itemBuilder: (context) {
-                        return actionMenu
-                            .map((Action) => PopupMenuItem(
-                                value: Action, child: Text(Action)))
-                            .toList();
-                      }),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
