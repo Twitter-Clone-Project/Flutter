@@ -2,39 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 
+import '../../features/home/data/models/home_response.dart';
 import '../../theme/app_assets.dart';
 import '../../theme/app_colors.dart';
 
 class TweetCompose extends StatefulWidget {
-  final String? text;
-  final String username;
-  final String handle;
-  final Image? image;
-  final Image? userImage;
-  final String date;
-  final bool verified;
-  final int likeCount;
-  final int retweetCount;
-  final int commentCount;
-  final int viewsCount;
+  final Tweet tweet;
 
   TweetCompose(
       {Key? key,
-      this.text,
-      required this.verified,
-      required this.handle,
-      required this.date,
-      this.image,
-      required this.userImage,
-      required this.username,
-      this.likeCount = 0,
-      this.commentCount = 0,
-      this.retweetCount = 0,
-      this.viewsCount = 0})
+        required this.tweet,
+      })
       : super(key: key) {
-    if (text == null && image == null) {
-      throw ArgumentError("At least 'text' or 'image' must be provided.");
-    }
   }
 
   @override
@@ -52,9 +31,9 @@ class _TweetComposeState extends State<TweetCompose> {
   void initState() {
     super.initState();
     likeIcon = AppAssets.likeOutlinedIcon;
-    likeCountBeforeMe = widget.likeCount;
-    commentCountBeforeMe = widget.commentCount;
-    retweetCountBeforeMe = widget.retweetCount;
+    likeCountBeforeMe = widget.tweet.likesCount??0;
+    commentCountBeforeMe = widget.tweet.repliesCount??0;
+    retweetCountBeforeMe = widget.tweet.retweetsCount??0;
   }
 
   String formatCount(int count) {
@@ -101,17 +80,13 @@ class _TweetComposeState extends State<TweetCompose> {
 
   @override
   Widget build(BuildContext context) {
-    final String? text = widget.text;
-    final String userName = widget.username;
-    final String handle = widget.handle;
-    final String date = widget.date;
-    final bool verified = widget.verified;
-    final Image? userImage = widget.userImage;
-    final Image? image = widget.image;
-    int likeCount = widget.likeCount;
-    int retweetCount = widget.retweetCount;
-    int commentCount = widget.commentCount;
-    int viewsCount = widget.viewsCount;
+    final String? text = widget.tweet.text;
+    final String userName = widget.tweet.user?.username??'';
+    final String handle =  widget.tweet.user?.screenName??'';
+    final String date = widget.tweet.createdAt??'';
+    final bool verified = false;
+    final Image? userImage = Image.network(widget.tweet.user?.profileImageURL??'');
+    final Image? image = null;
 
     return (Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -164,7 +139,7 @@ class _TweetComposeState extends State<TweetCompose> {
                   SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                   //Date
                   Text(
-                    date,
+    "",
                     style: const TextStyle(color: AppColors.lightGray),
                   )
                 ],
@@ -200,19 +175,19 @@ class _TweetComposeState extends State<TweetCompose> {
                   children: [
                     TweetIconButton(
                       pathName: AppAssets.commentIcon,
-                      text: '10',
+                      text: commentCountBeforeMe.toString(),
                       onTap: () {},
                     ),
                     SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
                     TweetIconButton(
                       pathName: AppAssets.retweetIcon,
-                      text: '10',
+                      text: retweetCountBeforeMe.toString(),
                       onTap: () {},
                     ),
                     SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
                     TweetIconButton(
                       pathName: AppAssets.likeOutlinedIcon,
-                      text: '10',
+                      text: likeCountBeforeMe.toString(),
                       onTap: () {},
                     ),
                     SizedBox(width: 0.1 * MediaQuery.of(context).size.width),

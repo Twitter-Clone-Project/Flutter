@@ -1,4 +1,4 @@
-const baseUrl = "http://18.212.103.71:2023/api/v1";
+const baseUrl = "http://10.0.2.2:2023/api/v1";
 
 class EndPoints {
   static const login = "/auth/signin";
@@ -6,4 +6,6 @@ class EndPoints {
   static const confirmEmail = "/auth/verifyEmail";
   static const forgetPassword = "/auth/forgetPassword";
   static const resetPassword = "/auth/resetPassword";
+  static const resendConfirmEmail = "/auth/resendConfirmEmail";
+  static getTimelineData(int page) => "/users/$page/timeline";
 }
