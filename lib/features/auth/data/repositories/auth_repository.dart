@@ -38,6 +38,11 @@ abstract class AuthRepository {
         required String email,
       }
       );
+  Future<String?> resendOtp(
+      {
+        required String email,
+      }
+      );
 //   Future<User?> updateUser({String? phone, String? name});
   Future<void> registerFCMToken({required String token});
 
@@ -155,6 +160,28 @@ class AuthRepositoryImpl implements AuthRepository {
       throw e.toString();
     }
   }
+
+  @override
+  Future<String?> resendOtp(
+      {
+        required String email,
+      }
+      ) async {
+    try {
+      final data = {
+        "email": email,
+      };
+      var response = await HttpClient.dio.post(EndPoints.resendConfirmEmail, data: data,);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data["message"];
+      } else {
+        throw(response.data["message"]);
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
 
   @override
   Future<bool?> resetPassword(

@@ -146,6 +146,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       if(isSignup) {
         _onUserLoggedIn(user);
       }
+      state = state.copyWith(otpLoading: false, errorMessage: '');
       return true;
     } catch (e) {
       state = state.copyWith(otpLoading: false, errorMessage: "");
@@ -193,6 +194,19 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(forgetPasswordLoading: false, errorMessage: "");
       state = state.copyWith(errorMessage: e.toString());
       return false;
+    }
+  }
+
+  Future<String?>resendOtp({required String email}) async {
+    try{
+
+      final result = await _repo.resendOtp(
+        email: email,
+      );
+
+      return result;
+    } catch (e) {
+      state = state.copyWith(errorMessage: e.toString());
     }
   }
 
