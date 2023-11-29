@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/web_services/web_services.dart';
 import 'package:dio/dio.dart';
 import '../models/home_response.dart';
-import 'package:path/path.dart' as path;
 
 
 
@@ -36,7 +35,8 @@ class HomeRepositoryImpl implements HomeRepository {
     try {
       FormData data = FormData.fromMap({
         "tweetText": tweetText,
-        "attachments": await MultipartFile.fromFile(attachments!, filename: path.basename(attachments!),),
+        "attachments": null
+        // "attachments": await MultipartFile.fromFile(attachments!, filename: path.basename(attachments),),
 
       });
 

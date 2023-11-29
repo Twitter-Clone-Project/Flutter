@@ -11,7 +11,6 @@ import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../theme/app_assets.dart';
 import '../data/providers/home_provider.dart';
 
 class AddTweetScreen extends HookConsumerWidget {
@@ -50,11 +49,11 @@ class AddTweetScreen extends HookConsumerWidget {
                 final tweetText = tweetController.text;
 
                 String? imagePath;
-                imagePath = await _getLocalPath(_tweetImage as File);
+                // imagePath = await _getLocalPath(_tweetImage.value!);
 
                 ref.read(homeNotifierProvider.notifier).addTweet(
                   tweetText: tweetText,
-                  attachments: imagePath,
+                  attachments: null,
                 );
 
                 Navigator.pop(context);
@@ -81,11 +80,11 @@ class AddTweetScreen extends HookConsumerWidget {
                 Expanded(
                   child: TextField(
                     controller: tweetController,
-                    style: AppTextStyle.textThemeDark.bodyText1!
+                    style: AppTextStyle.textThemeDark.bodyLarge!
                         .copyWith(fontSize: 22),
                     decoration: InputDecoration(
                       hintText: "What's happening?",
-                      hintStyle: AppTextStyle.textThemeDark.headline6!
+                      hintStyle: AppTextStyle.textThemeDark.titleLarge!
                           .copyWith(color: AppColors.lightThinTextGray),
                       border: InputBorder.none,
                     ),
@@ -132,7 +131,7 @@ class AddTweetScreen extends HookConsumerWidget {
                         padding: const EdgeInsets.only(top: 12),
                         child: Text(
                           'Everyone can reply',
-                          style: AppTextStyle.textThemeDark.subtitle1!.copyWith(
+                          style: AppTextStyle.textThemeDark.titleMedium!.copyWith(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w100,
                           ),
