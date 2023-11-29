@@ -43,6 +43,20 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
+  addTweet({
+    required String tweetText,
+  }) async {
+    try {
+      // Add the logic for adding a tweet using homeRepository
+      await homeRepository.addTweet(tweetText: tweetText);
+
+      // If successful, you may want to trigger a refresh of the timeline
+      getTimelineData(page: 1);
+    } catch (e) {
+      // Handle error
+    }
+  }
+
   changePageIndex(index) {
     state = state.copyWith(screenIndex: index);
   }

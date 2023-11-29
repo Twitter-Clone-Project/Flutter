@@ -8,4 +8,6 @@ class EndPoints {
   static const resetPassword = "/auth/resetPassword";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
+
+  static const addTweet = "/tweets/add";
 }

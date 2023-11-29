@@ -1,13 +1,14 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/web_services/web_services.dart';
-
+import 'package:dio/dio.dart';
 import '../models/home_response.dart';
 
 
 
 abstract class HomeRepository {
   getTimeline(int page);
+  Future<void> addTweet({required String tweetText});
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -25,6 +26,25 @@ class HomeRepositoryImpl implements HomeRepository {
     }
   }
 
+  @override
+  Future<void> addTweet(
+      {required String tweetText,
+      }) async {
+    try {
+      FormData data = FormData.fromMap({
+        "tweetText": tweetText,
+        "attachments": null
+      });
+
+      var response = await HttpClient.dio.post(EndPoints.addTweet, data: data);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+
+      }
+      throw(response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
 
 final homeRepositoryProvider = Provider<HomeRepository>((ref) {
