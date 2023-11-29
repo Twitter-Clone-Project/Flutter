@@ -6,4 +6,5 @@ class EndPoints {
   static const confirmEmail = "/auth/verifyEmail";
   static const forgetPassword = "/auth/forgetPassword";
   static const resetPassword = "/auth/resetPassword";
+  static const getLikers = "";
 }

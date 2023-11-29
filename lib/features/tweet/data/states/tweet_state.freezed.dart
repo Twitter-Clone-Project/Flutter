@@ -1,0 +1,217 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'tweet_state.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
+/// @nodoc
+mixin _$TweetState {
+  LikersList get likersList => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
+  bool get loading => throw _privateConstructorUsedError;
+  int get screenIndex => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $TweetStateCopyWith<TweetState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TweetStateCopyWith<$Res> {
+  factory $TweetStateCopyWith(
+          TweetState value, $Res Function(TweetState) then) =
+      _$TweetStateCopyWithImpl<$Res, TweetState>;
+  @useResult
+  $Res call(
+      {LikersList likersList,
+      String? errorMessage,
+      bool loading,
+      int screenIndex});
+
+  $LikersListCopyWith<$Res> get likersList;
+}
+
+/// @nodoc
+class _$TweetStateCopyWithImpl<$Res, $Val extends TweetState>
+    implements $TweetStateCopyWith<$Res> {
+  _$TweetStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? likersList = null,
+    Object? errorMessage = freezed,
+    Object? loading = null,
+    Object? screenIndex = null,
+  }) {
+    return _then(_value.copyWith(
+      likersList: null == likersList
+          ? _value.likersList
+          : likersList // ignore: cast_nullable_to_non_nullable
+              as LikersList,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      screenIndex: null == screenIndex
+          ? _value.screenIndex
+          : screenIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LikersListCopyWith<$Res> get likersList {
+    return $LikersListCopyWith<$Res>(_value.likersList, (value) {
+      return _then(_value.copyWith(likersList: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$TweetStateImplCopyWith<$Res>
+    implements $TweetStateCopyWith<$Res> {
+  factory _$$TweetStateImplCopyWith(
+          _$TweetStateImpl value, $Res Function(_$TweetStateImpl) then) =
+      __$$TweetStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {LikersList likersList,
+      String? errorMessage,
+      bool loading,
+      int screenIndex});
+
+  @override
+  $LikersListCopyWith<$Res> get likersList;
+}
+
+/// @nodoc
+class __$$TweetStateImplCopyWithImpl<$Res>
+    extends _$TweetStateCopyWithImpl<$Res, _$TweetStateImpl>
+    implements _$$TweetStateImplCopyWith<$Res> {
+  __$$TweetStateImplCopyWithImpl(
+      _$TweetStateImpl _value, $Res Function(_$TweetStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? likersList = null,
+    Object? errorMessage = freezed,
+    Object? loading = null,
+    Object? screenIndex = null,
+  }) {
+    return _then(_$TweetStateImpl(
+      likersList: null == likersList
+          ? _value.likersList
+          : likersList // ignore: cast_nullable_to_non_nullable
+              as LikersList,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      screenIndex: null == screenIndex
+          ? _value.screenIndex
+          : screenIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TweetStateImpl implements _TweetState {
+  const _$TweetStateImpl(
+      {this.likersList = const LikersList(data: []),
+      this.errorMessage = null,
+      this.loading = true,
+      this.screenIndex = 0});
+
+  @override
+  @JsonKey()
+  final LikersList likersList;
+  @override
+  @JsonKey()
+  final String? errorMessage;
+  @override
+  @JsonKey()
+  final bool loading;
+  @override
+  @JsonKey()
+  final int screenIndex;
+
+  @override
+  String toString() {
+    return 'TweetState(likersList: $likersList, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TweetStateImpl &&
+            (identical(other.likersList, likersList) ||
+                other.likersList == likersList) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage) &&
+            (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.screenIndex, screenIndex) ||
+                other.screenIndex == screenIndex));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, likersList, errorMessage, loading, screenIndex);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TweetStateImplCopyWith<_$TweetStateImpl> get copyWith =>
+      __$$TweetStateImplCopyWithImpl<_$TweetStateImpl>(this, _$identity);
+}
+
+abstract class _TweetState implements TweetState {
+  const factory _TweetState(
+      {final LikersList likersList,
+      final String? errorMessage,
+      final bool loading,
+      final int screenIndex}) = _$TweetStateImpl;
+
+  @override
+  LikersList get likersList;
+  @override
+  String? get errorMessage;
+  @override
+  bool get loading;
+  @override
+  int get screenIndex;
+  @override
+  @JsonKey(ignore: true)
+  _$$TweetStateImplCopyWith<_$TweetStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
