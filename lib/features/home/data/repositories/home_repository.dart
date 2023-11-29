@@ -3,12 +3,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/web_services/web_services.dart';
 import 'package:dio/dio.dart';
 import '../models/home_response.dart';
+import 'package:path/path.dart' as path;
 
 
 
 abstract class HomeRepository {
   getTimeline(int page);
-  Future<void> addTweet({required String tweetText});
+  Future<void> addTweet({required String tweetText,
+    String? attachments});
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -29,11 +31,13 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<void> addTweet(
       {required String tweetText,
+        String? attachments
       }) async {
     try {
       FormData data = FormData.fromMap({
         "tweetText": tweetText,
-        "attachments": null
+        "attachments": await MultipartFile.fromFile(attachments!, filename: path.basename(attachments!),),
+
       });
 
       var response = await HttpClient.dio.post(EndPoints.addTweet, data: data);
