@@ -6,8 +6,8 @@ import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
 class RetweetersScreen extends StatefulHookConsumerWidget {
-  const RetweetersScreen({super.key});
-
+  const RetweetersScreen({super.key, required this.tweetId});
+  final String tweetId;
   @override
   ConsumerState<RetweetersScreen> createState() => _RetweetersScreenState();
 }
@@ -18,7 +18,7 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(seconds: 0), () {
-      ref.read(tweetNotifierProvider.notifier).getRetweeters();
+      ref.read(tweetNotifierProvider.notifier).getRetweeters(tweetId: widget.tweetId);
     });
   }
 

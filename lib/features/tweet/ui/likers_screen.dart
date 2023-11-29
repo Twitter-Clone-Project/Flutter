@@ -6,8 +6,8 @@ import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
 class LikersScreen extends StatefulHookConsumerWidget {
-  const LikersScreen({super.key});
-
+  const LikersScreen({super.key, required this.tweetId});
+  final String tweetId;
   @override
   ConsumerState<LikersScreen> createState() => _LikersScreenState();
 }
@@ -18,7 +18,7 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(seconds: 0), () {
-      ref.read(tweetNotifierProvider.notifier).getLikers();
+      ref.read(tweetNotifierProvider.notifier).getLikers(tweetId: widget.tweetId);
     });
   }
 

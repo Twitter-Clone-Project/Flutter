@@ -15,11 +15,11 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
     state = state.copyWith(screenIndex: index);
   }
 
-  Future<void> getLikers() async {
+  Future<void> getLikers({required String tweetId}) async {
     state = state.copyWith(
       loading: true,
     );
-    final LikersList likers = await tweetRepository.fetchLikersData();
+    final LikersList likers = await tweetRepository.fetchLikersData(tweetId: tweetId);
     if (likers.data != null) {
       state = state.copyWith(
         likersList: likers,
@@ -33,12 +33,12 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
     }
   }
 
-  Future<void> getRetweeters() async {
+  Future<void> getRetweeters({required String tweetId}) async {
     state = state.copyWith(
       loading: true,
     );
     final RetweetersList retweeters =
-        await tweetRepository.fetchRetweetersData();
+        await tweetRepository.fetchRetweetersData(tweetId: tweetId);
     if (retweeters.data != null) {
       state = state.copyWith(
         retweetrsList: retweeters,
@@ -52,12 +52,12 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
     }
   }
 
-  Future<void> getRepliers() async {
+  Future<void> getRepliers({required String tweetId}) async {
     state = state.copyWith(
       loading: true,
     );
 
-    final RepliersList repliers = await tweetRepository.fetchRepliersData();
+    final RepliersList repliers = await tweetRepository.fetchRepliersData(tweetId: tweetId);
 
     if (repliers.data != null) {
       state = state.copyWith(

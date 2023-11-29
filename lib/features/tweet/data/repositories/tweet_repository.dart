@@ -4,38 +4,40 @@ import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/web_services/http_client.dart';
 
+import '../../../../web_services/end_points.dart';
+
 abstract class TweetRepository {
-  Future<LikersList> fetchLikersData();
-  Future<RetweetersList> fetchRetweetersData();
-  Future<RepliersList> fetchRepliersData();
+  Future<LikersList> fetchLikersData({required String tweetId});
+  Future<RetweetersList> fetchRetweetersData({required String tweetId});
+  Future<RepliersList> fetchRepliersData({required String tweetId});
 }
 
 class TweetRepositoryImpl implements TweetRepository {
-  Future<LikersList> fetchLikersData() async {
+  Future<LikersList> fetchLikersData({required String tweetId}) async {
     try {
-      var response = await HttpClient.dio.get("");
-      LikersList likersList = LikersResponseFromJson(response.data);
+      var response = await HttpClient.dio.get(EndPoints.getLikersData(tweetId));
+      LikersList likersList = LikersList.fromJson(response.data);
       return likersList;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<RetweetersList> fetchRetweetersData() async {
+  Future<RetweetersList> fetchRetweetersData({required String tweetId}) async {
     try {
-      var response = await HttpClient.dio.get("");
+      var response = await HttpClient.dio.get(EndPoints.getRetweetersData(tweetId));
 
-      RetweetersList retweetersList = RetweetersResponseFromJson(response.data);
+      RetweetersList retweetersList = RetweetersList.fromJson(response.data);
       return retweetersList;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<RepliersList> fetchRepliersData() async {
+  Future<RepliersList> fetchRepliersData({required String tweetId}) async {
     try {
-      var response = await HttpClient.dio.get("");
-      RepliersList repliersList = RepliersResponseFromJson(response.data);
+      var response = await HttpClient.dio.get(EndPoints.getRepliersData(tweetId));
+      RepliersList repliersList = RepliersList.fromJson(response.data);
       return repliersList;
     } catch (e) {
       rethrow;

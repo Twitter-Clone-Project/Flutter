@@ -1,12 +1,10 @@
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:flutter/material.dart';
 import 'package:x_clone/features/home/ui/add_tweet_screen.dart';
-<<<<<<< HEAD
-=======
+
 import 'package:x_clone/features/tweet/ui/likers_screen.dart';
 import 'package:x_clone/features/tweet/ui/retweeters_screen.dart';
 import 'package:x_clone/features/tweet/ui/tweet_screen.dart';
->>>>>>> 583a933 (Tweet Screen)
 import '../features/auth/ui/auth_screen.dart';
 import '../features/auth/ui/forget_password_screen.dart';
 import '../features/auth/ui/intro_screen.dart';
@@ -34,7 +32,7 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case initRoute:
-        return MaterialPageRoute(builder: (_) => const AuthScreen());
+        return MaterialPageRoute(builder: (_) => const RetweetersScreen(tweetId: "28"));
       case introScreen:
         return MaterialPageRoute(builder: (_) => const IntroScreen());
       case addTweet:
