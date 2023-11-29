@@ -37,75 +37,74 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return SafeArea(
-      child: Scaffold(
-        body: ref.watch(homeNotifierProvider).loading?
+    return Scaffold(
+      body: ref.watch(homeNotifierProvider).loading?
 
-        const Center(child: CircularProgressIndicator())
-            :Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: (){
-                      Scaffold.of(context).openDrawer();
-                    },
-                    child: CircleAvatar(
-                        child: CachedNetworkImage(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          width: MediaQuery.of(context).size.height * 0.05,
-                          fit: BoxFit.scaleDown ,
-                          color: AppColors.primaryColor,
-                          imageUrl: "${ref.watch(homeNotifierProvider).homeResponse.data?[0].user?.profileImageURL}",
-                          placeholder: (context, url) =>
-                              SvgPicture.asset(AppAssets.logo,colorFilter: const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn) , fit: BoxFit.cover),
-                          errorWidget: (context, url, error) =>
-                              SvgPicture.asset(AppAssets.logo,colorFilter: const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn) , fit: BoxFit.cover),
-                        ),
-                    ),
+      const Center(child: CircularProgressIndicator()):
+      ref.watch(homeNotifierProvider).homeResponse.data!.isEmpty
+          ? const Center(
+        child: Text("No Tweets"),
+      )
+
+        :Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: (){
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: CircleAvatar(
+                      child: CachedNetworkImage(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.height * 0.05,
+                        fit: BoxFit.scaleDown ,
+                        color: AppColors.primaryColor,
+                        imageUrl: "${ref.watch(homeNotifierProvider).homeResponse.data?[0].user?.profileImageURL}",
+                        placeholder: (context, url) =>
+                            SvgPicture.asset(AppAssets.logo,colorFilter: const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn) , fit: BoxFit.cover),
+                        errorWidget: (context, url, error) =>
+                            SvgPicture.asset(AppAssets.logo,colorFilter: const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn) , fit: BoxFit.cover),
+                      ),
                   ),
-                  Spacer()
-                ],
-              ),
+                ),
+                Spacer()
+              ],
             ),
-            Expanded(
-              child: SizedBox(
-                height: double.infinity,
-                child: SmartRefresher(
-                  controller: _controller,
-                  enablePullDown: true,
-                  enablePullUp: true,
-                  footer: const ClassicFooter(
-                    loadingText: 'Load for more',
-                  ),
-                  onLoading: _onLoading,
-                  onRefresh: _onRefresh,
-                  child: ref.watch(homeNotifierProvider).homeResponse.data!.isEmpty
-                      ? const Center(
-                    child: Text("No Tweets"),
-                  )
-                      : ListView.separated(
-                    itemCount: ref.watch(homeNotifierProvider).homeResponse.data!.length,
-                    itemBuilder: (BuildContext context, int index) =>TweetCompose(
-                      tweet: ref.watch(homeNotifierProvider).homeResponse.data![index],
-                    ), separatorBuilder: (BuildContext context, int index) => const Divider(),
-                  ),
+          ),
+          Expanded(
+            child: SizedBox(
+              height: double.infinity,
+              child: SmartRefresher(
+                controller: _controller,
+                enablePullDown: true,
+                enablePullUp: true,
+                footer: const ClassicFooter(
+                  loadingText: 'Load for more',
+                ),
+                onLoading: _onLoading,
+                onRefresh: _onRefresh,
+                child: ListView.separated(
+                  itemCount: ref.watch(homeNotifierProvider).homeResponse.data!.length,
+                  itemBuilder: (BuildContext context, int index) =>TweetCompose(
+                    tweet: ref.watch(homeNotifierProvider).homeResponse.data![index],
+                  ), separatorBuilder: (BuildContext context, int index) => const Divider(),
                 ),
               ),
             ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColors.primaryColor,
-          onPressed: () {
-            Navigator.pushNamed(context, Routes.addTweet);
-          },
-          child: const Icon(
-            Icons.add,
-            color: AppColors.whiteColor,
           ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primaryColor,
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.addTweet);
+        },
+        child: const Icon(
+          Icons.add,
+          color: AppColors.whiteColor,
         ),
       ),
     );
