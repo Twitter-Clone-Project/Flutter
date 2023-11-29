@@ -7,9 +7,13 @@ import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
+import '../../../app/widgets/tweet_UI.dart';
+import '../../home/data/models/home_response.dart';
+
 class TweetScreen extends StatefulHookConsumerWidget {
-  const TweetScreen({super.key, required this.tweetId});
-  final String tweetId;
+  const TweetScreen({super.key, this.tweet});
+  final Tweet? tweet;
+
   @override
   ConsumerState<TweetScreen> createState() => _TweetScreenState();
 }
@@ -22,7 +26,7 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
     Future.delayed(
       const Duration(seconds: 0),
       () {
-        ref.read(tweetNotifierProvider.notifier).getRepliers(tweetId: widget.tweetId);
+        ref.read(tweetNotifierProvider.notifier).getRepliers(tweetId: widget.tweet!.id??'');
       },
     );
   }
@@ -30,24 +34,28 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
   @override
   Widget build(BuildContext context) {
     final tweetprov = ref.watch(tweetNotifierProvider);
-    return Scaffold(
-        body: Column(
-      children: [
-        SizedBox(height: 100),
-        tweetprov.loading
-            ? Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: tweetprov.repliersList.data!.length,
-                itemBuilder: (context, index) {
-                  final replier = tweetprov.repliersList.data![index];
-                  return Reply(
-                    likesCount: replier.likesCount,
-                    text: replier.text,
-                    userName: replier.userName,
-                  );
-                },
-              ),
-      ],
-    ));
+    return SafeArea(
+      child: Scaffold(
+          body: Column(
+        children: [
+          TweetCompose(tweet: widget.tweet!,
+          ),
+          SizedBox(height: 100),
+          tweetprov.loading
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: tweetprov.repliersList.data!.length,
+                  itemBuilder: (context, index) {
+                    final replier = tweetprov.repliersList.data![index];
+                    return Reply(
+                      likesCount: replier.likesCount,
+                      text: replier.text,
+                      userName: replier.userName,
+                    );
+                  },
+                ),
+        ],
+      )),
+    );
   }
 }

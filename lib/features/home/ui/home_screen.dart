@@ -88,9 +88,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   )
                       : ListView.separated(
                     itemCount: ref.watch(homeNotifierProvider).homeResponse.data!.length,
-                    itemBuilder: (BuildContext context, int index) =>TweetCompose(
-                      tweet: ref.watch(homeNotifierProvider).homeResponse.data![index],
-                    ), separatorBuilder: (BuildContext context, int index) => const Divider(),
+                    itemBuilder: (BuildContext context, int index) =>InkWell(
+                      child: TweetCompose(
+                        tweet: ref.watch(homeNotifierProvider).homeResponse.data![index],
+                      ),
+                      onTap: (){
+                        Navigator.pushNamed(context, Routes.tweetScreen,arguments: ref.watch(homeNotifierProvider).homeResponse.data![index]);
+                      },                    ), separatorBuilder: (BuildContext context, int index) => const Divider(),
                   ),
                 ),
               ),

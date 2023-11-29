@@ -502,6 +502,10 @@ class _$TweetImpl implements _Tweet {
       this,
     );
   }
+
+  @override
+  // TODO: implement tweetId
+  get tweetId => throw UnimplementedError();
 }
 
 abstract class _Tweet implements Tweet {

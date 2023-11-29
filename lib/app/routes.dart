@@ -28,12 +28,15 @@ class Routes {
   static const String resetPasswordScreen = "/resetPassword";
   static const String addTweet = "/addTweet";
   static const String reCAPTCHAscreen = "/reCAPTCHA";
+  static const String tweetScreen = "/tweetScreen";
+  static const String retweetersScreen = "/retweetersScreen";
+  static const String likersScreen = "/likersScreen";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case initRoute:
-        return MaterialPageRoute(builder: (_) => const RetweetersScreen(tweetId: "28"));
-      case introScreen:
+        return MaterialPageRoute(builder: (_) => const AuthScreen());
+    case introScreen:
         return MaterialPageRoute(builder: (_) => const IntroScreen());
       case addTweet:
         return MaterialPageRoute(builder: (_) => const AddTweetScreen());
@@ -47,6 +50,13 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
       case reCAPTCHAscreen:
         return MaterialPageRoute(builder: (_) => const reCAPTCHA());
+      case tweetScreen:
+        var tweet = settings.arguments as Tweet;
+        return MaterialPageRoute(builder: (_) => TweetScreen(tweet: tweet,));
+      case retweetersScreen:
+        return MaterialPageRoute(builder: (_) => const RetweetersScreen());
+      case likersScreen:
+        return MaterialPageRoute(builder: (_) => const LikersScreen());
       case resetPasswordScreen:
         var data = settings.arguments as String;
         return MaterialPageRoute(

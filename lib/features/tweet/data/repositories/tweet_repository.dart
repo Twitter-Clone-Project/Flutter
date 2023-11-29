@@ -13,32 +13,44 @@ abstract class TweetRepository {
 }
 
 class TweetRepositoryImpl implements TweetRepository {
+  @override
   Future<LikersList> fetchLikersData({required String tweetId}) async {
     try {
       var response = await HttpClient.dio.get(EndPoints.getLikersData(tweetId));
-      LikersList likersList = LikersList.fromJson(response.data);
-      return likersList;
+
+      if(response.statusCode == 200 || response.statusCode == 201){
+        return LikersList.fromJson(response.data);
+      }
+      return const LikersList(data: []);
     } catch (e) {
       rethrow;
     }
+
   }
 
+  @override
   Future<RetweetersList> fetchRetweetersData({required String tweetId}) async {
     try {
       var response = await HttpClient.dio.get(EndPoints.getRetweetersData(tweetId));
 
-      RetweetersList retweetersList = RetweetersList.fromJson(response.data);
-      return retweetersList;
+      if(response.statusCode == 200 || response.statusCode == 201){
+        return RetweetersList.fromJson(response.data);
+      }
+      return const RetweetersList(data: []);
     } catch (e) {
       rethrow;
     }
   }
 
+  @override
   Future<RepliersList> fetchRepliersData({required String tweetId}) async {
     try {
       var response = await HttpClient.dio.get(EndPoints.getRepliersData(tweetId));
-      RepliersList repliersList = RepliersList.fromJson(response.data);
-      return repliersList;
+
+      if(response.statusCode == 200 || response.statusCode == 201){
+        return RepliersList.fromJson(response.data);
+      }
+      return const RepliersList(data: []);
     } catch (e) {
       rethrow;
     }
