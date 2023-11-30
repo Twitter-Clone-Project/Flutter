@@ -18,7 +18,9 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(seconds: 0), () {
-      ref.read(tweetNotifierProvider.notifier).getLikers(tweetId: widget.tweetId!);
+      ref
+          .read(tweetNotifierProvider.notifier)
+          .getLikers(tweetId: widget.tweetId!);
     });
   }
 
@@ -38,7 +40,9 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
             Icons.arrow_back_sharp,
             color: AppColors.whiteColor,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: tweetprov.loading

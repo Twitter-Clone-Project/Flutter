@@ -18,7 +18,9 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(seconds: 0), () {
-      ref.read(tweetNotifierProvider.notifier).getRetweeters(tweetId: widget.tweetId!);
+      ref
+          .read(tweetNotifierProvider.notifier)
+          .getRetweeters(tweetId: widget.tweetId!);
     });
   }
 
@@ -38,7 +40,9 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
             Icons.arrow_back_sharp,
             color: AppColors.whiteColor,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: tweetprov.loading

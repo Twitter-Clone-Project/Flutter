@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
-import 'package:x_clone/features/tweet/ui/reply.dart';
+import 'package:x_clone/features/tweet/ui/widgets/reply.dart';
+import 'package:x_clone/features/tweet/ui/widgets/tweet.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
@@ -26,7 +27,9 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
     Future.delayed(
       const Duration(seconds: 0),
       () {
-        ref.read(tweetNotifierProvider.notifier).getRepliers(tweetId: widget.tweet!.id??'');
+        ref
+            .read(tweetNotifierProvider.notifier)
+            .getRepliers(tweetId: widget.tweet!.id ?? '');
       },
     );
   }
@@ -36,26 +39,49 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
     final tweetprov = ref.watch(tweetNotifierProvider);
     return SafeArea(
       child: Scaffold(
-          body: Column(
-        children: [
-          TweetCompose(tweet: widget.tweet!,
+          appBar: AppBar(
+            backgroundColor: AppColors.pureBlack,
+            title: Text(
+              'Post',
+              style: AppTextStyle.textThemeDark.headlineSmall!
+                  .copyWith(color: AppColors.whiteColor),
+            ),
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_sharp,
+                color: AppColors.whiteColor,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
-          SizedBox(height: 100),
-          tweetprov.loading
-              ? Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  itemCount: tweetprov.repliersList.data!.length,
-                  itemBuilder: (context, index) {
-                    final replier = tweetprov.repliersList.data![index];
-                    return Reply(
-                      likesCount: replier.likesCount,
-                      text: replier.text,
-                      userName: replier.userName,
-                    );
-                  },
-                ),
-        ],
-      )),
+          body: Column(
+            children: [
+              TweetComponent(
+                tweet: widget.tweet!,
+              ),
+              tweetprov.loading
+                  ? Center(child: CircularProgressIndicator())
+                  : tweetprov.repliersList.data!.isEmpty
+                      ? Center(
+                          child: Text(
+                          'There is no replies',
+                          style: AppTextStyle.textThemeDark.bodyLarge,
+                        ))
+                      : ListView.builder(
+                          itemCount: tweetprov.repliersList.data!.length,
+                          itemBuilder: (context, index) {
+                            final replier = tweetprov.repliersList.data![index];
+                            return Reply(
+                              likesCount: replier.likesCount,
+                              text: replier.text,
+                              userName: replier.userName,
+                            );
+                          },
+                        ),
+            ],
+          )),
     );
   }
 }

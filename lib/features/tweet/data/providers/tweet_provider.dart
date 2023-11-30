@@ -19,7 +19,8 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
     state = state.copyWith(
       loading: true,
     );
-    final LikersList likers = await tweetRepository.fetchLikersData(tweetId: tweetId);
+    final LikersList likers =
+        await tweetRepository.fetchLikersData(tweetId: tweetId);
     if (likers.data != null) {
       state = state.copyWith(
         likersList: likers,
@@ -53,21 +54,29 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
   }
 
   Future<void> getRepliers({required String tweetId}) async {
-    state = state.copyWith(
-      loading: true,
-    );
-
-    final RepliersList repliers = await tweetRepository.fetchRepliersData(tweetId: tweetId);
-
-    if (repliers.data != null) {
+    try {
       state = state.copyWith(
-        repliersList: repliers,
-        loading: false,
+        loading: true,
       );
-    } else {
+      final RepliersList repliers =
+          await tweetRepository.fetchRepliersData(tweetId: tweetId);
+
+      if (repliers.data != null) {
+        state = state.copyWith(
+          repliersList: repliers,
+          loading: false,
+        );
+      } else {
+        state = state.copyWith(
+          errorMessage: 'Failed to fetch likers',
+          loading: false,
+        );
+      }
+    } catch (e) {
       state = state.copyWith(
-        errorMessage: 'Failed to fetch likers',
         loading: false,
+        //errorMessage: e.toString(),
+        repliersList: const RepliersList(data: []),
       );
     }
   }

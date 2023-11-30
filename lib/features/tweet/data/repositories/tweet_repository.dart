@@ -18,22 +18,22 @@ class TweetRepositoryImpl implements TweetRepository {
     try {
       var response = await HttpClient.dio.get(EndPoints.getLikersData(tweetId));
 
-      if(response.statusCode == 200 || response.statusCode == 201){
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return LikersList.fromJson(response.data);
       }
       return const LikersList(data: []);
     } catch (e) {
       rethrow;
     }
-
   }
 
   @override
   Future<RetweetersList> fetchRetweetersData({required String tweetId}) async {
     try {
-      var response = await HttpClient.dio.get(EndPoints.getRetweetersData(tweetId));
+      var response =
+          await HttpClient.dio.get(EndPoints.getRetweetersData(tweetId));
 
-      if(response.statusCode == 200 || response.statusCode == 201){
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return RetweetersList.fromJson(response.data);
       }
       return const RetweetersList(data: []);
@@ -45,9 +45,9 @@ class TweetRepositoryImpl implements TweetRepository {
   @override
   Future<RepliersList> fetchRepliersData({required String tweetId}) async {
     try {
-      var response = await HttpClient.dio.get(EndPoints.getRepliersData(tweetId));
-
-      if(response.statusCode == 200 || response.statusCode == 201){
+      var response =
+          await HttpClient.dio.get(EndPoints.getRepliersData(tweetId));
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return RepliersList.fromJson(response.data);
       }
       return const RepliersList(data: []);
