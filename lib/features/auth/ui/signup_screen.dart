@@ -83,18 +83,25 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     SizedBox(height:0.075 * MediaQuery.of(context).size.height),
                     AuthField(controller: _nameController,labelText: "Name",maxLength: 50,
-                    validator: (value){
-                      if(value!.isEmpty){
-                        return "Name cannot be empty";
-                      }
-                      return null;
-                    },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Name cannot be empty";
+                        } else if (value.length < 2) {
+                          return "Name should contain at least 2 characters";
+                        } else if (RegExp(r'\d').hasMatch(value)) {
+                          return "Name cannot contain numbers";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height:0.015 * MediaQuery.of(context).size.height),
                     AuthField(controller:_userNameController,labelText: "Username",maxLength: 50,
                       validator: (value){
                         if(value!.isEmpty){
                           return "Username cannot be empty";
+                        }
+                        if(value.length < 3){
+                          return "Username should contain at least 3 characters";
                         }
                         if(isValidUsername(value) == false){
                           return "Username should be alphanumeric";
@@ -171,8 +178,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           if (auth.registerLoading) return;
                           if (AppKeys.registerFormKey.currentState!
                               .validate()) {
-                            while(reCaptchaText == null){
-                              await _showReCapathaDialog(context);
+                            if(reCaptchaText == null){
+                             var value= await Navigator.pushNamed(context,Routes.reCAPTCHAscreen);
+                              if(value != null){
+                                reCaptchaText = value as String;
+                              }
+                              else{
+                                AppSnackbar.show(buildSnackBar(text: "Please verify captcha"));
+
+                                return;
+                              }
                             }
                             final result = await ref
                                 .read(authNotifierProvider.notifier)
@@ -226,41 +241,5 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
       });
     }
-  }
-
-  Future<String?> _showReCapathaDialog(BuildContext context,) async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return Container(
-            width: double.infinity,
-            child: AlertDialog(
-              content:SizedBox(
-                height: 0.25 * MediaQuery.of(context).size.height,
-                child:  WebView(
-                  initialUrl: 'http://18.212.103.71/',
-                  javascriptMode: JavascriptMode.unrestricted,
-                  javascriptChannels: Set.from([
-                    JavascriptChannel(
-                        name: 'Captcha',
-                        onMessageReceived: (JavascriptMessage message) {
-                          //This is where you receive message from
-                          //javascript code and handle in Flutter/Dart
-                          //like here, the message is just being printed
-                          //in Run/LogCat window of android studio
-                          print(message.message);
-                          // widget.callback(message.message);
-                          reCaptchaText = message.message;
-                          Navigator.of(context).pop();
-                        })
-                  ]),
-                  onWebViewCreated: (w) {
-                    var webViewController = w;
-                  },
-                ),
-              ),
-            ),
-          );
-        });
   }
 }

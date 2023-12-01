@@ -6,6 +6,7 @@ import '../features/auth/ui/auth_screen.dart';
 import '../features/auth/ui/forget_password_screen.dart';
 import '../features/auth/ui/intro_screen.dart';
 import '../features/auth/ui/login_screen.dart';
+import '../features/auth/ui/reCAPTCHA.dart';
 import '../features/auth/ui/reset_password.dart';
 import '../features/auth/ui/signup_screen.dart';
 import '../features/auth/ui/verify_otp_screen.dart';
@@ -28,6 +29,9 @@ class Routes {
   static const String editProfileScreen = "/editProfileScreen";
 
 
+  static const String reCAPTCHAscreen = "/reCAPTCHA";
+
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case initRoute:
@@ -44,6 +48,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
       case registerScreen:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
+      case reCAPTCHAscreen:
+        return MaterialPageRoute(builder: (_) => const reCAPTCHA());
       case resetPasswordScreen:
         var data = settings.arguments as String;
         return MaterialPageRoute(

@@ -16,7 +16,9 @@ class User with _$User {
     String? userId,
     String? name,
     String? username,
+    String? screenName,
     String? email,
+    String? profileImageURL,
     bool? isConfirmed,
   }) = _User;
 

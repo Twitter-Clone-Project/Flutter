@@ -119,7 +119,7 @@ class VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                             onPressed: _resendTimer > 0
                                 ? null // Disable the button when timer is active
                                 : () {
-
+                              ref.read(authNotifierProvider.notifier).resendOtp(email: widget.email).then((value) => AppSnackbar.show(buildSnackBar(text: value.toString(),backgroundColor: AppColors.primaryColor)));
                               setState(() {
                                 _resendTimer = 120; // Reset the timer
                               });

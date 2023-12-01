@@ -7,6 +7,7 @@ class EndPoints {
   static const forgetPassword = "/auth/forgetPassword";
   static const resetPassword = "/auth/resetPassword";
 
+
   static const updateUsername = "/profile/updateUsername";
   static const updateEmail = "/profile/updateEmail";
   static const updateBanner = "/profile/updateBanner";
@@ -15,9 +16,7 @@ class EndPoints {
   static const deletePicture = "/profile/deletePicture";
   static const updateProfile = "/profile/update";
   static getUserProfile(String userId) => "/profile/$userId";
-
-
-  //Usage Example:
-  // String userProfileUrl = EndPoints.getUserProfileUrl(userId);
+  static const resendConfirmEmail = "/auth/resendConfirmEmail";
+  static getTimelineData(int page) => "/users/$page/timeline";
 
 }
