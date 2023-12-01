@@ -19,10 +19,10 @@ class UserProfileNotifier extends StateNotifier<UserProfileState> {
     // Additional initialization if needed
   }
 
-  Future<void> fetchUserProfile(String userId) async {
+  Future<void> fetchUserProfile(String username) async {
     try {
       state = state.copyWith(isLoading: true, error: null);
-      final userProfile = await _repo.fetchUserProfileData(userId: userId);
+      final userProfile = await _repo.fetchUserProfileData(username: username);
       state = state.copyWith(isLoading: false, userProfile: userProfile?? UserProfile());
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());

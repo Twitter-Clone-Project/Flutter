@@ -5,7 +5,7 @@ import 'package:path/path.dart' as path;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class ProfileRepository {
-  Future<UserProfile?> fetchUserProfileData({required String userId});
+  Future<UserProfile?> fetchUserProfileData({required String username});
 
   // Future<bool?> updateUsername({required String newUsername});
 
@@ -25,13 +25,13 @@ abstract class ProfileRepository {
 
 class ProfileRepositoryImpl implements ProfileRepository {
   @override
-  Future<UserProfile?> fetchUserProfileData({required String userId}) async {
+  Future<UserProfile?> fetchUserProfileData({required String username}) async {
     try {
       var response =
-      await HttpClient.dio.get(EndPoints.getUserProfile(userId));
+      await HttpClient.dio.get(EndPoints.getUserProfile(username));
 
       if (response.statusCode == 200) {
-        return userProfileFromJson(response.data);
+        return UserProfile.fromJson(response.data);
       } else {
         throw (response.data["message"]);
       }

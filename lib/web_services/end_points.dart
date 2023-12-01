@@ -15,8 +15,17 @@ class EndPoints {
   static const updatePicture = "/profile/updatePicture";
   static const deletePicture = "/profile/deletePicture";
   static const updateProfile = "/profile/update";
-  static getUserProfile(String userId) => "/profile/$userId";
+  static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
 
+
+  //GET Posts of a user
+// /users/{userId}/tweets/{pageNum}
+
+  //GET Likes (tweets) of a user
+// /users/{userId}/likedTweets/{pageNum}
+
+//TODO FOR BACKEND: Get Replies of a user to view it in the profile
+//TODO FOR BACKEND: Get Posts that has Media
 }
