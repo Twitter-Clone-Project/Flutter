@@ -65,21 +65,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             flexibleSpace: Stack(
               children: [
                 Positioned(
-                  child: Image(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: profileImageDiameter / 2,
+                  child: const Image(
                     fit: BoxFit.cover,
                     image: NetworkImage(
                       "https://images.pexels.com/photos/62389/pexels-photo-62389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
                     ),
                   ),
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: profileImageDiameter / 2,
                 ),
                 Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,21 +95,28 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiKoAufYiAR36mWljxnxgUSxlgyQf7PRyPn3axUZPdDid7Cv7mVEuTCaA0PriHdRLPurGgI4sVFjmB_fMtKBgd6KWu_bDKdqMywm-AL-iOX3c69obt2sqeX5KVQVqkzcE8-xG-28yRDXx7X6-ZaNRIUlYmABYmi_8XfFYuYs5IMPU0gv9EbyutqDAfk/s1600/Android%20Studio%20-%20Header.png',
                           ),
                         ),
+                        // Add your button here
+                        CustomButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.editProfileScreen);
+                          },
+                          text: 'Edit Profile',
+                          filled: false,
+                          horizontalPadding: 20,
+                        ),
                       ],
                     ),
                   ),
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
                 ),
+                // Positioned for the button at the bottom right
+
               ],
             ),
             actions: [
               CircularIcon(
                 icon: Icons.search,
                 onPress: () {
-                  Navigator.pushNamed(context, Routes.editProfileScreen);
+                  //TODO Search
                 },
               ),
               PopupMenuButton(
@@ -125,38 +135,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             delegate: SliverChildListDelegate(
               [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            userProfile?.name ?? "",
-                            style: TextStyle(
+                            userProfile.name ?? "Mostafa",
+                            style: const TextStyle(
                               color: AppColors.whiteColor,
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
-                            "@${userProfile.userId}",
-                            style: TextStyle(
+                            // "@${userProfile.userId}",
+                            "@mou",
+                            style: const TextStyle(
                               color: AppColors.lightThinTextGray,
                             ),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Text(
-                            userProfile.bio ?? "",
+                            userProfile.bio ?? "bioooo",
                             softWrap: true,
-                            style: TextStyle(color: AppColors.whiteColor),
+                            style: const TextStyle(color: AppColors.whiteColor),
                           ),
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 4.0,
@@ -164,14 +175,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.location_on_outlined,
                                 fill: 1,
                                 color: AppColors.lightThinTextGray,
                               ),
-                              SizedBox(width: 4),
-                              Text(userProfile.location ?? "",
-                                  style: TextStyle(
+                              const SizedBox(width: 4),
+                              Text(userProfile.location ?? "Egypt",
+                                  style: const TextStyle(
                                       color: AppColors.lightThinTextGray,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold))
@@ -180,18 +191,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.link_outlined,
                                 fill: 1,
                                 color: AppColors.lightThinTextGray,
                               ),
-                              SizedBox(width: 4),
+                              const SizedBox(width: 4),
                               Link(
-                                url_string: userProfile.website ?? "",
+                                url_string: userProfile.website ?? "mou.com",
                               )
                             ],
                           ),
-                          Row(
+                          const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
@@ -212,21 +223,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           )
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 4.0,
                         children: [
                           Row(mainAxisSize: MainAxisSize.min, children: [
                             Text(FormatNumber(96),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: AppColors.whiteColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold)),
                             const SizedBox(width: 4),
                             const Text(
                               "Following",
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: AppColors.lightThinTextGray,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold),
@@ -253,7 +264,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ]),
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       TabBar(
                         controller: _tabcontroller,
                         tabs: const [
@@ -263,7 +274,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           Tab(text: "Likes"),
                         ],
                       ),
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: TabBarView(
                           controller: _tabcontroller,
@@ -273,9 +284,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 for (int i = 1; i <= 150; i++) Text("$i"),
                               ],
                             ),
-                            Text("1"),
-                            Text("3"),
-                            Text("4"),
+                            const Text("1"),
+                            const Text("3"),
+                            const Text("4"),
                           ],
                         ),
                       ),
@@ -304,7 +315,7 @@ class _AppBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(),
+      constraints: const BoxConstraints(),
       decoration: const BoxDecoration(
         border: BorderDirectional(
           bottom: BorderSide(
@@ -315,17 +326,17 @@ class _AppBarButton extends StatelessWidget {
         ),
       ),
       child: TextButton(
-          child: Text(
-            text,
-            style: TextStyle(
-              color: AppColors.whiteColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
           style: TextButton.styleFrom(
             foregroundColor: AppColors.whiteColor,
           ),
-          onPressed: onPress),
+          onPressed: onPress,
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: AppColors.whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
     );
   }
 }
@@ -377,7 +388,7 @@ class Link extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         child: Text(_getUrlText(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: AppColors.TwitterBlue,
                 fontSize: 14,
                 fontWeight: FontWeight.bold)),
