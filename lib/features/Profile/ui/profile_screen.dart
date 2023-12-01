@@ -275,7 +275,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         ],
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.9,
                         child: TabBarView(
                           
                           controller: _tabcontroller,
