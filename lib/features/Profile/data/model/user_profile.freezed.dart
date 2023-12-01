@@ -20,14 +20,23 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserProfile {
-  String? get id => throw _privateConstructorUsedError;
+  String? get userId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   String? get website => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
-  String? get profileImageUrl => throw _privateConstructorUsedError;
-  String? get createdAt => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
+  String? get bannerUrl => throw _privateConstructorUsedError;
+  String? get birthdate => throw _privateConstructorUsedError;
+  bool? get isFollowed => throw _privateConstructorUsedError;
+  bool? get isConfirmed => throw _privateConstructorUsedError;
+  bool? get isFollowing => throw _privateConstructorUsedError;
+  bool? get isMuted => throw _privateConstructorUsedError;
+  bool? get isBlocked => throw _privateConstructorUsedError;
+  bool? get isBlockingMe => throw _privateConstructorUsedError;
+  int? get followersCount => throw _privateConstructorUsedError;
+  int? get followingsCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,14 +51,23 @@ abstract class $UserProfileCopyWith<$Res> {
       _$UserProfileCopyWithImpl<$Res, UserProfile>;
   @useResult
   $Res call(
-      {String? id,
+      {String? userId,
       String? name,
       String? username,
       String? bio,
       String? website,
       String? location,
-      String? profileImageUrl,
-      String? createdAt});
+      String? imageUrl,
+      String? bannerUrl,
+      String? birthdate,
+      bool? isFollowed,
+      bool? isConfirmed,
+      bool? isFollowing,
+      bool? isMuted,
+      bool? isBlocked,
+      bool? isBlockingMe,
+      int? followersCount,
+      int? followingsCount});
 }
 
 /// @nodoc
@@ -65,19 +83,28 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? userId = freezed,
     Object? name = freezed,
     Object? username = freezed,
     Object? bio = freezed,
     Object? website = freezed,
     Object? location = freezed,
-    Object? profileImageUrl = freezed,
-    Object? createdAt = freezed,
+    Object? imageUrl = freezed,
+    Object? bannerUrl = freezed,
+    Object? birthdate = freezed,
+    Object? isFollowed = freezed,
+    Object? isConfirmed = freezed,
+    Object? isFollowing = freezed,
+    Object? isMuted = freezed,
+    Object? isBlocked = freezed,
+    Object? isBlockingMe = freezed,
+    Object? followersCount = freezed,
+    Object? followingsCount = freezed,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -99,14 +126,50 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageUrl: freezed == profileImageUrl
-          ? _value.profileImageUrl
-          : profileImageUrl // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      bannerUrl: freezed == bannerUrl
+          ? _value.bannerUrl
+          : bannerUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      birthdate: freezed == birthdate
+          ? _value.birthdate
+          : birthdate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFollowed: freezed == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isConfirmed: freezed == isConfirmed
+          ? _value.isConfirmed
+          : isConfirmed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isMuted: freezed == isMuted
+          ? _value.isMuted
+          : isMuted // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isBlocked: freezed == isBlocked
+          ? _value.isBlocked
+          : isBlocked // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isBlockingMe: freezed == isBlockingMe
+          ? _value.isBlockingMe
+          : isBlockingMe // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      followersCount: freezed == followersCount
+          ? _value.followersCount
+          : followersCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      followingsCount: freezed == followingsCount
+          ? _value.followingsCount
+          : followingsCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -120,14 +183,23 @@ abstract class _$$UserProfileImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
+      {String? userId,
       String? name,
       String? username,
       String? bio,
       String? website,
       String? location,
-      String? profileImageUrl,
-      String? createdAt});
+      String? imageUrl,
+      String? bannerUrl,
+      String? birthdate,
+      bool? isFollowed,
+      bool? isConfirmed,
+      bool? isFollowing,
+      bool? isMuted,
+      bool? isBlocked,
+      bool? isBlockingMe,
+      int? followersCount,
+      int? followingsCount});
 }
 
 /// @nodoc
@@ -141,19 +213,28 @@ class __$$UserProfileImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? userId = freezed,
     Object? name = freezed,
     Object? username = freezed,
     Object? bio = freezed,
     Object? website = freezed,
     Object? location = freezed,
-    Object? profileImageUrl = freezed,
-    Object? createdAt = freezed,
+    Object? imageUrl = freezed,
+    Object? bannerUrl = freezed,
+    Object? birthdate = freezed,
+    Object? isFollowed = freezed,
+    Object? isConfirmed = freezed,
+    Object? isFollowing = freezed,
+    Object? isMuted = freezed,
+    Object? isBlocked = freezed,
+    Object? isBlockingMe = freezed,
+    Object? followersCount = freezed,
+    Object? followingsCount = freezed,
   }) {
     return _then(_$UserProfileImpl(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -175,14 +256,50 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageUrl: freezed == profileImageUrl
-          ? _value.profileImageUrl
-          : profileImageUrl // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      bannerUrl: freezed == bannerUrl
+          ? _value.bannerUrl
+          : bannerUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      birthdate: freezed == birthdate
+          ? _value.birthdate
+          : birthdate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFollowed: freezed == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isConfirmed: freezed == isConfirmed
+          ? _value.isConfirmed
+          : isConfirmed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isMuted: freezed == isMuted
+          ? _value.isMuted
+          : isMuted // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isBlocked: freezed == isBlocked
+          ? _value.isBlocked
+          : isBlocked // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isBlockingMe: freezed == isBlockingMe
+          ? _value.isBlockingMe
+          : isBlockingMe // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      followersCount: freezed == followersCount
+          ? _value.followersCount
+          : followersCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      followingsCount: freezed == followingsCount
+          ? _value.followingsCount
+          : followingsCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -191,20 +308,29 @@ class __$$UserProfileImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserProfileImpl implements _UserProfile {
   const _$UserProfileImpl(
-      {this.id,
+      {this.userId,
       this.name,
       this.username,
       this.bio,
       this.website,
       this.location,
-      this.profileImageUrl,
-      this.createdAt});
+      this.imageUrl,
+      this.bannerUrl,
+      this.birthdate,
+      this.isFollowed,
+      this.isConfirmed,
+      this.isFollowing,
+      this.isMuted,
+      this.isBlocked,
+      this.isBlockingMe,
+      this.followersCount,
+      this.followingsCount});
 
   factory _$UserProfileImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserProfileImplFromJson(json);
 
   @override
-  final String? id;
+  final String? userId;
   @override
   final String? name;
   @override
@@ -216,13 +342,31 @@ class _$UserProfileImpl implements _UserProfile {
   @override
   final String? location;
   @override
-  final String? profileImageUrl;
+  final String? imageUrl;
   @override
-  final String? createdAt;
+  final String? bannerUrl;
+  @override
+  final String? birthdate;
+  @override
+  final bool? isFollowed;
+  @override
+  final bool? isConfirmed;
+  @override
+  final bool? isFollowing;
+  @override
+  final bool? isMuted;
+  @override
+  final bool? isBlocked;
+  @override
+  final bool? isBlockingMe;
+  @override
+  final int? followersCount;
+  @override
+  final int? followingsCount;
 
   @override
   String toString() {
-    return 'UserProfile(id: $id, name: $name, username: $username, bio: $bio, website: $website, location: $location, profileImageUrl: $profileImageUrl, createdAt: $createdAt)';
+    return 'UserProfile(userId: $userId, name: $name, username: $username, bio: $bio, website: $website, location: $location, imageUrl: $imageUrl, bannerUrl: $bannerUrl, birthdate: $birthdate, isFollowed: $isFollowed, isConfirmed: $isConfirmed, isFollowing: $isFollowing, isMuted: $isMuted, isBlocked: $isBlocked, isBlockingMe: $isBlockingMe, followersCount: $followersCount, followingsCount: $followingsCount)';
   }
 
   @override
@@ -230,7 +374,7 @@ class _$UserProfileImpl implements _UserProfile {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserProfileImpl &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.username, username) ||
                 other.username == username) &&
@@ -238,16 +382,50 @@ class _$UserProfileImpl implements _UserProfile {
             (identical(other.website, website) || other.website == website) &&
             (identical(other.location, location) ||
                 other.location == location) &&
-            (identical(other.profileImageUrl, profileImageUrl) ||
-                other.profileImageUrl == profileImageUrl) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.bannerUrl, bannerUrl) ||
+                other.bannerUrl == bannerUrl) &&
+            (identical(other.birthdate, birthdate) ||
+                other.birthdate == birthdate) &&
+            (identical(other.isFollowed, isFollowed) ||
+                other.isFollowed == isFollowed) &&
+            (identical(other.isConfirmed, isConfirmed) ||
+                other.isConfirmed == isConfirmed) &&
+            (identical(other.isFollowing, isFollowing) ||
+                other.isFollowing == isFollowing) &&
+            (identical(other.isMuted, isMuted) || other.isMuted == isMuted) &&
+            (identical(other.isBlocked, isBlocked) ||
+                other.isBlocked == isBlocked) &&
+            (identical(other.isBlockingMe, isBlockingMe) ||
+                other.isBlockingMe == isBlockingMe) &&
+            (identical(other.followersCount, followersCount) ||
+                other.followersCount == followersCount) &&
+            (identical(other.followingsCount, followingsCount) ||
+                other.followingsCount == followingsCount));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, username, bio, website,
-      location, profileImageUrl, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      userId,
+      name,
+      username,
+      bio,
+      website,
+      location,
+      imageUrl,
+      bannerUrl,
+      birthdate,
+      isFollowed,
+      isConfirmed,
+      isFollowing,
+      isMuted,
+      isBlocked,
+      isBlockingMe,
+      followersCount,
+      followingsCount);
 
   @JsonKey(ignore: true)
   @override
@@ -265,20 +443,29 @@ class _$UserProfileImpl implements _UserProfile {
 
 abstract class _UserProfile implements UserProfile {
   const factory _UserProfile(
-      {final String? id,
+      {final String? userId,
       final String? name,
       final String? username,
       final String? bio,
       final String? website,
       final String? location,
-      final String? profileImageUrl,
-      final String? createdAt}) = _$UserProfileImpl;
+      final String? imageUrl,
+      final String? bannerUrl,
+      final String? birthdate,
+      final bool? isFollowed,
+      final bool? isConfirmed,
+      final bool? isFollowing,
+      final bool? isMuted,
+      final bool? isBlocked,
+      final bool? isBlockingMe,
+      final int? followersCount,
+      final int? followingsCount}) = _$UserProfileImpl;
 
   factory _UserProfile.fromJson(Map<String, dynamic> json) =
       _$UserProfileImpl.fromJson;
 
   @override
-  String? get id;
+  String? get userId;
   @override
   String? get name;
   @override
@@ -290,9 +477,27 @@ abstract class _UserProfile implements UserProfile {
   @override
   String? get location;
   @override
-  String? get profileImageUrl;
+  String? get imageUrl;
   @override
-  String? get createdAt;
+  String? get bannerUrl;
+  @override
+  String? get birthdate;
+  @override
+  bool? get isFollowed;
+  @override
+  bool? get isConfirmed;
+  @override
+  bool? get isFollowing;
+  @override
+  bool? get isMuted;
+  @override
+  bool? get isBlocked;
+  @override
+  bool? get isBlockingMe;
+  @override
+  int? get followersCount;
+  @override
+  int? get followingsCount;
   @override
   @JsonKey(ignore: true)
   _$$UserProfileImplCopyWith<_$UserProfileImpl> get copyWith =>

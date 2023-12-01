@@ -1,4 +1,4 @@
-const baseUrl = "http://18.212.103.71:2023/api/v1";
+const baseUrl = "http://10.0.2.2:2023/api/v1";
 
 class EndPoints {
   static const login = "/auth/signin";
@@ -14,11 +14,9 @@ class EndPoints {
   static const updatePicture = "/profile/updatePicture";
   static const deletePicture = "/profile/deletePicture";
   static const updateProfile = "/profile/update";
-  static const getUserProfile = "/profile/";
+  static getUserProfile(String userId) => "/profile/$userId";
 
-  static String getUserProfileUrl(String userId) {
-    return '$getUserProfile$userId';
-  }
+
   //Usage Example:
   // String userProfileUrl = EndPoints.getUserProfileUrl(userId);
 

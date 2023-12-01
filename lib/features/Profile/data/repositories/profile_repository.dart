@@ -24,7 +24,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<UserProfile?> fetchUserProfileData({required String userId}) async {
     try {
       var response =
-          await HttpClient.dio.get(EndPoints.getUserProfileUrl(userId));
+          await HttpClient.dio.get(EndPoints.getUserProfile(userId));
       
       if (response.statusCode == 200) {
         return userProfileFromJson(response.data);

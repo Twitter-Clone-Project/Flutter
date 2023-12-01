@@ -28,7 +28,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {
-      ref.read(userProfileProvider.notifier).fetchUserProfile("1");
+      ref.read(userProfileProvider.notifier).fetchUserProfile("27");
     });
     _tabcontroller = TabController(length: 4, vsync: this);
 
@@ -88,8 +88,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         CircleAvatar(
                           radius: profileImageDiameter / 2,
                           backgroundImage: NetworkImage(
-                            userProfile.profileImageUrl ??
-                                'https://your_default_image_url.jpg',
+                            userProfile.imageUrl ??
+                                'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiKoAufYiAR36mWljxnxgUSxlgyQf7PRyPn3axUZPdDid7Cv7mVEuTCaA0PriHdRLPurGgI4sVFjmB_fMtKBgd6KWu_bDKdqMywm-AL-iOX3c69obt2sqeX5KVQVqkzcE8-xG-28yRDXx7X6-ZaNRIUlYmABYmi_8XfFYuYs5IMPU0gv9EbyutqDAfk/s1600/Android%20Studio%20-%20Header.png',
                           ),
                         ),
                       ],
@@ -143,7 +143,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ),
                           SizedBox(height: 4),
                           Text(
-                            "@${userProfile.id}",
+                            "@${userProfile.userId}",
                             style: TextStyle(
                               color: AppColors.lightThinTextGray,
                             ),

@@ -11,7 +11,7 @@ void main() {
     });
 
     test('fetchUserProfileData returns UserProfile', () async {
-      final userId = '123';
+      final userId = '27';
       final userProfile = await profileRepository.fetchUserProfileData(userId: userId);
 
       expect(userProfile, isA<UserProfile>());

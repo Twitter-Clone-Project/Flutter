@@ -112,7 +112,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                       child: CircleAvatar(
                         radius: profileImageDiameter / 2,
                         backgroundImage: NetworkImage(
-                          userProfile.profileImageUrl ??
+                          userProfile.imageUrl ??
                               'https://images.pexels.com/photos/62389/pexels-photo-62389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
                         ),
                       ),

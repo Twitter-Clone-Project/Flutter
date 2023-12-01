@@ -31,7 +31,7 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case initRoute:
-        return MaterialPageRoute(builder: (_) => const AuthScreen());
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case introScreen:
         return MaterialPageRoute(builder: (_) => const IntroScreen());
       case addTweet:
