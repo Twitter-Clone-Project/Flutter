@@ -28,7 +28,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {
-      ref.read(userProfileProvider.notifier).fetchUserProfile("27");
+      ref.read(userProfileProvider.notifier).fetchUserProfile("1");
     });
     _tabcontroller = TabController(length: 4, vsync: this);
 
@@ -65,24 +65,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             flexibleSpace: Stack(
               children: [
                 Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: profileImageDiameter / 2,
-                  child: const Image(
+                  child: Image(
                     fit: BoxFit.cover,
                     image: NetworkImage(
                       "https://images.pexels.com/photos/62389/pexels-photo-62389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
                     ),
                   ),
-                ),
-                Positioned(
                   top: 0,
-                  bottom: 0,
                   left: 0,
                   right: 0,
+                  bottom: profileImageDiameter / 2,
+                ),
+                Positioned(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,8 +88,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         CircleAvatar(
                           radius: profileImageDiameter / 2,
                           backgroundImage: NetworkImage(
-                            userProfile.imageUrl ??
-                                'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiKoAufYiAR36mWljxnxgUSxlgyQf7PRyPn3axUZPdDid7Cv7mVEuTCaA0PriHdRLPurGgI4sVFjmB_fMtKBgd6KWu_bDKdqMywm-AL-iOX3c69obt2sqeX5KVQVqkzcE8-xG-28yRDXx7X6-ZaNRIUlYmABYmi_8XfFYuYs5IMPU0gv9EbyutqDAfk/s1600/Android%20Studio%20-%20Header.png',
+                            userProfile.profileImageUrl ??
+                                'https://your_default_image_url.jpg',
                           ),
                         ),
                         // Add your button here
@@ -107,6 +104,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       ],
                     ),
                   ),
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
                 ),
                 // Positioned for the button at the bottom right
 
@@ -116,7 +117,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               CircularIcon(
                 icon: Icons.search,
                 onPress: () {
-                  //TODO Search
+                  Navigator.pushNamed(context, Routes.editProfileScreen);
                 },
               ),
               PopupMenuButton(
@@ -135,39 +136,38 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             delegate: SliverChildListDelegate(
               [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            userProfile.name ?? "Mostafa",
-                            style: const TextStyle(
+                            userProfile?.name ?? "",
+                            style: TextStyle(
                               color: AppColors.whiteColor,
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          SizedBox(height: 4),
                           Text(
-                            // "@${userProfile.userId}",
-                            "@mou",
-                            style: const TextStyle(
+                            "@${userProfile.id}",
+                            style: TextStyle(
                               color: AppColors.lightThinTextGray,
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 16),
                           Text(
-                            userProfile.bio ?? "bioooo",
+                            userProfile.bio ?? "",
                             softWrap: true,
-                            style: const TextStyle(color: AppColors.whiteColor),
+                            style: TextStyle(color: AppColors.whiteColor),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 4.0,
@@ -175,14 +175,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.location_on_outlined,
                                 fill: 1,
                                 color: AppColors.lightThinTextGray,
                               ),
-                              const SizedBox(width: 4),
-                              Text(userProfile.location ?? "Egypt",
-                                  style: const TextStyle(
+                              SizedBox(width: 4),
+                              Text(userProfile.location ?? "",
+                                  style: TextStyle(
                                       color: AppColors.lightThinTextGray,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold))
@@ -191,18 +191,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.link_outlined,
                                 fill: 1,
                                 color: AppColors.lightThinTextGray,
                               ),
-                              const SizedBox(width: 4),
+                              SizedBox(width: 4),
                               Link(
-                                url_string: userProfile.website ?? "mou.com",
+                                url_string: userProfile.website ?? "",
                               )
                             ],
                           ),
-                          const Row(
+                          Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
@@ -223,21 +223,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           )
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 4.0,
                         children: [
                           Row(mainAxisSize: MainAxisSize.min, children: [
                             Text(FormatNumber(96),
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: AppColors.whiteColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold)),
                             const SizedBox(width: 4),
                             const Text(
                               "Following",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: AppColors.lightThinTextGray,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold),
@@ -264,7 +264,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ]),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       TabBar(
                         controller: _tabcontroller,
                         tabs: const [
@@ -274,19 +274,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           Tab(text: "Likes"),
                         ],
                       ),
-                      SizedBox(
+                      Container(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: TabBarView(
+                          
                           controller: _tabcontroller,
                           children: [
                             ListView(
+                              shrinkWrap: true,
                               children: [
                                 for (int i = 1; i <= 150; i++) Text("$i"),
                               ],
                             ),
-                            const Text("1"),
-                            const Text("3"),
-                            const Text("4"),
+                            Text("1"),
+                            Text("3"),
+                            Text("4"),
                           ],
                         ),
                       ),
@@ -315,7 +317,7 @@ class _AppBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(),
+      constraints: BoxConstraints(),
       decoration: const BoxDecoration(
         border: BorderDirectional(
           bottom: BorderSide(
@@ -326,17 +328,17 @@ class _AppBarButton extends StatelessWidget {
         ),
       ),
       child: TextButton(
-          style: TextButton.styleFrom(
-            foregroundColor: AppColors.whiteColor,
-          ),
-          onPressed: onPress,
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.whiteColor,
               fontWeight: FontWeight.bold,
             ),
-          )),
+          ),
+          style: TextButton.styleFrom(
+            foregroundColor: AppColors.whiteColor,
+          ),
+          onPressed: onPress),
     );
   }
 }
@@ -388,7 +390,7 @@ class Link extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         child: Text(_getUrlText(),
-            style: const TextStyle(
+            style: TextStyle(
                 color: AppColors.TwitterBlue,
                 fontSize: 14,
                 fontWeight: FontWeight.bold)),
