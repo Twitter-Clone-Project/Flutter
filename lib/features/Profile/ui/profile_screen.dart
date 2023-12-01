@@ -264,11 +264,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         ],
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
+                        height: 0.9 * mediaQuery.size.height,
                         child: TabBarView(
+                          
                           controller: _tabcontroller,
                           children: [
                             ListView(
+                              shrinkWrap: true,
                               children: [
                                 for (int i = 1; i <= 150; i++) Text("$i"),
                               ],
