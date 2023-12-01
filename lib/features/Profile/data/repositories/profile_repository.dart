@@ -1,21 +1,25 @@
 import 'package:x_clone/features/Profile/data/model/user_profile.dart';
 import 'package:x_clone/web_services/web_services.dart';
 import 'package:dio/dio.dart';
+import 'package:path/path.dart' as path;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class ProfileRepository {
   Future<UserProfile?> fetchUserProfileData({required String userId});
 
-  Future<bool?> updateUsername({required String newUsername});
+  // Future<bool?> updateUsername({required String newUsername});
 
-  Future<bool?> updateEmail({required String newEmail});
+  // Future<bool?> updateEmail({required String newEmail});
 
   Future<bool?> updateProfile(
-      {required String name,
-      required String bio,
-      required String website,
-      required String location});
-
+      {String? profilePhoto,
+        String? bannerPhoto,
+        String? name,
+        String? bio,
+        String? website,
+        String? location,
+        String? birthDate,
+      });
 // UserProfile? getUserData();
 }
 
@@ -24,8 +28,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<UserProfile?> fetchUserProfileData({required String userId}) async {
     try {
       var response =
-          await HttpClient.dio.get(EndPoints.getUserProfile(userId));
-      
+      await HttpClient.dio.get(EndPoints.getUserProfile(userId));
+
       if (response.statusCode == 200) {
         return userProfileFromJson(response.data);
       } else {
@@ -37,76 +41,80 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<bool?> updateUsername({required String newUsername}) async {
+  Future<bool?> updateProfile({String? profilePhoto,
+    String? bannerPhoto,
+    String? name,
+    String? bio,
+    String? website,
+    String? location,
+    String? birthDate,
+  }) async {
     try {
-      final data = {
-        "username": newUsername,
-      };
-      var response = await HttpClient.dio.patch(
-        EndPoints.updateUsername,
-        data: data,
-      );
-
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        throw (response.data["message"]);
-      }
-    } catch (e) {
-      throw e.toString();
-    }
-  }
-
-  @override
-  Future<bool?> updateEmail({required String newEmail}) async {
-    try {
-      final data = {
-        "email": newEmail,
-      };
-      var response = await HttpClient.dio.patch(
-        EndPoints.updateEmail,
-        data: data,
-      );
-
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        throw (response.data["message"]);
-      }
-    } catch (e) {
-      throw e.toString();
-    }
-  }
-
-  @override
-  Future<bool?> updateProfile(
-      {required String name,
-      required String bio,
-      required String website,
-      required String location}) async {
-    try {
-      final data = {
+      FormData data = FormData.fromMap({
+        "profilePhoto": await MultipartFile.fromFile(
+          profilePhoto!, filename: path.basename(profilePhoto!),),
+        "bannerPhoto": await MultipartFile.fromFile(
+          bannerPhoto!, filename: path.basename(bannerPhoto!),),
         "name": name,
         "bio": bio,
         "website": website,
         "location": location,
-      };
-      var response = await HttpClient.dio.patch(
-        EndPoints.updateProfile,
-        data: data,
-      );
+        "birthDate": birthDate,
+      });
 
-      if (response.statusCode == 200) {
+      var response = await HttpClient.dio.post(
+          EndPoints.updateProfile, data: data);
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
-      } else {
-        throw (response.data["message"]);
       }
+      throw(response.data["message"]);
     } catch (e) {
-      throw e.toString();
+      rethrow;
     }
   }
+  //
+  // @override
+  // Future<bool?> updateUsername({required String newUsername}) async {
+  //   try {
+  //     final data = {
+  //       "username": newUsername,
+  //     };
+  //     var response = await HttpClient.dio.patch(
+  //       EndPoints.updateUsername,
+  //       data: data,
+  //     );
+  //
+  //     if (response.statusCode == 200) {
+  //       return true;
+  //     } else {
+  //       throw (response.data["message"]);
+  //     }
+  //   } catch (e) {
+  //     throw e.toString();
+  //   }
+  // }
+  //
+  // @override
+  // Future<bool?> updateEmail({required String newEmail}) async {
+  //   try {
+  //     final data = {
+  //       "email": newEmail,
+  //     };
+  //     var response = await HttpClient.dio.patch(
+  //       EndPoints.updateEmail,
+  //       data: data,
+  //     );
+  //
+  //     if (response.statusCode == 200) {
+  //       return true;
+  //     } else {
+  //       throw (response.data["message"]);
+  //     }
+  //   } catch (e) {
+  //     throw e.toString();
+  //   }
+  // }
 }
-
-final ProfileRepositoryProvider = Provider<ProfileRepository>((ref) {
-  return ProfileRepositoryImpl();
-});
+  final ProfileRepositoryProvider = Provider<ProfileRepository>((ref) {
+    return ProfileRepositoryImpl();
+  });

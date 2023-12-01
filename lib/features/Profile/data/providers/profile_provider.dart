@@ -29,18 +29,49 @@ class UserProfileNotifier extends StateNotifier<UserProfileState> {
     }
   }
 
-  Future<void> updateUsername(String newUsername) async {
+  Future<void> updateUserProfile({
+    String? profilePhoto,
+    String? bannerPhoto,
+    String? name,
+    String? bio,
+    String? website,
+    String? location,
+    String? birthDate,
+  }) async {
     try {
       state = state.copyWith(isLoading: true, error: null);
-      final result = await _repo.updateUsername(newUsername: newUsername);
+      final result = await _repo.updateProfile(
+        profilePhoto: profilePhoto,
+        bannerPhoto: bannerPhoto,
+        name: name,
+        bio: bio,
+        website: website,
+        location: location,
+        birthDate: birthDate,
+      );
+
       if (result == true) {
-        // Handle success if needed
+        // Handle success if needed, for example, refetch the updated profile
       }
+
       state = state.copyWith(isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
+}
+
+// Future<void> updateUsername(String newUsername) async {
+  //   try {
+  //     state = state.copyWith(isLoading: true, error: null);
+  //     final result = await _repo.updateUsername(newUsername: newUsername);
+  //     if (result == true) {
+  //       // Handle success if needed
+  //     }
+  //     state = state.copyWith(isLoading: false);
+  //   } catch (e) {
+  //     state = state.copyWith(isLoading: false, error: e.toString());
+  //   }
+  // }
 
 // Optional: Add methods for handling state modifications like resetErrorMessage
-}

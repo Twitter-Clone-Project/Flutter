@@ -88,7 +88,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         CircleAvatar(
                           radius: profileImageDiameter / 2,
                           backgroundImage: NetworkImage(
-                            userProfile.profileImageUrl ??
+                            userProfile.imageUrl ??
                                 'https://your_default_image_url.jpg',
                           ),
                         ),
@@ -154,7 +154,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ),
                           SizedBox(height: 4),
                           Text(
-                            "@${userProfile.id}",
+                            "@${userProfile.userId}",
                             style: TextStyle(
                               color: AppColors.lightThinTextGray,
                             ),
