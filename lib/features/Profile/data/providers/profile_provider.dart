@@ -5,12 +5,14 @@ import 'package:x_clone/features/Profile/data/states/profile_state.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../home/data/models/home_response.dart';
+
 class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 
   final ProfileRepository profileRepository;
 
   ProfileNotifierProvider(this.profileRepository, [UserProfileState? state])
-      : super(state ?? const UserProfileState(loading: true, userProfile: UserProfile())) {
+      : super(state ?? const UserProfileState(loading: true, userProfile: UserProfile(imageUrl: "", bannerUrl: ""))) {
     // Additional initialization if needed
 
   }
@@ -53,7 +55,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     try {
       state = state.copyWith(loading: true, error: null);
       final userProfile = await profileRepository.fetchUserProfileData(username: username);
-      state = state.copyWith(loading: false, userProfile: userProfile?? const UserProfile());
+      state = state.copyWith(loading: false, userProfile: userProfile?? const UserProfile(imageUrl: "",bannerUrl: ""));
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
     }

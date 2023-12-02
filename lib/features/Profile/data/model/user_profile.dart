@@ -6,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 
 import '../../../auth/data/model/user.dart';
+import '../../../home/data/models/home_response.dart';
 
 part 'user_profile.freezed.dart';
 part 'user_profile.g.dart';
@@ -23,8 +24,8 @@ class UserProfile with _$UserProfile {
     String? bio,
     String? website,
     String? location,
-    String? imageUrl,
-    String? bannerUrl,
+    @Default("https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png") String imageUrl,
+    @Default("https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png") String bannerUrl,
     String? birthdate,
     // String? CreatedAt,
     bool? isFollowed,
@@ -56,23 +57,4 @@ class ProfileTweetsResponse with _$ProfileTweetsResponse {
   }) = _ProfileTweetsResponse;
   factory ProfileTweetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ProfileTweetsResponseFromJson(json);
-}
-
-@freezed
-class Tweet with _$Tweet {
-  const factory Tweet({
-    String? id,
-    String? text,
-    String? createdAt,
-    bool? isRetweet,
-    User? user,
-    bool? isLiked,
-    bool? isRetweeted,
-    bool? isReplied,
-    int? likesCount,
-    int? retweetsCount,
-    int? repliesCount,
-  }) = _Tweet;
-  factory Tweet.fromJson(Map<String, dynamic> json) =>
-      _$TweetFromJson(json);
 }

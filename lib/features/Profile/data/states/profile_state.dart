@@ -8,7 +8,7 @@ part 'profile_state.freezed.dart';
 class UserProfileState with _$UserProfileState {
   const factory UserProfileState({
     @Default(ProfileTweetsResponse(data: [],total:0)) ProfileTweetsResponse profileTweetsResponse,
-    @Default(UserProfile()) UserProfile userprofile,
+    @Default(UserProfile(imageUrl: "", bannerUrl: "")) UserProfile userprofile,
     @Default(null) String? errorMessage,
     @Default(true) bool loading,
     @Default(0) int screenIndex,

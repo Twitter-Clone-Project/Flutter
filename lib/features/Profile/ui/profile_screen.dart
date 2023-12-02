@@ -1,18 +1,22 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:x_clone/features/auth/data/model/user.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:x_clone/features/Profile/data/states/profile_state.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 
 import '../../../app/routes.dart';
 
 import 'package:x_clone/web_services/web_services.dart';
+
+import '../../../app/widgets/tweet_UI.dart';
+import '../../../theme/app_assets.dart';
 
 class ProfileScreen extends StatefulHookConsumerWidget {
   const ProfileScreen({super.key});
@@ -23,13 +27,15 @@ class ProfileScreen extends StatefulHookConsumerWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen>
     with TickerProviderStateMixin {
-
+  final RefreshController _controller = RefreshController();
+  int pageIndex = 0;
   late TabController _tabcontroller;
 
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {
-      ref.read(profileNotifierProvider.notifier).fetchUserProfile("mou");
+      var username = ref.read(authNotifierProvider).user?.username;
+      ref.read(profileNotifierProvider.notifier).fetchUserProfile(username!);
 
 
     });
@@ -42,7 +48,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final userProfile = ref.watch(profileNotifierProvider).userProfile;
-
+    print("Opening profile of ${userProfile.username}");
     // final isLoading = userProfileState.isLoading;
 
     var backgroundImageHeight = mediaQuery.size.height * 0.15;
@@ -59,8 +65,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            iconTheme: const IconThemeData(color: Colors.white,
+            ),
             expandedHeight: backgroundImageHeight + profileImageDiameter / 2,
-            floating: false,
+            floating: true,
             pinned: false,
             stretch: true,
             backgroundColor: Colors.transparent,
@@ -71,10 +79,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   left: 0,
                   right: 0,
                   bottom: profileImageDiameter / 2,
-                  child: const Image(
+                  child: Image(
                     fit: BoxFit.cover,
                     image: NetworkImage(
-                      "https://images.pexels.com/photos/62389/pexels-photo-62389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+                        userProfile.bannerUrl
                     ),
                   ),
                 ),
@@ -91,11 +99,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        CircleAvatar(
-                          radius: profileImageDiameter / 2,
-                          backgroundImage: NetworkImage(
-                            userProfile.imageUrl ??
-                                'https://images.pexels.com/photos/62389/pexels-photo-62389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+                        Container(
+                          padding: EdgeInsets.all(2.5), // Adjust the padding to control the border width
+                          decoration: BoxDecoration(
+                            color: Colors.black, // Set the color of the border
+                            shape: BoxShape.circle,
+
+                          ),
+                          child: CircleAvatar(
+                            radius: profileImageDiameter / 2,
+                            backgroundImage: NetworkImage(
+                              userProfile.imageUrl,
+                            ),
                           ),
                         ),
                         // Add your button here
@@ -111,7 +126,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                   ),
                 ),
-                // Positioned for the button at the bottom right
 
               ],
             ),
@@ -121,6 +135,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 onPress: () {
                   _onRefresh();
                 },
+
               ),
               PopupMenuButton(
                 child: const CircularIcon(icon: Icons.more_vert),
@@ -142,7 +157,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 8),
+                      SizedBox(height: 16),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -150,11 +165,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             userProfile.name ?? "",
                             style: const TextStyle(
                               color: AppColors.whiteColor,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 2),
                           Text(
                             "@${userProfile.username}",
                             style: const TextStyle(
@@ -163,7 +178,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            userProfile.bio ?? "",
+                            userProfile.bio ?? "No Bio Provided",
                             softWrap: true,
                             style: const TextStyle(color: AppColors.whiteColor),
                           ),
@@ -183,7 +198,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 color: AppColors.lightThinTextGray,
                               ),
                               const SizedBox(width: 4),
-                              Text(userProfile.location ?? "",
+                              Text(userProfile.location ?? "No Location Provided",
                                   style: const TextStyle(
                                       color: AppColors.lightThinTextGray,
                                       fontSize: 14,
@@ -200,7 +215,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ),
                               const SizedBox(width: 4),
                               Link(
-                                url_string: userProfile.website ?? "",
+                                url_string: userProfile.website ?? "NoWebsiteProvided.com",
                               )
                             ],
                           ),
@@ -231,7 +246,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         runSpacing: 4.0,
                         children: [
                           Row(mainAxisSize: MainAxisSize.min, children: [
-                            Text(FormatNumber(96),
+                            Text(userProfile.followingsCount?? "0",
                                 style: const TextStyle(
                                     color: AppColors.whiteColor,
                                     fontSize: 16,
@@ -247,7 +262,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ]),
                           Row(mainAxisSize: MainAxisSize.min, children: [
                             Text(
-                              FormatNumber(10100),
+                              userProfile.followersCount?? "0",
                               style: const TextStyle(
                                 color: AppColors.whiteColor,
                                 fontSize: 16,
@@ -277,17 +292,82 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         ],
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.9,
                         child: TabBarView(
-                          
+
                           controller: _tabcontroller,
                           children: [
-                            ListView(
-                              shrinkWrap: true,
-                              children: [
-                                for (int i = 1; i <= 150; i++) Text("$i"),
-                              ],
+                            Scaffold(
+                        body: ref.watch(profileNotifierProvider).loading?
+
+                        const Center(child: CircularProgressIndicator()):
+                        ref.watch(profileNotifierProvider).profileTweetsResponse.data.isEmpty
+                            ? const Center(
+                          child: Text("No Tweets"),
+                        )
+
+                            :Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                              child: Row(
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                      Scaffold.of(context).openDrawer();
+                                    },
+                                    child: CircleAvatar(
+                                      child: CachedNetworkImage(
+                                        height: MediaQuery.of(context).size.height * 0.05,
+                                        width: MediaQuery.of(context).size.height * 0.05,
+                                        fit: BoxFit.scaleDown ,
+                                        color: AppColors.primaryColor,
+                                        imageUrl: "${ref.watch(profileNotifierProvider).profileTweetsResponse.data[0].user?.profileImageURL}",
+                                        placeholder: (context, url) =>
+                                            SvgPicture.asset(AppAssets.logo,colorFilter: const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn) , fit: BoxFit.cover),
+                                        errorWidget: (context, url, error) =>
+                                            SvgPicture.asset(AppAssets.logo,colorFilter: const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn) , fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  ),
+                                  Spacer()
+                                ],
+                              ),
                             ),
+                            Expanded(
+                              child: SizedBox(
+                                height: double.infinity,
+                                child: SmartRefresher(
+                                  controller: _controller,
+                                  enablePullDown: true,
+                                  enablePullUp: true,
+                                  footer: const ClassicFooter(
+                                    loadingText: 'Load for more',
+                                  ),
+                                  onLoading: _onLoading,
+                                  onRefresh: _onRefresh,
+                                  child: ListView.separated(
+                                    itemCount: ref.watch(profileNotifierProvider).profileTweetsResponse.data!.length,
+                                    itemBuilder: (BuildContext context, int index) =>TweetCompose(
+                                      tweet: ref.watch(profileNotifierProvider).profileTweetsResponse.data![index],
+                                    ), separatorBuilder: (BuildContext context, int index) => const Divider(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        floatingActionButton: FloatingActionButton(
+                          backgroundColor: AppColors.primaryColor,
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.profileScreen);
+                          },
+                          child: const Icon(
+                            Icons.add,
+                            color: AppColors.whiteColor,
+                          ),
+                        ),
+                      ),
                             const Text("1"),
                             const Text("3"),
                             const Text("4"),
@@ -302,37 +382,36 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ),
         ],
       ),
-    );
-  }
+
+    );}
 
 
 
   void _onRefresh() async {
     await loadData();
-    // Add a setState or refresh call here if needed
-    // _tabcontroller.refreshCompleted();
+    _controller.refreshCompleted();
   }
 
-  // void _onLoading() async {
-  //   final provider = ref.read(homeNotifierProvider);
-  //
-  //   if (provider.homeResponse.data?.length ==
-  //       provider.homeResponse.total) {
-  //     _controller.loadNoData();
-  //   } else {
-  //     if (pageIndex == 0) pageIndex++;
-  //     pageIndex++;
-  //     await loadData();
-  //     _controller.loadComplete();
-  //   }
-  // }
+  void _onLoading() async {
+    final provider = ref.read(profileNotifierProvider);
+
+    if (provider.profileTweetsResponse.data.length ==
+        provider.profileTweetsResponse.total) {
+      _controller.loadNoData();
+    } else {
+      if (pageIndex == 0) pageIndex++;
+      pageIndex++;
+      await loadData();
+      _controller.loadComplete();
+    }
+  }
 
   loadData() async {
     await ref.read(profileNotifierProvider.notifier).fetchUserProfile("mou");
 
   }
-  // @override
-  // bool get wantKeepAlive => true;
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _AppBarButton extends StatelessWidget {
@@ -428,3 +507,8 @@ class Link extends StatelessWidget {
         onTap: () => _launchUrl());
   }
 }
+
+
+
+
+
