@@ -7,9 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 abstract class ProfileRepository {
   Future<UserProfile?> fetchUserProfileData({required String username});
 
-  // Future<bool?> updateUsername({required String newUsername});
-
-  // Future<bool?> updateEmail({required String newEmail});
+  getUserTweets(String userId, int page);
 
   Future<bool?> updateProfile(
       {String? profilePhoto,
@@ -20,21 +18,37 @@ abstract class ProfileRepository {
         String? location,
         String? birthDate,
       });
-// UserProfile? getUserData();
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
   @override
-  Future<UserProfile?> fetchUserProfileData({required String username}) async {
+  Future<UserProfile> fetchUserProfileData({required String username}) async {
     try {
       var response =
       await HttpClient.dio.get(EndPoints.getUserProfile(username));
 
-      if (response.statusCode == 200) {
-        return UserProfile.fromJson(response.data);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var userProfile = UserProfile.fromJson(response.data["data"]["user"]);
+        print("Username: ${userProfile.username}");
+
+        return UserProfile.fromJson(response.data["data"]["user"]);
       } else {
         throw (response.data["message"]);
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  getUserTweets(String userId, int page) async {
+    try {
+      var response = await HttpClient.dio.get(EndPoints.getUserTweets(userId, page));
+
+      if(response.statusCode == 200||response.statusCode == 201){
+        return ProfileTweetsResponse.fromJson(response.data);
+      }
+      return const ProfileTweetsResponse(data: [],total:0);
     } catch (e) {
       rethrow;
     }
@@ -115,6 +129,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
   //   }
   // }
 }
-  final ProfileRepositoryProvider = Provider<ProfileRepository>((ref) {
+  final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
     return ProfileRepositoryImpl();
   });

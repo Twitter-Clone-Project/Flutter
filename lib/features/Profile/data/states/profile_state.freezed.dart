@@ -16,7 +16,13 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$UserProfileState {
-  bool get isLoading => throw _privateConstructorUsedError;
+  ProfileTweetsResponse get profileTweetsResponse =>
+      throw _privateConstructorUsedError;
+  UserProfile get userprofile => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
+  bool get loading => throw _privateConstructorUsedError;
+  int get screenIndex => throw _privateConstructorUsedError;
+  int get pageIndex => throw _privateConstructorUsedError;
   UserProfile get userProfile => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
@@ -31,8 +37,18 @@ abstract class $UserProfileStateCopyWith<$Res> {
           UserProfileState value, $Res Function(UserProfileState) then) =
       _$UserProfileStateCopyWithImpl<$Res, UserProfileState>;
   @useResult
-  $Res call({bool isLoading, UserProfile userProfile, String? error});
+  $Res call(
+      {ProfileTweetsResponse profileTweetsResponse,
+      UserProfile userprofile,
+      String? errorMessage,
+      bool loading,
+      int screenIndex,
+      int pageIndex,
+      UserProfile userProfile,
+      String? error});
 
+  $ProfileTweetsResponseCopyWith<$Res> get profileTweetsResponse;
+  $UserProfileCopyWith<$Res> get userprofile;
   $UserProfileCopyWith<$Res> get userProfile;
 }
 
@@ -49,15 +65,40 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
+    Object? profileTweetsResponse = null,
+    Object? userprofile = null,
+    Object? errorMessage = freezed,
+    Object? loading = null,
+    Object? screenIndex = null,
+    Object? pageIndex = null,
     Object? userProfile = null,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
+      profileTweetsResponse: null == profileTweetsResponse
+          ? _value.profileTweetsResponse
+          : profileTweetsResponse // ignore: cast_nullable_to_non_nullable
+              as ProfileTweetsResponse,
+      userprofile: null == userprofile
+          ? _value.userprofile
+          : userprofile // ignore: cast_nullable_to_non_nullable
+              as UserProfile,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
               as bool,
+      screenIndex: null == screenIndex
+          ? _value.screenIndex
+          : screenIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      pageIndex: null == pageIndex
+          ? _value.pageIndex
+          : pageIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       userProfile: null == userProfile
           ? _value.userProfile
           : userProfile // ignore: cast_nullable_to_non_nullable
@@ -67,6 +108,23 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ProfileTweetsResponseCopyWith<$Res> get profileTweetsResponse {
+    return $ProfileTweetsResponseCopyWith<$Res>(_value.profileTweetsResponse,
+        (value) {
+      return _then(_value.copyWith(profileTweetsResponse: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserProfileCopyWith<$Res> get userprofile {
+    return $UserProfileCopyWith<$Res>(_value.userprofile, (value) {
+      return _then(_value.copyWith(userprofile: value) as $Val);
+    });
   }
 
   @override
@@ -86,8 +144,20 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       __$$UserProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, UserProfile userProfile, String? error});
+  $Res call(
+      {ProfileTweetsResponse profileTweetsResponse,
+      UserProfile userprofile,
+      String? errorMessage,
+      bool loading,
+      int screenIndex,
+      int pageIndex,
+      UserProfile userProfile,
+      String? error});
 
+  @override
+  $ProfileTweetsResponseCopyWith<$Res> get profileTweetsResponse;
+  @override
+  $UserProfileCopyWith<$Res> get userprofile;
   @override
   $UserProfileCopyWith<$Res> get userProfile;
 }
@@ -103,15 +173,40 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
+    Object? profileTweetsResponse = null,
+    Object? userprofile = null,
+    Object? errorMessage = freezed,
+    Object? loading = null,
+    Object? screenIndex = null,
+    Object? pageIndex = null,
     Object? userProfile = null,
     Object? error = freezed,
   }) {
     return _then(_$UserProfileStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
+      profileTweetsResponse: null == profileTweetsResponse
+          ? _value.profileTweetsResponse
+          : profileTweetsResponse // ignore: cast_nullable_to_non_nullable
+              as ProfileTweetsResponse,
+      userprofile: null == userprofile
+          ? _value.userprofile
+          : userprofile // ignore: cast_nullable_to_non_nullable
+              as UserProfile,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
               as bool,
+      screenIndex: null == screenIndex
+          ? _value.screenIndex
+          : screenIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      pageIndex: null == pageIndex
+          ? _value.pageIndex
+          : pageIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       userProfile: null == userProfile
           ? _value.userProfile
           : userProfile // ignore: cast_nullable_to_non_nullable
@@ -128,10 +223,34 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
 
 class _$UserProfileStateImpl implements _UserProfileState {
   const _$UserProfileStateImpl(
-      {required this.isLoading, required this.userProfile, this.error});
+      {this.profileTweetsResponse =
+          const ProfileTweetsResponse(data: [], total: 0),
+      this.userprofile = const UserProfile(),
+      this.errorMessage = null,
+      this.loading = true,
+      this.screenIndex = 0,
+      this.pageIndex = 0,
+      required this.userProfile,
+      this.error});
 
   @override
-  final bool isLoading;
+  @JsonKey()
+  final ProfileTweetsResponse profileTweetsResponse;
+  @override
+  @JsonKey()
+  final UserProfile userprofile;
+  @override
+  @JsonKey()
+  final String? errorMessage;
+  @override
+  @JsonKey()
+  final bool loading;
+  @override
+  @JsonKey()
+  final int screenIndex;
+  @override
+  @JsonKey()
+  final int pageIndex;
   @override
   final UserProfile userProfile;
   @override
@@ -139,7 +258,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
 
   @override
   String toString() {
-    return 'UserProfileState(isLoading: $isLoading, userProfile: $userProfile, error: $error)';
+    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, userprofile: $userprofile, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex, pageIndex: $pageIndex, userProfile: $userProfile, error: $error)';
   }
 
   @override
@@ -147,15 +266,33 @@ class _$UserProfileStateImpl implements _UserProfileState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserProfileStateImpl &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
+            (identical(other.profileTweetsResponse, profileTweetsResponse) ||
+                other.profileTweetsResponse == profileTweetsResponse) &&
+            (identical(other.userprofile, userprofile) ||
+                other.userprofile == userprofile) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage) &&
+            (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.screenIndex, screenIndex) ||
+                other.screenIndex == screenIndex) &&
+            (identical(other.pageIndex, pageIndex) ||
+                other.pageIndex == pageIndex) &&
             (identical(other.userProfile, userProfile) ||
                 other.userProfile == userProfile) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, userProfile, error);
+  int get hashCode => Object.hash(
+      runtimeType,
+      profileTweetsResponse,
+      userprofile,
+      errorMessage,
+      loading,
+      screenIndex,
+      pageIndex,
+      userProfile,
+      error);
 
   @JsonKey(ignore: true)
   @override
@@ -167,12 +304,27 @@ class _$UserProfileStateImpl implements _UserProfileState {
 
 abstract class _UserProfileState implements UserProfileState {
   const factory _UserProfileState(
-      {required final bool isLoading,
+      {final ProfileTweetsResponse profileTweetsResponse,
+      final UserProfile userprofile,
+      final String? errorMessage,
+      final bool loading,
+      final int screenIndex,
+      final int pageIndex,
       required final UserProfile userProfile,
       final String? error}) = _$UserProfileStateImpl;
 
   @override
-  bool get isLoading;
+  ProfileTweetsResponse get profileTweetsResponse;
+  @override
+  UserProfile get userprofile;
+  @override
+  String? get errorMessage;
+  @override
+  bool get loading;
+  @override
+  int get screenIndex;
+  @override
+  int get pageIndex;
   @override
   UserProfile get userProfile;
   @override

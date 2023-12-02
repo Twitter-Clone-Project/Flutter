@@ -23,12 +23,15 @@ class ProfileScreen extends StatefulHookConsumerWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen>
     with TickerProviderStateMixin {
+
   late TabController _tabcontroller;
 
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {
-      ref.read(userProfileProvider.notifier).fetchUserProfile("1");
+      ref.read(profileNotifierProvider.notifier).fetchUserProfile("mou");
+
+
     });
     _tabcontroller = TabController(length: 4, vsync: this);
 
@@ -38,10 +41,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+    final userProfile = ref.watch(profileNotifierProvider).userProfile;
 
-    final userProfileState = ref.watch(userProfileProvider);
-    final userProfile = userProfileState.userProfile;
-    final isLoading = userProfileState.isLoading;
+    // final isLoading = userProfileState.isLoading;
 
     var backgroundImageHeight = mediaQuery.size.height * 0.15;
     var profileImageDiameter = mediaQuery.size.width * 0.25;
@@ -65,18 +67,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             flexibleSpace: Stack(
               children: [
                 Positioned(
-                  child: Image(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: profileImageDiameter / 2,
+                  child: const Image(
                     fit: BoxFit.cover,
                     image: NetworkImage(
                       "https://images.pexels.com/photos/62389/pexels-photo-62389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
                     ),
                   ),
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: profileImageDiameter / 2,
                 ),
                 Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
@@ -89,7 +95,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           radius: profileImageDiameter / 2,
                           backgroundImage: NetworkImage(
                             userProfile.imageUrl ??
-                                'https://your_default_image_url.jpg',
+                                'https://images.pexels.com/photos/62389/pexels-photo-62389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
                           ),
                         ),
                         // Add your button here
@@ -104,10 +110,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       ],
                     ),
                   ),
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
                 ),
                 // Positioned for the button at the bottom right
 
@@ -117,11 +119,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               CircularIcon(
                 icon: Icons.search,
                 onPress: () {
-                  Navigator.pushNamed(context, Routes.editProfileScreen);
+                  _onRefresh();
                 },
               ),
               PopupMenuButton(
-                child: CircularIcon(icon: Icons.more_vert),
+                child: const CircularIcon(icon: Icons.more_vert),
                 onSelected: (value) {},
                 itemBuilder: (context) {
                   return actionMenu
@@ -145,29 +147,29 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            userProfile?.name ?? "",
-                            style: TextStyle(
+                            userProfile.name ?? "",
+                            style: const TextStyle(
                               color: AppColors.whiteColor,
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
-                            "@${userProfile.userId}",
-                            style: TextStyle(
+                            "@${userProfile.username}",
+                            style: const TextStyle(
                               color: AppColors.lightThinTextGray,
                             ),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Text(
                             userProfile.bio ?? "",
                             softWrap: true,
-                            style: TextStyle(color: AppColors.whiteColor),
+                            style: const TextStyle(color: AppColors.whiteColor),
                           ),
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 4.0,
@@ -175,14 +177,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.location_on_outlined,
                                 fill: 1,
                                 color: AppColors.lightThinTextGray,
                               ),
-                              SizedBox(width: 4),
+                              const SizedBox(width: 4),
                               Text(userProfile.location ?? "",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: AppColors.lightThinTextGray,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold))
@@ -191,18 +193,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.link_outlined,
                                 fill: 1,
                                 color: AppColors.lightThinTextGray,
                               ),
-                              SizedBox(width: 4),
+                              const SizedBox(width: 4),
                               Link(
                                 url_string: userProfile.website ?? "",
                               )
                             ],
                           ),
-                          Row(
+                          const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(
@@ -223,21 +225,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           )
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 4.0,
                         children: [
                           Row(mainAxisSize: MainAxisSize.min, children: [
                             Text(FormatNumber(96),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: AppColors.whiteColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold)),
                             const SizedBox(width: 4),
                             const Text(
                               "Following",
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: AppColors.lightThinTextGray,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold),
@@ -264,7 +266,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ]),
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       TabBar(
                         controller: _tabcontroller,
                         tabs: const [
@@ -274,7 +276,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           Tab(text: "Likes"),
                         ],
                       ),
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: TabBarView(
                           
@@ -286,9 +288,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 for (int i = 1; i <= 150; i++) Text("$i"),
                               ],
                             ),
-                            Text("1"),
-                            Text("3"),
-                            Text("4"),
+                            const Text("1"),
+                            const Text("3"),
+                            const Text("4"),
                           ],
                         ),
                       ),
@@ -302,6 +304,35 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       ),
     );
   }
+
+
+
+  void _onRefresh() async {
+    await loadData();
+    // Add a setState or refresh call here if needed
+    // _tabcontroller.refreshCompleted();
+  }
+
+  // void _onLoading() async {
+  //   final provider = ref.read(homeNotifierProvider);
+  //
+  //   if (provider.homeResponse.data?.length ==
+  //       provider.homeResponse.total) {
+  //     _controller.loadNoData();
+  //   } else {
+  //     if (pageIndex == 0) pageIndex++;
+  //     pageIndex++;
+  //     await loadData();
+  //     _controller.loadComplete();
+  //   }
+  // }
+
+  loadData() async {
+    await ref.read(profileNotifierProvider.notifier).fetchUserProfile("mou");
+
+  }
+  // @override
+  // bool get wantKeepAlive => true;
 }
 
 class _AppBarButton extends StatelessWidget {

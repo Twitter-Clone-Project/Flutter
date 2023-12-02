@@ -28,15 +28,16 @@ mixin _$UserProfile {
   String? get location => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   String? get bannerUrl => throw _privateConstructorUsedError;
-  String? get birthdate => throw _privateConstructorUsedError;
+  String? get birthdate =>
+      throw _privateConstructorUsedError; // String? CreatedAt,
   bool? get isFollowed => throw _privateConstructorUsedError;
   bool? get isConfirmed => throw _privateConstructorUsedError;
   bool? get isFollowing => throw _privateConstructorUsedError;
   bool? get isMuted => throw _privateConstructorUsedError;
   bool? get isBlocked => throw _privateConstructorUsedError;
   bool? get isBlockingMe => throw _privateConstructorUsedError;
-  int? get followersCount => throw _privateConstructorUsedError;
-  int? get followingsCount => throw _privateConstructorUsedError;
+  String? get followersCount => throw _privateConstructorUsedError;
+  String? get followingsCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -66,8 +67,8 @@ abstract class $UserProfileCopyWith<$Res> {
       bool? isMuted,
       bool? isBlocked,
       bool? isBlockingMe,
-      int? followersCount,
-      int? followingsCount});
+      String? followersCount,
+      String? followingsCount});
 }
 
 /// @nodoc
@@ -165,11 +166,11 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
       followersCount: freezed == followersCount
           ? _value.followersCount
           : followersCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       followingsCount: freezed == followingsCount
           ? _value.followingsCount
           : followingsCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
     ) as $Val);
   }
 }
@@ -198,8 +199,8 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       bool? isMuted,
       bool? isBlocked,
       bool? isBlockingMe,
-      int? followersCount,
-      int? followingsCount});
+      String? followersCount,
+      String? followingsCount});
 }
 
 /// @nodoc
@@ -295,11 +296,11 @@ class __$$UserProfileImplCopyWithImpl<$Res>
       followersCount: freezed == followersCount
           ? _value.followersCount
           : followersCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       followingsCount: freezed == followingsCount
           ? _value.followingsCount
           : followingsCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
     ));
   }
 }
@@ -347,6 +348,7 @@ class _$UserProfileImpl implements _UserProfile {
   final String? bannerUrl;
   @override
   final String? birthdate;
+// String? CreatedAt,
   @override
   final bool? isFollowed;
   @override
@@ -360,9 +362,9 @@ class _$UserProfileImpl implements _UserProfile {
   @override
   final bool? isBlockingMe;
   @override
-  final int? followersCount;
+  final String? followersCount;
   @override
-  final int? followingsCount;
+  final String? followingsCount;
 
   @override
   String toString() {
@@ -458,8 +460,8 @@ abstract class _UserProfile implements UserProfile {
       final bool? isMuted,
       final bool? isBlocked,
       final bool? isBlockingMe,
-      final int? followersCount,
-      final int? followingsCount}) = _$UserProfileImpl;
+      final String? followersCount,
+      final String? followingsCount}) = _$UserProfileImpl;
 
   factory _UserProfile.fromJson(Map<String, dynamic> json) =
       _$UserProfileImpl.fromJson;
@@ -482,7 +484,7 @@ abstract class _UserProfile implements UserProfile {
   String? get bannerUrl;
   @override
   String? get birthdate;
-  @override
+  @override // String? CreatedAt,
   bool? get isFollowed;
   @override
   bool? get isConfirmed;
@@ -495,11 +497,551 @@ abstract class _UserProfile implements UserProfile {
   @override
   bool? get isBlockingMe;
   @override
-  int? get followersCount;
+  String? get followersCount;
   @override
-  int? get followingsCount;
+  String? get followingsCount;
   @override
   @JsonKey(ignore: true)
   _$$UserProfileImplCopyWith<_$UserProfileImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ProfileTweetsResponse _$ProfileTweetsResponseFromJson(
+    Map<String, dynamic> json) {
+  return _ProfileTweetsResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ProfileTweetsResponse {
+  List<Tweet> get data => throw _privateConstructorUsedError;
+  int? get total => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ProfileTweetsResponseCopyWith<ProfileTweetsResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ProfileTweetsResponseCopyWith<$Res> {
+  factory $ProfileTweetsResponseCopyWith(ProfileTweetsResponse value,
+          $Res Function(ProfileTweetsResponse) then) =
+      _$ProfileTweetsResponseCopyWithImpl<$Res, ProfileTweetsResponse>;
+  @useResult
+  $Res call({List<Tweet> data, int? total});
+}
+
+/// @nodoc
+class _$ProfileTweetsResponseCopyWithImpl<$Res,
+        $Val extends ProfileTweetsResponse>
+    implements $ProfileTweetsResponseCopyWith<$Res> {
+  _$ProfileTweetsResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? total = freezed,
+  }) {
+    return _then(_value.copyWith(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Tweet>,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ProfileTweetsResponseImplCopyWith<$Res>
+    implements $ProfileTweetsResponseCopyWith<$Res> {
+  factory _$$ProfileTweetsResponseImplCopyWith(
+          _$ProfileTweetsResponseImpl value,
+          $Res Function(_$ProfileTweetsResponseImpl) then) =
+      __$$ProfileTweetsResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<Tweet> data, int? total});
+}
+
+/// @nodoc
+class __$$ProfileTweetsResponseImplCopyWithImpl<$Res>
+    extends _$ProfileTweetsResponseCopyWithImpl<$Res,
+        _$ProfileTweetsResponseImpl>
+    implements _$$ProfileTweetsResponseImplCopyWith<$Res> {
+  __$$ProfileTweetsResponseImplCopyWithImpl(_$ProfileTweetsResponseImpl _value,
+      $Res Function(_$ProfileTweetsResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? total = freezed,
+  }) {
+    return _then(_$ProfileTweetsResponseImpl(
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Tweet>,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ProfileTweetsResponseImpl implements _ProfileTweetsResponse {
+  const _$ProfileTweetsResponseImpl(
+      {final List<Tweet> data = const [], this.total})
+      : _data = data;
+
+  factory _$ProfileTweetsResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ProfileTweetsResponseImplFromJson(json);
+
+  final List<Tweet> _data;
+  @override
+  @JsonKey()
+  List<Tweet> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  @override
+  final int? total;
+
+  @override
+  String toString() {
+    return 'ProfileTweetsResponse(data: $data, total: $total)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileTweetsResponseImpl &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.total, total) || other.total == total));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_data), total);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProfileTweetsResponseImplCopyWith<_$ProfileTweetsResponseImpl>
+      get copyWith => __$$ProfileTweetsResponseImplCopyWithImpl<
+          _$ProfileTweetsResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ProfileTweetsResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ProfileTweetsResponse implements ProfileTweetsResponse {
+  const factory _ProfileTweetsResponse(
+      {final List<Tweet> data, final int? total}) = _$ProfileTweetsResponseImpl;
+
+  factory _ProfileTweetsResponse.fromJson(Map<String, dynamic> json) =
+      _$ProfileTweetsResponseImpl.fromJson;
+
+  @override
+  List<Tweet> get data;
+  @override
+  int? get total;
+  @override
+  @JsonKey(ignore: true)
+  _$$ProfileTweetsResponseImplCopyWith<_$ProfileTweetsResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+Tweet _$TweetFromJson(Map<String, dynamic> json) {
+  return _Tweet.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Tweet {
+  String? get id => throw _privateConstructorUsedError;
+  String? get text => throw _privateConstructorUsedError;
+  String? get createdAt => throw _privateConstructorUsedError;
+  bool? get isRetweet => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
+  bool? get isLiked => throw _privateConstructorUsedError;
+  bool? get isRetweeted => throw _privateConstructorUsedError;
+  bool? get isReplied => throw _privateConstructorUsedError;
+  int? get likesCount => throw _privateConstructorUsedError;
+  int? get retweetsCount => throw _privateConstructorUsedError;
+  int? get repliesCount => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TweetCopyWith<Tweet> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TweetCopyWith<$Res> {
+  factory $TweetCopyWith(Tweet value, $Res Function(Tweet) then) =
+      _$TweetCopyWithImpl<$Res, Tweet>;
+  @useResult
+  $Res call(
+      {String? id,
+      String? text,
+      String? createdAt,
+      bool? isRetweet,
+      User? user,
+      bool? isLiked,
+      bool? isRetweeted,
+      bool? isReplied,
+      int? likesCount,
+      int? retweetsCount,
+      int? repliesCount});
+
+  $UserCopyWith<$Res>? get user;
+}
+
+/// @nodoc
+class _$TweetCopyWithImpl<$Res, $Val extends Tweet>
+    implements $TweetCopyWith<$Res> {
+  _$TweetCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? text = freezed,
+    Object? createdAt = freezed,
+    Object? isRetweet = freezed,
+    Object? user = freezed,
+    Object? isLiked = freezed,
+    Object? isRetweeted = freezed,
+    Object? isReplied = freezed,
+    Object? likesCount = freezed,
+    Object? retweetsCount = freezed,
+    Object? repliesCount = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      text: freezed == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isRetweet: freezed == isRetweet
+          ? _value.isRetweet
+          : isRetweet // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
+      isLiked: freezed == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isRetweeted: freezed == isRetweeted
+          ? _value.isRetweeted
+          : isRetweeted // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isReplied: freezed == isReplied
+          ? _value.isReplied
+          : isReplied // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      likesCount: freezed == likesCount
+          ? _value.likesCount
+          : likesCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      retweetsCount: freezed == retweetsCount
+          ? _value.retweetsCount
+          : retweetsCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      repliesCount: freezed == repliesCount
+          ? _value.repliesCount
+          : repliesCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$TweetImplCopyWith<$Res> implements $TweetCopyWith<$Res> {
+  factory _$$TweetImplCopyWith(
+          _$TweetImpl value, $Res Function(_$TweetImpl) then) =
+      __$$TweetImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? id,
+      String? text,
+      String? createdAt,
+      bool? isRetweet,
+      User? user,
+      bool? isLiked,
+      bool? isRetweeted,
+      bool? isReplied,
+      int? likesCount,
+      int? retweetsCount,
+      int? repliesCount});
+
+  @override
+  $UserCopyWith<$Res>? get user;
+}
+
+/// @nodoc
+class __$$TweetImplCopyWithImpl<$Res>
+    extends _$TweetCopyWithImpl<$Res, _$TweetImpl>
+    implements _$$TweetImplCopyWith<$Res> {
+  __$$TweetImplCopyWithImpl(
+      _$TweetImpl _value, $Res Function(_$TweetImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? text = freezed,
+    Object? createdAt = freezed,
+    Object? isRetweet = freezed,
+    Object? user = freezed,
+    Object? isLiked = freezed,
+    Object? isRetweeted = freezed,
+    Object? isReplied = freezed,
+    Object? likesCount = freezed,
+    Object? retweetsCount = freezed,
+    Object? repliesCount = freezed,
+  }) {
+    return _then(_$TweetImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      text: freezed == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isRetweet: freezed == isRetweet
+          ? _value.isRetweet
+          : isRetweet // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
+      isLiked: freezed == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isRetweeted: freezed == isRetweeted
+          ? _value.isRetweeted
+          : isRetweeted // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isReplied: freezed == isReplied
+          ? _value.isReplied
+          : isReplied // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      likesCount: freezed == likesCount
+          ? _value.likesCount
+          : likesCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      retweetsCount: freezed == retweetsCount
+          ? _value.retweetsCount
+          : retweetsCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      repliesCount: freezed == repliesCount
+          ? _value.repliesCount
+          : repliesCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TweetImpl implements _Tweet {
+  const _$TweetImpl(
+      {this.id,
+      this.text,
+      this.createdAt,
+      this.isRetweet,
+      this.user,
+      this.isLiked,
+      this.isRetweeted,
+      this.isReplied,
+      this.likesCount,
+      this.retweetsCount,
+      this.repliesCount});
+
+  factory _$TweetImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TweetImplFromJson(json);
+
+  @override
+  final String? id;
+  @override
+  final String? text;
+  @override
+  final String? createdAt;
+  @override
+  final bool? isRetweet;
+  @override
+  final User? user;
+  @override
+  final bool? isLiked;
+  @override
+  final bool? isRetweeted;
+  @override
+  final bool? isReplied;
+  @override
+  final int? likesCount;
+  @override
+  final int? retweetsCount;
+  @override
+  final int? repliesCount;
+
+  @override
+  String toString() {
+    return 'Tweet(id: $id, text: $text, createdAt: $createdAt, isRetweet: $isRetweet, user: $user, isLiked: $isLiked, isRetweeted: $isRetweeted, isReplied: $isReplied, likesCount: $likesCount, retweetsCount: $retweetsCount, repliesCount: $repliesCount)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TweetImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.isRetweet, isRetweet) ||
+                other.isRetweet == isRetweet) &&
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.isLiked, isLiked) || other.isLiked == isLiked) &&
+            (identical(other.isRetweeted, isRetweeted) ||
+                other.isRetweeted == isRetweeted) &&
+            (identical(other.isReplied, isReplied) ||
+                other.isReplied == isReplied) &&
+            (identical(other.likesCount, likesCount) ||
+                other.likesCount == likesCount) &&
+            (identical(other.retweetsCount, retweetsCount) ||
+                other.retweetsCount == retweetsCount) &&
+            (identical(other.repliesCount, repliesCount) ||
+                other.repliesCount == repliesCount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      text,
+      createdAt,
+      isRetweet,
+      user,
+      isLiked,
+      isRetweeted,
+      isReplied,
+      likesCount,
+      retweetsCount,
+      repliesCount);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TweetImplCopyWith<_$TweetImpl> get copyWith =>
+      __$$TweetImplCopyWithImpl<_$TweetImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TweetImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Tweet implements Tweet {
+  const factory _Tweet(
+      {final String? id,
+      final String? text,
+      final String? createdAt,
+      final bool? isRetweet,
+      final User? user,
+      final bool? isLiked,
+      final bool? isRetweeted,
+      final bool? isReplied,
+      final int? likesCount,
+      final int? retweetsCount,
+      final int? repliesCount}) = _$TweetImpl;
+
+  factory _Tweet.fromJson(Map<String, dynamic> json) = _$TweetImpl.fromJson;
+
+  @override
+  String? get id;
+  @override
+  String? get text;
+  @override
+  String? get createdAt;
+  @override
+  bool? get isRetweet;
+  @override
+  User? get user;
+  @override
+  bool? get isLiked;
+  @override
+  bool? get isRetweeted;
+  @override
+  bool? get isReplied;
+  @override
+  int? get likesCount;
+  @override
+  int? get retweetsCount;
+  @override
+  int? get repliesCount;
+  @override
+  @JsonKey(ignore: true)
+  _$$TweetImplCopyWith<_$TweetImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

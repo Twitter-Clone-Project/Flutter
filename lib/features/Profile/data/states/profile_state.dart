@@ -7,14 +7,14 @@ part 'profile_state.freezed.dart';
 @freezed
 class UserProfileState with _$UserProfileState {
   const factory UserProfileState({
-    required bool isLoading,
+    @Default(ProfileTweetsResponse(data: [],total:0)) ProfileTweetsResponse profileTweetsResponse,
+    @Default(UserProfile()) UserProfile userprofile,
+    @Default(null) String? errorMessage,
+    @Default(true) bool loading,
+    @Default(0) int screenIndex,
+    @Default(0) int pageIndex,
     required UserProfile userProfile,
     String? error, // Add an error field for handling errors
   }) = _UserProfileState;
 
-  factory UserProfileState.initial() => UserProfileState(
-    isLoading: false,
-    userProfile: UserProfile(),
-    error: null,
-  );
 }

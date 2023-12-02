@@ -31,9 +31,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-    final userProfileState = ref.watch(userProfileProvider);
-    final userProfile = userProfileState.userProfile;
-    final isLoading = userProfileState.isLoading;
 
     var backgroundImageHeight = mediaQuery.size.height * 0.15;
     var profileImageDiameter = mediaQuery.size.width * 0.25;
@@ -112,7 +109,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                       child: CircleAvatar(
                         radius: profileImageDiameter / 2,
                         backgroundImage: NetworkImage(
-                          userProfile.imageUrl ??
                               'https://images.pexels.com/photos/62389/pexels-photo-62389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
                         ),
                       ),
