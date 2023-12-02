@@ -6,7 +6,7 @@ import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
 class RetweetersScreen extends StatefulHookConsumerWidget {
-  const RetweetersScreen({super.key, this.tweetId});
+  const RetweetersScreen({super.key, required this.tweetId});
   final String? tweetId;
   @override
   ConsumerState<RetweetersScreen> createState() => _RetweetersScreenState();
@@ -44,9 +44,16 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
             Navigator.pop(context);
           },
         ),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1.0),
+          child: Divider(
+            color: AppColors.whiteColor,
+            thickness: 0.1,
+          ),
+        ),
       ),
       body: tweetprov.loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: tweetprov.retweetrsList.data!.length,
               itemBuilder: (context, index) {
@@ -76,7 +83,7 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
                     ),
                     trailing: retweeter.isFollowed!
                         ? Container(
-                            width: 120,
+                            width: 100,
                             height: 40,
                             child: CustomButton(
                               text: 'Following',
@@ -85,7 +92,7 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
                             ),
                           )
                         : Container(
-                            width: 120,
+                            width: 100,
                             height: 40,
                             child:
                                 CustomButton(text: 'Follow', onPressed: () {}),

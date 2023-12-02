@@ -14,5 +14,6 @@ class TweetState with _$TweetState {
     @Default(null) String? errorMessage,
     @Default(true) bool loading,
     @Default(0) int screenIndex,
+    @Default(false) bool? isLiked,
   }) = _TweetState;
 }

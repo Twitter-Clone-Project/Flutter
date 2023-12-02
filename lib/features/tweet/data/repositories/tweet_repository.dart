@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/web_services/http_client.dart';
-
 import '../../../../web_services/end_points.dart';
 
 abstract class TweetRepository {

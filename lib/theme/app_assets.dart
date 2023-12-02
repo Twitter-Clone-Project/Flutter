@@ -20,4 +20,6 @@ class AppAssets {
   static String menuIcon = 'res/assets/menu_icon.svg';
   static String shareIcon = 'res/assets/share_icon.svg';
   static String bookmarkIcon = 'res/assets/bookmark_icon.svg';
+  static String greyRetweetIcon = 'res/assets/greyRetweetIcon.svg';
+  static String greenRetweetedIcon = 'res/assets/greenRetweetedIcon.svg';
 }

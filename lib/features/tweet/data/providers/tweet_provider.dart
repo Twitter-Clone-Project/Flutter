@@ -10,7 +10,6 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
   }
   final TweetRepository tweetRepository;
   init() {}
-
   changePageIndex(index) {
     state = state.copyWith(screenIndex: index);
   }
@@ -83,7 +82,9 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
 }
 
 final tweetNotifierProvider =
-    StateNotifierProvider<TweetNotifierProvider, TweetState>((ref) {
-  final tweetRepository = ref.watch(tweetRepositoryProvider);
-  return TweetNotifierProvider(tweetRepository);
-});
+    StateNotifierProvider<TweetNotifierProvider, TweetState>(
+  (ref) {
+    final tweetRepository = ref.watch(tweetRepositoryProvider);
+    return TweetNotifierProvider(tweetRepository);
+  },
+);

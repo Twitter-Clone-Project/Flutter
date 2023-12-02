@@ -36,7 +36,7 @@ class Routes {
     switch (settings.name) {
       case initRoute:
         return MaterialPageRoute(builder: (_) => const AuthScreen());
-    case introScreen:
+      case introScreen:
         return MaterialPageRoute(builder: (_) => const IntroScreen());
       case addTweet:
         return MaterialPageRoute(builder: (_) => const AddTweetScreen());
@@ -51,12 +51,22 @@ class Routes {
       case reCAPTCHAscreen:
         return MaterialPageRoute(builder: (_) => const reCAPTCHA());
       case tweetScreen:
-        var tweet = settings.arguments as Tweet;
-        return MaterialPageRoute(builder: (_) => TweetScreen(tweet: tweet,));
+        var data = settings.arguments as Map;
+        return MaterialPageRoute(
+            builder: (_) =>
+                TweetScreen(tweet: data["tweet"], index: data["index"]));
       case retweetersScreen:
-        return MaterialPageRoute(builder: (_) => const RetweetersScreen());
+        var data = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => RetweetersScreen(
+                  tweetId: data,
+                ));
       case likersScreen:
-        return MaterialPageRoute(builder: (_) => const LikersScreen());
+        var data = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => LikersScreen(
+                  tweetId: data,
+                ));
       case resetPasswordScreen:
         var data = settings.arguments as String;
         return MaterialPageRoute(

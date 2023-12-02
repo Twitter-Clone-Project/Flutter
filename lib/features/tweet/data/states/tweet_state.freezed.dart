@@ -22,6 +22,7 @@ mixin _$TweetState {
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   int get screenIndex => throw _privateConstructorUsedError;
+  bool? get isLiked => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TweetStateCopyWith<TweetState> get copyWith =>
@@ -40,7 +41,8 @@ abstract class $TweetStateCopyWith<$Res> {
       LikersList likersList,
       String? errorMessage,
       bool loading,
-      int screenIndex});
+      int screenIndex,
+      bool? isLiked});
 
   $RepliersListCopyWith<$Res> get repliersList;
   $RetweetersListCopyWith<$Res> get retweetrsList;
@@ -66,6 +68,7 @@ class _$TweetStateCopyWithImpl<$Res, $Val extends TweetState>
     Object? errorMessage = freezed,
     Object? loading = null,
     Object? screenIndex = null,
+    Object? isLiked = freezed,
   }) {
     return _then(_value.copyWith(
       repliersList: null == repliersList
@@ -92,6 +95,10 @@ class _$TweetStateCopyWithImpl<$Res, $Val extends TweetState>
           ? _value.screenIndex
           : screenIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      isLiked: freezed == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -134,7 +141,8 @@ abstract class _$$TweetStateImplCopyWith<$Res>
       LikersList likersList,
       String? errorMessage,
       bool loading,
-      int screenIndex});
+      int screenIndex,
+      bool? isLiked});
 
   @override
   $RepliersListCopyWith<$Res> get repliersList;
@@ -161,6 +169,7 @@ class __$$TweetStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? loading = null,
     Object? screenIndex = null,
+    Object? isLiked = freezed,
   }) {
     return _then(_$TweetStateImpl(
       repliersList: null == repliersList
@@ -187,6 +196,10 @@ class __$$TweetStateImplCopyWithImpl<$Res>
           ? _value.screenIndex
           : screenIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      isLiked: freezed == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -200,7 +213,8 @@ class _$TweetStateImpl implements _TweetState {
       this.likersList = const LikersList(data: []),
       this.errorMessage = null,
       this.loading = true,
-      this.screenIndex = 0});
+      this.screenIndex = 0,
+      this.isLiked = false});
 
   @override
   @JsonKey()
@@ -220,10 +234,13 @@ class _$TweetStateImpl implements _TweetState {
   @override
   @JsonKey()
   final int screenIndex;
+  @override
+  @JsonKey()
+  final bool? isLiked;
 
   @override
   String toString() {
-    return 'TweetState(repliersList: $repliersList, retweetrsList: $retweetrsList, likersList: $likersList, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex)';
+    return 'TweetState(repliersList: $repliersList, retweetrsList: $retweetrsList, likersList: $likersList, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex, isLiked: $isLiked)';
   }
 
   @override
@@ -241,12 +258,13 @@ class _$TweetStateImpl implements _TweetState {
                 other.errorMessage == errorMessage) &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.screenIndex, screenIndex) ||
-                other.screenIndex == screenIndex));
+                other.screenIndex == screenIndex) &&
+            (identical(other.isLiked, isLiked) || other.isLiked == isLiked));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, repliersList, retweetrsList,
-      likersList, errorMessage, loading, screenIndex);
+      likersList, errorMessage, loading, screenIndex, isLiked);
 
   @JsonKey(ignore: true)
   @override
@@ -262,7 +280,8 @@ abstract class _TweetState implements TweetState {
       final LikersList likersList,
       final String? errorMessage,
       final bool loading,
-      final int screenIndex}) = _$TweetStateImpl;
+      final int screenIndex,
+      final bool? isLiked}) = _$TweetStateImpl;
 
   @override
   RepliersList get repliersList;
@@ -276,6 +295,8 @@ abstract class _TweetState implements TweetState {
   bool get loading;
   @override
   int get screenIndex;
+  @override
+  bool? get isLiked;
   @override
   @JsonKey(ignore: true)
   _$$TweetStateImplCopyWith<_$TweetStateImpl> get copyWith =>

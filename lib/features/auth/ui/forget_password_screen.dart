@@ -44,7 +44,8 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
           AppAssets.logo,
           height: 40,
           width: 40,
-          colorFilter: const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn),
+          colorFilter:
+              const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn),
         ),
         centerTitle: true,
         backgroundColor: AppColors.pureBlack,
@@ -53,7 +54,7 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
         key: AppKeys.forgetFormKey,
         child: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height -120,
+            height: MediaQuery.of(context).size.height - 120,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -84,10 +85,9 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                       if (value!.isEmpty) {
                         return "Email cannot be empty";
                       }
-                      if(!isEmailValid(value))
-                        {
-                          return "Email is not valid";
-                        }
+                      if (!isEmailValid(value)) {
+                        return "Email is not valid";
+                      }
                       return null;
                     },
                   ),
@@ -100,31 +100,36 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                     right: MediaQuery.of(context).size.width * 0.05,
                     bottom: MediaQuery.of(context).size.height * 0.02,
                   ),
-                  child: auth.forgetPasswordLoading?
-                  const CircularProgressIndicator(
-                    color: AppColors.whiteColor,
-                    strokeWidth: 1,
-                  ):SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child:CustomButton(
-                      filled: true,
-                      text: 'Next',
-                      onPressed: () async {
-                        if (AppKeys.forgetFormKey.currentState!.validate()) {
-                          final result =await ref.read(authNotifierProvider.notifier).forgetPassword(
-                            email: _emailController.text,
-                          );
+                  child: auth.forgetPasswordLoading
+                      ? const CircularProgressIndicator(
+                          color: AppColors.whiteColor,
+                          strokeWidth: 1,
+                        )
+                      : SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: CustomButton(
+                              filled: true,
+                              text: 'Next',
+                              onPressed: () async {
+                                if (AppKeys.forgetFormKey.currentState!
+                                    .validate()) {
+                                  final result = await ref
+                                      .read(authNotifierProvider.notifier)
+                                      .forgetPassword(
+                                        email: _emailController.text,
+                                      );
 
-                          if (result) {
-                            Navigator.pushNamed(context, Routes.verifyOtpScreen,arguments: {
-                              "email":_emailController.text,
-                              "isSignUp":false
-                            });
-                          }
-                        }
-                      }
-                    ),
-                  ),
+                                  if (result) {
+                                    Navigator.pushNamed(
+                                        context, Routes.verifyOtpScreen,
+                                        arguments: {
+                                          "email": _emailController.text,
+                                          "isSignUp": false
+                                        });
+                                  }
+                                }
+                              }),
+                        ),
                 ),
               ],
             ),

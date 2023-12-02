@@ -3,13 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/routes.dart';
-
 import 'package:x_clone/theme/app_colors.dart';
-
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../app/widgets/animation/shimmer/shimmer_loading_anim.dart';
 import '../../../theme/app_assets.dart';
-import '../../auth/data/model/user.dart';
 import '../data/models/home_response.dart';
 import '../data/providers/home_provider.dart';
 import 'package:x_clone/app/widgets/tweet_UI.dart';
@@ -28,7 +24,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {});
-
     super.initState();
   }
 
@@ -111,14 +106,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                                         .watch(homeNotifierProvider)
                                         .homeResponse
                                         .data![index],
+                                    index: index,
                                   ),
                                   onTap: () {
+                                    Tweet tweet = ref
+                                        .watch(homeNotifierProvider)
+                                        .homeResponse
+                                        .data![index];
                                     Navigator.pushNamed(
-                                        context, Routes.tweetScreen,
-                                        arguments: ref
-                                            .watch(homeNotifierProvider)
-                                            .homeResponse
-                                            .data![index]);
+                                      context,
+                                      Routes.tweetScreen,
+                                      arguments: {
+                                        "tweet": tweet,
+                                        "index": index,
+                                      },
+                                    );
                                   },
                                 ),
                                 separatorBuilder:
