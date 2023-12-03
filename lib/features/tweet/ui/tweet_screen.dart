@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
+import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/features/tweet/ui/widgets/addReply.dart';
 import 'package:x_clone/features/tweet/ui/widgets/reply.dart';
@@ -62,34 +63,37 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
           child: Divider(color: AppColors.whiteColor, thickness: 0.1),
         ),
       ),
-      body: Column(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                TweetComponent(
-                  tweet: widget.tweet!,
-                  index: widget.index!,
-                ),
-                tweetProvider.loading
-                    ? const Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: tweetProvider.repliersList.data!.length,
-                        itemBuilder: (context, index) {
-                          final replier =
-                              tweetProvider.repliersList.data![index];
-                          return Reply(
-                            replier: tweetProvider.repliersList.data![index],
-                          );
-                        },
-                      ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          AddReply(tweet: widget.tweet),
-        ],
+      body: Container(
+        padding: const EdgeInsets.all(15),
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+                child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TweetComponent(
+                    tweet: widget.tweet!,
+                    index: widget.index!,
+                  ),
+                  tweetProvider.loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : Column(
+                          children: tweetProvider.repliersList.data!
+                              .map<Widget>(
+                                (reply) => Reply(
+                                  replier: reply,
+                                ),
+                              )
+                              .toList(),
+                        ),
+                ],
+              ),
+            )),
+            AddReply(tweet: widget.tweet),
+          ],
+        ),
       ),
     );
   }

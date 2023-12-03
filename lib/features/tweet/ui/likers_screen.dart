@@ -62,7 +62,7 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
                     },
                     child: const CircleAvatar(
                       backgroundColor: AppColors.whiteColor,
-                      // backgroundImage:Image.network(liker.profileImageURL!).image,
+                      //backgroundImage:Image.network(liker.profileImageURL!),
                       radius: 20,
                     ),
                   ),

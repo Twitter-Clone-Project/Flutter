@@ -22,7 +22,6 @@ class TweetIconButton extends StatelessWidget {
       child: Row(
         children: [
           SvgPicture.asset(
-            height: 25,
             width: 25,
             pathName,
             color: color,

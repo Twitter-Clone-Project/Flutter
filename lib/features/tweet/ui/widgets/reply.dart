@@ -27,7 +27,7 @@ class Reply extends StatelessWidget {
                 },
                 child: CircleAvatar(
                   backgroundColor: AppColors.whiteColor,
-                  //backgroundImage: userImage?.image,
+                  //backgroundImage: NetworkImage(replier.profileImageURL!),
                   radius: 20,
                 ),
               ),

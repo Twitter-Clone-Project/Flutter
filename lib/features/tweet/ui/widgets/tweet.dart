@@ -93,7 +93,8 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     final String handle = widget.tweet.user?.screenName ?? '';
     final String date = widget.tweet.createdAt ?? '';
     final bool verified = false;
-    final Image? userImage = Image.network(widget.tweet.user?.profileImageURL ??
+    final NetworkImage? userImage = NetworkImage(widget
+            .tweet.user?.profileImageURL ??
         'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D');
     final Image? image = null;
 
@@ -112,7 +113,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                 },
                 child: CircleAvatar(
                   backgroundColor: AppColors.whiteColor,
-                  backgroundImage: userImage?.image,
+                  //backgroundImage: userImage,
                   radius: 20,
                 ),
               ),
@@ -152,6 +153,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               horizontal: 0.03 * MediaQuery.of(context).size.width,
               vertical: 0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
                 onTap: () {
@@ -215,9 +217,8 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               ),
               TweetIconButton(
                 color: isRetweeted ? Colors.green : AppColors.lightThinTextGray,
-                pathName: isRetweeted
-                    ? AppAssets.greyRetweetIcon
-                    : AppAssets.greyRetweetIcon,
+                pathName:
+                    isRetweeted ? AppAssets.retweetIcon : AppAssets.retweetIcon,
                 onTap: () {
                   setState(() {
                     isRetweeted = !isRetweeted;
@@ -262,11 +263,6 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                           color: AppColors.lightThinTextGray,
                         );
                 },
-              ),
-              TweetIconButton(
-                pathName: AppAssets.bookmarkIcon,
-                text: "",
-                onTap: () {},
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -19,30 +20,13 @@ class AddReply extends StatefulHookConsumerWidget {
 }
 
 class _AddReplyState extends ConsumerState<AddReply> {
-  File? _tweetImage;
-  final ImagePicker _imagePicker = ImagePicker();
   int varWidget = 0;
-  Future<void> _uploadTweetImage() async {
-    try {
-      final pickedImage =
-          await _imagePicker.pickImage(source: ImageSource.camera);
-
-      if (pickedImage != null) {
-        setState(
-          () {
-            _tweetImage = File(pickedImage.path);
-          },
-        );
-      }
-    } catch (e) {
-      print('Error picking image: $e');
-    }
-  }
-
+  TextEditingController _replyController = TextEditingController();
+  bool isButtonEnabled = false;
   @override
   Widget build(BuildContext context) {
-    final tweetProvider = ref.watch(tweetNotifierProvider);
     final userProvider = ref.watch(authNotifierProvider);
+
     Widget activeWidget = Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
@@ -61,16 +45,10 @@ class _AddReplyState extends ConsumerState<AddReply> {
         decoration: InputDecoration(
           hintText: 'Post your reply',
           hintStyle: AppTextStyle.textThemeDark.bodyLarge,
-          suffixIcon: IconButton(
-            icon: const Icon(
-              Icons.camera_alt_outlined,
-              color: Colors.blue,
-            ),
-            onPressed: _uploadTweetImage,
-          ),
         ),
       ),
     );
+
     Widget clickedWidget = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -92,23 +70,15 @@ class _AddReplyState extends ConsumerState<AddReply> {
           ),
         ),
         TextField(
-          onSubmitted: (replyText) {
-            ref.read(tweetNotifierProvider.notifier).addReply(
-                  tweetId: widget.tweet!.id!,
-                  replyText: replyText,
-                  replierUser: userProvider.user!,
-                );
+          controller: _replyController,
+          onChanged: (text) {
+            setState(() {
+              isButtonEnabled = text.isNotEmpty;
+            });
           },
           decoration: InputDecoration(
             hintText: 'Post your reply',
             hintStyle: AppTextStyle.textThemeDark.bodyLarge,
-            suffixIcon: IconButton(
-              icon: const Icon(
-                Icons.camera_alt_outlined,
-                color: Colors.blue,
-              ),
-              onPressed: _uploadTweetImage,
-            ),
           ),
         ),
         Padding(
@@ -161,6 +131,33 @@ class _AddReplyState extends ConsumerState<AddReply> {
                     width: 27,
                     colorFilter: const ColorFilter.mode(
                         AppColors.primaryColor, BlendMode.srcIn),
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(right: 10, top: 15),
+                child: TextButton(
+                  onPressed: isButtonEnabled
+                      ? () {
+                          ref.read(tweetNotifierProvider.notifier).addReply(
+                                tweetId: widget.tweet!.id!,
+                                replyText: _replyController.text,
+                                replierUser: userProvider.user!,
+                              );
+                          _replyController.text = '';
+                          varWidget = 0;
+                        }
+                      : null,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        AppColors.primaryColor),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(AppColors.whiteColor),
+                  ),
+                  child: Text(
+                    'Reply',
+                    style: AppTextStyle.textThemeDark.bodyMedium,
                   ),
                 ),
               ),
