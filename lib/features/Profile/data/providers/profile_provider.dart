@@ -54,8 +54,12 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   Future<void> fetchUserProfile(String username) async {
     try {
       state = state.copyWith(loading: true, error: null);
-      final userProfile = await profileRepository.fetchUserProfileData(username: username);
-      state = state.copyWith(loading: false, userProfile: userProfile?? const UserProfile(imageUrl: "",bannerUrl: ""));
+      final userProfile =
+          await profileRepository.fetchUserProfileData(username: username);
+      state = state.copyWith(
+          loading: false,
+          userProfile:
+              userProfile ?? const UserProfile(imageUrl: "", bannerUrl: ""));
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
     }
@@ -69,7 +73,8 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       if (page == 1) {
         state = state.copyWith(loading: true);
       }
-      final ProfileTweetsResponse profileTweetsResponse = await profileRepository.getUserTweets(userId, page);
+      final ProfileTweetsResponse profileTweetsResponse =
+          await profileRepository.getUserTweets(userId, page);
       final List<Tweet> tweets;
 
       if (page == 1) {
@@ -90,7 +95,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     }
   }
 
-  Future<void> updateUserProfile({
+  Future<bool?> updateUserProfile({
     String? profilePhoto,
     String? bannerPhoto,
     String? name,
@@ -111,10 +116,10 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         birthDate: birthDate,
       );
 
-      if (result == true) {
-        // Handle success if needed, for example, refetch the updated profile
+      if (result != null) {
+        state = state.copyWith(userProfile: result); 
+        return true; 
       }
-      //TODO Edit the following line to update the state to the newest updated user profile
       state = state.copyWith(loading: false);
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
@@ -123,10 +128,8 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 }
 
 final profileNotifierProvider =
-StateNotifierProvider<ProfileNotifierProvider, UserProfileState>((ref) {
+    StateNotifierProvider<ProfileNotifierProvider, UserProfileState>((ref) {
   final profileRepository = ref.watch(profileRepositoryProvider);
 
   return ProfileNotifierProvider(profileRepository);
 });
-
-

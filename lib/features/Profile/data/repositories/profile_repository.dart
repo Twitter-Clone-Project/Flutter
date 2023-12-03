@@ -9,7 +9,7 @@ abstract class ProfileRepository {
 
   getUserTweets(String userId, int page);
 
-  Future<bool?> updateProfile({
+  Future<UserProfile?> updateProfile({
     String? profilePhoto,
     String? bannerPhoto,
     String? name,
@@ -56,7 +56,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<bool?> updateProfile({
+  Future<UserProfile?> updateProfile({
     String? profilePhoto,
     String? bannerPhoto,
     String? name,
@@ -71,9 +71,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
         "bio": bio,
         "website": website,
         "location": location,
-        "birthDate": birthDate
       });
 
+      if (birthDate != null) {
+        data.fields.add(MapEntry("birthDate", birthDate));
+      }
       if (profilePhoto != null) {
         var file = await MultipartFile.fromFile(
           profilePhoto,
@@ -91,12 +93,12 @@ class ProfileRepositoryImpl implements ProfileRepository {
         data.files.add(MapEntry("bannerUrl", file));
         data.fields.add(MapEntry("isUpdated", isUpdated));
       }
-      // "birthDate": birthDate,
 
       var response =
-          await HttpClient.dio.post(EndPoints.updateProfile, data: data);
+          await HttpClient.dio.patch(EndPoints.updateProfile, data: data);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return true;
+        return UserProfile.fromJson(response.data["data"]);
       }
       throw (response.data["message"]);
     } catch (e) {
