@@ -77,7 +77,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
           bannerPhoto: _bannerImage != null ? _bannerImage!.path : null,
           profilePhoto: _profileImage != null ? _profileImage!.path : null,
           bio: _bioController.text,
-          website: _websiteController.text,
+          website: _websiteController.text!,
           location: _locationController.text,
           name: _nameController.text,
           birthDate: userProfile.birthdate,
@@ -222,7 +222,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                               controller: _bioController,
                               decoration: InputDecoration(labelText: 'Bio'),
                               validator: (value) {
-                                if (value != null && value.length < 2) {
+                                if (value != null) return null;
+                                if (value!.length == 0) {
+                                  return null;
+                                }
+                                if (value.length < 2) {
                                   return "Bio should contain at least 2 characters";
                                 }
                                 return null;
@@ -234,7 +238,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                               decoration:
                                   InputDecoration(labelText: 'Location'),
                               validator: (value) {
-                                if (value != null && value.length < 2) {
+                                if (value != null) return null;
+                                if (value!.length == 0) {
+                                  return null;
+                                }
+                                if (value.length < 2) {
                                   return "Location should contain at least 2 characters";
                                 }
                                 return null;
@@ -244,8 +252,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                               controller: _websiteController,
                               decoration: InputDecoration(labelText: 'Website'),
                               validator: (value) {
-                                if (value != null && value.length < 2) {
-                                  return "Bio should contain at least 2 characters";
+                                if (value != null) return null;
+                                if (value!.length == 0) {
+                                  return null;
+                                }
+                                if (value.length < 2) {
+                                  return "website should contain at least 2 characters";
                                 }
                                 return null;
                               },

@@ -14,7 +14,6 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   ProfileNotifierProvider(this.profileRepository, [UserProfileState? state])
       : super(state ?? const UserProfileState(loading: true, userProfile: UserProfile(imageUrl: "", bannerUrl: ""))) {
     // Additional initialization if needed
-
   }
 
   init() {
@@ -117,8 +116,8 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       );
 
       if (result != null) {
-        state = state.copyWith(userProfile: result); 
-        return true; 
+        state = state.copyWith(userProfile: result, loading: false);
+        return true;
       }
       state = state.copyWith(loading: false);
     } catch (e) {
