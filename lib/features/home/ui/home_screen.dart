@@ -30,7 +30,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
     return SafeArea(
       child: Scaffold(
         body: ref.watch(homeNotifierProvider).loading
@@ -141,6 +140,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             Icons.add,
             color: AppColors.whiteColor,
           ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primaryColor,
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.addTweet);
+        },
+        child: const Icon(
+          Icons.add,
+          color: AppColors.whiteColor,
         ),
       ),
     );

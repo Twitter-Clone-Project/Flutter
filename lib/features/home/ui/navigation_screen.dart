@@ -40,64 +40,66 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
 
     final homeProvider = ref.watch(homeNotifierProvider);
 
-    return Scaffold(
-      drawer: const MainDrawer(),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5), // Shadow color
-              spreadRadius: 2, // Spread radius
-              blurRadius: 10, // Blur radius
-              offset: Offset(0, 3), // Offset from top
+    return SafeArea(
+      child: Scaffold(
+        drawer: const MainDrawer(),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
             ),
-          ],
-        ),
-        child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed, // Disable animation
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5), // Shadow color
+                spreadRadius: 2, // Spread radius
+                blurRadius: 10, // Blur radius
+                offset: Offset(0, 3), // Offset from top
+              ),
+            ],
+          ),
+          child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed, // Disable animation
 
-            currentIndex: homeProvider.screenIndex,
-            onTap: onTabTapped,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  ref.read(homeNotifierProvider).screenIndex == 0
-                      ? Icons.home_filled
-                      : Icons.home_outlined,
+              currentIndex: homeProvider.screenIndex,
+              onTap: onTabTapped,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    ref.read(homeNotifierProvider).screenIndex == 0
+                        ? Icons.home_filled
+                        : Icons.home_outlined,
+                  ),
+                  label: 'Home',
                 ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  ref.read(homeNotifierProvider).screenIndex == 1
-                      ? Icons.search_sharp
-                      : Icons.search_outlined,
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    ref.read(homeNotifierProvider).screenIndex == 1
+                        ? Icons.search_sharp
+                        : Icons.search_outlined,
+                  ),
+                  label: 'Search',
                 ),
-                label: 'Search',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  ref.read(homeNotifierProvider).screenIndex == 2
-                      ? CupertinoIcons.bell_fill
-                      : CupertinoIcons.bell,
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    ref.read(homeNotifierProvider).screenIndex == 2
+                        ? CupertinoIcons.bell_fill
+                        : CupertinoIcons.bell,
+                  ),
+                  label: 'Notifications',
                 ),
-                label: 'Notifications',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  ref.read(homeNotifierProvider).screenIndex == 3
-                      ? Icons.mail
-                      : Icons.mail_outlined,
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    ref.read(homeNotifierProvider).screenIndex == 3
+                        ? Icons.mail
+                        : Icons.mail_outlined,
+                  ),
+                  label: 'Messages',
                 ),
-                label: 'Messages',
-              ),
-            ]),
+              ]),
+        ),
+        body: _children[homeProvider.screenIndex],
       ),
-      body: _children[homeProvider.screenIndex],
     );
   }
 
