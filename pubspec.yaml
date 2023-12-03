@@ -34,9 +34,10 @@ dependencies:
   pull_to_refresh: ^2.0.0
   image_picker: ^1.0.4
   flutter_native_splash: ^2.3.5
-  font_awesome_flutter: ^10.6.0
   webview_flutter_plus: ^0.3.0+2
   webview_flutter: ^3.0.4
+  like_button: ^2.0.5
+  community_material_icon: ^5.9.55
 
 
 #flutter_native_splash:

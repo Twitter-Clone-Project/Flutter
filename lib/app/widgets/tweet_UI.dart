@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:like_button/like_button.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
+import 'package:x_clone/features/home/data/providers/home_provider.dart';
 
 import '../../features/home/data/models/home_response.dart';
 import '../../theme/app_assets.dart';
 import '../../theme/app_colors.dart';
 
-class TweetCompose extends StatefulWidget {
+class TweetCompose extends StatefulHookConsumerWidget {
   final Tweet tweet;
+  final int index;
 
-  TweetCompose(
-      {Key? key,
-        required this.tweet,
-      })
-      : super(key: key) {
-  }
+  TweetCompose({
+    Key? key,
+    required this.tweet,
+    required this.index,
+  }) : super(key: key) {}
 
   @override
-  State<TweetCompose> createState() {
+  ConsumerState<TweetCompose> createState() {
     return _TweetComposeState();
   }
 }
 
-class _TweetComposeState extends State<TweetCompose> {
+class _TweetComposeState extends ConsumerState<TweetCompose> {
   late int likeCountBeforeMe;
   late int commentCountBeforeMe;
   late int retweetCountBeforeMe;
@@ -31,9 +34,9 @@ class _TweetComposeState extends State<TweetCompose> {
   void initState() {
     super.initState();
     likeIcon = AppAssets.likeOutlinedIcon;
-    likeCountBeforeMe = widget.tweet.likesCount??0;
-    commentCountBeforeMe = widget.tweet.repliesCount??0;
-    retweetCountBeforeMe = widget.tweet.retweetsCount??0;
+    likeCountBeforeMe = widget.tweet.likesCount ?? 0;
+    commentCountBeforeMe = widget.tweet.repliesCount ?? 0;
+    retweetCountBeforeMe = widget.tweet.retweetsCount ?? 0;
   }
 
   String formatCount(int count) {
@@ -80,12 +83,20 @@ class _TweetComposeState extends State<TweetCompose> {
 
   @override
   Widget build(BuildContext context) {
+    int? index = widget.index;
+    bool isRetweeted = widget.tweet.isRetweeted ?? false;
+    final int? likesCount = widget.tweet.likesCount;
+    final int? retweetCount = widget.tweet.retweetsCount;
+    final String? tweetId = widget.tweet.id;
     final String? text = widget.tweet.text;
-    final String userName = widget.tweet.user?.username??'';
-    final String handle =  widget.tweet.user?.screenName??'';
-    final String date = widget.tweet.createdAt??'';
+    final String userName = widget.tweet.user?.username ?? '';
+    final String handle = widget.tweet.user?.screenName ?? '';
+    final String date = widget.tweet.createdAt ?? '';
     final bool verified = false;
-    final Image? userImage = Image.network(widget.tweet.user?.profileImageURL??'');
+
+    // final NetworkImage? userImage =
+    //     NetworkImage(widget.tweet.user!.profileImageURL!);
+
     final Image? image = null;
 
     return (Row(
@@ -100,7 +111,7 @@ class _TweetComposeState extends State<TweetCompose> {
             },
             child: CircleAvatar(
               backgroundColor: AppColors.whiteColor,
-              backgroundImage: userImage?.image,
+              //backgroundImage: userImage,
               radius: 20,
             ),
           ),
@@ -139,7 +150,7 @@ class _TweetComposeState extends State<TweetCompose> {
                   SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                   //Date
                   Text(
-    "",
+                    "",
                     style: const TextStyle(color: AppColors.lightGray),
                   )
                 ],
@@ -180,21 +191,73 @@ class _TweetComposeState extends State<TweetCompose> {
                     ),
                     SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
                     TweetIconButton(
-                      pathName: AppAssets.retweetIcon,
-                      text: retweetCountBeforeMe.toString(),
-                      onTap: () {},
+                      color: isRetweeted
+                          ? Colors.green
+                          : AppColors.lightThinTextGray,
+                      pathName: isRetweeted
+                          ? AppAssets.retweetIcon
+                          : AppAssets.retweetIcon,
+                      text: retweetCount.toString(),
+                      onTap: () {
+                        isRetweeted = !isRetweeted;
+                        isRetweeted
+                            ? ref
+                                .read(homeNotifierProvider.notifier)
+                                .addRetweet(tweetId: tweetId!, index: index)
+                            : ref
+                                .read(homeNotifierProvider.notifier)
+                                .deleteRetweet(tweetId: tweetId!, index: index);
+                      },
+                    ),
+                    SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
+                    LikeButton(
+                      isLiked: ref
+                              .watch(homeNotifierProvider)
+                              .homeResponse
+                              .data[index]
+                              .isLiked ??
+                          false,
+                      size: 23,
+                      likeCount: likesCount,
+                      countBuilder: (likecount, isLiked, text) {
+                        return Text(
+                          text,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: isLiked
+                                ? Colors.red
+                                : AppColors.lightThinTextGray,
+                          ),
+                        );
+                      },
+                      onTap: (isLiked) async {
+                        isLiked = !isLiked;
+                        isLiked
+                            ? ref
+                                .read(homeNotifierProvider.notifier)
+                                .addLike(tweetId: tweetId!, index: index)
+                            : ref
+                                .read(homeNotifierProvider.notifier)
+                                .deleteLike(tweetId: tweetId!, index: index);
+                      },
+                      likeBuilder: (isLiked) {
+                        return isLiked
+                            ? SvgPicture.asset(
+                                AppAssets.likeFilledIcon,
+                                color: Colors.red,
+                              )
+                            : SvgPicture.asset(
+                                AppAssets.likeOutlinedIcon,
+                                color: AppColors.lightThinTextGray,
+                              );
+                      },
                     ),
                     SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
                     TweetIconButton(
-                      pathName: AppAssets.likeOutlinedIcon,
-                      text: likeCountBeforeMe.toString(),
+                      pathName: AppAssets.viewsIcon,
+                      text: '1800',
                       onTap: () {},
-                    ),
-                    SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
-                    TweetIconButton(
-                        pathName: AppAssets.viewsIcon,
-                        text: '1800',
-                        onTap: () {})
+                    )
                   ],
                 ),
               ),

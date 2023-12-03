@@ -43,6 +43,86 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
+  addLike({required String tweetId, required int index}) async {
+    try {
+      homeRepository.addLike(tweetId: tweetId);
+      List<Tweet> tweetlist =
+          List.from(state.homeResponse.data); // Create a new list
+      tweetlist[index] = tweetlist[index].copyWith(
+        isLiked: true,
+        likesCount: state.homeResponse.data[index].likesCount! + 1,
+      );
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+      );
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
+    }
+  }
+
+  deleteLike({required String tweetId, required int index}) async {
+    try {
+      homeRepository.deleteLike(tweetId: tweetId);
+      List<Tweet> tweetlist =
+          List.from(state.homeResponse.data); // Create a new list
+      tweetlist[index] = tweetlist[index].copyWith(
+        isLiked: false,
+        likesCount: state.homeResponse.data[index].likesCount! - 1,
+      );
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+      );
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
+    }
+  }
+
+  addRetweet({required String tweetId, required int index}) async {
+    try {
+      homeRepository.addRetweet(tweetId: tweetId);
+      List<Tweet> tweetlist =
+          List.from(state.homeResponse.data); // Create a new list
+      tweetlist[index] = tweetlist[index].copyWith(
+        isRetweeted: true,
+        retweetsCount: state.homeResponse.data[index].retweetsCount! + 1,
+      );
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+      );
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
+    }
+  }
+
+  deleteRetweet({required String tweetId, required int index}) async {
+    try {
+      homeRepository.deleteRetweet(tweetId: tweetId);
+      List<Tweet> tweetlist =
+          List.from(state.homeResponse.data); // Create a new list
+      tweetlist[index] = tweetlist[index].copyWith(
+        isRetweeted: false,
+        retweetsCount: state.homeResponse.data[index].retweetsCount! - 1,
+      );
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+      );
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
+    }
+  }
+
   changePageIndex(index) {
     state = state.copyWith(screenIndex: index);
   }
