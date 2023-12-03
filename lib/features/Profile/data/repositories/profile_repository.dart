@@ -9,15 +9,15 @@ abstract class ProfileRepository {
 
   getUserTweets(String userId, int page);
 
-  Future<bool?> updateProfile(
-      {String? profilePhoto,
-        String? bannerPhoto,
-        String? name,
-        String? bio,
-        String? website,
-        String? location,
-        String? birthDate,
-      });
+  Future<bool?> updateProfile({
+    String? profilePhoto,
+    String? bannerPhoto,
+    String? name,
+    String? bio,
+    String? website,
+    String? location,
+    String? birthDate,
+  });
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -25,7 +25,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<UserProfile> fetchUserProfileData({required String username}) async {
     try {
       var response =
-      await HttpClient.dio.get(EndPoints.getUserProfile(username));
+          await HttpClient.dio.get(EndPoints.getUserProfile(username));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         var userProfile = UserProfile.fromJson(response.data["data"]["user"]);
@@ -43,19 +43,21 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   getUserTweets(String userId, int page) async {
     try {
-      var response = await HttpClient.dio.get(EndPoints.getUserTweets(userId, page));
+      var response =
+          await HttpClient.dio.get(EndPoints.getUserTweets(userId, page));
 
-      if(response.statusCode == 200||response.statusCode == 201){
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return ProfileTweetsResponse.fromJson(response.data);
       }
-      return const ProfileTweetsResponse(data: [],total:0);
+      return const ProfileTweetsResponse(data: [], total: 0);
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<bool?> updateProfile({String? profilePhoto,
+  Future<bool?> updateProfile({
+    String? profilePhoto,
     String? bannerPhoto,
     String? name,
     String? bio,
@@ -65,23 +67,38 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) async {
     try {
       FormData data = FormData.fromMap({
-        "profilePhoto": await MultipartFile.fromFile(
-          profilePhoto!, filename: path.basename(profilePhoto!),),
-        "bannerPhoto": await MultipartFile.fromFile(
-          bannerPhoto!, filename: path.basename(bannerPhoto!),),
         "name": name,
         "bio": bio,
         "website": website,
         "location": location,
-        "birthDate": birthDate,
+        "birthDate": birthDate
       });
 
-      var response = await HttpClient.dio.post(
-          EndPoints.updateProfile, data: data);
+      if (profilePhoto != null) {
+        var file = await MultipartFile.fromFile(
+          profilePhoto,
+          filename: path.basename(profilePhoto),
+        );
+        data.files.add(MapEntry("imageUrl", file));
+      }
+
+      if (bannerPhoto != null) {
+        var file = await MultipartFile.fromFile(
+          bannerPhoto,
+          filename: path.basename(bannerPhoto),
+        );
+        var isUpdated = "TRUE";
+        data.files.add(MapEntry("bannerUrl", file));
+        data.fields.add(MapEntry("isUpdated", isUpdated));
+      }
+      // "birthDate": birthDate,
+
+      var response =
+          await HttpClient.dio.post(EndPoints.updateProfile, data: data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
-      throw(response.data["message"]);
+      throw (response.data["message"]);
     } catch (e) {
       rethrow;
     }
@@ -129,6 +146,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   //   }
   // }
 }
-  final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
-    return ProfileRepositoryImpl();
-  });
+
+final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
+  return ProfileRepositoryImpl();
+});
