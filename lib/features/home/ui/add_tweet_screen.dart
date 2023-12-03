@@ -127,7 +127,7 @@ class _AddTweetScreenState extends State<AddTweetScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10, top: 15),
                       child: GestureDetector(
-                        //onTap: onPickImages,
+                        // onTap: onPickImages,
                         child: SvgPicture.asset(
                           AppAssets.galleryIcon,
                           height: 25,

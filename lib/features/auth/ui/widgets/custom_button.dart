@@ -11,7 +11,6 @@ class CustomButton extends StatelessWidget {
   final double? horizontalPadding; 
 
 
-
   const CustomButton({
     super.key,
     required this.text,
@@ -24,7 +23,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color buttonColor = filled ? AppColors.whiteColor  : Colors.transparent;
+    Color buttonColor = filled ? AppColors.whiteColor : Colors.transparent;
     Color textColor = filled ? AppColors.pureBlack : AppColors.whiteColor;
     Color borderColor = filled ? Colors.transparent : AppColors.borderDarkGray;
 

@@ -54,7 +54,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           AppAssets.logo,
           height: 40,
           width: 40,
-          colorFilter: const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn),
+          colorFilter:
+              const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn),
         ),
         centerTitle: true,
         backgroundColor: AppColors.pureBlack,
@@ -77,13 +78,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const CustomText("Join the conversation!",
                       textSize: CustomTextSize.large),
                   SizedBox(height: 0.075 * MediaQuery.of(context).size.height),
-                  AuthField(labelText: "Email",
-                    controller:_emailController,
-                    validator: (value){
-                      if(value!.isEmpty){
+                  AuthField(
+                    labelText: "Email",
+                    controller: _emailController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
                         return "Email cannot be empty";
                       }
-                      if(isEmailValid(value) == false){
+                      if (isEmailValid(value) == false) {
                         return "Email is not valid";
                       }
                       return null;
@@ -92,29 +94,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   SizedBox(height: 0.025 * MediaQuery.of(context).size.height),
                   AuthField(
                       labelText: "Password",
-                    controller:_passwordController,
+                      controller: _passwordController,
                       obscureText: obscureText,
                       suffixIcon: IconButton(
                         onPressed: () => setState(() {
                           obscureText = !obscureText;
                         }),
                         icon: Icon(
-                          obscureText
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                          obscureText ? Icons.visibility : Icons.visibility_off,
                           color: AppColors.borderDarkGray,
                         ),
                       ),
-                      validator: (value){
-                        if(value!.isEmpty){
+                      validator: (value) {
+                        if (value!.isEmpty) {
                           return "Password cannot be empty";
                         }
-                        if(value.length < 6){
+                        if (value.length < 6) {
                           return "Password length should be 6 or more";
                         }
                         return null;
-                      }
-                  ), // Input field for password.
+                      }), // Input field for password.
                 ],
               ),
             ),
@@ -134,35 +133,37 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       CustomButton(
                         text: 'Forgot Password?',
                         onPressed: () {
-                          Navigator.pushNamed(context, Routes.forgetPasswordScreen);
+                          Navigator.pushNamed(
+                              context, Routes.forgetPasswordScreen);
                         },
                         filled: false,
                       ),
                       // Button for the login action.
-                      auth.loginLoading?
-                      const CircularProgressIndicator(
-                        color: AppColors.whiteColor,
-                        strokeWidth: 1,
-                      ):
-                      CustomButton(
-                        text: 'Login',
-                        onPressed: () async {
-                          if (auth.loginLoading) return;
-                          if (AppKeys.loginFormKey.currentState!
-                              .validate()) {
-                            final result = await ref
-                                .read(authNotifierProvider.notifier)
-                                .login(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                            );
-                            if (result) {
-                              Navigator.pushNamedAndRemoveUntil(context, Routes.initRoute, (route) => false);
-                            }
-                          }
-                        },
-                        filled: true,
-                      ),
+                      auth.loginLoading
+                          ? const CircularProgressIndicator(
+                              color: AppColors.whiteColor,
+                              strokeWidth: 1,
+                            )
+                          : CustomButton(
+                              text: 'Login',
+                              onPressed: () async {
+                                if (auth.loginLoading) return;
+                                if (AppKeys.loginFormKey.currentState!
+                                    .validate()) {
+                                  final result = await ref
+                                      .read(authNotifierProvider.notifier)
+                                      .login(
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                      );
+                                  if (result) {
+                                    Navigator.pushNamedAndRemoveUntil(context,
+                                        Routes.initRoute, (route) => false);
+                                  }
+                                }
+                              },
+                              filled: true,
+                            ),
                     ],
                   ),
                 )

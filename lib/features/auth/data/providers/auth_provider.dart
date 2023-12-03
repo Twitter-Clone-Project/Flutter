@@ -16,8 +16,7 @@ final authNotifierProvider =
 class AuthStateNotifier extends StateNotifier<AuthState> {
   final AuthRepository _repo;
 
-  AuthStateNotifier(this._repo,
-      [AuthState? state])
+  AuthStateNotifier(this._repo, [AuthState? state])
       : super(state ?? const AuthState()) {
     checkAuthStatus();
     // onFcmTokenRefresh();
@@ -26,7 +25,6 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   Future<void> checkAuthStatus() async {
     try {
       final User? user = _repo.getUserData();
-
       // if authenticated, update state accordingly
       if (user != null) {
         state = state.copyWith(
@@ -34,11 +32,9 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
           isLogin: true,
         );
       } else if (getMobileNumber() != null) {
-        state = state.copyWith(
-        );
+        state = state.copyWith();
       } else {
-        state = state.copyWith(
-        );
+        state = state.copyWith();
       }
     } catch (_) {}
   }
@@ -53,7 +49,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 //     // );
 // }
 
-  login({required String email,required String password}) async {
+  login({required String email, required String password}) async {
     try {
       state = state.copyWith(loginLoading: true, errorMessage: '');
 
@@ -68,28 +64,29 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       return false;
     }
   }
+
   //
-  register(
-      {required String username,
-        required String email,
-        required String name,
-        required String password,
-        required String birthDate,
-        required String reCaptchaText,
-      }) async {
+  register({
+    required String username,
+    required String email,
+    required String name,
+    required String password,
+    required String birthDate,
+    required String reCaptchaText,
+  }) async {
     try {
       state = state.copyWith(registerLoading: true, errorMessage: '');
 
       final user = await _repo.register(
-        username: username,
-        email: email,
-        name: name,
-        password: password,
-        birthDate: birthDate,
-          reCaptchaText : reCaptchaText
-          );
+          username: username,
+          email: email,
+          name: name,
+          password: password,
+          birthDate: birthDate,
+          reCaptchaText: reCaptchaText);
 
-      state = state.copyWith(registerLoading: false, errorMessage: '',user: user);
+      state =
+          state.copyWith(registerLoading: false, errorMessage: '', user: user);
 
       return true;
     } catch (e) {
@@ -98,6 +95,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       return false;
     }
   }
+
   //
   // Future<bool>updateUser(
   //     {
@@ -120,10 +118,12 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   // }
   void _onUserLoggedIn(User? user) {
     state = state.copyWith(
-      googleLoading: false,
+        googleLoading: false,
         registerLoading: false,
         loginLoading: false,
-        user: user, errorMessage: '', isLogin: true);
+        user: user,
+        errorMessage: '',
+        isLogin: true);
   }
 
   getMobileNumber() {
@@ -134,16 +134,19 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     return _repo.getToken();
   }
 
-  confirmEmail({required String otp,required String email,required bool isSignup}) async {
+  confirmEmail(
+      {required String otp,
+      required String email,
+      required bool isSignup}) async {
     try {
       state = state.copyWith(otpLoading: true, errorMessage: '');
 
-      final user =await _repo.confirmEmail(
+      final user = await _repo.confirmEmail(
         otp: otp,
-          email: email,
-          isSignUp: isSignup,
+        email: email,
+        isSignUp: isSignup,
       );
-      if(isSignup) {
+      if (isSignup) {
         _onUserLoggedIn(user);
       }
       state = state.copyWith(otpLoading: false, errorMessage: '');
@@ -155,19 +158,25 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
-
-  resetPassword( {required String password,
+  resetPassword({
+    required String password,
     required String passwordConfirm,
     required String email,
   }) async {
     try {
-      state = state.copyWith(resetPasswordLoading: true, );
-
-      final result =await _repo.resetPassword(
-        email: email, password: password, passwordConfirm: passwordConfirm,
+      state = state.copyWith(
+        resetPasswordLoading: true,
       );
-      if(result ==true) {
-        state = state.copyWith(resetPasswordLoading: false,);
+
+      final result = await _repo.resetPassword(
+        email: email,
+        password: password,
+        passwordConfirm: passwordConfirm,
+      );
+      if (result == true) {
+        state = state.copyWith(
+          resetPasswordLoading: false,
+        );
       }
 
       return true;
@@ -180,13 +189,17 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
   forgetPassword({required String email}) async {
     try {
-      state = state.copyWith(forgetPasswordLoading: true, );
+      state = state.copyWith(
+        forgetPasswordLoading: true,
+      );
 
-      final result =await _repo.forgetPassword(
+      final result = await _repo.forgetPassword(
         email: email,
       );
-      if(result ==true) {
-        state = state.copyWith(forgetPasswordLoading: false,);
+      if (result == true) {
+        state = state.copyWith(
+          forgetPasswordLoading: false,
+        );
       }
 
       return true;
@@ -197,9 +210,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<String?>resendOtp({required String email}) async {
-    try{
-
+  Future<String?> resendOtp({required String email}) async {
+    try {
       final result = await _repo.resendOtp(
         email: email,
       );
@@ -252,6 +264,4 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   // void resetErrorMessage() {
   //   state = state.copyWith(loading: false, errorMessage: "");
   // }
-
 }
-

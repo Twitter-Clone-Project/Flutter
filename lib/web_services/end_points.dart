@@ -27,4 +27,12 @@ class EndPoints {
   static blockUser(String username) => "/users/$username/block";
   static unblockUser(String username) => "/users/$username/unblock";
   static mutedUsers(String username) => "/users/mutedUsers"; //TODO in settings
+  static getLikersData(String tweetId) => "/tweets/$tweetId/likers";
+  static getRetweetersData(String tweetId) => "/tweets/$tweetId/retweeters";
+  static getRepliersData(String tweetId) => "/tweets/$tweetId/replies";
+  static addLike(String tweetId) => "/tweets/$tweetId/addLike";
+  static deleteLike(String tweetId) => "/tweets/$tweetId/deleteLike";
+  static addRetweet(String tweetId) => "/tweets/$tweetId/retweet";
+  static deleteRetweet(String tweetId) => "/tweets/$tweetId/deleteRetweet";
+  static addReply(String tweetId) => "/tweets/$tweetId/addReply";
 }
