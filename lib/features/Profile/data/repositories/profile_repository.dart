@@ -116,7 +116,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           profilePhoto,
           filename: path.basename(profilePhoto),
         );
-        data.files.add(MapEntry("imageUrl", file));
+        data.files.add(MapEntry("profilePhoto", file));
       }
 
       if (bannerPhoto != null) {
@@ -125,7 +125,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           filename: path.basename(bannerPhoto),
         );
         var isUpdated = "TRUE";
-        data.files.add(MapEntry("bannerUrl", file));
+        data.files.add(MapEntry("bannerPhoto", file));
         data.fields.add(MapEntry("isUpdated", isUpdated));
       }
 
