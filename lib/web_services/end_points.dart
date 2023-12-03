@@ -18,15 +18,13 @@ class EndPoints {
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
-  static getUserTweets(String userId, int page) => "users/$userId/tweets/$page";
-
-
-  //GET Posts of a user
-// /users/{userId}/tweets/{pageNum}
-
-  //GET Likes (tweets) of a user
-// /users/{userId}/likedTweets/{pageNum}
-
-//TODO FOR BACKEND: Get Replies of a user to view it in the profile
-//TODO FOR BACKEND: Get Posts that has Media
+  static getUserTweets(String userId, int page) => "/users/$userId/tweets/$page";
+  static getUserLikedTweets(String userId, int page) => "/users/$userId/likedTweets/$page";
+  static followUser(String username) => "/users/$username/follow";
+  static unfollowUser(String username) => "/users/$username/unfollow";
+  static muteUser(String username) => "/users/$username/mute";
+  static unmuteUser(String username) => "/users/$username/unmute";
+  static blockUser(String username) => "/users/$username/block";
+  static unblockUser(String username) => "/users/$username/unblock";
+  static mutedUsers(String username) => "/users/mutedUsers"; //TODO in settings
 }

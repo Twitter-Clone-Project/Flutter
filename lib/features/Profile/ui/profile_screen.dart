@@ -17,6 +17,8 @@ import 'package:x_clone/web_services/web_services.dart';
 
 import '../../../app/widgets/tweet_UI.dart';
 import '../../../theme/app_assets.dart';
+import '../../auth/data/model/user.dart';
+import '../data/model/user_profile.dart';
 
 class ProfileScreen extends StatefulHookConsumerWidget {
   const ProfileScreen({super.key});
@@ -34,12 +36,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {
-      var username = ref.read(authNotifierProvider).user?.username;
-      ref.read(profileNotifierProvider.notifier).fetchUserProfile(username!);
-
-
+      var myUser = ref.read(authNotifierProvider).user;
+      _onRefresh();
     });
-    _tabcontroller = TabController(length: 4, vsync: this);
+    _tabcontroller = TabController(length: 2, vsync: this);
 
     super.initState();
   }
@@ -48,6 +48,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final userProfile = ref.watch(profileNotifierProvider).userProfile;
+    var myUser = ref.read(authNotifierProvider).user;
     print("Opening profile of ${userProfile.username}");
     // final isLoading = userProfileState.isLoading;
 
@@ -62,10 +63,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     var actionMenu = isUserProfile ? ["Share"] : ["Share", "Block", "Mute"];
 
     return Scaffold(
-      body: CustomScrollView(
+        body: ref.watch(profileNotifierProvider).loading?
+        const Center(child: CircularProgressIndicator()): CustomScrollView(
         slivers: [
           SliverAppBar(
-            iconTheme: const IconThemeData(color: Colors.white,
+            iconTheme: const IconThemeData(
+              color: Colors.white,
             ),
             expandedHeight: backgroundImageHeight + profileImageDiameter / 2,
             floating: true,
@@ -81,9 +84,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   bottom: profileImageDiameter / 2,
                   child: Image(
                     fit: BoxFit.cover,
-                    image: NetworkImage(
-                        userProfile.bannerUrl
-                    ),
+                    image: NetworkImage(userProfile.bannerUrl),
                   ),
                 ),
                 Positioned(
@@ -100,11 +101,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Container(
-                          padding: EdgeInsets.all(2.5), // Adjust the padding to control the border width
+                          padding: EdgeInsets.all(2.5),
+                          // Adjust the padding to control the border width
                           decoration: BoxDecoration(
                             color: Colors.black, // Set the color of the border
                             shape: BoxShape.circle,
-
                           ),
                           child: CircleAvatar(
                             radius: profileImageDiameter / 2,
@@ -114,31 +115,34 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ),
                         ),
                         // Add your button here
-                        CustomButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, Routes.editProfileScreen);
+                        _EditProfileButton(
+                          userProfile: userProfile,
+                          myUser: myUser!,
+                          onEditProfile: () {
+                            Navigator.pushNamed(
+                                context, Routes.editProfileScreen);
                           },
-                          text: 'Edit Profile',
-                          filled: false,
-                          horizontalPadding: 20,
+                          onFollow: () {
+                            // Handle follow logic here
+                          },
                         ),
                       ],
                     ),
                   ),
                 ),
-
               ],
             ),
             actions: [
-              CircularIcon(
-                icon: Icons.search,
-                onPress: () {
+              IconButton(
+                icon: Icon(Icons.search, size: 25, color: Colors.white),
+                onPressed: () {
+                  // Add your functionality here when the search icon is clicked
+                  // For example, you can navigate to the search screen:
                   _onRefresh();
                 },
-
               ),
               PopupMenuButton(
-                child: const CircularIcon(icon: Icons.more_vert),
+                icon: const Icon(Icons.more_vert, size: 25, color: Colors.white,),
                 onSelected: (value) {},
                 itemBuilder: (context) {
                   return actionMenu
@@ -198,7 +202,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 color: AppColors.lightThinTextGray,
                               ),
                               const SizedBox(width: 4),
-                              Text(userProfile.location ?? "No Location Provided",
+                              Text(
+                                  userProfile.location ??
+                                      "No Location Provided",
                                   style: const TextStyle(
                                       color: AppColors.lightThinTextGray,
                                       fontSize: 14,
@@ -215,7 +221,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ),
                               const SizedBox(width: 4),
                               Link(
-                                url_string: userProfile.website ?? "NoWebsiteProvided.com",
+                                url_string: userProfile.website ??
+                                    "NoWebsiteProvided.com",
                               )
                             ],
                           ),
@@ -246,7 +253,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         runSpacing: 4.0,
                         children: [
                           Row(mainAxisSize: MainAxisSize.min, children: [
-                            Text(userProfile.followingsCount?? "0",
+                            Text(userProfile.followingsCount ?? "0",
                                 style: const TextStyle(
                                     color: AppColors.whiteColor,
                                     fontSize: 16,
@@ -262,7 +269,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ]),
                           Row(mainAxisSize: MainAxisSize.min, children: [
                             Text(
-                              userProfile.followersCount?? "0",
+                              userProfile.followersCount ?? "0",
                               style: const TextStyle(
                                 color: AppColors.whiteColor,
                                 fontSize: 16,
@@ -286,91 +293,270 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         controller: _tabcontroller,
                         tabs: const [
                           Tab(text: "Posts"),
-                          Tab(text: "Replies"),
-                          Tab(text: "Media"),
                           Tab(text: "Likes"),
                         ],
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.9,
                         child: TabBarView(
-
                           controller: _tabcontroller,
                           children: [
                             Scaffold(
-                        body: ref.watch(profileNotifierProvider).loading?
+                              body: ref.watch(profileNotifierProvider).loading
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : ref
+                                          .watch(profileNotifierProvider)
+                                          .profileTweetsResponse
+                                          .data
+                                          .isEmpty
+                                      ? const Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 50), // Adjust the top padding as needed
+                                  child: Text("No Tweets"),
+                                ),
+                              )
 
-                        const Center(child: CircularProgressIndicator()):
-                        ref.watch(profileNotifierProvider).profileTweetsResponse.data.isEmpty
-                            ? const Center(
-                          child: Text("No Tweets"),
-                        )
-
-                            :Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-                              child: Row(
-                                children: [
-                                  InkWell(
-                                    onTap: (){
-                                      Scaffold.of(context).openDrawer();
-                                    },
-                                    child: CircleAvatar(
-                                      child: CachedNetworkImage(
-                                        height: MediaQuery.of(context).size.height * 0.05,
-                                        width: MediaQuery.of(context).size.height * 0.05,
-                                        fit: BoxFit.scaleDown ,
-                                        color: AppColors.primaryColor,
-                                        imageUrl: "${ref.watch(profileNotifierProvider).profileTweetsResponse.data[0].user?.profileImageURL}",
-                                        placeholder: (context, url) =>
-                                            SvgPicture.asset(AppAssets.logo,colorFilter: const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn) , fit: BoxFit.cover),
-                                        errorWidget: (context, url, error) =>
-                                            SvgPicture.asset(AppAssets.logo,colorFilter: const ColorFilter.mode(AppColors.whiteColor, BlendMode.srcIn) , fit: BoxFit.cover),
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer()
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                height: double.infinity,
-                                child: SmartRefresher(
-                                  controller: _controller,
-                                  enablePullDown: true,
-                                  enablePullUp: true,
-                                  footer: const ClassicFooter(
-                                    loadingText: 'Load for more',
-                                  ),
-                                  onLoading: _onLoading,
-                                  onRefresh: _onRefresh,
-                                  child: ListView.separated(
-                                    itemCount: ref.watch(profileNotifierProvider).profileTweetsResponse.data!.length,
-                                    itemBuilder: (BuildContext context, int index) =>TweetCompose(
-                                      tweet: ref.watch(profileNotifierProvider).profileTweetsResponse.data![index],
-                                    ), separatorBuilder: (BuildContext context, int index) => const Divider(),
-                                  ),
+                                  : Column(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 20,
+                                                      horizontal: 10),
+                                              child: Row(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Scaffold.of(context)
+                                                          .openDrawer();
+                                                    },
+                                                    child: CircleAvatar(
+                                                      child: CachedNetworkImage(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.05,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.05,
+                                                        fit: BoxFit.scaleDown,
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        imageUrl:
+                                                            "${ref.watch(profileNotifierProvider).profileTweetsResponse.data[0].user?.profileImageURL}",
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            SvgPicture.asset(
+                                                                AppAssets.logo,
+                                                                colorFilter: const ColorFilter
+                                                                    .mode(
+                                                                    AppColors
+                                                                        .whiteColor,
+                                                                    BlendMode
+                                                                        .srcIn),
+                                                                fit: BoxFit
+                                                                    .cover),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            SvgPicture.asset(
+                                                                AppAssets.logo,
+                                                                colorFilter: const ColorFilter
+                                                                    .mode(
+                                                                    AppColors
+                                                                        .whiteColor,
+                                                                    BlendMode
+                                                                        .srcIn),
+                                                                fit: BoxFit
+                                                                    .cover),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Spacer()
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: SizedBox(
+                                                height: double.infinity,
+                                                child: SmartRefresher(
+                                                  controller: _controller,
+                                                  enablePullDown: true,
+                                                  enablePullUp: true,
+                                                  footer: const ClassicFooter(
+                                                    loadingText:
+                                                        'Load for more',
+                                                  ),
+                                                  onLoading: _onLoading,
+                                                  onRefresh: _onRefresh,
+                                                  child: ListView.separated(
+                                                    itemCount: ref
+                                                        .watch(
+                                                            profileNotifierProvider)
+                                                        .profileTweetsResponse
+                                                        .data!
+                                                        .length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                                int index) =>
+                                                            TweetCompose(
+                                                      tweet: ref
+                                                          .watch(
+                                                              profileNotifierProvider)
+                                                          .profileTweetsResponse
+                                                          .data![index],
+                                                    ),
+                                                    separatorBuilder:
+                                                        (BuildContext context,
+                                                                int index) =>
+                                                            const Divider(),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                              floatingActionButton: FloatingActionButton(
+                                backgroundColor: AppColors.primaryColor,
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.profileScreen);
+                                },
+                                child: const Icon(
+                                  Icons.add,
+                                  color: AppColors.whiteColor,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        floatingActionButton: FloatingActionButton(
-                          backgroundColor: AppColors.primaryColor,
-                          onPressed: () {
-                            Navigator.pushNamed(context, Routes.profileScreen);
-                          },
-                          child: const Icon(
-                            Icons.add,
-                            color: AppColors.whiteColor,
-                          ),
-                        ),
-                      ),
-                            const Text("1"),
-                            const Text("3"),
-                            const Text("4"),
+                            Scaffold(
+                              body: ref.watch(profileNotifierProvider).loading
+                                  ? const Center(
+                                  child: CircularProgressIndicator())
+                                  : ref
+                                  .watch(profileNotifierProvider)
+                                  .profileLikedTweetsResponse
+                                  .data
+                                  .isEmpty
+                                  ? const Center(
+                                child: Text("No Tweets"),
+                              )
+                                  : Column(
+                                children: [
+                                  Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(
+                                        vertical: 20,
+                                        horizontal: 10),
+                                    child: Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Scaffold.of(context)
+                                                .openDrawer();
+                                          },
+                                          child: CircleAvatar(
+                                            child: CachedNetworkImage(
+                                              height: MediaQuery.of(
+                                                  context)
+                                                  .size
+                                                  .height *
+                                                  0.05,
+                                              width: MediaQuery.of(
+                                                  context)
+                                                  .size
+                                                  .height *
+                                                  0.05,
+                                              fit: BoxFit.scaleDown,
+                                              color: AppColors
+                                                  .primaryColor,
+                                              imageUrl:
+                                              "${ref.watch(profileNotifierProvider).profileLikedTweetsResponse.data[0].user?.profileImageURL}",
+                                              placeholder: (context,
+                                                  url) =>
+                                                  SvgPicture.asset(
+                                                      AppAssets.logo,
+                                                      colorFilter: const ColorFilter
+                                                          .mode(
+                                                          AppColors
+                                                              .whiteColor,
+                                                          BlendMode
+                                                              .srcIn),
+                                                      fit: BoxFit
+                                                          .cover),
+                                              errorWidget: (context,
+                                                  url, error) =>
+                                                  SvgPicture.asset(
+                                                      AppAssets.logo,
+                                                      colorFilter: const ColorFilter
+                                                          .mode(
+                                                          AppColors
+                                                              .whiteColor,
+                                                          BlendMode
+                                                              .srcIn),
+                                                      fit: BoxFit
+                                                          .cover),
+                                            ),
+                                          ),
+                                        ),
+                                        Spacer()
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: double.infinity,
+                                      child: SmartRefresher(
+                                        controller: _controller,
+                                        enablePullDown: true,
+                                        enablePullUp: true,
+                                        footer: const ClassicFooter(
+                                          loadingText:
+                                          'Load for more',
+                                        ),
+                                        onLoading: _onLoading,
+                                        onRefresh: _onRefresh,
+                                        child: ListView.separated(
+                                          itemCount: ref
+                                              .watch(
+                                              profileNotifierProvider)
+                                              .profileLikedTweetsResponse
+                                              .data!
+                                              .length,
+                                          itemBuilder:
+                                              (BuildContext context,
+                                              int index) =>
+                                              TweetCompose(
+                                                tweet: ref
+                                                    .watch(
+                                                    profileNotifierProvider)
+                                                    .profileLikedTweetsResponse
+                                                    .data![index],
+                                              ),
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                              int index) =>
+                                          const Divider(),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              floatingActionButton: FloatingActionButton(
+                                backgroundColor: AppColors.primaryColor,
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.profileScreen);
+                                },
+                                child: const Icon(
+                                  Icons.add,
+                                  color: AppColors.whiteColor,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -382,10 +568,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ),
         ],
       ),
-
-    );}
-
-
+    );
+  }
 
   void _onRefresh() async {
     await loadData();
@@ -407,9 +591,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   }
 
   loadData() async {
-    await ref.read(profileNotifierProvider.notifier).fetchUserProfile("mou");
-
+    await ref.read(profileNotifierProvider.notifier).fetchUserProfile(ref.read(authNotifierProvider).user!.username!);
+    await ref.read(profileNotifierProvider.notifier).getUserLikedTweets(
+      userId: ref.read(authNotifierProvider).user!.userId!,
+      page: pageIndex,
+    );
+    await ref.read(profileNotifierProvider.notifier).getUserTweets(
+      userId: ref.read(authNotifierProvider).user!.userId!,
+      page: pageIndex,
+    );
+    // await ref.read(profileNotifierProvider.notifier).fetchUserProfile("mou");
   }
+
   @override
   bool get wantKeepAlive => true;
 }
@@ -508,7 +701,39 @@ class Link extends StatelessWidget {
   }
 }
 
+class _EditProfileButton extends StatelessWidget {
+  final UserProfile userProfile;
+  final User myUser;
+  final VoidCallback onEditProfile;
+  final VoidCallback onFollow;
 
+  const _EditProfileButton({
+    super.key,
+    required this.userProfile,
+    required this.myUser,
+    required this.onEditProfile,
+    required this.onFollow,
+  });
 
+  @override
+  Widget build(BuildContext context) {
+    final isMyProfile = userProfile.username == myUser.username;
 
-
+    return Container(
+        constraints: BoxConstraints(),
+        child: isMyProfile
+            ? CustomButton(
+                onPressed: onEditProfile,
+                text: 'Edit Profile',
+                filled: false,
+                horizontalPadding: 20,
+              )
+        : CustomButton(
+    onPressed: onFollow,
+    text: userProfile.isFollowed! ? 'Unfollow' : 'Follow',
+    filled: userProfile.isFollowed! ? false : true,
+    horizontalPadding: 20,
+    ),
+    );
+  }
+}

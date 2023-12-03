@@ -24,7 +24,7 @@ class UserProfile with _$UserProfile {
     String? bio,
     String? website,
     String? location,
-    @Default("https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png") String imageUrl,
+    @Default("https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg") String imageUrl,
     @Default("https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png") String bannerUrl,
     String? birthdate,
     // String? CreatedAt,
@@ -57,4 +57,20 @@ class ProfileTweetsResponse with _$ProfileTweetsResponse {
   }) = _ProfileTweetsResponse;
   factory ProfileTweetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ProfileTweetsResponseFromJson(json);
+}
+
+
+ProfileLikedTweetsResponse profileLikedTweetsResponseFromJson(String str) =>
+    ProfileLikedTweetsResponse.fromJson(json.decode(str));
+
+String profileLikedTweetsResponseToJson(ProfileLikedTweetsResponse data) => json.encode(data.toJson());
+
+@freezed
+class ProfileLikedTweetsResponse with _$ProfileLikedTweetsResponse {
+  const factory ProfileLikedTweetsResponse({
+    @Default([]) List<Tweet> data,
+    int? total,
+  }) = _ProfileLikedTweetsResponse;
+  factory ProfileLikedTweetsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProfileLikedTweetsResponseFromJson(json);
 }

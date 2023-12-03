@@ -9,6 +9,8 @@ abstract class ProfileRepository {
 
   getUserTweets(String userId, int page);
 
+  getUserLikedTweets(String userId, int page);
+
   Future<bool?> updateProfile(
       {String? profilePhoto,
         String? bannerPhoto,
@@ -17,7 +19,22 @@ abstract class ProfileRepository {
         String? website,
         String? location,
         String? birthDate,
+        required bool isUpdated,
       });
+
+
+  Future<bool?> followUser({required String username,});
+
+  Future<bool?> unfollowUser({required String username,});
+
+  Future<bool?> muteUser({required String username,});
+
+  Future<bool?> unmuteUser({required String username,});
+
+  Future<bool?> blockUser({required String username,});
+
+  Future<bool?> unblockUser({required String username,});
+
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -55,6 +72,20 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
+  getUserLikedTweets(String userId, int page) async {
+    try {
+      var response = await HttpClient.dio.get(EndPoints.getUserLikedTweets(userId, page));
+
+      if(response.statusCode == 200||response.statusCode == 201){
+        return ProfileTweetsResponse.fromJson(response.data);
+      }
+      return const ProfileTweetsResponse(data: [],total:0);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Future<bool?> updateProfile({String? profilePhoto,
     String? bannerPhoto,
     String? name,
@@ -62,18 +93,20 @@ class ProfileRepositoryImpl implements ProfileRepository {
     String? website,
     String? location,
     String? birthDate,
+    required bool isUpdated
   }) async {
     try {
       FormData data = FormData.fromMap({
         "profilePhoto": await MultipartFile.fromFile(
-          profilePhoto!, filename: path.basename(profilePhoto!),),
+          profilePhoto!, filename: path.basename(profilePhoto),),
         "bannerPhoto": await MultipartFile.fromFile(
-          bannerPhoto!, filename: path.basename(bannerPhoto!),),
+          bannerPhoto!, filename: path.basename(bannerPhoto),),
         "name": name,
         "bio": bio,
         "website": website,
         "location": location,
         "birthDate": birthDate,
+        "isUpdated": isUpdated,
       });
 
       var response = await HttpClient.dio.post(
@@ -86,48 +119,87 @@ class ProfileRepositoryImpl implements ProfileRepository {
       rethrow;
     }
   }
-  //
-  // @override
-  // Future<bool?> updateUsername({required String newUsername}) async {
-  //   try {
-  //     final data = {
-  //       "username": newUsername,
-  //     };
-  //     var response = await HttpClient.dio.patch(
-  //       EndPoints.updateUsername,
-  //       data: data,
-  //     );
-  //
-  //     if (response.statusCode == 200) {
-  //       return true;
-  //     } else {
-  //       throw (response.data["message"]);
-  //     }
-  //   } catch (e) {
-  //     throw e.toString();
-  //   }
-  // }
-  //
-  // @override
-  // Future<bool?> updateEmail({required String newEmail}) async {
-  //   try {
-  //     final data = {
-  //       "email": newEmail,
-  //     };
-  //     var response = await HttpClient.dio.patch(
-  //       EndPoints.updateEmail,
-  //       data: data,
-  //     );
-  //
-  //     if (response.statusCode == 200) {
-  //       return true;
-  //     } else {
-  //       throw (response.data["message"]);
-  //     }
-  //   } catch (e) {
-  //     throw e.toString();
-  //   }
-  // }
+
+  @override
+  Future<bool?> followUser({required String username}) async {
+    try {
+      var response = await HttpClient.dio.post(EndPoints.followUser(username));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw(response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool?> unfollowUser({required String username}) async {
+    try {
+      var response = await HttpClient.dio.post(EndPoints.unfollowUser(username));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw(response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool?> muteUser({required String username}) async {
+    try {
+      var response = await HttpClient.dio.post(EndPoints.muteUser(username));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw(response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool?> unmuteUser({required String username}) async {
+    try {
+      var response = await HttpClient.dio.post(EndPoints.followUser(username));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw(response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool?> blockUser({required String username}) async {
+    try {
+      var response = await HttpClient.dio.post(EndPoints.blockUser(username));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw(response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool?> unblockUser({required String username}) async {
+    try {
+      var response = await HttpClient.dio.post(EndPoints.unblockUser(username));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw(response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
+
 }
   final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
     return ProfileRepositoryImpl();

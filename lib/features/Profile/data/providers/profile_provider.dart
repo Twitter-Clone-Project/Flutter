@@ -18,38 +18,10 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }
 
   init() {
-    // getTimelineData(page: 1);
+    fetchUserProfile(state.userProfile.username!);
+    getUserTweets(userId: state.userProfile.username!, page: 0);
+    getUserLikedTweets(userId: state.userProfile.username!, page: 1);
   }
-  // getTimelineData({
-  //   required int page,
-  // }) async {
-  //   try {
-  //     if (page == 1) {
-  //       state = state.copyWith(loading: true);
-  //     }
-  //     final HomeResponse homeResponse = await homeRepository.getTimeline(page);
-  //     final List<Tweet> tweets;
-  //
-  //     if (page == 1) {
-  //       tweets = homeResponse.data;
-  //     } else {
-  //       final oldList = List<Tweet>.from(state.homeResponse.data);
-  //       oldList.addAll(homeResponse.data);
-  //       tweets = oldList;
-  //     }
-  //     state = state.copyWith(
-  //         homeResponse: state.homeResponse
-  //             .copyWith(data: tweets, total: homeResponse.total),
-  //         loading: false);
-  //     return homeResponse;
-  //   } catch (e) {
-  //     state = state.copyWith(loading: false, errorMessage: e.toString());
-  //     return const HomeResponse(data: [], total: 0);
-  //   }
-  // }
-  // changePageIndex(index) {
-  //   state = state.copyWith(screenIndex: index);
-  // }
 
   Future<void> fetchUserProfile(String username) async {
     try {
@@ -90,6 +62,35 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     }
   }
 
+  getUserLikedTweets({
+    required String userId,
+    required int page,
+  }) async {
+    try {
+      if (page == 1) {
+        state = state.copyWith(loading: true);
+      }
+      final ProfileLikedTweetsResponse profileLikedTweetsResponse = await profileRepository.getUserLikedTweets(userId, page);
+      final List<Tweet> tweets;
+
+      if (page == 1) {
+        tweets = profileLikedTweetsResponse.data;
+      } else {
+        final oldList = List<Tweet>.from(state.profileLikedTweetsResponse.data);
+        oldList.addAll(profileLikedTweetsResponse.data);
+        tweets = oldList;
+      }
+      state = state.copyWith(
+          profileLikedTweetsResponse: state.profileLikedTweetsResponse
+              .copyWith(data: tweets, total: profileLikedTweetsResponse.total),
+          loading: false);
+      return profileLikedTweetsResponse;
+    } catch (e) {
+      state = state.copyWith(loading: false, errorMessage: e.toString());
+      return const ProfileLikedTweetsResponse(data: [], total: 0);
+    }
+  }
+
   Future<void> updateUserProfile({
     String? profilePhoto,
     String? bannerPhoto,
@@ -98,6 +99,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     String? website,
     String? location,
     String? birthDate,
+    required bool isUpdated
   }) async {
     try {
       state = state.copyWith(loading: true);
@@ -109,12 +111,111 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         website: website,
         location: location,
         birthDate: birthDate,
+          isUpdated: isUpdated
       );
 
       if (result == true) {
         // Handle success if needed, for example, refetch the updated profile
       }
       //TODO Edit the following line to update the state to the newest updated user profile
+      state = state.copyWith(loading: false);
+    } catch (e) {
+      state = state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+
+
+  Future<void> followUser(String username) async {
+    try {
+      state = state.copyWith(loading: true);
+      final result = await profileRepository.followUser(username: username);
+
+      if (result == true) {
+        // Handle success if needed, for example, refetch the updated profile
+      }
+
+      // TODO: Edit the following line to update the state to reflect the change in the user's follow status
+      state = state.copyWith(loading: false);
+    } catch (e) {
+      state = state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Future<void> unfollowUser(String username) async {
+    try {
+      state = state.copyWith(loading: true);
+      final result = await profileRepository.unfollowUser(username: username);
+
+      if (result == true) {
+        // Handle success if needed, for example, refetch the updated profile
+      }
+
+      // TODO: Edit the following line to update the state to reflect the change in the user's follow status
+      state = state.copyWith(loading: false);
+    } catch (e) {
+      state = state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Future<void> muteUser(String username) async {
+    try {
+      state = state.copyWith(loading: true);
+      final result = await profileRepository.muteUser(username: username);
+
+      if (result == true) {
+        // Handle success if needed, for example, refetch the updated profile
+      }
+
+      // TODO: Edit the following line to update the state to reflect the change in the user's mute status
+      state = state.copyWith(loading: false);
+    } catch (e) {
+      state = state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Future<void> unmuteUser(String username) async {
+    try {
+      state = state.copyWith(loading: true);
+      final result = await profileRepository.unmuteUser(username: username);
+
+      if (result == true) {
+        // Handle success if needed, for example, refetch the updated profile
+      }
+
+      // TODO: Edit the following line to update the state to reflect the change in the user's mute status
+      state = state.copyWith(loading: false);
+    } catch (e) {
+      state = state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Future<void> blockUser(String username) async {
+    try {
+      state = state.copyWith(loading: true);
+      final result = await profileRepository.blockUser(username: username);
+
+      if (result == true) {
+        // Handle success if needed, for example, refetch the updated profile
+      }
+
+      // TODO: Edit the following line to update the state to reflect the change in the user's block status
+      state = state.copyWith(loading: false);
+    } catch (e) {
+      state = state.copyWith(loading: false, error: e.toString());
+    }
+  }
+
+  Future<void> unblockUser(String username) async {
+    try {
+      state = state.copyWith(loading: true);
+      final result = await profileRepository.unblockUser(username: username);
+
+      if (result == true) {
+        // Handle success if needed, for example, refetch the updated profile
+      }
+
+      // TODO: Edit the following line to update the state to reflect the change in the user's block status
       state = state.copyWith(loading: false);
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
