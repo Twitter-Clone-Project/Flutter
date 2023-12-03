@@ -9,18 +9,17 @@ abstract class ProfileRepository {
 
   getUserTweets(String userId, int page);
 
+  Future<UserProfile?> updateProfile({
+    String? profilePhoto,
+    String? bannerPhoto,
+    String? name,
+    String? bio,
+    String? website,
+    String? location,
+    String? birthDate,
+  });
   getUserLikedTweets(String userId, int page);
 
-  Future<bool?> updateProfile(
-      {String? profilePhoto,
-        String? bannerPhoto,
-        String? name,
-        String? bio,
-        String? website,
-        String? location,
-        String? birthDate,
-        required bool isUpdated,
-      });
 
 
   Future<bool?> followUser({required String username,});
@@ -42,7 +41,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<UserProfile> fetchUserProfileData({required String username}) async {
     try {
       var response =
-      await HttpClient.dio.get(EndPoints.getUserProfile(username));
+          await HttpClient.dio.get(EndPoints.getUserProfile(username));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         var userProfile = UserProfile.fromJson(response.data["data"]["user"]);
@@ -60,12 +59,13 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   getUserTweets(String userId, int page) async {
     try {
-      var response = await HttpClient.dio.get(EndPoints.getUserTweets(userId, page));
+      var response =
+          await HttpClient.dio.get(EndPoints.getUserTweets(userId, page));
 
-      if(response.statusCode == 200||response.statusCode == 201){
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return ProfileTweetsResponse.fromJson(response.data);
       }
-      return const ProfileTweetsResponse(data: [],total:0);
+      return const ProfileTweetsResponse(data: [], total: 0);
     } catch (e) {
       rethrow;
     }
@@ -86,35 +86,56 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<bool?> updateProfile({String? profilePhoto,
+  Future<UserProfile?> updateProfile({
+    String? profilePhoto,
     String? bannerPhoto,
     String? name,
     String? bio,
     String? website,
     String? location,
     String? birthDate,
-    required bool isUpdated
   }) async {
     try {
       FormData data = FormData.fromMap({
         "profilePhoto": await MultipartFile.fromFile(
-          profilePhoto!, filename: path.basename(profilePhoto),),
+          profilePhoto!, filename: path.basename(profilePhoto!),),
         "bannerPhoto": await MultipartFile.fromFile(
-          bannerPhoto!, filename: path.basename(bannerPhoto),),
+          bannerPhoto!, filename: path.basename(bannerPhoto!),),
         "name": name,
         "bio": bio,
         "website": website,
         "location": location,
         "birthDate": birthDate,
-        "isUpdated": isUpdated,
       });
 
-      var response = await HttpClient.dio.post(
-          EndPoints.updateProfile, data: data);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return true;
+      if (birthDate != null) {
+        data.fields.add(MapEntry("birthDate", birthDate));
       }
-      throw(response.data["message"]);
+      if (profilePhoto != null) {
+        var file = await MultipartFile.fromFile(
+          profilePhoto,
+          filename: path.basename(profilePhoto),
+        );
+        data.files.add(MapEntry("imageUrl", file));
+      }
+
+      if (bannerPhoto != null) {
+        var file = await MultipartFile.fromFile(
+          bannerPhoto,
+          filename: path.basename(bannerPhoto),
+        );
+        var isUpdated = "TRUE";
+        data.files.add(MapEntry("bannerUrl", file));
+        data.fields.add(MapEntry("isUpdated", isUpdated));
+      }
+
+      var response =
+          await HttpClient.dio.patch(EndPoints.updateProfile, data: data);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return UserProfile.fromJson(response.data["data"]);
+      }
+      throw (response.data["message"]);
     } catch (e) {
       rethrow;
     }

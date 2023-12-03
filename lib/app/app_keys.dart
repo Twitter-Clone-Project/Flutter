@@ -12,6 +12,7 @@ class AppKeys {
   static final verifyOtpFormKey = GlobalKey<FormState>();
   static final forgetFormKey = GlobalKey<FormState>();
   static final resetFormKey = GlobalKey<FormState>();
+  static final updateProfileFormKey = GlobalKey<FormState>();
   static final GlobalKey<ScaffoldState> registerScaffoldKey = GlobalKey<ScaffoldState>();
 
 

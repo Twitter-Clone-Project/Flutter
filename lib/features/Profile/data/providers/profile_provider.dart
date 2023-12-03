@@ -22,12 +22,46 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     getUserTweets(userId: state.userProfile.username!, page: 0);
     getUserLikedTweets(userId: state.userProfile.username!, page: 1);
   }
+  // getTimelineData({
+  //   required int page,
+  // }) async {
+  //   try {
+  //     if (page == 1) {
+  //       state = state.copyWith(loading: true);
+  //     }
+  //     final HomeResponse homeResponse = await homeRepository.getTimeline(page);
+  //     final List<Tweet> tweets;
+  //
+  //     if (page == 1) {
+  //       tweets = homeResponse.data;
+  //     } else {
+  //       final oldList = List<Tweet>.from(state.homeResponse.data);
+  //       oldList.addAll(homeResponse.data);
+  //       tweets = oldList;
+  //     }
+  //     state = state.copyWith(
+  //         homeResponse: state.homeResponse
+  //             .copyWith(data: tweets, total: homeResponse.total),
+  //         loading: false);
+  //     return homeResponse;
+  //   } catch (e) {
+  //     state = state.copyWith(loading: false, errorMessage: e.toString());
+  //     return const HomeResponse(data: [], total: 0);
+  //   }
+  // }
+  // changePageIndex(index) {
+  //   state = state.copyWith(screenIndex: index);
+  // }
 
   Future<void> fetchUserProfile(String username) async {
     try {
       state = state.copyWith(loading: true, error: null);
-      final userProfile = await profileRepository.fetchUserProfileData(username: username);
-      state = state.copyWith(loading: false, userProfile: userProfile?? const UserProfile(imageUrl: "",bannerUrl: ""));
+      final userProfile =
+          await profileRepository.fetchUserProfileData(username: username);
+      state = state.copyWith(
+          loading: false,
+          userProfile:
+              userProfile ?? const UserProfile(imageUrl: "", bannerUrl: ""));
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
     }
@@ -41,7 +75,8 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       if (page == 1) {
         state = state.copyWith(loading: true);
       }
-      final ProfileTweetsResponse profileTweetsResponse = await profileRepository.getUserTweets(userId, page);
+      final ProfileTweetsResponse profileTweetsResponse =
+          await profileRepository.getUserTweets(userId, page);
       final List<Tweet> tweets;
 
       if (page == 1) {
@@ -61,6 +96,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       return const ProfileTweetsResponse(data: [], total: 0);
     }
   }
+
 
   getUserLikedTweets({
     required String userId,
@@ -91,7 +127,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     }
   }
 
-  Future<void> updateUserProfile({
+  Future<bool?> updateUserProfile({
     String? profilePhoto,
     String? bannerPhoto,
     String? name,
@@ -99,7 +135,6 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     String? website,
     String? location,
     String? birthDate,
-    required bool isUpdated
   }) async {
     try {
       state = state.copyWith(loading: true);
@@ -111,11 +146,11 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         website: website,
         location: location,
         birthDate: birthDate,
-          isUpdated: isUpdated
       );
 
-      if (result == true) {
-        // Handle success if needed, for example, refetch the updated profile
+      if (result != null) {
+        state = state.copyWith(userProfile: result);
+        return true;
       }
       //TODO Edit the following line to update the state to the newest updated user profile
       state = state.copyWith(loading: false);
@@ -224,7 +259,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 }
 
 final profileNotifierProvider =
-StateNotifierProvider<ProfileNotifierProvider, UserProfileState>((ref) {
+    StateNotifierProvider<ProfileNotifierProvider, UserProfileState>((ref) {
   final profileRepository = ref.watch(profileRepositoryProvider);
 
   return ProfileNotifierProvider(profileRepository);

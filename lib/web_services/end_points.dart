@@ -14,7 +14,7 @@ class EndPoints {
   static const deleteBanner = "/profile/deleteBanner";
   static const updatePicture = "/profile/updatePicture";
   static const deletePicture = "/profile/deletePicture";
-  static const updateProfile = "/profile/update";
+  static const updateProfile = "/profile/updateProfile";
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
