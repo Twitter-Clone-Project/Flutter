@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
+import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 
 class Reply extends StatelessWidget {
   Reply({
     super.key,
-    this.text,
-    this.userName,
-    this.likesCount,
+    required this.replier,
   });
-  final String? text;
-  final String? userName;
-  //final String createdAt;
-  int? likesCount;
+  final ReplierData replier;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +43,7 @@ class Reply extends StatelessWidget {
                       InkWell(
                         onTap: () {},
                         child: Text(
-                          userName!,
+                          replier.username!,
                           style: const TextStyle(
                             color: AppColors.whiteColor,
                             fontSize: 18,
@@ -79,7 +75,7 @@ class Reply extends StatelessWidget {
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.02),
                     child: Text(
-                      text!,
+                      replier.text!,
                       style: const TextStyle(
                         color: AppColors.whiteColor,
                         fontSize: 16,
@@ -91,28 +87,23 @@ class Reply extends StatelessWidget {
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.02),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         TweetIconButton(
                           pathName: AppAssets.commentIcon,
                           text: '10',
                           onTap: () {},
                         ),
-                        SizedBox(
-                            width: 0.1 * MediaQuery.of(context).size.width),
                         TweetIconButton(
                           pathName: AppAssets.retweetIcon,
                           text: '10',
                           onTap: () {},
                         ),
-                        SizedBox(
-                            width: 0.1 * MediaQuery.of(context).size.width),
                         TweetIconButton(
                           pathName: AppAssets.likeOutlinedIcon,
-                          text: likesCount.toString(),
+                          text: replier.likesCount.toString(),
                           onTap: () {},
                         ),
-                        SizedBox(
-                            width: 0.1 * MediaQuery.of(context).size.width),
                         TweetIconButton(
                             pathName: AppAssets.viewsIcon,
                             text: '1800',
@@ -130,7 +121,7 @@ class Reply extends StatelessWidget {
             )
           ],
         ),
-        Divider(
+        const Divider(
           color: AppColors.whiteColor,
           thickness: 0.1,
         )

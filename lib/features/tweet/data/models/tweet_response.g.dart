@@ -71,7 +71,7 @@ _$ReplierDataImpl _$$ReplierDataImplFromJson(Map<String, dynamic> json) =>
     _$ReplierDataImpl(
       id: json['id'] as String?,
       text: json['text'] as String?,
-      userName: json['userName'] as String?,
+      username: json['username'] as String?,
       bio: json['bio'] as String?,
       profileImageURL: json['profileImageURL'] as String?,
       createdAt: json['createdAt'] as String?,
@@ -82,7 +82,7 @@ Map<String, dynamic> _$$ReplierDataImplToJson(_$ReplierDataImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'text': instance.text,
-      'userName': instance.userName,
+      'username': instance.username,
       'bio': instance.bio,
       'profileImageURL': instance.profileImageURL,
       'createdAt': instance.createdAt,

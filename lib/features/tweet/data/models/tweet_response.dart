@@ -74,7 +74,7 @@ class ReplierData with _$ReplierData {
   const factory ReplierData({
     String? id,
     String? text,
-    String? userName,
+    String? username,
     String? bio,
     String? profileImageURL,
     String? createdAt,

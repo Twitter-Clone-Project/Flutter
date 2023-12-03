@@ -10,7 +10,7 @@ class TweetIconButton extends StatelessWidget {
   const TweetIconButton({
     Key? key,
     required this.pathName,
-    required this.text,
+    this.text = '',
     required this.onTap,
     this.color = AppColors.lightThinTextGray,
   }) : super(key: key);

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:x_clone/features/auth/data/model/user.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/features/tweet/data/repositories/tweet_repository.dart';
 import 'package:x_clone/features/tweet/data/states/tweet_state.dart';
@@ -59,7 +60,6 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
       );
       final RepliersList repliers =
           await tweetRepository.fetchRepliersData(tweetId: tweetId);
-
       if (repliers.data != null) {
         state = state.copyWith(
           repliersList: repliers,
@@ -77,6 +77,34 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
         //errorMessage: e.toString(),
         repliersList: const RepliersList(data: []),
       );
+    }
+  }
+
+  Future<bool> addReply(
+      {required String tweetId,
+      required String replyText,
+      required User replierUser}) async {
+    try {
+      if (replyText.isEmpty) {
+        return false;
+      }
+      tweetRepository.addReply(tweetId: tweetId, replyText: replyText);
+      ReplierData replier = ReplierData(
+        id: replierUser.userId,
+        likesCount: 0,
+        username: replierUser.username,
+        profileImageURL: replierUser.profileImageURL,
+        text: replyText,
+      );
+      List<ReplierData> updatedRepliersList =
+          List<ReplierData>.from(state.repliersList.data!);
+      updatedRepliersList.add(replier);
+      RepliersList updatedList = RepliersList(data: updatedRepliersList);
+      state = state.copyWith(repliersList: updatedList);
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
     }
   }
 }

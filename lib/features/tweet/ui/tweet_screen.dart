@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
+import 'package:x_clone/features/tweet/ui/widgets/addReply.dart';
 import 'package:x_clone/features/tweet/ui/widgets/reply.dart';
 import 'package:x_clone/features/tweet/ui/widgets/tweet.dart';
 import 'package:x_clone/theme/app_colors.dart';
@@ -21,9 +26,6 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // var data = ModalRoute.of(context)!.settings.arguments as Map;
-    // widget.tweet = data["tweet"] as Tweet?;
-    // widget.index = data["index"] as int?;
     Future.delayed(
       const Duration(seconds: 0),
       () {
@@ -36,51 +38,59 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final tweetprov = ref.watch(tweetNotifierProvider);
+    final tweetProvider = ref.watch(tweetNotifierProvider);
+    final userProvider = ref.watch(authNotifierProvider);
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.pureBlack,
-          title: Text(
-            'Post',
-            style: AppTextStyle.textThemeDark.headlineSmall!
-                .copyWith(color: AppColors.whiteColor),
-          ),
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_sharp,
-              color: AppColors.whiteColor,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(1.0),
-            child: Divider(color: AppColors.whiteColor, thickness: 0.1),
-          ),
+      appBar: AppBar(
+        backgroundColor: AppColors.pureBlack,
+        title: Text(
+          'Post',
+          style: AppTextStyle.textThemeDark.headlineSmall!
+              .copyWith(color: AppColors.whiteColor),
         ),
-        body: Column(
-          children: [
-            TweetComponent(
-              tweet: widget.tweet!,
-              index: widget.index!,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_sharp,
+            color: AppColors.whiteColor,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1.0),
+          child: Divider(color: AppColors.whiteColor, thickness: 0.1),
+        ),
+      ),
+      body: Column(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                TweetComponent(
+                  tweet: widget.tweet!,
+                  index: widget.index!,
+                ),
+                tweetProvider.loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: tweetProvider.repliersList.data!.length,
+                        itemBuilder: (context, index) {
+                          final replier =
+                              tweetProvider.repliersList.data![index];
+                          return Reply(
+                            replier: tweetProvider.repliersList.data![index],
+                          );
+                        },
+                      ),
+              ],
             ),
-            tweetprov.loading
-                ? const Center(child: CircularProgressIndicator())
-                : Expanded(
-                    child: ListView.builder(
-                      itemCount: tweetprov.repliersList.data!.length,
-                      itemBuilder: (context, index) {
-                        final replier = tweetprov.repliersList.data![index];
-                        return Reply(
-                          likesCount: replier.likesCount,
-                          text: replier.text,
-                          userName: replier.userName,
-                        );
-                      },
-                    ),
-                  ),
-          ],
-        ));
+          ),
+          const Spacer(),
+          AddReply(tweet: widget.tweet),
+        ],
+      ),
+    );
   }
 }

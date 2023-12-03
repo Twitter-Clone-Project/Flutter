@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
-import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
-import 'package:x_clone/theme/app_text_style.dart';
 
 import '../../features/home/data/models/home_response.dart';
 import '../../theme/app_assets.dart';

@@ -97,183 +97,182 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
         'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D');
     final Image? image = null;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: 0.03 * MediaQuery.of(context).size.width, vertical: 0),
-      child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-        print("LikeButton Constraints: $constraints");
-        return (Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    // go to user profile
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: AppColors.whiteColor,
-                    backgroundImage: userImage?.image,
-                    radius: 20,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: 0.03 * MediaQuery.of(context).size.width,
+              vertical: 0),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  // go to user profile
+                },
+                child: CircleAvatar(
+                  backgroundColor: AppColors.whiteColor,
+                  backgroundImage: userImage?.image,
+                  radius: 20,
+                ),
+              ),
+              SizedBox(width: 0.02 * MediaQuery.of(context).size.width),
+              Column(
+                children: [
+                  InkWell(
+                    onTap: () {},
+                    child: Text(userName,
+                        style: AppTextStyle.textThemeDark.bodyLarge!
+                            .copyWith(fontWeight: FontWeight.bold)),
                   ),
-                ),
-                SizedBox(width: 0.02 * MediaQuery.of(context).size.width),
-                Column(
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: Text(userName,
-                          style: AppTextStyle.textThemeDark.bodyLarge!
-                              .copyWith(fontWeight: FontWeight.bold)),
+                  Text(
+                    '@' + handle,
+                    style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                      color: AppColors.lightThinTextGray,
                     ),
-                    Text(
-                      '@' + handle,
-                      style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                        color: AppColors.lightThinTextGray,
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 0.005 * MediaQuery.of(context).size.height,
-            ),
-            Text(text!,
-                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith()),
-            const Divider(color: AppColors.whiteColor, thickness: 0.1),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.retweetersScreen,
-                        arguments: tweetId);
-                  },
-                  child: Text(retweetsCount.toString(),
-                      style: AppTextStyle.textThemeDark.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.bold)),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.retweetersScreen,
-                        arguments: tweetId);
-                  },
-                  child: Text(" Reposts",
-                      style: AppTextStyle.textThemeDark.bodyLarge!
-                          .copyWith(color: AppColors.lightThinTextGray)),
-                ),
-                SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
-                Text(repliescount.toString(),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 0.005 * MediaQuery.of(context).size.height,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: 0.03 * MediaQuery.of(context).size.width,
+              vertical: 0),
+          child: Text(text!,
+              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith()),
+        ),
+        const Divider(color: AppColors.lightThinTextGray, thickness: 0.3),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: 0.03 * MediaQuery.of(context).size.width,
+              vertical: 0),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.retweetersScreen,
+                      arguments: tweetId);
+                },
+                child: Text(retweetsCount.toString(),
                     style: AppTextStyle.textThemeDark.bodyLarge!
                         .copyWith(fontWeight: FontWeight.bold)),
-                Text(" Replies",
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.retweetersScreen,
+                      arguments: tweetId);
+                },
+                child: Text(" Reposts",
                     style: AppTextStyle.textThemeDark.bodyLarge!
                         .copyWith(color: AppColors.lightThinTextGray)),
-                SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.likersScreen,
-                        arguments: tweetId!);
-                  },
-                  child: Text(likesCount.toString(),
-                      style: AppTextStyle.textThemeDark.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.bold)),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.likersScreen,
-                        arguments: tweetId);
-                  },
-                  child: Text(" Likes",
-                      style: AppTextStyle.textThemeDark.bodyLarge!
-                          .copyWith(color: AppColors.lightThinTextGray)),
-                ),
-              ],
-            ),
-            const Divider(color: AppColors.whiteColor, thickness: 0.1),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TweetIconButton(
-                  pathName: AppAssets.commentIcon,
-                  text: "",
-                  onTap: () {},
-                ),
-                TweetIconButton(
-                  color:
-                      isRetweeted ? Colors.green : AppColors.lightThinTextGray,
-                  pathName: isRetweeted
-                      ? AppAssets.greyRetweetIcon
-                      : AppAssets.greyRetweetIcon,
-                  text: retweetsCount.toString(),
-                  onTap: () {
-                    setState(() {
-                      isRetweeted = !isRetweeted;
-                      isRetweeted ? retweetsCount++ : retweetsCount--;
-                      isRetweeted
-                          ? ref
-                              .read(homeNotifierProvider.notifier)
-                              .addRetweet(tweetId: tweetId!, index: index)
-                          : ref
-                              .read(homeNotifierProvider.notifier)
-                              .deleteRetweet(tweetId: tweetId!, index: index);
-                    });
-                  },
-                ),
-                LikeButton(
-                  isLiked: ref
-                          .watch(homeNotifierProvider)
-                          .homeResponse
-                          .data[index]
-                          .isLiked ??
-                      false,
-                  size: 23,
-                  // likeCount: likesCount,
-                  // countBuilder: (likecount, isLiked, text) {
-                  //   return Text(
-                  //     text,
-                  //     style: TextStyle(
-                  //       fontSize: 12,
-                  //       color:
-                  //           isLiked ? Colors.red : AppColors.lightThinTextGray,
-                  //     ),
-                  //   );
-                  // },
-                  onTap: (isLiked) async {
-                    isLiked = !isLiked;
-                    isLiked ? likesCount++ : likesCount--;
-                    isLiked
+              ),
+              SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
+              Text(repliescount.toString(),
+                  style: AppTextStyle.textThemeDark.bodyLarge!
+                      .copyWith(fontWeight: FontWeight.bold)),
+              Text(" Replies",
+                  style: AppTextStyle.textThemeDark.bodyLarge!
+                      .copyWith(color: AppColors.lightThinTextGray)),
+              SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.likersScreen,
+                      arguments: tweetId!);
+                },
+                child: Text(likesCount.toString(),
+                    style: AppTextStyle.textThemeDark.bodyLarge!
+                        .copyWith(fontWeight: FontWeight.bold)),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.likersScreen,
+                      arguments: tweetId);
+                },
+                child: Text(" Likes",
+                    style: AppTextStyle.textThemeDark.bodyLarge!
+                        .copyWith(color: AppColors.lightThinTextGray)),
+              ),
+            ],
+          ),
+        ),
+        const Divider(color: AppColors.lightThinTextGray, thickness: 0.3),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: 0.05 * MediaQuery.of(context).size.width,
+              vertical: 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TweetIconButton(
+                pathName: AppAssets.commentIcon,
+                text: "",
+                onTap: () {},
+              ),
+              TweetIconButton(
+                color: isRetweeted ? Colors.green : AppColors.lightThinTextGray,
+                pathName: isRetweeted
+                    ? AppAssets.greyRetweetIcon
+                    : AppAssets.greyRetweetIcon,
+                onTap: () {
+                  setState(() {
+                    isRetweeted = !isRetweeted;
+                    isRetweeted ? retweetsCount++ : retweetsCount--;
+                    isRetweeted
                         ? ref
                             .read(homeNotifierProvider.notifier)
-                            .addLike(tweetId: tweetId!, index: index)
+                            .addRetweet(tweetId: tweetId!, index: index)
                         : ref
                             .read(homeNotifierProvider.notifier)
-                            .deleteLike(tweetId: tweetId!, index: index);
-                  },
-                  likeBuilder: (isLiked) {
-                    return isLiked
-                        ? SvgPicture.asset(
-                            AppAssets.likeFilledIcon,
-                            color: Colors.red,
-                          )
-                        : SvgPicture.asset(
-                            AppAssets.likeOutlinedIcon,
-                            color: AppColors.lightThinTextGray,
-                          );
-                  },
-                ),
-                TweetIconButton(
-                  pathName: AppAssets.bookmarkIcon,
-                  text: "",
-                  onTap: () {},
-                ),
-              ],
-            ),
-            const Divider(color: AppColors.whiteColor, thickness: 0.1),
-          ],
-        ));
-      }),
+                            .deleteRetweet(tweetId: tweetId!, index: index);
+                  });
+                },
+              ),
+              LikeButton(
+                isLiked: ref
+                        .watch(homeNotifierProvider)
+                        .homeResponse
+                        .data[index]
+                        .isLiked ??
+                    false,
+                size: 23,
+                onTap: (isLiked) async {
+                  isLiked = !isLiked;
+                  isLiked ? likesCount++ : likesCount--;
+                  isLiked
+                      ? ref
+                          .read(homeNotifierProvider.notifier)
+                          .addLike(tweetId: tweetId!, index: index)
+                      : ref
+                          .read(homeNotifierProvider.notifier)
+                          .deleteLike(tweetId: tweetId!, index: index);
+                },
+                likeBuilder: (isLiked) {
+                  return isLiked
+                      ? SvgPicture.asset(
+                          AppAssets.likeFilledIcon,
+                          color: Colors.red,
+                        )
+                      : SvgPicture.asset(
+                          AppAssets.likeOutlinedIcon,
+                          color: AppColors.lightThinTextGray,
+                        );
+                },
+              ),
+              TweetIconButton(
+                pathName: AppAssets.bookmarkIcon,
+                text: "",
+                onTap: () {},
+              ),
+            ],
+          ),
+        ),
+        const Divider(color: AppColors.lightThinTextGray, thickness: 0.3),
+      ],
     );
   }
 }

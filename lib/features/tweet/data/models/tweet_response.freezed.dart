@@ -759,7 +759,7 @@ ReplierData _$ReplierDataFromJson(Map<String, dynamic> json) {
 mixin _$ReplierData {
   String? get id => throw _privateConstructorUsedError;
   String? get text => throw _privateConstructorUsedError;
-  String? get userName => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   String? get profileImageURL => throw _privateConstructorUsedError;
   String? get createdAt => throw _privateConstructorUsedError;
@@ -780,7 +780,7 @@ abstract class $ReplierDataCopyWith<$Res> {
   $Res call(
       {String? id,
       String? text,
-      String? userName,
+      String? username,
       String? bio,
       String? profileImageURL,
       String? createdAt,
@@ -802,7 +802,7 @@ class _$ReplierDataCopyWithImpl<$Res, $Val extends ReplierData>
   $Res call({
     Object? id = freezed,
     Object? text = freezed,
-    Object? userName = freezed,
+    Object? username = freezed,
     Object? bio = freezed,
     Object? profileImageURL = freezed,
     Object? createdAt = freezed,
@@ -817,9 +817,9 @@ class _$ReplierDataCopyWithImpl<$Res, $Val extends ReplierData>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String?,
-      userName: freezed == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String?,
       bio: freezed == bio
           ? _value.bio
@@ -852,7 +852,7 @@ abstract class _$$ReplierDataImplCopyWith<$Res>
   $Res call(
       {String? id,
       String? text,
-      String? userName,
+      String? username,
       String? bio,
       String? profileImageURL,
       String? createdAt,
@@ -872,7 +872,7 @@ class __$$ReplierDataImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? text = freezed,
-    Object? userName = freezed,
+    Object? username = freezed,
     Object? bio = freezed,
     Object? profileImageURL = freezed,
     Object? createdAt = freezed,
@@ -887,9 +887,9 @@ class __$$ReplierDataImplCopyWithImpl<$Res>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String?,
-      userName: freezed == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String?,
       bio: freezed == bio
           ? _value.bio
@@ -917,7 +917,7 @@ class _$ReplierDataImpl implements _ReplierData {
   const _$ReplierDataImpl(
       {this.id,
       this.text,
-      this.userName,
+      this.username,
       this.bio,
       this.profileImageURL,
       this.createdAt,
@@ -931,7 +931,7 @@ class _$ReplierDataImpl implements _ReplierData {
   @override
   final String? text;
   @override
-  final String? userName;
+  final String? username;
   @override
   final String? bio;
   @override
@@ -943,7 +943,7 @@ class _$ReplierDataImpl implements _ReplierData {
 
   @override
   String toString() {
-    return 'ReplierData(id: $id, text: $text, userName: $userName, bio: $bio, profileImageURL: $profileImageURL, createdAt: $createdAt, likesCount: $likesCount)';
+    return 'ReplierData(id: $id, text: $text, username: $username, bio: $bio, profileImageURL: $profileImageURL, createdAt: $createdAt, likesCount: $likesCount)';
   }
 
   @override
@@ -953,8 +953,8 @@ class _$ReplierDataImpl implements _ReplierData {
             other is _$ReplierDataImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.text, text) || other.text == text) &&
-            (identical(other.userName, userName) ||
-                other.userName == userName) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.profileImageURL, profileImageURL) ||
                 other.profileImageURL == profileImageURL) &&
@@ -966,7 +966,7 @@ class _$ReplierDataImpl implements _ReplierData {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, text, userName, bio,
+  int get hashCode => Object.hash(runtimeType, id, text, username, bio,
       profileImageURL, createdAt, likesCount);
 
   @JsonKey(ignore: true)
@@ -987,7 +987,7 @@ abstract class _ReplierData implements ReplierData {
   const factory _ReplierData(
       {final String? id,
       final String? text,
-      final String? userName,
+      final String? username,
       final String? bio,
       final String? profileImageURL,
       final String? createdAt,
@@ -1001,7 +1001,7 @@ abstract class _ReplierData implements ReplierData {
   @override
   String? get text;
   @override
-  String? get userName;
+  String? get username;
   @override
   String? get bio;
   @override

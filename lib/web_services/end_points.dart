@@ -15,4 +15,5 @@ class EndPoints {
   static deleteLike(String tweetId) => "/tweets/$tweetId/deleteLike";
   static addRetweet(String tweetId) => "/tweets/$tweetId/retweet";
   static deleteRetweet(String tweetId) => "/tweets/$tweetId/deleteRetweet";
+  static addReply(String tweetId) => "/tweets/$tweetId/addReply";
 }

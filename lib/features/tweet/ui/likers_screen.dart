@@ -56,44 +56,44 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
               itemBuilder: (context, index) {
                 final liker = tweetprov.likersList.data![index];
                 return ListTile(
-                    leading: GestureDetector(
-                      onTap: () {
-                        // go to user profile
-                      },
-                      child: const CircleAvatar(
-                        backgroundColor: AppColors.whiteColor,
-                        // backgroundImage:Image.network(liker.profileImageURL!).image,
-                        radius: 20,
-                      ),
+                  leading: GestureDetector(
+                    onTap: () {
+                      // go to user profile
+                    },
+                    child: const CircleAvatar(
+                      backgroundColor: AppColors.whiteColor,
+                      // backgroundImage:Image.network(liker.profileImageURL!).image,
+                      radius: 20,
                     ),
-                    title: Text(
-                      liker.name!,
-                      style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ),
+                  title: Text(
+                    liker.name!,
+                    style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
-                    subtitle: Text(
-                      '@${liker.screenName}',
-                      style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                        color: AppColors.lightGray,
-                      ),
+                  ),
+                  subtitle: Text(
+                    '@${liker.screenName}',
+                    style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                      color: AppColors.lightGray,
                     ),
-                    trailing: liker.isFollowed!
-                        ? Container(
-                            width: 120,
-                            height: 40,
-                            child: CustomButton(
-                              text: 'Following',
-                              onPressed: () {},
-                              filled: false,
-                            ),
-                          )
-                        : Container(
-                            width: 120,
-                            height: 40,
-                            child:
-                                CustomButton(text: 'Follow', onPressed: () {}),
-                          ));
+                  ),
+                  trailing: liker.isFollowed!
+                      ? Container(
+                          width: 120,
+                          height: 40,
+                          child: CustomButton(
+                            text: 'Following',
+                            onPressed: () {},
+                            filled: false,
+                          ),
+                        )
+                      : Container(
+                          width: 120,
+                          height: 40,
+                          child: CustomButton(text: 'Follow', onPressed: () {}),
+                        ),
+                );
               },
             ),
     );
