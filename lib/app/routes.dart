@@ -1,3 +1,4 @@
+import 'package:x_clone/features/Profile/ui/editprofile_screen.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:flutter/material.dart';
 import 'package:x_clone/features/home/ui/add_tweet_screen.dart';
@@ -15,6 +16,7 @@ import '../features/auth/ui/signup_screen.dart';
 import '../features/auth/ui/verify_otp_screen.dart';
 import '../features/home/ui/home_screen.dart';
 import '../features/home/ui/navigation_screen.dart';
+import '../features/Profile/ui/profile_screen.dart';
 
 class Routes {
   static const String initRoute = "/";
@@ -27,10 +29,15 @@ class Routes {
   static const String verifyOtpScreen = "/verifyOtp";
   static const String resetPasswordScreen = "/resetPassword";
   static const String addTweet = "/addTweet";
+  static const String profileScreen = "/profileScreen";
+  static const String editProfileScreen = "/editProfileScreen";
+
+
   static const String reCAPTCHAscreen = "/reCAPTCHA";
   static const String tweetScreen = "/tweetScreen";
   static const String retweetersScreen = "/retweetersScreen";
   static const String likersScreen = "/likersScreen";
+
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -82,6 +89,10 @@ class Routes {
                   isSignUp: data["isSignUp"],
                   email: data["email"],
                 ));
+      case profileScreen:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case editProfileScreen:
+        return MaterialPageRoute(builder: (_) => const EditProfileScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

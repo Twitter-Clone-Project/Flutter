@@ -93,10 +93,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     final String handle = widget.tweet.user?.screenName ?? '';
     final String date = widget.tweet.createdAt ?? '';
     final bool verified = false;
-
-    // final NetworkImage? userImage =
-    //     NetworkImage(widget.tweet.user!.profileImageURL!);
-
+    final Image? userImage = Image.network(widget.tweet.user?.profileImageURL??'https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png');
     final Image? image = null;
 
     return (Row(
@@ -110,8 +107,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
               // go to user profile
             },
             child: CircleAvatar(
+              backgroundImage: userImage?.image,
               backgroundColor: AppColors.whiteColor,
-              //backgroundImage: userImage,
               radius: 20,
             ),
           ),
