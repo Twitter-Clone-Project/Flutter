@@ -69,24 +69,26 @@ Map<String, dynamic> _$$RetweetersListImplToJson(
 
 _$ReplierDataImpl _$$ReplierDataImplFromJson(Map<String, dynamic> json) =>
     _$ReplierDataImpl(
-      id: json['id'] as String?,
-      text: json['text'] as String?,
+      replyText: json['replyText'] as String?,
       username: json['username'] as String?,
       bio: json['bio'] as String?,
       profileImageURL: json['profileImageURL'] as String?,
       createdAt: json['createdAt'] as String?,
-      likesCount: json['likesCount'] as int?,
+      replyId: json['replyId'] as String?,
+      replyTweetId: json['replyTweetId'] as String?,
+      replyUserId: json['replyUserId'] as String?,
     );
 
 Map<String, dynamic> _$$ReplierDataImplToJson(_$ReplierDataImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'text': instance.text,
+      'replyText': instance.replyText,
       'username': instance.username,
       'bio': instance.bio,
       'profileImageURL': instance.profileImageURL,
       'createdAt': instance.createdAt,
-      'likesCount': instance.likesCount,
+      'replyId': instance.replyId,
+      'replyTweetId': instance.replyTweetId,
+      'replyUserId': instance.replyUserId,
     };
 
 _$RepliersListImpl _$$RepliersListImplFromJson(Map<String, dynamic> json) =>

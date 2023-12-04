@@ -90,11 +90,10 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
       }
       tweetRepository.addReply(tweetId: tweetId, replyText: replyText);
       ReplierData replier = ReplierData(
-        id: replierUser.userId,
-        likesCount: 0,
+        replyUserId: replierUser.userId,
         username: replierUser.username,
         profileImageURL: replierUser.profileImageURL,
-        text: replyText,
+        replyText: replyText,
       );
       List<ReplierData> updatedRepliersList =
           List<ReplierData>.from(state.repliersList.data!);

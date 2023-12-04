@@ -93,9 +93,6 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     final String handle = widget.tweet.user?.screenName ?? '';
     final String date = widget.tweet.createdAt ?? '';
     final bool verified = false;
-    final NetworkImage? userImage = NetworkImage(widget
-            .tweet.user?.profileImageURL ??
-        'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D');
     final Image? image = null;
 
     return Column(
@@ -113,7 +110,8 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                 },
                 child: CircleAvatar(
                   backgroundColor: AppColors.whiteColor,
-                  //backgroundImage: userImage,
+                  backgroundImage:
+                      NetworkImage(widget.tweet.user!.profileImageURL ?? ''),
                   radius: 20,
                 ),
               ),

@@ -72,13 +72,14 @@ String RepliersResponseToJson(RepliersList data) => json.encode(data.toJson());
 @freezed
 class ReplierData with _$ReplierData {
   const factory ReplierData({
-    String? id,
-    String? text,
+    String? replyText,
     String? username,
     String? bio,
     String? profileImageURL,
     String? createdAt,
-    int? likesCount,
+    String? replyId,
+    String? replyTweetId,
+    String? replyUserId,
   }) = _ReplierData;
 
   factory ReplierData.fromJson(Map<String, dynamic> json) =>

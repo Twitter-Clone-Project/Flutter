@@ -27,7 +27,7 @@ class Reply extends StatelessWidget {
                 },
                 child: CircleAvatar(
                   backgroundColor: AppColors.whiteColor,
-                  //backgroundImage: NetworkImage(replier.profileImageURL!),
+                  backgroundImage: NetworkImage(replier.profileImageURL ?? ''),
                   radius: 20,
                 ),
               ),
@@ -75,7 +75,7 @@ class Reply extends StatelessWidget {
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.02),
                     child: Text(
-                      replier.text!,
+                      replier.replyText!,
                       style: const TextStyle(
                         color: AppColors.whiteColor,
                         fontSize: 16,
@@ -101,7 +101,7 @@ class Reply extends StatelessWidget {
                         ),
                         TweetIconButton(
                           pathName: AppAssets.likeOutlinedIcon,
-                          text: replier.likesCount.toString(),
+                          text: '10',
                           onTap: () {},
                         ),
                         TweetIconButton(

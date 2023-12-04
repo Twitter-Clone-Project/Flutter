@@ -757,13 +757,14 @@ ReplierData _$ReplierDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ReplierData {
-  String? get id => throw _privateConstructorUsedError;
-  String? get text => throw _privateConstructorUsedError;
+  String? get replyText => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   String? get profileImageURL => throw _privateConstructorUsedError;
   String? get createdAt => throw _privateConstructorUsedError;
-  int? get likesCount => throw _privateConstructorUsedError;
+  String? get replyId => throw _privateConstructorUsedError;
+  String? get replyTweetId => throw _privateConstructorUsedError;
+  String? get replyUserId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -778,13 +779,14 @@ abstract class $ReplierDataCopyWith<$Res> {
       _$ReplierDataCopyWithImpl<$Res, ReplierData>;
   @useResult
   $Res call(
-      {String? id,
-      String? text,
+      {String? replyText,
       String? username,
       String? bio,
       String? profileImageURL,
       String? createdAt,
-      int? likesCount});
+      String? replyId,
+      String? replyTweetId,
+      String? replyUserId});
 }
 
 /// @nodoc
@@ -800,22 +802,19 @@ class _$ReplierDataCopyWithImpl<$Res, $Val extends ReplierData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? text = freezed,
+    Object? replyText = freezed,
     Object? username = freezed,
     Object? bio = freezed,
     Object? profileImageURL = freezed,
     Object? createdAt = freezed,
-    Object? likesCount = freezed,
+    Object? replyId = freezed,
+    Object? replyTweetId = freezed,
+    Object? replyUserId = freezed,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      text: freezed == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
+      replyText: freezed == replyText
+          ? _value.replyText
+          : replyText // ignore: cast_nullable_to_non_nullable
               as String?,
       username: freezed == username
           ? _value.username
@@ -833,10 +832,18 @@ class _$ReplierDataCopyWithImpl<$Res, $Val extends ReplierData>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
-      likesCount: freezed == likesCount
-          ? _value.likesCount
-          : likesCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+      replyId: freezed == replyId
+          ? _value.replyId
+          : replyId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      replyTweetId: freezed == replyTweetId
+          ? _value.replyTweetId
+          : replyTweetId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      replyUserId: freezed == replyUserId
+          ? _value.replyUserId
+          : replyUserId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -850,13 +857,14 @@ abstract class _$$ReplierDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
-      String? text,
+      {String? replyText,
       String? username,
       String? bio,
       String? profileImageURL,
       String? createdAt,
-      int? likesCount});
+      String? replyId,
+      String? replyTweetId,
+      String? replyUserId});
 }
 
 /// @nodoc
@@ -870,22 +878,19 @@ class __$$ReplierDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? text = freezed,
+    Object? replyText = freezed,
     Object? username = freezed,
     Object? bio = freezed,
     Object? profileImageURL = freezed,
     Object? createdAt = freezed,
-    Object? likesCount = freezed,
+    Object? replyId = freezed,
+    Object? replyTweetId = freezed,
+    Object? replyUserId = freezed,
   }) {
     return _then(_$ReplierDataImpl(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      text: freezed == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
+      replyText: freezed == replyText
+          ? _value.replyText
+          : replyText // ignore: cast_nullable_to_non_nullable
               as String?,
       username: freezed == username
           ? _value.username
@@ -903,10 +908,18 @@ class __$$ReplierDataImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
-      likesCount: freezed == likesCount
-          ? _value.likesCount
-          : likesCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+      replyId: freezed == replyId
+          ? _value.replyId
+          : replyId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      replyTweetId: freezed == replyTweetId
+          ? _value.replyTweetId
+          : replyTweetId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      replyUserId: freezed == replyUserId
+          ? _value.replyUserId
+          : replyUserId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -915,21 +928,20 @@ class __$$ReplierDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ReplierDataImpl implements _ReplierData {
   const _$ReplierDataImpl(
-      {this.id,
-      this.text,
+      {this.replyText,
       this.username,
       this.bio,
       this.profileImageURL,
       this.createdAt,
-      this.likesCount});
+      this.replyId,
+      this.replyTweetId,
+      this.replyUserId});
 
   factory _$ReplierDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReplierDataImplFromJson(json);
 
   @override
-  final String? id;
-  @override
-  final String? text;
+  final String? replyText;
   @override
   final String? username;
   @override
@@ -939,11 +951,15 @@ class _$ReplierDataImpl implements _ReplierData {
   @override
   final String? createdAt;
   @override
-  final int? likesCount;
+  final String? replyId;
+  @override
+  final String? replyTweetId;
+  @override
+  final String? replyUserId;
 
   @override
   String toString() {
-    return 'ReplierData(id: $id, text: $text, username: $username, bio: $bio, profileImageURL: $profileImageURL, createdAt: $createdAt, likesCount: $likesCount)';
+    return 'ReplierData(replyText: $replyText, username: $username, bio: $bio, profileImageURL: $profileImageURL, createdAt: $createdAt, replyId: $replyId, replyTweetId: $replyTweetId, replyUserId: $replyUserId)';
   }
 
   @override
@@ -951,8 +967,8 @@ class _$ReplierDataImpl implements _ReplierData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReplierDataImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.text, text) || other.text == text) &&
+            (identical(other.replyText, replyText) ||
+                other.replyText == replyText) &&
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.bio, bio) || other.bio == bio) &&
@@ -960,14 +976,17 @@ class _$ReplierDataImpl implements _ReplierData {
                 other.profileImageURL == profileImageURL) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.likesCount, likesCount) ||
-                other.likesCount == likesCount));
+            (identical(other.replyId, replyId) || other.replyId == replyId) &&
+            (identical(other.replyTweetId, replyTweetId) ||
+                other.replyTweetId == replyTweetId) &&
+            (identical(other.replyUserId, replyUserId) ||
+                other.replyUserId == replyUserId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, text, username, bio,
-      profileImageURL, createdAt, likesCount);
+  int get hashCode => Object.hash(runtimeType, replyText, username, bio,
+      profileImageURL, createdAt, replyId, replyTweetId, replyUserId);
 
   @JsonKey(ignore: true)
   @override
@@ -985,21 +1004,20 @@ class _$ReplierDataImpl implements _ReplierData {
 
 abstract class _ReplierData implements ReplierData {
   const factory _ReplierData(
-      {final String? id,
-      final String? text,
+      {final String? replyText,
       final String? username,
       final String? bio,
       final String? profileImageURL,
       final String? createdAt,
-      final int? likesCount}) = _$ReplierDataImpl;
+      final String? replyId,
+      final String? replyTweetId,
+      final String? replyUserId}) = _$ReplierDataImpl;
 
   factory _ReplierData.fromJson(Map<String, dynamic> json) =
       _$ReplierDataImpl.fromJson;
 
   @override
-  String? get id;
-  @override
-  String? get text;
+  String? get replyText;
   @override
   String? get username;
   @override
@@ -1009,7 +1027,11 @@ abstract class _ReplierData implements ReplierData {
   @override
   String? get createdAt;
   @override
-  int? get likesCount;
+  String? get replyId;
+  @override
+  String? get replyTweetId;
+  @override
+  String? get replyUserId;
   @override
   @JsonKey(ignore: true)
   _$$ReplierDataImplCopyWith<_$ReplierDataImpl> get copyWith =>
