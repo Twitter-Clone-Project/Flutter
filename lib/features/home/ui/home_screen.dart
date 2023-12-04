@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/routes.dart';
+import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../theme/app_assets.dart';
@@ -52,7 +53,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                               fit: BoxFit.scaleDown,
                               color: AppColors.primaryColor,
                               imageUrl:
-                                  "${ref.watch(homeNotifierProvider).homeResponse.data?[0].user?.profileImageURL}",
+                                  "${ref.watch(authNotifierProvider).user?.profileImageURL}",
                               placeholder: (context, url) => SvgPicture.asset(
                                   AppAssets.logo,
                                   colorFilter: const ColorFilter.mode(
@@ -140,17 +141,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             Icons.add,
             color: AppColors.whiteColor,
           ),
-        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.primaryColor,
-        onPressed: () {
-          Navigator.pushNamed(context, Routes.addTweet);
-        },
-        child: const Icon(
-          Icons.add,
-          color: AppColors.whiteColor,
-        ),
       ),
     );
   }

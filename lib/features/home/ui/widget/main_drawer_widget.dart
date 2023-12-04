@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 import 'package:x_clone/theme/app_colors.dart';
 
+import '../../../../app/routes.dart';
 import '../../../auth/data/providers/auth_provider.dart';
 
 class MainDrawer extends ConsumerWidget {
@@ -28,14 +29,20 @@ class MainDrawer extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 59, 158, 59),
-                      child: Text(
-                        _userName[0],
-                        style: AppTextStyle.textThemeDark.headline6!
-                            .copyWith(color: Colors.white, fontSize: 25),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, Routes.profileScreen);
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: const Color.fromARGB(255, 59, 158, 59),
+                        child: Text(
+                          _userName[0],
+                          style: AppTextStyle.textThemeDark.headline6!
+                              .copyWith(color: Colors.white, fontSize: 25),
+                        ),
+                        // Child : Sura aw awl harf mn esm el user
                       ),
-                      // Child : Sura aw awl harf mn esm el user
                     ),
                     const Spacer(),
                     IconButton(

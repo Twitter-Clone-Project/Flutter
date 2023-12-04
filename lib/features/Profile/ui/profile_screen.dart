@@ -475,7 +475,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                                   .watch(
                                                                       profileNotifierProvider)
                                                                   .profileTweetsResponse
-                                                                  .data![index],
+                                                                  .data![index],index: index,
                                                             ),
                                                             separatorBuilder:
                                                                 (BuildContext
@@ -612,6 +612,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                                       profileNotifierProvider)
                                                                   .profileLikedTweetsResponse
                                                                   .data![index],
+                                                                  index: index,
                                                             ),
                                                             separatorBuilder:
                                                                 (BuildContext
