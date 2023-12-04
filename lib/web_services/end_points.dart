@@ -18,6 +18,7 @@ class EndPoints {
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
+  static const addTweet = "/tweets/add";
   static getUserTweets(String userId, int page) => "/users/$userId/tweets/$page";
   static getUserLikedTweets(String userId, int page) => "/users/$userId/likedTweets/$page";
   static followUser(String username) => "/users/$username/follow";

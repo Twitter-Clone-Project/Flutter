@@ -43,6 +43,18 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
+  addTweet({
+    required String tweetText,
+    String? attachments
+
+  }) async {
+    try {
+      // Add the logic for adding a tweet using homeRepository
+      await homeRepository.addTweet(tweetText: tweetText, attachments: attachments);
+
+      // If successful, you may want to trigger a refresh of the timeline
+      getTimelineData(page: 1);
+    } catch (e) {
   addLike({required String tweetId, required int index}) async {
     try {
       homeRepository.addLike(tweetId: tweetId);
