@@ -15,6 +15,7 @@ class HttpExceptions implements Exception {
         switch (dioException.response?.statusCode) {
           case 400:
           case 422:
+          case 404:
             throw BadRequestException(
                 dioException.requestOptions, dioException.response);
           case 401:

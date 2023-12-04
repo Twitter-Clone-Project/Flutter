@@ -14,6 +14,7 @@ class AppColors {
   static const Color extraExtraLightGray = Color(0xFFF5F8FA);
   static const Color borderDarkGray = Color(0xFF2F3336);
   static const Color lightThinTextGray = Color(0xFF71767B);
+  static const Color TwitterBlue = Color(0xFF1d96ef);
   static const Color pureBlack = Color(0xFF000000);
   static const Color blackColor = Color(0xFF14171A);
   static const Color warningColor = Color(0xFFF4212E);
