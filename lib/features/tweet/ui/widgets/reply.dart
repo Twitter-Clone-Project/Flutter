@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
-import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 
 class Reply extends StatelessWidget {
@@ -27,7 +25,7 @@ class Reply extends StatelessWidget {
                 },
                 child: CircleAvatar(
                   backgroundColor: AppColors.whiteColor,
-                  //backgroundImage: NetworkImage(replier.profileImageURL!),
+                  //backgroundImage: NetworkImage(replier.profileImageURL ?? ''),
                   radius: 20,
                 ),
               ),
@@ -75,40 +73,12 @@ class Reply extends StatelessWidget {
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.02),
                     child: Text(
-                      replier.text!,
+                      replier.replyText!,
                       style: const TextStyle(
                         color: AppColors.whiteColor,
                         fontSize: 16,
                         fontStyle: FontStyle.normal,
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.02),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        TweetIconButton(
-                          pathName: AppAssets.commentIcon,
-                          text: '10',
-                          onTap: () {},
-                        ),
-                        TweetIconButton(
-                          pathName: AppAssets.retweetIcon,
-                          text: '10',
-                          onTap: () {},
-                        ),
-                        TweetIconButton(
-                          pathName: AppAssets.likeOutlinedIcon,
-                          text: replier.likesCount.toString(),
-                          onTap: () {},
-                        ),
-                        TweetIconButton(
-                            pathName: AppAssets.viewsIcon,
-                            text: '1800',
-                            onTap: () {})
-                      ],
                     ),
                   ),
                 ],
@@ -122,8 +92,8 @@ class Reply extends StatelessWidget {
           ],
         ),
         const Divider(
-          color: AppColors.whiteColor,
-          thickness: 0.1,
+          color: AppColors.lightThinTextGray,
+          thickness: 0.3,
         )
       ],
     );

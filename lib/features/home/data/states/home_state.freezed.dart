@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   HomeResponse get homeResponse => throw _privateConstructorUsedError;
+  RepliersList get repliersList => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   int get screenIndex => throw _privateConstructorUsedError;
@@ -34,12 +35,14 @@ abstract class $HomeStateCopyWith<$Res> {
   @useResult
   $Res call(
       {HomeResponse homeResponse,
+      RepliersList repliersList,
       String? errorMessage,
       bool loading,
       int screenIndex,
       int pageIndex});
 
   $HomeResponseCopyWith<$Res> get homeResponse;
+  $RepliersListCopyWith<$Res> get repliersList;
 }
 
 /// @nodoc
@@ -56,6 +59,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? homeResponse = null,
+    Object? repliersList = null,
     Object? errorMessage = freezed,
     Object? loading = null,
     Object? screenIndex = null,
@@ -66,6 +70,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.homeResponse
           : homeResponse // ignore: cast_nullable_to_non_nullable
               as HomeResponse,
+      repliersList: null == repliersList
+          ? _value.repliersList
+          : repliersList // ignore: cast_nullable_to_non_nullable
+              as RepliersList,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -92,6 +100,14 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       return _then(_value.copyWith(homeResponse: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RepliersListCopyWith<$Res> get repliersList {
+    return $RepliersListCopyWith<$Res>(_value.repliersList, (value) {
+      return _then(_value.copyWith(repliersList: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -104,6 +120,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {HomeResponse homeResponse,
+      RepliersList repliersList,
       String? errorMessage,
       bool loading,
       int screenIndex,
@@ -111,6 +128,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
 
   @override
   $HomeResponseCopyWith<$Res> get homeResponse;
+  @override
+  $RepliersListCopyWith<$Res> get repliersList;
 }
 
 /// @nodoc
@@ -125,6 +144,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? homeResponse = null,
+    Object? repliersList = null,
     Object? errorMessage = freezed,
     Object? loading = null,
     Object? screenIndex = null,
@@ -135,6 +155,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.homeResponse
           : homeResponse // ignore: cast_nullable_to_non_nullable
               as HomeResponse,
+      repliersList: null == repliersList
+          ? _value.repliersList
+          : repliersList // ignore: cast_nullable_to_non_nullable
+              as RepliersList,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -160,6 +184,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 class _$HomeStateImpl implements _HomeState {
   const _$HomeStateImpl(
       {this.homeResponse = const HomeResponse(data: [], total: 0),
+      this.repliersList = const RepliersList(data: []),
       this.errorMessage = null,
       this.loading = true,
       this.screenIndex = 0,
@@ -168,6 +193,9 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final HomeResponse homeResponse;
+  @override
+  @JsonKey()
+  final RepliersList repliersList;
   @override
   @JsonKey()
   final String? errorMessage;
@@ -183,7 +211,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(homeResponse: $homeResponse, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex, pageIndex: $pageIndex)';
+    return 'HomeState(homeResponse: $homeResponse, repliersList: $repliersList, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex, pageIndex: $pageIndex)';
   }
 
   @override
@@ -193,6 +221,8 @@ class _$HomeStateImpl implements _HomeState {
             other is _$HomeStateImpl &&
             (identical(other.homeResponse, homeResponse) ||
                 other.homeResponse == homeResponse) &&
+            (identical(other.repliersList, repliersList) ||
+                other.repliersList == repliersList) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.loading, loading) || other.loading == loading) &&
@@ -203,8 +233,8 @@ class _$HomeStateImpl implements _HomeState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, homeResponse, errorMessage, loading, screenIndex, pageIndex);
+  int get hashCode => Object.hash(runtimeType, homeResponse, repliersList,
+      errorMessage, loading, screenIndex, pageIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -216,6 +246,7 @@ class _$HomeStateImpl implements _HomeState {
 abstract class _HomeState implements HomeState {
   const factory _HomeState(
       {final HomeResponse homeResponse,
+      final RepliersList repliersList,
       final String? errorMessage,
       final bool loading,
       final int screenIndex,
@@ -223,6 +254,8 @@ abstract class _HomeState implements HomeState {
 
   @override
   HomeResponse get homeResponse;
+  @override
+  RepliersList get repliersList;
   @override
   String? get errorMessage;
   @override

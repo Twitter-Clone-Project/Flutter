@@ -52,61 +52,6 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
       );
     }
   }
-
-  Future<void> getRepliers({required String tweetId}) async {
-    try {
-      state = state.copyWith(
-        loading: true,
-      );
-      final RepliersList repliers =
-          await tweetRepository.fetchRepliersData(tweetId: tweetId);
-      if (repliers.data != null) {
-        state = state.copyWith(
-          repliersList: repliers,
-          loading: false,
-        );
-      } else {
-        state = state.copyWith(
-          errorMessage: 'Failed to fetch likers',
-          loading: false,
-        );
-      }
-    } catch (e) {
-      state = state.copyWith(
-        loading: false,
-        //errorMessage: e.toString(),
-        repliersList: const RepliersList(data: []),
-      );
-    }
-  }
-
-  Future<bool> addReply(
-      {required String tweetId,
-      required String replyText,
-      required User replierUser}) async {
-    try {
-      if (replyText.isEmpty) {
-        return false;
-      }
-      tweetRepository.addReply(tweetId: tweetId, replyText: replyText);
-      ReplierData replier = ReplierData(
-        id: replierUser.userId,
-        likesCount: 0,
-        username: replierUser.username,
-        profileImageURL: replierUser.profileImageURL,
-        text: replyText,
-      );
-      List<ReplierData> updatedRepliersList =
-          List<ReplierData>.from(state.repliersList.data!);
-      updatedRepliersList.add(replier);
-      RepliersList updatedList = RepliersList(data: updatedRepliersList);
-      state = state.copyWith(repliersList: updatedList);
-      return true;
-    } catch (e) {
-      return false;
-      // Handle error
-    }
-  }
 }
 
 final tweetNotifierProvider =

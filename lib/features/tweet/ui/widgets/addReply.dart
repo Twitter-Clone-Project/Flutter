@@ -7,14 +7,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
+import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
 class AddReply extends StatefulHookConsumerWidget {
-  AddReply({super.key, required this.tweet});
-  Tweet? tweet;
+  final Tweet tweet;
+  final int index;
+
+  AddReply({Key? key, required this.tweet, required this.index})
+      : super(key: key) {}
   @override
   ConsumerState<AddReply> createState() => _AddReplyState();
 }
@@ -26,7 +30,6 @@ class _AddReplyState extends ConsumerState<AddReply> {
   @override
   Widget build(BuildContext context) {
     final userProvider = ref.watch(authNotifierProvider);
-
     Widget activeWidget = Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
@@ -36,10 +39,11 @@ class _AddReplyState extends ConsumerState<AddReply> {
           });
         },
         onSubmitted: (replyText) {
-          ref.read(tweetNotifierProvider.notifier).addReply(
-                tweetId: widget.tweet!.id!,
+          ref.read(homeNotifierProvider.notifier).addReply(
+                tweetId: widget.tweet.id!,
                 replyText: replyText,
                 replierUser: userProvider.user!,
+                index: widget.index,
               );
         },
         decoration: InputDecoration(
@@ -140,10 +144,11 @@ class _AddReplyState extends ConsumerState<AddReply> {
                 child: TextButton(
                   onPressed: isButtonEnabled
                       ? () {
-                          ref.read(tweetNotifierProvider.notifier).addReply(
-                                tweetId: widget.tweet!.id!,
+                          ref.read(homeNotifierProvider.notifier).addReply(
+                                tweetId: widget.tweet.id!,
                                 replyText: _replyController.text,
                                 replierUser: userProvider.user!,
+                                index: widget.index,
                               );
                           _replyController.text = '';
                           varWidget = 0;

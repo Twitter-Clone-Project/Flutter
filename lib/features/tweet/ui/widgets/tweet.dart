@@ -26,6 +26,7 @@ class TweetComponent extends StatefulHookConsumerWidget {
 class _TweetComposeState extends ConsumerState<TweetComponent> {
   late int likeCountBeforeMe;
   late int retweetsCount;
+  late int repliesCount;
   late int likesCount;
   late int retweetCountBeforeMe;
   late var likeIcon = AppAssets.likeOutlinedIcon;
@@ -35,6 +36,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     super.initState();
     likeIcon = AppAssets.likeOutlinedIcon;
     likesCount = widget.tweet.likesCount ?? 0;
+    repliesCount = widget.tweet.repliesCount ?? 0;
     retweetsCount = widget.tweet.retweetsCount ?? 0;
     retweetCountBeforeMe = widget.tweet.retweetsCount ?? 0;
     isRetweeted = widget.tweet.isRetweeted ?? false;
@@ -85,7 +87,6 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
   @override
   Widget build(BuildContext context) {
     // bool isRetweeted = widget.tweet.isRetweeted ?? false;
-    final int? repliescount = widget.tweet.repliesCount;
     int? index = widget.index;
     final String tweetId = widget.tweet.id ?? '';
     final String? text = widget.tweet.text;
@@ -93,11 +94,9 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     final String handle = widget.tweet.user?.screenName ?? '';
     final String date = widget.tweet.createdAt ?? '';
     final bool verified = false;
-    final NetworkImage? userImage = NetworkImage(widget
-            .tweet.user?.profileImageURL ??
-        'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D');
     final Image? image = null;
-
+    final repliesCount =
+        ref.watch(homeNotifierProvider).homeResponse.data[index].repliesCount;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -113,7 +112,8 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                 },
                 child: CircleAvatar(
                   backgroundColor: AppColors.whiteColor,
-                  //backgroundImage: userImage,
+                  backgroundImage:
+                      NetworkImage(widget.tweet.user!.profileImageURL ?? ''),
                   radius: 20,
                 ),
               ),
@@ -174,7 +174,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                         .copyWith(color: AppColors.lightThinTextGray)),
               ),
               SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
-              Text(repliescount.toString(),
+              Text(repliesCount.toString(),
                   style: AppTextStyle.textThemeDark.bodyLarge!
                       .copyWith(fontWeight: FontWeight.bold)),
               Text(" Replies",
@@ -211,11 +211,6 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TweetIconButton(
-                pathName: AppAssets.commentIcon,
-                text: "",
-                onTap: () {},
-              ),
-              TweetIconButton(
                 color: isRetweeted ? Colors.green : AppColors.lightThinTextGray,
                 pathName:
                     isRetweeted ? AppAssets.retweetIcon : AppAssets.retweetIcon,
@@ -232,6 +227,11 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                             .deleteRetweet(tweetId: tweetId!, index: index);
                   });
                 },
+              ),
+              TweetIconButton(
+                pathName: AppAssets.commentIcon,
+                text: "",
+                onTap: () {},
               ),
               LikeButton(
                 isLiked: ref

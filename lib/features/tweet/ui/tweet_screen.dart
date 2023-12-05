@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
+import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/features/tweet/ui/widgets/addReply.dart';
@@ -31,7 +32,7 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
       const Duration(seconds: 0),
       () {
         ref
-            .read(tweetNotifierProvider.notifier)
+            .read(homeNotifierProvider.notifier)
             .getRepliers(tweetId: widget.tweet!.id ?? '');
       },
     );
@@ -39,8 +40,8 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final tweetProvider = ref.watch(tweetNotifierProvider);
     final userProvider = ref.watch(authNotifierProvider);
+    final homeProvider = ref.watch(homeNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.pureBlack,
@@ -77,10 +78,10 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                     tweet: widget.tweet!,
                     index: widget.index!,
                   ),
-                  tweetProvider.loading
+                  homeProvider.loading
                       ? const Center(child: CircularProgressIndicator())
                       : Column(
-                          children: tweetProvider.repliersList.data!
+                          children: homeProvider.repliersList.data!
                               .map<Widget>(
                                 (reply) => Reply(
                                   replier: reply,
@@ -91,7 +92,10 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                 ],
               ),
             )),
-            AddReply(tweet: widget.tweet),
+            AddReply(
+              tweet: widget.tweet!,
+              index: widget.index!,
+            ),
           ],
         ),
       ),

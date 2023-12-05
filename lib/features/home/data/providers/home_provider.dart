@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:x_clone/features/auth/data/model/user.dart';
+import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 
 import '../models/home_response.dart';
 import '../repositories/home_repository.dart';
@@ -120,6 +122,71 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     } catch (e) {
       return false;
       // Handle error
+    }
+  }
+
+  Future<bool> addReply(
+      {required String tweetId,
+      required String replyText,
+      required User replierUser,
+      required int index}) async {
+    try {
+      if (replyText.isEmpty) {
+        return false;
+      }
+      homeRepository.addReply(tweetId: tweetId, replyText: replyText);
+      ReplierData replier = ReplierData(
+        replyUserId: replierUser.userId,
+        username: replierUser.username,
+        profileImageURL: replierUser.profileImageURL,
+        replyText: replyText,
+      );
+      List<ReplierData> updatedRepliersList =
+          List<ReplierData>.from(state.repliersList.data!);
+      updatedRepliersList.add(replier);
+      RepliersList updatedList = RepliersList(data: updatedRepliersList);
+      List<Tweet> tweetlist =
+          List.from(state.homeResponse.data); // Create a new list
+      tweetlist[index] = tweetlist[index].copyWith(
+        repliesCount: state.homeResponse.data[index].repliesCount! + 1,
+      );
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+        repliersList: updatedList,
+      );
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
+    }
+  }
+
+  Future<void> getRepliers({required String tweetId}) async {
+    try {
+      state = state.copyWith(
+        loading: true,
+      );
+      final RepliersList repliers =
+          await homeRepository.fetchRepliersData(tweetId: tweetId);
+
+      if (repliers.data != null) {
+        state = state.copyWith(
+          repliersList: repliers,
+          loading: false,
+        );
+      } else {
+        state = state.copyWith(
+          errorMessage: 'Failed to fetch likers',
+          loading: false,
+        );
+      }
+    } catch (e) {
+      state = state.copyWith(
+        loading: false,
+        //errorMessage: e.toString(),
+        repliersList: const RepliersList(data: []),
+      );
     }
   }
 

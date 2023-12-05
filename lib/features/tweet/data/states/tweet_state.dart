@@ -8,7 +8,6 @@ part 'tweet_state.freezed.dart';
 @freezed
 class TweetState with _$TweetState {
   const factory TweetState({
-    @Default(RepliersList(data: [])) RepliersList repliersList,
     @Default(RetweetersList(data: [])) RetweetersList retweetrsList,
     @Default(LikersList(data: [])) LikersList likersList,
     @Default(null) String? errorMessage,
