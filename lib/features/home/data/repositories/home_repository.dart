@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/web_services/web_services.dart';
 
 import '../models/home_response.dart';
@@ -10,6 +11,8 @@ abstract class HomeRepository {
   deleteLike({required String tweetId});
   addRetweet({required String tweetId});
   deleteRetweet({required String tweetId});
+  addReply({required String tweetId, required String replyText});
+  fetchRepliersData({required String tweetId});
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -63,6 +66,38 @@ class HomeRepositoryImpl implements HomeRepository {
       var response =
           await HttpClient.dio.delete(EndPoints.deleteRetweet(tweetId));
       if (response.statusCode == 200 || response.statusCode == 201) {}
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<RepliersList> fetchRepliersData({required String tweetId}) async {
+    try {
+      var response =
+          await HttpClient.dio.get(EndPoints.getRepliersData(tweetId));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return RepliersList.fromJson(response.data);
+      }
+      return const RepliersList(data: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> addReply(
+      {required String tweetId, required String replyText}) async {
+    final data = {"text": replyText};
+    try {
+      var response = await HttpClient.dio.post(
+        EndPoints.addReply(tweetId),
+        data: data,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+      } else {
+        throw (response.data["message"]);
+      }
     } catch (e) {
       rethrow;
     }

@@ -83,6 +83,11 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
 
   @override
   Widget build(BuildContext context) {
+    final repliesCount = ref
+        .watch(homeNotifierProvider)
+        .homeResponse
+        .data[widget.index]
+        .repliesCount;
     int? index = widget.index;
     bool isRetweeted = widget.tweet.isRetweeted ?? false;
     final int? likesCount = widget.tweet.likesCount;
@@ -178,15 +183,11 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                   ),
                 ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TweetIconButton(
-                      pathName: AppAssets.commentIcon,
-                      text: commentCountBeforeMe.toString(),
-                      onTap: () {},
-                    ),
-                    SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
                     TweetIconButton(
                       color: isRetweeted
                           ? Colors.green
@@ -194,7 +195,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                       pathName: isRetweeted
                           ? AppAssets.retweetIcon
                           : AppAssets.retweetIcon,
-                      text: retweetCount.toString(),
+                      text: retweetCount == 0 ? '' : retweetCount.toString(),
                       onTap: () {
                         isRetweeted = !isRetweeted;
                         isRetweeted
@@ -206,7 +207,11 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                 .deleteRetweet(tweetId: tweetId!, index: index);
                       },
                     ),
-                    SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
+                    TweetIconButton(
+                      pathName: AppAssets.commentIcon,
+                      text: repliesCount == 0 ? '' : repliesCount.toString(),
+                      onTap: () {},
+                    ),
                     LikeButton(
                       isLiked: ref
                               .watch(homeNotifierProvider)
@@ -218,7 +223,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                       likeCount: likesCount,
                       countBuilder: (likecount, isLiked, text) {
                         return Text(
-                          text,
+                          likecount == 0 ? '' : text,
                           style: TextStyle(
                             fontSize: 12,
                             color: isLiked
@@ -250,11 +255,6 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                       },
                     ),
                     SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
-                    TweetIconButton(
-                      pathName: AppAssets.viewsIcon,
-                      text: '1800',
-                      onTap: () {},
-                    )
                   ],
                 ),
               ),

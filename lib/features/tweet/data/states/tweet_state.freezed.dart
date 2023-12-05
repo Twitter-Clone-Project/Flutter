@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TweetState {
-  RepliersList get repliersList => throw _privateConstructorUsedError;
   RetweetersList get retweetrsList => throw _privateConstructorUsedError;
   LikersList get likersList => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
@@ -36,15 +35,13 @@ abstract class $TweetStateCopyWith<$Res> {
       _$TweetStateCopyWithImpl<$Res, TweetState>;
   @useResult
   $Res call(
-      {RepliersList repliersList,
-      RetweetersList retweetrsList,
+      {RetweetersList retweetrsList,
       LikersList likersList,
       String? errorMessage,
       bool loading,
       int screenIndex,
       bool? isLiked});
 
-  $RepliersListCopyWith<$Res> get repliersList;
   $RetweetersListCopyWith<$Res> get retweetrsList;
   $LikersListCopyWith<$Res> get likersList;
 }
@@ -62,7 +59,6 @@ class _$TweetStateCopyWithImpl<$Res, $Val extends TweetState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? repliersList = null,
     Object? retweetrsList = null,
     Object? likersList = null,
     Object? errorMessage = freezed,
@@ -71,10 +67,6 @@ class _$TweetStateCopyWithImpl<$Res, $Val extends TweetState>
     Object? isLiked = freezed,
   }) {
     return _then(_value.copyWith(
-      repliersList: null == repliersList
-          ? _value.repliersList
-          : repliersList // ignore: cast_nullable_to_non_nullable
-              as RepliersList,
       retweetrsList: null == retweetrsList
           ? _value.retweetrsList
           : retweetrsList // ignore: cast_nullable_to_non_nullable
@@ -104,14 +96,6 @@ class _$TweetStateCopyWithImpl<$Res, $Val extends TweetState>
 
   @override
   @pragma('vm:prefer-inline')
-  $RepliersListCopyWith<$Res> get repliersList {
-    return $RepliersListCopyWith<$Res>(_value.repliersList, (value) {
-      return _then(_value.copyWith(repliersList: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
   $RetweetersListCopyWith<$Res> get retweetrsList {
     return $RetweetersListCopyWith<$Res>(_value.retweetrsList, (value) {
       return _then(_value.copyWith(retweetrsList: value) as $Val);
@@ -136,16 +120,13 @@ abstract class _$$TweetStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {RepliersList repliersList,
-      RetweetersList retweetrsList,
+      {RetweetersList retweetrsList,
       LikersList likersList,
       String? errorMessage,
       bool loading,
       int screenIndex,
       bool? isLiked});
 
-  @override
-  $RepliersListCopyWith<$Res> get repliersList;
   @override
   $RetweetersListCopyWith<$Res> get retweetrsList;
   @override
@@ -163,7 +144,6 @@ class __$$TweetStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? repliersList = null,
     Object? retweetrsList = null,
     Object? likersList = null,
     Object? errorMessage = freezed,
@@ -172,10 +152,6 @@ class __$$TweetStateImplCopyWithImpl<$Res>
     Object? isLiked = freezed,
   }) {
     return _then(_$TweetStateImpl(
-      repliersList: null == repliersList
-          ? _value.repliersList
-          : repliersList // ignore: cast_nullable_to_non_nullable
-              as RepliersList,
       retweetrsList: null == retweetrsList
           ? _value.retweetrsList
           : retweetrsList // ignore: cast_nullable_to_non_nullable
@@ -208,17 +184,13 @@ class __$$TweetStateImplCopyWithImpl<$Res>
 
 class _$TweetStateImpl implements _TweetState {
   const _$TweetStateImpl(
-      {this.repliersList = const RepliersList(data: []),
-      this.retweetrsList = const RetweetersList(data: []),
+      {this.retweetrsList = const RetweetersList(data: []),
       this.likersList = const LikersList(data: []),
       this.errorMessage = null,
       this.loading = true,
       this.screenIndex = 0,
       this.isLiked = false});
 
-  @override
-  @JsonKey()
-  final RepliersList repliersList;
   @override
   @JsonKey()
   final RetweetersList retweetrsList;
@@ -240,7 +212,7 @@ class _$TweetStateImpl implements _TweetState {
 
   @override
   String toString() {
-    return 'TweetState(repliersList: $repliersList, retweetrsList: $retweetrsList, likersList: $likersList, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex, isLiked: $isLiked)';
+    return 'TweetState(retweetrsList: $retweetrsList, likersList: $likersList, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex, isLiked: $isLiked)';
   }
 
   @override
@@ -248,8 +220,6 @@ class _$TweetStateImpl implements _TweetState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TweetStateImpl &&
-            (identical(other.repliersList, repliersList) ||
-                other.repliersList == repliersList) &&
             (identical(other.retweetrsList, retweetrsList) ||
                 other.retweetrsList == retweetrsList) &&
             (identical(other.likersList, likersList) ||
@@ -263,8 +233,8 @@ class _$TweetStateImpl implements _TweetState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, repliersList, retweetrsList,
-      likersList, errorMessage, loading, screenIndex, isLiked);
+  int get hashCode => Object.hash(runtimeType, retweetrsList, likersList,
+      errorMessage, loading, screenIndex, isLiked);
 
   @JsonKey(ignore: true)
   @override
@@ -275,16 +245,13 @@ class _$TweetStateImpl implements _TweetState {
 
 abstract class _TweetState implements TweetState {
   const factory _TweetState(
-      {final RepliersList repliersList,
-      final RetweetersList retweetrsList,
+      {final RetweetersList retweetrsList,
       final LikersList likersList,
       final String? errorMessage,
       final bool loading,
       final int screenIndex,
       final bool? isLiked}) = _$TweetStateImpl;
 
-  @override
-  RepliersList get repliersList;
   @override
   RetweetersList get retweetrsList;
   @override
