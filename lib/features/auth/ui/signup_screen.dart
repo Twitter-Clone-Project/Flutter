@@ -228,6 +228,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
+      locale: const Locale('en', 'US'),
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime(1900),
