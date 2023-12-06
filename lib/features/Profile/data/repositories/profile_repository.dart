@@ -97,20 +97,21 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) async {
     try {
       FormData data = FormData.fromMap({
-        "profilePhoto": await MultipartFile.fromFile(
-          profilePhoto!, filename: path.basename(profilePhoto!),),
-        "bannerPhoto": await MultipartFile.fromFile(
-          bannerPhoto!, filename: path.basename(bannerPhoto!),),
+        // "profilePhoto":profilePhoto==null?null: await MultipartFile.fromFile(
+        //   profilePhoto!, filename: path.basename(profilePhoto!),),
+        // "bannerPhoto":bannerPhoto==null?null:  await MultipartFile.fromFile(
+        //   bannerPhoto!, filename: path.basename(bannerPhoto!),),
         "name": name,
+        // "isUpdated": "TRUE",
         "bio": bio,
         "website": website,
         "location": location,
-        "birthDate": birthDate,
+        "birthDate": "2020-12-15",
       });
 
-      if (birthDate != null) {
-        data.fields.add(MapEntry("birthDate", birthDate));
-      }
+      // if (birthDate != null) {
+      //   data.fields.add(MapEntry("birthDate", birthDate));
+      // }
       if (profilePhoto != null) {
         var file = await MultipartFile.fromFile(
           profilePhoto,
@@ -126,6 +127,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
         );
         var isUpdated = "TRUE";
         data.files.add(MapEntry("bannerPhoto", file));
+        data.fields.add(MapEntry("isUpdated", isUpdated));
+      }
+      else{
+        var isUpdated = "FALSE";
         data.fields.add(MapEntry("isUpdated", isUpdated));
       }
 

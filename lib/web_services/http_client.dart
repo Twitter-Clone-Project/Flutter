@@ -5,6 +5,9 @@ import 'interceptors/main_interceptor.dart';
 
 class HttpClient {
   static final Dio dio = initDio();
+
+
+
   static final _singleton = HttpClient._internal();
 
   static const timeout = Duration(seconds: 30);
@@ -28,4 +31,5 @@ class HttpClient {
 
     return dio;
   }
+
 }

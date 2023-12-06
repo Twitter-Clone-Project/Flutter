@@ -23,6 +23,7 @@ mixin _$UserProfileState {
   UserProfile get userprofile => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
+  bool get tweetsloading => throw _privateConstructorUsedError;
   int get screenIndex => throw _privateConstructorUsedError;
   int get pageIndex => throw _privateConstructorUsedError;
   UserProfile get userProfile => throw _privateConstructorUsedError;
@@ -45,6 +46,7 @@ abstract class $UserProfileStateCopyWith<$Res> {
       UserProfile userprofile,
       String? errorMessage,
       bool loading,
+      bool tweetsloading,
       int screenIndex,
       int pageIndex,
       UserProfile userProfile,
@@ -74,6 +76,7 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
     Object? userprofile = null,
     Object? errorMessage = freezed,
     Object? loading = null,
+    Object? tweetsloading = null,
     Object? screenIndex = null,
     Object? pageIndex = null,
     Object? userProfile = null,
@@ -99,6 +102,10 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tweetsloading: null == tweetsloading
+          ? _value.tweetsloading
+          : tweetsloading // ignore: cast_nullable_to_non_nullable
               as bool,
       screenIndex: null == screenIndex
           ? _value.screenIndex
@@ -168,6 +175,7 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       UserProfile userprofile,
       String? errorMessage,
       bool loading,
+      bool tweetsloading,
       int screenIndex,
       int pageIndex,
       UserProfile userProfile,
@@ -199,6 +207,7 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
     Object? userprofile = null,
     Object? errorMessage = freezed,
     Object? loading = null,
+    Object? tweetsloading = null,
     Object? screenIndex = null,
     Object? pageIndex = null,
     Object? userProfile = null,
@@ -224,6 +233,10 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tweetsloading: null == tweetsloading
+          ? _value.tweetsloading
+          : tweetsloading // ignore: cast_nullable_to_non_nullable
               as bool,
       screenIndex: null == screenIndex
           ? _value.screenIndex
@@ -256,6 +269,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
       this.userprofile = const UserProfile(imageUrl: "", bannerUrl: ""),
       this.errorMessage = null,
       this.loading = true,
+      this.tweetsloading = true,
       this.screenIndex = 0,
       this.pageIndex = 0,
       required this.userProfile,
@@ -278,6 +292,9 @@ class _$UserProfileStateImpl implements _UserProfileState {
   final bool loading;
   @override
   @JsonKey()
+  final bool tweetsloading;
+  @override
+  @JsonKey()
   final int screenIndex;
   @override
   @JsonKey()
@@ -289,7 +306,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
 
   @override
   String toString() {
-    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex, pageIndex: $pageIndex, userProfile: $userProfile, error: $error)';
+    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, errorMessage: $errorMessage, loading: $loading, tweetsloading: $tweetsloading, screenIndex: $screenIndex, pageIndex: $pageIndex, userProfile: $userProfile, error: $error)';
   }
 
   @override
@@ -308,6 +325,8 @@ class _$UserProfileStateImpl implements _UserProfileState {
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.tweetsloading, tweetsloading) ||
+                other.tweetsloading == tweetsloading) &&
             (identical(other.screenIndex, screenIndex) ||
                 other.screenIndex == screenIndex) &&
             (identical(other.pageIndex, pageIndex) ||
@@ -325,6 +344,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
       userprofile,
       errorMessage,
       loading,
+      tweetsloading,
       screenIndex,
       pageIndex,
       userProfile,
@@ -345,6 +365,7 @@ abstract class _UserProfileState implements UserProfileState {
       final UserProfile userprofile,
       final String? errorMessage,
       final bool loading,
+      final bool tweetsloading,
       final int screenIndex,
       final int pageIndex,
       required final UserProfile userProfile,
@@ -360,6 +381,8 @@ abstract class _UserProfileState implements UserProfileState {
   String? get errorMessage;
   @override
   bool get loading;
+  @override
+  bool get tweetsloading;
   @override
   int get screenIndex;
   @override

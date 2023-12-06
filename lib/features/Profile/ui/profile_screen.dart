@@ -30,15 +30,20 @@ class ProfileScreen extends StatefulHookConsumerWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen>
     with TickerProviderStateMixin {
   final RefreshController _controller = RefreshController();
-  int pageIndex = 0;
+  int pageIndex = 1;
   late TabController _tabcontroller;
 
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {
       var myUser = ref.read(authNotifierProvider).user;
-      _onRefresh();
-    });
+      ref
+          .read(profileNotifierProvider.notifier)
+          .fetchUserProfile(ref.read(authNotifierProvider).user!.username!);
+       ref.read(profileNotifierProvider.notifier).getUserTweets(
+        userId: ref.read(authNotifierProvider).user!.username!,
+        page: pageIndex,
+      );    });
     _tabcontroller = TabController(length: 2, vsync: this);
 
     super.initState();
@@ -352,7 +357,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ],
                             ),
                             Visibility(
-                              visible: !IsBlocked!,
+                              visible: IsBlocked!=true,
                               child: SizedBox(
                                 height: MediaQuery.of(context).size.height * 0.9,
                                 child: TabBarView(
@@ -461,12 +466,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           onRefresh: _onRefresh,
                                                           child:
                                                               ListView.separated(
-                                                            itemCount: ref
-                                                                .watch(
-                                                                    profileNotifierProvider)
-                                                                .profileTweetsResponse
-                                                                .data!
-                                                                .length,
+                                                            itemCount: 7,
                                                             itemBuilder: (BuildContext
                                                                         context,
                                                                     int index) =>
@@ -675,9 +675,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   }
 
   loadData() async {
-    await ref
-        .read(profileNotifierProvider.notifier)
-        .fetchUserProfile(ref.read(authNotifierProvider).user!.username!);
+
     await ref.read(profileNotifierProvider.notifier).getUserLikedTweets(
           userId: ref.read(authNotifierProvider).user!.userId!,
           page: pageIndex,
@@ -686,7 +684,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           userId: ref.read(authNotifierProvider).user!.userId!,
           page: pageIndex,
         );
-    await ref.read(profileNotifierProvider.notifier).fetchUserProfile("ddcdvfbg");
+    // await ref.read(profileNotifierProvider.notifier).fetchUserProfile("ddcdvfbg");
   }
 
   @override

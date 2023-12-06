@@ -1,4 +1,4 @@
-const baseUrl = "http://10.0.2.2:2023/api/v1";
+const baseUrl = "https://10.0.2.2:2023/api/v1";
 
 class EndPoints {
   static const login = "/auth/signin";

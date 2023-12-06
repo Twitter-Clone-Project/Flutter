@@ -12,6 +12,7 @@ class UserProfileState with _$UserProfileState {
     @Default(UserProfile(imageUrl: "", bannerUrl: "")) UserProfile userprofile,
     @Default(null) String? errorMessage,
     @Default(true) bool loading,
+    @Default(true) bool tweetsloading,
     @Default(0) int screenIndex,
     @Default(0) int pageIndex,
     required UserProfile userProfile,

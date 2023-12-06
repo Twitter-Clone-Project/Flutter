@@ -70,19 +70,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
 
     void onSubmit() async {
       if (AppKeys.updateProfileFormKey.currentState!.validate()) {
-        final updateProfile =
-            ref.read(profileNotifierProvider.notifier).updateUserProfile;
-
-        var result = await updateProfile(
+        print("555555555555555555555555555"+userProfile.birthdate.toString());
+        var result = await ref.read(profileNotifierProvider.notifier).updateUserProfile(
           bannerPhoto: _bannerImage != null ? _bannerImage!.path : null,
           profilePhoto: _profileImage != null ? _profileImage!.path : null,
           bio: _bioController.text,
           website: _websiteController.text!,
           location: _locationController.text,
           name: _nameController.text,
-          birthDate: userProfile.birthdate,
+          birthDate: "2020-12-15",
         );
         if (result != null && result == true) {
+          print("78888888888");
           Navigator.pop(context);
         }
       }

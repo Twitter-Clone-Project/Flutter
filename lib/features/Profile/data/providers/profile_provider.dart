@@ -17,11 +17,11 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 
   }
 
-  init() {
-    fetchUserProfile(state.userProfile.username!);
-    getUserTweets(userId: state.userProfile.username!, page: 0);
-    getUserLikedTweets(userId: state.userProfile.username!, page: 1);
-  }
+  // init() {
+  //   fetchUserProfile(state.userProfile.username!);
+  //   getUserTweets(userId: state.userProfile.username!, page: 0);
+  //   getUserLikedTweets(userId: state.userProfile.username!, page: 1);
+  // }
 
   Future<void> fetchUserProfile(String username) async {
     try {
@@ -43,7 +43,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }) async {
     try {
       if (page == 1) {
-        state = state.copyWith(loading: true);
+        state = state.copyWith(tweetsloading: true);
       }
       final ProfileTweetsResponse profileTweetsResponse =
           await profileRepository.getUserTweets(userId, page);
@@ -59,10 +59,10 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       state = state.copyWith(
           profileTweetsResponse: state.profileTweetsResponse
               .copyWith(data: tweets, total: profileTweetsResponse.total),
-          loading: false);
+          tweetsloading: false);
       return profileTweetsResponse;
     } catch (e) {
-      state = state.copyWith(loading: false, errorMessage: e.toString());
+      state = state.copyWith(tweetsloading: false, errorMessage: e.toString());
       return const ProfileTweetsResponse(data: [], total: 0);
     }
   }
@@ -119,7 +119,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       );
 
       if (result != null) {
-        state = state.copyWith(userProfile: result);
+        state = state.copyWith(userProfile: result, loading: false);
         return true;
       }
       //TODO Edit the following line to update the state to the newest updated user profile
