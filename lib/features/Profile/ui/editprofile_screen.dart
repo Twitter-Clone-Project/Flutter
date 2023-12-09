@@ -31,12 +31,34 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
   File? _bannerImage;
   DateTime? _selectedDate;
 
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _websiteController = TextEditingController();
+  final TextEditingController _dateOfBirthController = TextEditingController();
+
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {});
     _tabcontroller = TabController(length: 4, vsync: this);
 
     super.initState();
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      locale: const Locale('en', 'US'),
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null && picked != _selectedDate) {
+      _selectedDate = picked;
+      _dateOfBirthController.text =
+          DateFormat('yyyy-MM-dd').format(_selectedDate!);
+    }
   }
 
   @override
@@ -48,14 +70,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
     final userProfileState = ref.watch(profileNotifierProvider);
     final userProfile = userProfileState.userProfile;
 
-    final TextEditingController _nameController =
-        TextEditingController(text: userProfile.name);
-    final TextEditingController _bioController =
-        TextEditingController(text: userProfile.bio);
-    final TextEditingController _locationController =
-        TextEditingController(text: userProfile.location);
-    final TextEditingController _websiteController =
-        TextEditingController(text: userProfile.website);
+    _nameController.text = userProfile.name ?? "";
+    _bioController.text = userProfile.bio ?? "";
+    _locationController.text = userProfile.location ?? "";
+    _websiteController.text = userProfile.website ?? "";
+    _dateOfBirthController.text = userProfile.birthDate ?? "";
 
     bool isLoading = ref.watch(profileNotifierProvider).loading;
 
@@ -70,18 +89,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
 
     void onSubmit() async {
       if (AppKeys.updateProfileFormKey.currentState!.validate()) {
-        print("555555555555555555555555555"+userProfile.birthdate.toString());
-        var result = await ref.read(profileNotifierProvider.notifier).updateUserProfile(
-          bannerPhoto: _bannerImage != null ? _bannerImage!.path : null,
-          profilePhoto: _profileImage != null ? _profileImage!.path : null,
-          bio: _bioController.text,
-          website: _websiteController.text!,
-          location: _locationController.text,
-          name: _nameController.text,
-          birthDate: "2020-12-15",
-        );
+        var result = await ref
+            .read(profileNotifierProvider.notifier)
+            .updateUserProfile(
+              bannerPhoto: _bannerImage != null ? _bannerImage!.path : null,
+              profilePhoto: _profileImage != null ? _profileImage!.path : null,
+              bio: _bioController.text,
+              website: _websiteController.text,
+              location: _locationController.text,
+              name: _nameController.text,
+              birthDate: _dateOfBirthController.text,
+            );
         if (result != null && result == true) {
-          print("78888888888");
           Navigator.pop(context);
         }
       }
@@ -261,6 +280,22 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                                 return null;
                               },
                               // Add controller and other properties as needed
+                            ),
+                            GestureDetector(
+                              onTap: () => _selectDate(context),
+                              child: AbsorbPointer(
+                                child: TextFormField(
+                                  controller: _dateOfBirthController,
+                                  decoration: InputDecoration(
+                                      labelText: 'Date of Birth'),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Date of birth cannot be empty";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
                             ),
                           ],
                         ),

@@ -18,7 +18,7 @@ _$UserProfileImpl _$$UserProfileImplFromJson(Map<String, dynamic> json) =>
           "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
       bannerUrl: json['bannerUrl'] as String? ??
           "https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png",
-      birthdate: json['birthdate'] as String?,
+      birthDate: json['birthDate'] as String?,
       isFollowed: json['isFollowed'] as bool?,
       isConfirmed: json['isConfirmed'] as bool?,
       isFollowing: json['isFollowing'] as bool?,
@@ -39,7 +39,7 @@ Map<String, dynamic> _$$UserProfileImplToJson(_$UserProfileImpl instance) =>
       'location': instance.location,
       'imageUrl': instance.imageUrl,
       'bannerUrl': instance.bannerUrl,
-      'birthdate': instance.birthdate,
+      'birthDate': instance.birthDate,
       'isFollowed': instance.isFollowed,
       'isConfirmed': instance.isConfirmed,
       'isFollowing': instance.isFollowing,
