@@ -35,5 +35,4 @@ class EndPoints {
   static addRetweet(String tweetId) => "/tweets/$tweetId/retweet";
   static deleteRetweet(String tweetId) => "/tweets/$tweetId/deleteRetweet";
   static addReply(String tweetId) => "/tweets/$tweetId/addReply";
-  static const addTweet = "/tweets/add";
 }
