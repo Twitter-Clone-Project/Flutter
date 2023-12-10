@@ -13,6 +13,7 @@ abstract class HomeRepository {
   deleteRetweet({required String tweetId});
   addReply({required String tweetId, required String replyText});
   fetchRepliersData({required String tweetId});
+  Future<void> addTweet({String? tweetText, List<MultipartFile>? attachments});
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -93,6 +94,37 @@ class HomeRepositoryImpl implements HomeRepository {
       var response = await HttpClient.dio.post(
         EndPoints.addReply(tweetId),
         data: data,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+      } else {
+        throw (response.data["message"]);
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> addTweet(
+      {String? tweetText, List<MultipartFile>? attachments}) async {
+    FormData formData = FormData();
+
+    if (tweetText != null) {
+      formData.fields.add(MapEntry('tweetText', tweetText));
+    }
+
+    if (attachments != null) {
+      for (var attachment in attachments) {
+        formData.files.add(MapEntry(
+          'attachments',
+          attachment,
+        ));
+      }
+    }
+    try {
+      var response = await HttpClient.dio.post(
+        EndPoints.addTweet,
+        data: formData,
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
       } else {

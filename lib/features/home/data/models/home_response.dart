@@ -30,6 +30,7 @@ class Tweet with _$Tweet {
     String? createdAt,
     bool? isRetweet,
     User? user,
+    List<String>? attachmentsUrl,
     bool? isLiked,
     bool? isRetweeted,
     bool? isReplied,
@@ -37,6 +38,5 @@ class Tweet with _$Tweet {
     int? retweetsCount,
     int? repliesCount,
   }) = _Tweet;
-  factory Tweet.fromJson(Map<String, dynamic> json) =>
-      _$TweetFromJson(json);
+  factory Tweet.fromJson(Map<String, dynamic> json) => _$TweetFromJson(json);
 }

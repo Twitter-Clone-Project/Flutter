@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/features/auth/data/model/user.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
@@ -187,6 +188,16 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
         //errorMessage: e.toString(),
         repliersList: const RepliersList(data: []),
       );
+    }
+  }
+
+  addTweet({String? tweetText, List<MultipartFile>? attachments}) async {
+    try {
+      homeRepository.addTweet(tweetText: tweetText, attachments: attachments);
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
     }
   }
 
