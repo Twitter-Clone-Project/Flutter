@@ -90,8 +90,11 @@ class Routes {
                   email: data["email"],
                 ));
       case profileScreen:
-        return MaterialPageRoute(builder: (_) => const ProfileScreen());
-      case editProfileScreen:
+        var data = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => ProfileScreen(
+              username: data,
+            ));      case editProfileScreen:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
       default:
         return MaterialPageRoute(

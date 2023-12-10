@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 abstract class ProfileRepository {
   Future<UserProfile?> fetchUserProfileData({required String username});
 
-  getUserTweets(String userId, int page);
+  getUserTweets(String username, int page);
 
   Future<UserProfile?> updateProfile({
     String? profilePhoto,
@@ -18,7 +18,7 @@ abstract class ProfileRepository {
     String? location,
     String? birthDate,
   });
-  getUserLikedTweets(String userId, int page);
+  getUserLikedTweets(String username, int page);
 
   Future<bool?> followUser({
     required String username,
@@ -66,10 +66,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  getUserTweets(String userId, int page) async {
+  getUserTweets(String username, int page) async {
     try {
       var response =
-          await HttpClient.dio.get(EndPoints.getUserTweets(userId, page));
+          await HttpClient.dio.get(EndPoints.getUserTweets(username, page));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ProfileTweetsResponse.fromJson(response.data);
@@ -81,11 +81,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  getUserLikedTweets(String userId, int page) async {
+  getUserLikedTweets(String username, int page) async {
     try {
-      var response =
-          await HttpClient.dio.get(EndPoints.getUserLikedTweets(userId, page));
-
+      var response = await HttpClient.dio.get(EndPoints.getUserLikedTweets(username, page));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ProfileTweetsResponse.fromJson(response.data);
       }
@@ -177,8 +175,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<bool?> unfollowUser({required String username}) async {
     try {
-      var response =
-          await HttpClient.dio.post(EndPoints.unfollowUser(username));
+      var response = await HttpClient.dio.delete(EndPoints.unfollowUser(username));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
@@ -204,7 +201,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<bool?> unmuteUser({required String username}) async {
     try {
-      var response = await HttpClient.dio.post(EndPoints.followUser(username));
+      var response = await HttpClient.dio.delete(EndPoints.unmuteUser(username));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
@@ -230,7 +227,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<bool?> unblockUser({required String username}) async {
     try {
-      var response = await HttpClient.dio.post(EndPoints.unblockUser(username));
+      var response = await HttpClient.dio.delete(EndPoints.unblockUser(username));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
