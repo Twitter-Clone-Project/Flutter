@@ -40,10 +40,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       ref
           .read(profileNotifierProvider.notifier)
           .fetchUserProfile(ref.read(authNotifierProvider).user!.username!);
-       ref.read(profileNotifierProvider.notifier).getUserTweets(
-        userId: ref.read(authNotifierProvider).user!.username!,
-        page: pageIndex,
-      );    });
+      ref.read(profileNotifierProvider.notifier).getUserTweets(
+            userId: ref.read(authNotifierProvider).user!.username!,
+            page: pageIndex,
+          );
+    });
     _tabcontroller = TabController(length: 2, vsync: this);
 
     super.initState();
@@ -134,15 +135,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       context, Routes.editProfileScreen);
                                 },
                                 onFollow: () {
-                                  if(userProfile.isFollowed!){
-                                    ref.read(profileNotifierProvider.notifier)
+                                  if (userProfile.isFollowed!) {
+                                    ref
+                                        .read(profileNotifierProvider.notifier)
                                         .unfollowUser(userProfile.username!);
-                                  }
-                                  else{
-                                    ref.read(profileNotifierProvider.notifier)
+                                  } else {
+                                    ref
+                                        .read(profileNotifierProvider.notifier)
                                         .followUser(userProfile.username!);
                                   }
-
                                 },
                               ),
                             ],
@@ -168,45 +169,48 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         onSelected: (value) {
                           switch (value) {
                             case "Block":
-                              ref.read(profileNotifierProvider.notifier)
+                              ref
+                                  .read(profileNotifierProvider.notifier)
                                   .blockUser(userProfile.username!);
                               break;
                             case "Mute":
-                              ref.read(profileNotifierProvider.notifier)
+                              ref
+                                  .read(profileNotifierProvider.notifier)
                                   .unblockUser(userProfile.username!);
                               break;
                             case "unMute":
-                              ref.read(profileNotifierProvider.notifier)
+                              ref
+                                  .read(profileNotifierProvider.notifier)
                                   .unmuteUser(userProfile.username!);
                               break;
                             case "unBlock":
-                              ref.read(profileNotifierProvider.notifier)
+                              ref
+                                  .read(profileNotifierProvider.notifier)
                                   .unblockUser(userProfile.username!);
                               break;
-                          // Add more cases for additional menu items if needed
+                            // Add more cases for additional menu items if needed
                           }
-                        },                        itemBuilder: (context) {
-                        return actionMenu
-                            .map((Action) {
-                          String menuItemText = Action;
+                        },
+                        itemBuilder: (context) {
+                          return actionMenu.map((Action) {
+                            String menuItemText = Action;
 
-                          // Check conditions and modify text accordingly
-                          if (Action == "Block" && !IsBlocked!) {
-                            menuItemText = "Block";
-                          } else if (Action == "Block" && IsBlocked!) {
-                            menuItemText = "Unblock";
-                          } else if (Action == "Mute" && !IsMuted!) {
-                            menuItemText = "Mute";
-                          } else if (Action == "Mute" && IsMuted!) {
-                            menuItemText = "Unmute";
-                          }
+                            // Check conditions and modify text accordingly
+                            if (Action == "Block" && !IsBlocked!) {
+                              menuItemText = "Block";
+                            } else if (Action == "Block" && IsBlocked!) {
+                              menuItemText = "Unblock";
+                            } else if (Action == "Mute" && !IsMuted!) {
+                              menuItemText = "Mute";
+                            } else if (Action == "Mute" && IsMuted!) {
+                              menuItemText = "Unmute";
+                            }
 
-                          return PopupMenuItem(
-                            value: Action,
-                            child: Text(menuItemText),
-                          );
-                        })
-                            .toList();
+                            return PopupMenuItem(
+                              value: Action,
+                              child: Text(menuItemText),
+                            );
+                          }).toList();
                         },
                       ),
                     )
@@ -357,9 +361,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ],
                             ),
                             Visibility(
-                              visible: IsBlocked!=true,
+                              visible: IsBlocked != true,
                               child: SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.9,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.9,
                                 child: TabBarView(
                                   controller: _tabcontroller,
                                   children: [
@@ -368,9 +373,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               .watch(profileNotifierProvider)
                                               .loading
                                           ? const Center(
-                                              child: CircularProgressIndicator())
+                                              child:
+                                                  CircularProgressIndicator())
                                           : ref
-                                                  .watch(profileNotifierProvider)
+                                                  .watch(
+                                                      profileNotifierProvider)
                                                   .profileTweetsResponse
                                                   .data
                                                   .isEmpty
@@ -394,7 +401,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                         children: [
                                                           InkWell(
                                                             onTap: () {
-                                                              Scaffold.of(context)
+                                                              Scaffold.of(
+                                                                      context)
                                                                   .openDrawer();
                                                             },
                                                             child: CircleAvatar(
@@ -416,33 +424,28 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                                     .primaryColor,
                                                                 imageUrl:
                                                                     "${ref.watch(profileNotifierProvider).profileTweetsResponse.data[0].user?.profileImageURL}",
-                                                                placeholder: (context,
-                                                                        url) =>
-                                                                    SvgPicture.asset(
-                                                                        AppAssets
-                                                                            .logo,
-                                                                        colorFilter: const ColorFilter
-                                                                            .mode(
-                                                                            AppColors
-                                                                                .whiteColor,
-                                                                            BlendMode
-                                                                                .srcIn),
-                                                                        fit: BoxFit
-                                                                            .cover),
-                                                                errorWidget: (context,
-                                                                        url,
-                                                                        error) =>
-                                                                    SvgPicture.asset(
-                                                                        AppAssets
-                                                                            .logo,
-                                                                        colorFilter: const ColorFilter
-                                                                            .mode(
-                                                                            AppColors
-                                                                                .whiteColor,
-                                                                            BlendMode
-                                                                                .srcIn),
-                                                                        fit: BoxFit
-                                                                            .cover),
+                                                                placeholder: (context, url) => SvgPicture.asset(
+                                                                    AppAssets
+                                                                        .logo,
+                                                                    colorFilter: const ColorFilter
+                                                                        .mode(
+                                                                        AppColors
+                                                                            .whiteColor,
+                                                                        BlendMode
+                                                                            .srcIn),
+                                                                    fit: BoxFit
+                                                                        .cover),
+                                                                errorWidget: (context, url, error) => SvgPicture.asset(
+                                                                    AppAssets
+                                                                        .logo,
+                                                                    colorFilter: const ColorFilter
+                                                                        .mode(
+                                                                        AppColors
+                                                                            .whiteColor,
+                                                                        BlendMode
+                                                                            .srcIn),
+                                                                    fit: BoxFit
+                                                                        .cover),
                                                               ),
                                                             ),
                                                           ),
@@ -454,7 +457,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                       child: SizedBox(
                                                         height: double.infinity,
                                                         child: SmartRefresher(
-                                                          controller: _controller,
+                                                          controller:
+                                                              _controller,
                                                           enablePullDown: true,
                                                           enablePullUp: true,
                                                           footer:
@@ -464,8 +468,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           ),
                                                           onLoading: _onLoading,
                                                           onRefresh: _onRefresh,
-                                                          child:
-                                                              ListView.separated(
+                                                          child: ListView
+                                                              .separated(
                                                             itemCount: 7,
                                                             itemBuilder: (BuildContext
                                                                         context,
@@ -475,20 +479,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                                   .watch(
                                                                       profileNotifierProvider)
                                                                   .profileTweetsResponse
-                                                                  .data![index],index: index,
+                                                                  .data![index],
+                                                              index: index,
                                                             ),
-                                                            separatorBuilder:
-                                                                (BuildContext
-                                                                            context,
-                                                                        int index) =>
-                                                                    const Divider(),
+                                                            separatorBuilder: (BuildContext
+                                                                        context,
+                                                                    int index) =>
+                                                                const Divider(),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                      floatingActionButton: FloatingActionButton(
+                                      floatingActionButton:
+                                          FloatingActionButton(
                                         backgroundColor: AppColors.primaryColor,
                                         onPressed: () {
                                           Navigator.pushNamed(
@@ -505,9 +510,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               .watch(profileNotifierProvider)
                                               .loading
                                           ? const Center(
-                                              child: CircularProgressIndicator())
+                                              child:
+                                                  CircularProgressIndicator())
                                           : ref
-                                                  .watch(profileNotifierProvider)
+                                                  .watch(
+                                                      profileNotifierProvider)
                                                   .profileLikedTweetsResponse
                                                   .data
                                                   .isEmpty
@@ -525,7 +532,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                         children: [
                                                           InkWell(
                                                             onTap: () {
-                                                              Scaffold.of(context)
+                                                              Scaffold.of(
+                                                                      context)
                                                                   .openDrawer();
                                                             },
                                                             child: CircleAvatar(
@@ -547,33 +555,28 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                                     .primaryColor,
                                                                 imageUrl:
                                                                     "${ref.watch(profileNotifierProvider).profileLikedTweetsResponse.data[0].user?.profileImageURL}",
-                                                                placeholder: (context,
-                                                                        url) =>
-                                                                    SvgPicture.asset(
-                                                                        AppAssets
-                                                                            .logo,
-                                                                        colorFilter: const ColorFilter
-                                                                            .mode(
-                                                                            AppColors
-                                                                                .whiteColor,
-                                                                            BlendMode
-                                                                                .srcIn),
-                                                                        fit: BoxFit
-                                                                            .cover),
-                                                                errorWidget: (context,
-                                                                        url,
-                                                                        error) =>
-                                                                    SvgPicture.asset(
-                                                                        AppAssets
-                                                                            .logo,
-                                                                        colorFilter: const ColorFilter
-                                                                            .mode(
-                                                                            AppColors
-                                                                                .whiteColor,
-                                                                            BlendMode
-                                                                                .srcIn),
-                                                                        fit: BoxFit
-                                                                            .cover),
+                                                                placeholder: (context, url) => SvgPicture.asset(
+                                                                    AppAssets
+                                                                        .logo,
+                                                                    colorFilter: const ColorFilter
+                                                                        .mode(
+                                                                        AppColors
+                                                                            .whiteColor,
+                                                                        BlendMode
+                                                                            .srcIn),
+                                                                    fit: BoxFit
+                                                                        .cover),
+                                                                errorWidget: (context, url, error) => SvgPicture.asset(
+                                                                    AppAssets
+                                                                        .logo,
+                                                                    colorFilter: const ColorFilter
+                                                                        .mode(
+                                                                        AppColors
+                                                                            .whiteColor,
+                                                                        BlendMode
+                                                                            .srcIn),
+                                                                    fit: BoxFit
+                                                                        .cover),
                                                               ),
                                                             ),
                                                           ),
@@ -585,7 +588,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                       child: SizedBox(
                                                         height: double.infinity,
                                                         child: SmartRefresher(
-                                                          controller: _controller,
+                                                          controller:
+                                                              _controller,
                                                           enablePullDown: true,
                                                           enablePullUp: true,
                                                           footer:
@@ -595,8 +599,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           ),
                                                           onLoading: _onLoading,
                                                           onRefresh: _onRefresh,
-                                                          child:
-                                                              ListView.separated(
+                                                          child: ListView
+                                                              .separated(
                                                             itemCount: ref
                                                                 .watch(
                                                                     profileNotifierProvider)
@@ -612,20 +616,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                                       profileNotifierProvider)
                                                                   .profileLikedTweetsResponse
                                                                   .data![index],
-                                                                  index: index,
+                                                              index: index,
                                                             ),
-                                                            separatorBuilder:
-                                                                (BuildContext
-                                                                            context,
-                                                                        int index) =>
-                                                                    const Divider(),
+                                                            separatorBuilder: (BuildContext
+                                                                        context,
+                                                                    int index) =>
+                                                                const Divider(),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                      floatingActionButton: FloatingActionButton(
+                                      floatingActionButton:
+                                          FloatingActionButton(
                                         backgroundColor: AppColors.primaryColor,
                                         onPressed: () {
                                           Navigator.pushNamed(
@@ -675,7 +679,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   }
 
   loadData() async {
-
     await ref.read(profileNotifierProvider.notifier).getUserLikedTweets(
           userId: ref.read(authNotifierProvider).user!.userId!,
           page: pageIndex,
