@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
+import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 
@@ -109,7 +110,10 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
           padding: const EdgeInsets.only(left: 5),
           child: GestureDetector(
             onTap: () {
-              // go to user profile
+              Navigator.pushNamed(context, Routes.profileScreen, arguments: {
+                // "email": _emailController.text,
+                // "isSignUp": false
+              });
             },
             child: CircleAvatar(
               backgroundImage:

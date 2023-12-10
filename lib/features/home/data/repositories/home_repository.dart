@@ -13,7 +13,8 @@ abstract class HomeRepository {
   deleteRetweet({required String tweetId});
   addReply({required String tweetId, required String replyText});
   fetchRepliersData({required String tweetId});
-  Future<void> addTweet({String? tweetText, List<MultipartFile>? attachments});
+  Future<void> addTweet(
+      {String? tweetText, List<MultipartFile>? media, List<String>? trends});
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -106,17 +107,25 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<void> addTweet(
-      {String? tweetText, List<MultipartFile>? attachments}) async {
+      {String? tweetText,
+      List<MultipartFile>? media,
+      List<String>? trends}) async {
     FormData formData = FormData();
-
     if (tweetText != null) {
       formData.fields.add(MapEntry('tweetText', tweetText));
     }
-
-    if (attachments != null) {
-      for (var attachment in attachments) {
+    if (trends != null) {
+      for (var trend in trends) {
+        formData.fields.add(MapEntry(
+          'trends',
+          trend,
+        ));
+      }
+    }
+    if (media != null) {
+      for (var attachment in media) {
         formData.files.add(MapEntry(
-          'attachments',
+          'media',
           attachment,
         ));
       }

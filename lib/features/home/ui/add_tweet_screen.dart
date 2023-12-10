@@ -81,67 +81,115 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
               label: 'Post')
         ],
       ),
-      body: Column(
-        children: [
-          SingleChildScrollView(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: CircleAvatar(
-                    backgroundColor: AppColors.whiteColor,
-                    //backgroundImage: Todo: UserImage,
-                    radius: 20,
-                  ),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                Expanded(
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: _tweetTextController,
-                        style: AppTextStyle.textThemeDark.bodyText1!
-                            .copyWith(fontSize: 22),
-                        decoration: InputDecoration(
-                          hintText: "What's happening?",
-                          hintStyle: AppTextStyle.textThemeDark.headline6!
-                              .copyWith(color: AppColors.lightThinTextGray),
-                          border: InputBorder.none,
-                        ),
-                        maxLines: null,
+      body: Container(
+        padding: const EdgeInsets.all(15),
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Row(
+                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: CircleAvatar(
+                        backgroundColor: AppColors.whiteColor,
+                        //backgroundImage: Todo: UserImage,
+                        radius: 20,
                       ),
-                      if (imgs.isNotEmpty)
-                        CarouselSlider(
-                          items: imgs.map(
-                            (file) {
-                              return Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Image.file(file));
-                            },
-                          ).toList(),
-                          options: CarouselOptions(
-                            height: 400,
-                            enableInfiniteScroll: false,
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: _tweetTextController,
+                            style: AppTextStyle.textThemeDark.bodyText1!
+                                .copyWith(fontSize: 22),
+                            decoration: InputDecoration(
+                              hintText: "What's happening?",
+                              hintStyle: AppTextStyle.textThemeDark.headline6!
+                                  .copyWith(color: AppColors.lightThinTextGray),
+                              border: InputBorder.none,
+                            ),
+                            maxLines: null,
+                          ),
+                          if (imgs.isNotEmpty)
+                            CarouselSlider(
+                              items: imgs.map(
+                                (file) {
+                                  return Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      child: Image.file(file));
+                                },
+                              ).toList(),
+                              options: CarouselOptions(
+                                height: 400,
+                                enableInfiniteScroll: false,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    //Todo: Open List
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: AppColors.lightThinTextGray,
+                          width: 0.3,
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, top: 15),
+                          child: GestureDetector(
+                            //onTap: onPickImages,
+                            child: SvgPicture.asset(
+                              AppAssets.earthIcon,
+                              height: 15,
+                              width: 15,
+                              colorFilter: const ColorFilter.mode(
+                                  AppColors.primaryColor, BlendMode.srcIn),
+                            ),
                           ),
                         ),
-                    ],
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Text(
+                            'Everyone can reply',
+                            style:
+                                AppTextStyle.textThemeDark.subtitle1!.copyWith(
+                              color: AppColors.primaryColor,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  //Todo: Open List
-                },
-                child: Container(
-                  padding: const EdgeInsets.only(bottom: 15),
+                Container(
+                  padding: const EdgeInsets.only(bottom: 10),
                   decoration: const BoxDecoration(
                     border: Border(
                       top: BorderSide(
@@ -155,100 +203,59 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10, top: 15),
                         child: GestureDetector(
-                          //onTap: onPickImages,
+                          onTap: onPickImages,
                           child: SvgPicture.asset(
-                            AppAssets.earthIcon,
-                            height: 15,
-                            width: 15,
+                            AppAssets.galleryIcon,
+                            height: 25,
+                            width: 25,
                             colorFilter: const ColorFilter.mode(
                                 AppColors.primaryColor, BlendMode.srcIn),
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 20,
-                      ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: Text(
-                          'Everyone can reply',
-                          style: AppTextStyle.textThemeDark.subtitle1!.copyWith(
-                            color: AppColors.primaryColor,
-                            fontWeight: FontWeight.w100,
+                        padding: const EdgeInsets.only(left: 30, top: 15),
+                        child: GestureDetector(
+                          child: SvgPicture.asset(
+                            AppAssets.gifIcon,
+                            height: 30,
+                            width: 30,
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.primaryColor, BlendMode.srcIn),
                           ),
                         ),
-                      )
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30, top: 15),
+                        child: GestureDetector(
+                          child: SvgPicture.asset(
+                            AppAssets.listIcon,
+                            height: 23,
+                            width: 23,
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.primaryColor, BlendMode.srcIn),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30, top: 15),
+                        child: GestureDetector(
+                          child: SvgPicture.asset(
+                            AppAssets.locationIcon,
+                            height: 27,
+                            width: 27,
+                            colorFilter: const ColorFilter.mode(
+                                AppColors.primaryColor, BlendMode.srcIn),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(bottom: 10),
-                decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: AppColors.lightThinTextGray,
-                      width: 0.3,
-                    ),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, top: 15),
-                      child: GestureDetector(
-                        onTap: onPickImages,
-                        child: SvgPicture.asset(
-                          AppAssets.galleryIcon,
-                          height: 25,
-                          width: 25,
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.primaryColor, BlendMode.srcIn),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30, top: 15),
-                      child: GestureDetector(
-                        child: SvgPicture.asset(
-                          AppAssets.gifIcon,
-                          height: 30,
-                          width: 30,
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.primaryColor, BlendMode.srcIn),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30, top: 15),
-                      child: GestureDetector(
-                        child: SvgPicture.asset(
-                          AppAssets.listIcon,
-                          height: 23,
-                          width: 23,
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.primaryColor, BlendMode.srcIn),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30, top: 15),
-                      child: GestureDetector(
-                        child: SvgPicture.asset(
-                          AppAssets.locationIcon,
-                          height: 27,
-                          width: 27,
-                          colorFilter: const ColorFilter.mode(
-                              AppColors.primaryColor, BlendMode.srcIn),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
