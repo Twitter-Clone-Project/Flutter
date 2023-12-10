@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
+import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 
@@ -55,28 +56,27 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     }
   }
 
-  void _showImageDialog(BuildContext context, Image image) {
+  void _showImageDialog(BuildContext context, List<NetworkImage> images) {
     showDialog(
       context: context,
       builder: (context) {
         return Dialog(
-            child: SingleChildScrollView(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image(
-                  image: image.image,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height,
-                ),
-              ],
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // You can adjust the number of columns here
+                crossAxisSpacing: 4.0,
+                mainAxisSpacing: 4.0,
+              ),
+              itemCount: images.length,
+              itemBuilder: (context, index) {
+                return Image(image: images[index]);
+              },
             ),
           ),
-        ));
+        );
       },
     );
   }
@@ -98,7 +98,9 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     final String handle = widget.tweet.user?.screenName ?? '';
     final String date = widget.tweet.createdAt ?? '';
     final bool verified = false;
-    final Image? image = null;
+    final List<NetworkImage> images = (widget.tweet.attachmentsUrl ?? [])
+        .map((url) => NetworkImage(url))
+        .toList();
 
     return (Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -108,7 +110,10 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
           padding: const EdgeInsets.only(left: 5),
           child: GestureDetector(
             onTap: () {
-              // go to user profile
+              Navigator.pushNamed(context, Routes.profileScreen, arguments: {
+                // "email": _emailController.text,
+                // "isSignUp": false
+              });
             },
             child: CircleAvatar(
               backgroundImage:
@@ -138,13 +143,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                       ),
                     ),
                   ),
-                  if (verified)
-                    SizedBox(
-                      width: 0.02 * MediaQuery.of(context).size.height,
-                      child: SvgPicture.asset(AppAssets.verifiedIcon),
-                    ),
                   SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                  //Handle
                   Text(
                     handle,
                     style: const TextStyle(color: AppColors.lightGray),
@@ -166,22 +165,22 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                     fontStyle: FontStyle.normal,
                   ),
                 ),
-              if (image != null)
-                GestureDetector(
-                  onTap: () {
-                    _showImageDialog(context, image);
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: Image(
-                        image: image.image,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                  ),
-                ),
+              // if (images.isEmpty == false)
+              //   GestureDetector(
+              //     onTap: () {
+              //       _showImageDialog(context, images);
+              //     },
+              //     child: Container(
+              //       width: double.infinity,
+              //       child: ClipRRect(
+              //         borderRadius: BorderRadius.circular(12.0),
+              //         child: Image(
+              //           image: images[0],
+              //           fit: BoxFit.fitWidth,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 10),

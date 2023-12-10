@@ -20,20 +20,29 @@ abstract class ProfileRepository {
   });
   getUserLikedTweets(String username, int page);
 
+  Future<bool?> followUser({
+    required String username,
+  });
 
+  Future<bool?> unfollowUser({
+    required String username,
+  });
 
-  Future<bool?> followUser({required String username,});
+  Future<bool?> muteUser({
+    required String username,
+  });
 
-  Future<bool?> unfollowUser({required String username,});
+  Future<bool?> unmuteUser({
+    required String username,
+  });
 
-  Future<bool?> muteUser({required String username,});
+  Future<bool?> blockUser({
+    required String username,
+  });
 
-  Future<bool?> unmuteUser({required String username,});
-
-  Future<bool?> blockUser({required String username,});
-
-  Future<bool?> unblockUser({required String username,});
-
+  Future<bool?> unblockUser({
+    required String username,
+  });
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -75,11 +84,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
   getUserLikedTweets(String username, int page) async {
     try {
       var response = await HttpClient.dio.get(EndPoints.getUserLikedTweets(username, page));
-
-      if(response.statusCode == 200||response.statusCode == 201){
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return ProfileTweetsResponse.fromJson(response.data);
       }
-      return const ProfileTweetsResponse(data: [],total:0);
+      return const ProfileTweetsResponse(data: [], total: 0);
     } catch (e) {
       rethrow;
     }
@@ -97,21 +105,25 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) async {
     try {
       FormData data = FormData.fromMap({
-        // "profilePhoto":profilePhoto==null?null: await MultipartFile.fromFile(
-        //   profilePhoto!, filename: path.basename(profilePhoto!),),
-        // "bannerPhoto":bannerPhoto==null?null:  await MultipartFile.fromFile(
-        //   bannerPhoto!, filename: path.basename(bannerPhoto!),),
         "name": name,
-        // "isUpdated": "TRUE",
-        "bio": bio,
-        "website": website,
-        "location": location,
-        "birthDate": "2020-12-15",
       });
 
-      // if (birthDate != null) {
-      //   data.fields.add(MapEntry("birthDate", birthDate));
-      // }
+      if (birthDate != null && birthDate != "") {
+        data.fields.add(MapEntry("birthDate", birthDate));
+      }
+
+      if (bio != null && bio != "") {
+        data.fields.add(MapEntry("bio", bio));
+      }
+
+      if (location != null && location != "") {
+        data.fields.add(MapEntry("location", location));
+      }
+
+      if (website != null && website != "") {
+        data.fields.add(MapEntry("website", website));
+      }
+
       if (profilePhoto != null) {
         var file = await MultipartFile.fromFile(
           profilePhoto,
@@ -128,8 +140,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
         var isUpdated = "TRUE";
         data.files.add(MapEntry("bannerPhoto", file));
         data.fields.add(MapEntry("isUpdated", isUpdated));
-      }
-      else{
+      } else {
         var isUpdated = "FALSE";
         data.fields.add(MapEntry("isUpdated", isUpdated));
       }
@@ -138,7 +149,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
           await HttpClient.dio.patch(EndPoints.updateProfile, data: data);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return UserProfile.fromJson(response.data["data"]);
+        final userProfile = UserProfile.fromJson(response.data["data"]);
+
+        return userProfile;
       }
       throw (response.data["message"]);
     } catch (e) {
@@ -153,7 +166,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
-      throw(response.data["message"]);
+      throw (response.data["message"]);
     } catch (e) {
       rethrow;
     }
@@ -166,7 +179,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
-      throw(response.data["message"]);
+      throw (response.data["message"]);
     } catch (e) {
       rethrow;
     }
@@ -179,7 +192,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
-      throw(response.data["message"]);
+      throw (response.data["message"]);
     } catch (e) {
       rethrow;
     }
@@ -192,7 +205,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
-      throw(response.data["message"]);
+      throw (response.data["message"]);
     } catch (e) {
       rethrow;
     }
@@ -205,7 +218,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
-      throw(response.data["message"]);
+      throw (response.data["message"]);
     } catch (e) {
       rethrow;
     }
@@ -218,15 +231,13 @@ class ProfileRepositoryImpl implements ProfileRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
-      throw(response.data["message"]);
+      throw (response.data["message"]);
     } catch (e) {
       rethrow;
     }
   }
-
-
-
 }
-  final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
-    return ProfileRepositoryImpl();
-  });
+
+final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
+  return ProfileRepositoryImpl();
+});

@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/features/auth/data/model/user.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
@@ -187,6 +189,26 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
         //errorMessage: e.toString(),
         repliersList: const RepliersList(data: []),
       );
+    }
+  }
+
+  addTweet({String? tweetText, List<MultipartFile>? attachments}) async {
+    List<String> trends = [];
+    if (tweetText != null) {
+      List<String> words = tweetText.split(' ');
+      for (String word in words) {
+        if (word.startsWith('#')) {
+          trends.add(word);
+        }
+      }
+    }
+    try {
+      homeRepository.addTweet(
+          tweetText: tweetText, media: attachments, trends: trends);
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
     }
   }
 
