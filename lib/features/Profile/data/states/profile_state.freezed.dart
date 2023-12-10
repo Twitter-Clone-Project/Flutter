@@ -24,6 +24,9 @@ mixin _$UserProfileState {
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   bool get tweetsloading => throw _privateConstructorUsedError;
+  bool get isBlocked => throw _privateConstructorUsedError;
+  bool get isMuted => throw _privateConstructorUsedError;
+  bool get isFollowed => throw _privateConstructorUsedError;
   int get screenIndex => throw _privateConstructorUsedError;
   int get pageIndex => throw _privateConstructorUsedError;
   UserProfile get userProfile => throw _privateConstructorUsedError;
@@ -47,6 +50,9 @@ abstract class $UserProfileStateCopyWith<$Res> {
       String? errorMessage,
       bool loading,
       bool tweetsloading,
+      bool isBlocked,
+      bool isMuted,
+      bool isFollowed,
       int screenIndex,
       int pageIndex,
       UserProfile userProfile,
@@ -77,6 +83,9 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
     Object? errorMessage = freezed,
     Object? loading = null,
     Object? tweetsloading = null,
+    Object? isBlocked = null,
+    Object? isMuted = null,
+    Object? isFollowed = null,
     Object? screenIndex = null,
     Object? pageIndex = null,
     Object? userProfile = null,
@@ -106,6 +115,18 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
       tweetsloading: null == tweetsloading
           ? _value.tweetsloading
           : tweetsloading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isBlocked: null == isBlocked
+          ? _value.isBlocked
+          : isBlocked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMuted: null == isMuted
+          ? _value.isMuted
+          : isMuted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFollowed: null == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
               as bool,
       screenIndex: null == screenIndex
           ? _value.screenIndex
@@ -176,6 +197,9 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       String? errorMessage,
       bool loading,
       bool tweetsloading,
+      bool isBlocked,
+      bool isMuted,
+      bool isFollowed,
       int screenIndex,
       int pageIndex,
       UserProfile userProfile,
@@ -208,6 +232,9 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? loading = null,
     Object? tweetsloading = null,
+    Object? isBlocked = null,
+    Object? isMuted = null,
+    Object? isFollowed = null,
     Object? screenIndex = null,
     Object? pageIndex = null,
     Object? userProfile = null,
@@ -237,6 +264,18 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
       tweetsloading: null == tweetsloading
           ? _value.tweetsloading
           : tweetsloading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isBlocked: null == isBlocked
+          ? _value.isBlocked
+          : isBlocked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMuted: null == isMuted
+          ? _value.isMuted
+          : isMuted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFollowed: null == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
               as bool,
       screenIndex: null == screenIndex
           ? _value.screenIndex
@@ -270,6 +309,9 @@ class _$UserProfileStateImpl implements _UserProfileState {
       this.errorMessage = null,
       this.loading = true,
       this.tweetsloading = true,
+      this.isBlocked = false,
+      this.isMuted = false,
+      this.isFollowed = false,
       this.screenIndex = 0,
       this.pageIndex = 0,
       required this.userProfile,
@@ -295,6 +337,15 @@ class _$UserProfileStateImpl implements _UserProfileState {
   final bool tweetsloading;
   @override
   @JsonKey()
+  final bool isBlocked;
+  @override
+  @JsonKey()
+  final bool isMuted;
+  @override
+  @JsonKey()
+  final bool isFollowed;
+  @override
+  @JsonKey()
   final int screenIndex;
   @override
   @JsonKey()
@@ -306,7 +357,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
 
   @override
   String toString() {
-    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, errorMessage: $errorMessage, loading: $loading, tweetsloading: $tweetsloading, screenIndex: $screenIndex, pageIndex: $pageIndex, userProfile: $userProfile, error: $error)';
+    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, errorMessage: $errorMessage, loading: $loading, tweetsloading: $tweetsloading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, pageIndex: $pageIndex, userProfile: $userProfile, error: $error)';
   }
 
   @override
@@ -327,6 +378,11 @@ class _$UserProfileStateImpl implements _UserProfileState {
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.tweetsloading, tweetsloading) ||
                 other.tweetsloading == tweetsloading) &&
+            (identical(other.isBlocked, isBlocked) ||
+                other.isBlocked == isBlocked) &&
+            (identical(other.isMuted, isMuted) || other.isMuted == isMuted) &&
+            (identical(other.isFollowed, isFollowed) ||
+                other.isFollowed == isFollowed) &&
             (identical(other.screenIndex, screenIndex) ||
                 other.screenIndex == screenIndex) &&
             (identical(other.pageIndex, pageIndex) ||
@@ -345,6 +401,9 @@ class _$UserProfileStateImpl implements _UserProfileState {
       errorMessage,
       loading,
       tweetsloading,
+      isBlocked,
+      isMuted,
+      isFollowed,
       screenIndex,
       pageIndex,
       userProfile,
@@ -366,6 +425,9 @@ abstract class _UserProfileState implements UserProfileState {
       final String? errorMessage,
       final bool loading,
       final bool tweetsloading,
+      final bool isBlocked,
+      final bool isMuted,
+      final bool isFollowed,
       final int screenIndex,
       final int pageIndex,
       required final UserProfile userProfile,
@@ -383,6 +445,12 @@ abstract class _UserProfileState implements UserProfileState {
   bool get loading;
   @override
   bool get tweetsloading;
+  @override
+  bool get isBlocked;
+  @override
+  bool get isMuted;
+  @override
+  bool get isFollowed;
   @override
   int get screenIndex;
   @override

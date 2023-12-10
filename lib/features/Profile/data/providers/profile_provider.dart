@@ -38,7 +38,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }
 
   getUserTweets({
-    required String userId,
+    required String username,
     required int page,
   }) async {
     try {
@@ -46,7 +46,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         state = state.copyWith(tweetsloading: true);
       }
       final ProfileTweetsResponse profileTweetsResponse =
-          await profileRepository.getUserTweets(userId, page);
+          await profileRepository.getUserTweets(username, page);
       final List<Tweet> tweets;
 
       if (page == 1) {
@@ -69,14 +69,14 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 
 
   getUserLikedTweets({
-    required String userId,
+    required String username,
     required int page,
   }) async {
     try {
       if (page == 1) {
         state = state.copyWith(loading: true);
       }
-      final ProfileLikedTweetsResponse profileLikedTweetsResponse = await profileRepository.getUserLikedTweets(userId, page);
+      final ProfileLikedTweetsResponse profileLikedTweetsResponse = await profileRepository.getUserLikedTweets(username, page);
       final List<Tweet> tweets;
 
       if (page == 1) {
@@ -195,37 +195,22 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     }
   }
 
-  Future<void> blockUser(String username) async {
+  Future<void> blockOrUnblockUser(String username) async {
     try {
       state = state.copyWith(loading: true);
-      final result = await profileRepository.blockUser(username: username);
+      final result = state.isBlocked
+          ? await profileRepository.unblockUser(username: username)
+          : await profileRepository.blockUser(username: username);
 
       if (result == true) {
-        // Handle success if needed, for example, refetch the updated profile
+        state = state.copyWith(isBlocked: !state.isBlocked, loading: false);
       }
-
-      // TODO: Edit the following line to update the state to reflect the change in the user's block status
-      state = state.copyWith(loading: false);
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Future<void> unblockUser(String username) async {
-    try {
-      state = state.copyWith(loading: true);
-      final result = await profileRepository.unblockUser(username: username);
 
-      if (result == true) {
-        // Handle success if needed, for example, refetch the updated profile
-      }
-
-      // TODO: Edit the following line to update the state to reflect the change in the user's block status
-      state = state.copyWith(loading: false);
-    } catch (e) {
-      state = state.copyWith(loading: false, error: e.toString());
-    }
-  }
 }
 
 final profileNotifierProvider =
