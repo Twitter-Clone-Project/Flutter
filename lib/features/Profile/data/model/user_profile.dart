@@ -26,7 +26,7 @@ class UserProfile with _$UserProfile {
     String? location,
     @Default("https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg") String imageUrl,
     @Default("https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png") String bannerUrl,
-    String? birthdate,
+    String? birthDate,
     // String? CreatedAt,
     bool? isFollowed,
     bool? isConfirmed,

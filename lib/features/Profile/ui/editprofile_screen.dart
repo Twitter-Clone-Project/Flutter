@@ -3,10 +3,12 @@ import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:x_clone/app/app_keys.dart';
+import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/Profile/data/model/user_profile.dart';
 import 'package:x_clone/features/Profile/data/repositories/profile_repository.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
@@ -31,12 +33,43 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
   File? _bannerImage;
   DateTime? _selectedDate;
 
+  late TextEditingController _nameController;
+  late TextEditingController _bioController;
+  late TextEditingController _locationController;
+  late TextEditingController _websiteController;
+  late TextEditingController _dateOfBirthController;
+
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {});
-    _tabcontroller = TabController(length: 4, vsync: this);
+
+    var userProfile = ref.read(profileNotifierProvider).userProfile;
+
+    _nameController = TextEditingController(text: userProfile.name ?? "");
+    _bioController = TextEditingController(text: userProfile.bio ?? "");
+    _locationController =
+        TextEditingController(text: userProfile.location ?? "");
+    _websiteController = TextEditingController(text: userProfile.website ?? "");
+    _dateOfBirthController =
+        TextEditingController(text: userProfile.birthDate ?? "");
 
     super.initState();
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      locale: const Locale('en', 'US'),
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null && picked != _selectedDate) {
+      _selectedDate = picked;
+      _dateOfBirthController.text =
+          DateFormat('yyyy-MM-dd').format(_selectedDate!);
+    }
   }
 
   @override
@@ -45,17 +78,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
     var backgroundImageHeight = mediaQuery.size.height * 0.15;
     var profileImageDiameter = mediaQuery.size.width * 0.25;
 
-    final userProfileState = ref.watch(profileNotifierProvider);
-    final userProfile = userProfileState.userProfile;
-
-    final TextEditingController _nameController =
-        TextEditingController(text: userProfile.name);
-    final TextEditingController _bioController =
-        TextEditingController(text: userProfile.bio);
-    final TextEditingController _locationController =
-        TextEditingController(text: userProfile.location);
-    final TextEditingController _websiteController =
-        TextEditingController(text: userProfile.website);
+    var userProfile = ref.watch(profileNotifierProvider).userProfile;
 
     bool isLoading = ref.watch(profileNotifierProvider).loading;
 
@@ -70,18 +93,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
 
     void onSubmit() async {
       if (AppKeys.updateProfileFormKey.currentState!.validate()) {
-        print("555555555555555555555555555"+userProfile.birthdate.toString());
-        var result = await ref.read(profileNotifierProvider.notifier).updateUserProfile(
-          bannerPhoto: _bannerImage != null ? _bannerImage!.path : null,
-          profilePhoto: _profileImage != null ? _profileImage!.path : null,
-          bio: _bioController.text,
-          website: _websiteController.text!,
-          location: _locationController.text,
-          name: _nameController.text,
-          birthDate: "2020-12-15",
-        );
+        var result = await ref
+            .read(profileNotifierProvider.notifier)
+            .updateUserProfile(
+              bannerPhoto: _bannerImage != null ? _bannerImage!.path : null,
+              profilePhoto: _profileImage != null ? _profileImage!.path : null,
+              bio: _bioController.text,
+              website: _websiteController.text,
+              location: _locationController.text,
+              name: _nameController.text,
+              birthDate: _dateOfBirthController.text,
+            );
         if (result != null && result == true) {
-          print("78888888888");
           Navigator.pop(context);
         }
       }
@@ -94,7 +117,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
             Icons.arrow_back,
             color: AppColors.whiteColor,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () =>
+              Navigator.pop(context),
         ),
         title: Text("Edit Profile", style: TextStyle(fontSize: 18)),
         actions: [
@@ -204,7 +228,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                           children: [
                             TextFormField(
                               controller: _nameController,
-                              decoration: InputDecoration(labelText: 'Name'),
+                              decoration: InputDecoration(
+                                labelText: 'Name',
+                              ),
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return "Name cannot be empty";
@@ -262,6 +288,22 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                               },
                               // Add controller and other properties as needed
                             ),
+                            GestureDetector(
+                              onTap: () => _selectDate(context),
+                              child: AbsorbPointer(
+                                child: TextFormField(
+                                  controller: _dateOfBirthController,
+                                  decoration: InputDecoration(
+                                      labelText: 'Date of Birth'),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Date of birth cannot be empty";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -271,5 +313,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
               ),
             ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _nameController.dispose();
+    _bioController.dispose();
+    _locationController.dispose();
+    _websiteController.dispose();
+    _dateOfBirthController.dispose();
   }
 }

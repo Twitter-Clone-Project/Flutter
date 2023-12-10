@@ -28,7 +28,7 @@ mixin _$UserProfile {
   String? get location => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   String get bannerUrl => throw _privateConstructorUsedError;
-  String? get birthdate =>
+  String? get birthDate =>
       throw _privateConstructorUsedError; // String? CreatedAt,
   bool? get isFollowed => throw _privateConstructorUsedError;
   bool? get isConfirmed => throw _privateConstructorUsedError;
@@ -60,7 +60,7 @@ abstract class $UserProfileCopyWith<$Res> {
       String? location,
       String imageUrl,
       String bannerUrl,
-      String? birthdate,
+      String? birthDate,
       bool? isFollowed,
       bool? isConfirmed,
       bool? isFollowing,
@@ -92,7 +92,7 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? location = freezed,
     Object? imageUrl = null,
     Object? bannerUrl = null,
-    Object? birthdate = freezed,
+    Object? birthDate = freezed,
     Object? isFollowed = freezed,
     Object? isConfirmed = freezed,
     Object? isFollowing = freezed,
@@ -135,9 +135,9 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.bannerUrl
           : bannerUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      birthdate: freezed == birthdate
-          ? _value.birthdate
-          : birthdate // ignore: cast_nullable_to_non_nullable
+      birthDate: freezed == birthDate
+          ? _value.birthDate
+          : birthDate // ignore: cast_nullable_to_non_nullable
               as String?,
       isFollowed: freezed == isFollowed
           ? _value.isFollowed
@@ -192,7 +192,7 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       String? location,
       String imageUrl,
       String bannerUrl,
-      String? birthdate,
+      String? birthDate,
       bool? isFollowed,
       bool? isConfirmed,
       bool? isFollowing,
@@ -222,7 +222,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? location = freezed,
     Object? imageUrl = null,
     Object? bannerUrl = null,
-    Object? birthdate = freezed,
+    Object? birthDate = freezed,
     Object? isFollowed = freezed,
     Object? isConfirmed = freezed,
     Object? isFollowing = freezed,
@@ -265,9 +265,9 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.bannerUrl
           : bannerUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      birthdate: freezed == birthdate
-          ? _value.birthdate
-          : birthdate // ignore: cast_nullable_to_non_nullable
+      birthDate: freezed == birthDate
+          ? _value.birthDate
+          : birthDate // ignore: cast_nullable_to_non_nullable
               as String?,
       isFollowed: freezed == isFollowed
           ? _value.isFollowed
@@ -319,7 +319,7 @@ class _$UserProfileImpl implements _UserProfile {
           "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
       this.bannerUrl =
           "https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png",
-      this.birthdate,
+      this.birthDate,
       this.isFollowed,
       this.isConfirmed,
       this.isFollowing,
@@ -351,7 +351,7 @@ class _$UserProfileImpl implements _UserProfile {
   @JsonKey()
   final String bannerUrl;
   @override
-  final String? birthdate;
+  final String? birthDate;
 // String? CreatedAt,
   @override
   final bool? isFollowed;
@@ -372,7 +372,7 @@ class _$UserProfileImpl implements _UserProfile {
 
   @override
   String toString() {
-    return 'UserProfile(userId: $userId, name: $name, username: $username, bio: $bio, website: $website, location: $location, imageUrl: $imageUrl, bannerUrl: $bannerUrl, birthdate: $birthdate, isFollowed: $isFollowed, isConfirmed: $isConfirmed, isFollowing: $isFollowing, isMuted: $isMuted, isBlocked: $isBlocked, isBlockingMe: $isBlockingMe, followersCount: $followersCount, followingsCount: $followingsCount)';
+    return 'UserProfile(userId: $userId, name: $name, username: $username, bio: $bio, website: $website, location: $location, imageUrl: $imageUrl, bannerUrl: $bannerUrl, birthDate: $birthDate, isFollowed: $isFollowed, isConfirmed: $isConfirmed, isFollowing: $isFollowing, isMuted: $isMuted, isBlocked: $isBlocked, isBlockingMe: $isBlockingMe, followersCount: $followersCount, followingsCount: $followingsCount)';
   }
 
   @override
@@ -392,8 +392,8 @@ class _$UserProfileImpl implements _UserProfile {
                 other.imageUrl == imageUrl) &&
             (identical(other.bannerUrl, bannerUrl) ||
                 other.bannerUrl == bannerUrl) &&
-            (identical(other.birthdate, birthdate) ||
-                other.birthdate == birthdate) &&
+            (identical(other.birthDate, birthDate) ||
+                other.birthDate == birthDate) &&
             (identical(other.isFollowed, isFollowed) ||
                 other.isFollowed == isFollowed) &&
             (identical(other.isConfirmed, isConfirmed) ||
@@ -423,7 +423,7 @@ class _$UserProfileImpl implements _UserProfile {
       location,
       imageUrl,
       bannerUrl,
-      birthdate,
+      birthDate,
       isFollowed,
       isConfirmed,
       isFollowing,
@@ -457,7 +457,7 @@ abstract class _UserProfile implements UserProfile {
       final String? location,
       final String imageUrl,
       final String bannerUrl,
-      final String? birthdate,
+      final String? birthDate,
       final bool? isFollowed,
       final bool? isConfirmed,
       final bool? isFollowing,
@@ -487,7 +487,7 @@ abstract class _UserProfile implements UserProfile {
   @override
   String get bannerUrl;
   @override
-  String? get birthdate;
+  String? get birthDate;
   @override // String? CreatedAt,
   bool? get isFollowed;
   @override
