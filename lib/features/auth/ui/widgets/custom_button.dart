@@ -8,7 +8,8 @@ class CustomButton extends StatelessWidget {
   final String? svgIcon;
   final VoidCallback? onPressed;
   final double? verticalPadding; 
-  final double? horizontalPadding; 
+  final double? horizontalPadding;
+  final bool red;
 
 
   const CustomButton({
@@ -17,7 +18,8 @@ class CustomButton extends StatelessWidget {
     this.filled = true,
     this.svgIcon,
     this.horizontalPadding,
-    this.verticalPadding, 
+    this.verticalPadding,
+    this.red = false,
     required this.onPressed,
   });
 
@@ -26,6 +28,8 @@ class CustomButton extends StatelessWidget {
     Color buttonColor = filled ? AppColors.whiteColor : Colors.transparent;
     Color textColor = filled ? AppColors.pureBlack : AppColors.whiteColor;
     Color borderColor = filled ? Colors.transparent : AppColors.borderDarkGray;
+
+    buttonColor = red ? Colors.red : buttonColor;
 
     return Container(
       decoration: BoxDecoration(

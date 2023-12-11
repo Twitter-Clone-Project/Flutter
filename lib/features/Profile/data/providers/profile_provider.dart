@@ -163,52 +163,136 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     }
   }
 
-  Future<void> muteUser(String username) async {
+  Future<void> toggleMuteStatus(String username) async {
     try {
       state = state.copyWith(loading: true);
-      final result = await profileRepository.muteUser(username: username);
 
-      if (result == true) {
-        // Handle success if needed, for example, refetch the updated profile
+      // Toggle the mute status in the local state
+      state = state.copyWith(
+        userProfile: state.userProfile.copyWith(
+          isMuted: !state.userProfile.isMuted!,
+        ),
+        loading: false,
+      );
+
+      // Perform the asynchronous mute/unmute operation
+      if (!state.userProfile.isMuted!) {
+        await profileRepository.unmuteUser(username: username);
+      } else {
+        await profileRepository.muteUser(username: username);
       }
-
-      // TODO: Edit the following line to update the state to reflect the change in the user's mute status
-      state = state.copyWith(loading: false);
     } catch (e) {
+      // If the asynchronous operation fails, revert the local state to the original mute status
+      state = state.copyWith(
+        userProfile: state.userProfile.copyWith(
+          isMuted: !state.userProfile.isMuted!,
+        ),
+        loading: false,
+      );
+
+      // Handle the error as needed
       state = state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Future<void> unmuteUser(String username) async {
-    try {
-      state = state.copyWith(loading: true);
-      final result = await profileRepository.unmuteUser(username: username);
+  Future<void> toggleFollowStatus(String username) async {
+    var isFollowed = state.userProfile.isFollowed!;
 
-      if (result == true) {
-        // Handle success if needed, for example, refetch the updated profile
+    var oldfollowersCount = state.userProfile.followersCount!;
+
+    int currentCount = int.parse(oldfollowersCount);
+    int newCount;
+
+    if(isFollowed){
+      newCount = currentCount - 1;
+    }
+    else {
+      newCount = currentCount + 1;
+    }
+    var newfollowersCount = newCount.toString();
+
+    try {
+
+
+      state = state.copyWith(loading: true);
+      state = state.copyWith(
+        userProfile: state.userProfile.copyWith(
+          isFollowed: !state.userProfile.isFollowed!,
+          followersCount: newfollowersCount
+        ),
+        loading: false,
+      );
+
+      // Perform the asynchronous follow/unfollow operation
+      if (isFollowed) {
+        await profileRepository.unfollowUser(username: username);
+      } else {
+        await profileRepository.followUser(username: username);
       }
 
-      // TODO: Edit the following line to update the state to reflect the change in the user's mute status
-      state = state.copyWith(loading: false);
+
     } catch (e) {
+      // If the asynchronous operation fails, revert the local state to the original follow status
+      state = state.copyWith(
+        userProfile: state.userProfile.copyWith(
+          isFollowed: !state.userProfile.isFollowed!,
+            followersCount: oldfollowersCount
+        ),
+        loading: false,
+      );
+
+      // Handle the error as needed
       state = state.copyWith(loading: false, error: e.toString());
     }
   }
 
-  Future<void> blockOrUnblockUser(String username) async {
+  Future<void> toggleBlockStatus(String username) async {
+    var isBlocked = state.userProfile.isBlocked!;
+    var isFollowed_tmp = state.userProfile.isFollowed!;
+
+    var oldfollowersCount = state.userProfile.followersCount!;
+    int newCount = int.parse(state.userProfile.followersCount!) - 1;
+    var newfollowersCount;
+    if (isFollowed_tmp){
+      newfollowersCount = newCount.toString();
+    }
+    else{
+      newfollowersCount = oldfollowersCount;
+    }
+
+
     try {
       state = state.copyWith(loading: true);
-      final result = state.isBlocked
-          ? await profileRepository.unblockUser(username: username)
-          : await profileRepository.blockUser(username: username);
+      state = state.copyWith(
+        userProfile: state.userProfile.copyWith(
+          isBlocked: !state.userProfile.isBlocked!,
+          isFollowed: false,
+            followersCount: newfollowersCount
+        ),
+        loading: false,
+      );
 
-      if (result == true) {
-        state = state.copyWith(isBlocked: !state.isBlocked, loading: false);
+      if (isBlocked) {
+        await profileRepository.unblockUser(username: username);
+      } else {
+        await profileRepository.blockUser(username: username);
       }
     } catch (e) {
+      // If the asynchronous operation fails, revert the local state to the original block status
+      state = state.copyWith(
+        userProfile: state.userProfile.copyWith(
+          isBlocked: !state.userProfile.isBlocked!,
+            isFollowed: isFollowed_tmp,
+            followersCount: oldfollowersCount
+        ),
+        loading: false,
+      );
+
+      // Handle the error as needed
       state = state.copyWith(loading: false, error: e.toString());
     }
   }
+
 
 
 }
