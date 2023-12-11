@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/theme/app_colors.dart';
+import 'package:x_clone/theme/app_text_style.dart';
 
 class Reply extends StatelessWidget {
   Reply({
@@ -21,7 +23,8 @@ class Reply extends StatelessWidget {
               padding: const EdgeInsets.only(left: 5),
               child: GestureDetector(
                 onTap: () {
-                  // go to user profile
+                  Navigator.pushNamed(context, Routes.profileScreen,
+                      arguments: replier.username);
                 },
                 child: CircleAvatar(
                   backgroundColor: AppColors.whiteColor,
@@ -38,28 +41,21 @@ class Reply extends StatelessWidget {
                   Row(
                     children: [
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          replier.username!,
-                          style: const TextStyle(
-                            color: AppColors.whiteColor,
-                            fontSize: 18,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      Text(
+                        replier.username!,
+                        style: const TextStyle(
+                          color: AppColors.whiteColor,
+                          fontSize: 18,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // if (verified)
-                      //   SizedBox(
-                      //     width: 0.02 * MediaQuery.of(context).size.height,
-                      //     child: SvgPicture.asset(AppAssets.verifiedIcon),
-                      //   ),
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                      //Handle
                       // Text(
-                      //   'handle',
-                      //   style: const TextStyle(color: AppColors.lightGray),
+                      //   '@${replier.handle}',
+                      //   style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                      //     color: AppColors.lightThinTextGray,
+                      //   ),
                       // ),
                       // SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                       //Date

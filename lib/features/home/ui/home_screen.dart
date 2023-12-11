@@ -6,6 +6,7 @@ import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:x_clone/theme/app_text_style.dart';
 import '../../../theme/app_assets.dart';
 import '../data/models/home_response.dart';
 import '../data/providers/home_provider.dart';
@@ -38,8 +39,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             : Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 10),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
                     child: Row(
                       children: [
                         InkWell(
@@ -47,28 +48,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                             Scaffold.of(context).openDrawer();
                           },
                           child: CircleAvatar(
-                            child: CachedNetworkImage(
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              width: MediaQuery.of(context).size.height * 0.05,
-                              fit: BoxFit.scaleDown,
-                              color: AppColors.primaryColor,
-                              imageUrl:
-                                  "${ref.watch(authNotifierProvider).user?.profileImageURL}",
-                              placeholder: (context, url) => SvgPicture.asset(
-                                  AppAssets.logo,
-                                  colorFilter: const ColorFilter.mode(
-                                      AppColors.whiteColor, BlendMode.srcIn),
-                                  fit: BoxFit.cover),
-                              errorWidget: (context, url, error) =>
-                                  SvgPicture.asset(AppAssets.logo,
-                                      colorFilter: const ColorFilter.mode(
-                                          AppColors.whiteColor,
-                                          BlendMode.srcIn),
-                                      fit: BoxFit.cover),
+                            backgroundColor:
+                                const Color.fromARGB(255, 59, 158, 59),
+                            backgroundImage: NetworkImage(ref
+                                    .watch(authNotifierProvider)
+                                    .user!
+                                    .profileImageURL ??
+                                ''),
+                            child: Text(
+                              ref.watch(authNotifierProvider).user!.name![0],
+                              style: AppTextStyle.textThemeDark.headline6!
+                                  .copyWith(color: Colors.white, fontSize: 25),
                             ),
                           ),
                         ),
-                        Spacer()
+                        const Spacer(),
                       ],
                     ),
                   ),
@@ -141,7 +135,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             Icons.add,
             color: AppColors.whiteColor,
           ),
-      ),
+        ),
       ),
     );
   }

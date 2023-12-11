@@ -32,12 +32,10 @@ class Routes {
   static const String profileScreen = "/profileScreen";
   static const String editProfileScreen = "/editProfileScreen";
 
-
   static const String reCAPTCHAscreen = "/reCAPTCHA";
   static const String tweetScreen = "/tweetScreen";
   static const String retweetersScreen = "/retweetersScreen";
   static const String likersScreen = "/likersScreen";
-
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -91,10 +89,14 @@ class Routes {
                 ));
       case profileScreen:
         var data = settings.arguments as String;
+        print("======sa==============");
+        print(data);
+
         return MaterialPageRoute(
             builder: (_) => ProfileScreen(
-              username: data,
-            ));      case editProfileScreen:
+                  username: data,
+                ));
+      case editProfileScreen:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
       default:
         return MaterialPageRoute(
