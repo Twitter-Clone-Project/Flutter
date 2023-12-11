@@ -80,9 +80,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         left: 0,
                         right: 0,
                         bottom: profileImageDiameter / 2,
-                        child: Image(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(userProfile.bannerUrl),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.fullScreenImage,
+                              arguments: {"imageUrl": userProfile.bannerUrl},
+                            );
+                          },
+                          child: Image(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(userProfile.bannerUrl),
+                          ),
                         ),
                       ),
                       Positioned(
@@ -106,10 +115,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       .black, // Set the color of the border
                                   shape: BoxShape.circle,
                                 ),
-                                child: CircleAvatar(
-                                  radius: profileImageDiameter / 2,
-                                  backgroundImage: NetworkImage(
-                                    userProfile.imageUrl,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      Routes.fullScreenImage,
+                                      arguments: {"imageUrl": userProfile.imageUrl},
+                                    );
+                                  },
+                                  child: CircleAvatar(
+                                    radius: profileImageDiameter / 2,
+                                    backgroundImage: NetworkImage(
+                                      userProfile.imageUrl,
+                                    ),
                                   ),
                                 ),
                               ),

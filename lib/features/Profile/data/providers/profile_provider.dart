@@ -198,7 +198,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   Future<void> toggleFollowStatus(String username) async {
     var isFollowed = state.userProfile.isFollowed!;
 
-    var oldfollowersCount = state.userProfile.followersCount!;
+    var oldfollowersCount = state.userProfile.followersCount?? "0";
 
     int currentCount = int.parse(oldfollowersCount);
     int newCount;
@@ -250,8 +250,8 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     var isBlocked = state.userProfile.isBlocked!;
     var isFollowed_tmp = state.userProfile.isFollowed!;
 
-    var oldfollowersCount = state.userProfile.followersCount!;
-    int newCount = int.parse(state.userProfile.followersCount!) - 1;
+    var oldfollowersCount = state.userProfile.followersCount?? "0";
+    int newCount = int.parse(oldfollowersCount) - 1;
     var newfollowersCount;
     if (isFollowed_tmp){
       newfollowersCount = newCount.toString();
