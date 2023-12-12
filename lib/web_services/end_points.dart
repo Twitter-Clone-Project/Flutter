@@ -18,8 +18,10 @@ class EndPoints {
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
-  static getUserTweets(String username, int page) => "/users/$username/tweets/$page";
-  static getUserLikedTweets(String username, int page) => "/users/$username/likedTweets/$page";
+  static getUserTweets(String username, int page) =>
+      "/users/$username/tweets/$page";
+  static getUserLikedTweets(String username, int page) =>
+      "/users/$username/likedTweets/$page";
   static followUser(String username) => "/users/$username/follow";
   static unfollowUser(String username) => "/users/$username/unfollow";
   static muteUser(String username) => "/users/$username/mute";
@@ -35,4 +37,5 @@ class EndPoints {
   static addRetweet(String tweetId) => "/tweets/$tweetId/retweet";
   static deleteRetweet(String tweetId) => "/tweets/$tweetId/deleteRetweet";
   static addReply(String tweetId) => "/tweets/$tweetId/addReply";
+  static getTrendingData() => "/trends";
 }
