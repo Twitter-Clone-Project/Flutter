@@ -89,9 +89,6 @@ class Routes {
                 ));
       case profileScreen:
         var data = settings.arguments as String;
-        print("======sa==============");
-        print(data);
-
         return MaterialPageRoute(
             builder: (_) => ProfileScreen(
                   username: data,
