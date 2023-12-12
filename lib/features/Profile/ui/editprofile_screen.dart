@@ -104,7 +104,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
               name: _nameController.text,
               birthDate: _dateOfBirthController.text,
             );
-        if (result != null && result == true) {
+        print("username: ${result?.username},  name: ${result?.name}");
+        ref.read(authNotifierProvider.notifier).updateUser(
+              name: result?.name,
+              profileImageURL: result?.imageUrl,
+            );
+        // ref.read(authNotif)
+
+        if (result != null) {
           Navigator.pop(context);
         }
       }
@@ -117,8 +124,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
             Icons.arrow_back,
             color: AppColors.whiteColor,
           ),
-          onPressed: () =>
-              Navigator.pop(context),
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text("Edit Profile", style: TextStyle(fontSize: 18)),
         actions: [
