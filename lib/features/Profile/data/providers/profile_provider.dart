@@ -293,7 +293,24 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     }
   }
 
-
+  Future<void> getFollowers({required String username}) async {
+    state = state.copyWith(
+      loading: true,
+    );
+    final FollowersList followers =
+    await profileRepository.fetchFollowersData(username: username);
+    if (followers.data != null) {
+      state = state.copyWith(
+        followersList: followers,
+        loading: false,
+      );
+    } else {
+      state = state.copyWith(
+        errorMessage: 'Failed to fetch followers',
+        loading: false,
+      );
+    }
+  }
 
 }
 

@@ -43,6 +43,8 @@ abstract class ProfileRepository {
   Future<bool?> unblockUser({
     required String username,
   });
+
+  Future<FollowersList> fetchFollowersData({required String username});
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -108,21 +110,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
         "name": name,
       });
 
-      if (birthDate != null && birthDate != "") {
-        data.fields.add(MapEntry("birthDate", birthDate));
-      }
+      data.fields.add(MapEntry("birthDate", birthDate?? ""));
+      data.fields.add(MapEntry("bio", bio?? ""));
+      data.fields.add(MapEntry("location", location?? ""));
+      data.fields.add(MapEntry("website", website?? ""));
 
-      if (bio != null && bio != "") {
-        data.fields.add(MapEntry("bio", bio));
-      }
-
-      if (location != null && location != "") {
-        data.fields.add(MapEntry("location", location));
-      }
-
-      if (website != null && website != "") {
-        data.fields.add(MapEntry("website", website));
-      }
 
       if (profilePhoto != null) {
         var file = await MultipartFile.fromFile(
@@ -236,6 +228,26 @@ class ProfileRepositoryImpl implements ProfileRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<FollowersList> fetchFollowersData({required String username}) async {
+    try {
+      var response = await HttpClient.dio.get(EndPoints.getFollowersData(username));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<dynamic> usersData = response.data["data"]["users"];
+        List<FollowerData> followers = usersData
+            .map((userData) => FollowerData.fromJson(userData))
+            .toList();
+
+        return FollowersList(data: followers);
+      }
+      return const FollowersList(data: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }
 
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {

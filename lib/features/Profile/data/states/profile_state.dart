@@ -10,6 +10,7 @@ class UserProfileState with _$UserProfileState {
     @Default(ProfileTweetsResponse(data: [],total:0)) ProfileTweetsResponse profileTweetsResponse,
     @Default(ProfileLikedTweetsResponse(data: [],total:0)) ProfileLikedTweetsResponse profileLikedTweetsResponse,
     @Default(UserProfile(imageUrl: "", bannerUrl: "")) UserProfile userprofile,
+    @Default(FollowersList(data: [])) FollowersList followersList,
     @Default(null) String? errorMessage,
     @Default(true) bool loading,
     @Default(true) bool tweetsloading,

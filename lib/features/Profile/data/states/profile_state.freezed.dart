@@ -21,6 +21,7 @@ mixin _$UserProfileState {
   ProfileLikedTweetsResponse get profileLikedTweetsResponse =>
       throw _privateConstructorUsedError;
   UserProfile get userprofile => throw _privateConstructorUsedError;
+  FollowersList get followersList => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   bool get tweetsloading => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $UserProfileStateCopyWith<$Res> {
       {ProfileTweetsResponse profileTweetsResponse,
       ProfileLikedTweetsResponse profileLikedTweetsResponse,
       UserProfile userprofile,
+      FollowersList followersList,
       String? errorMessage,
       bool loading,
       bool tweetsloading,
@@ -61,6 +63,7 @@ abstract class $UserProfileStateCopyWith<$Res> {
   $ProfileTweetsResponseCopyWith<$Res> get profileTweetsResponse;
   $ProfileLikedTweetsResponseCopyWith<$Res> get profileLikedTweetsResponse;
   $UserProfileCopyWith<$Res> get userprofile;
+  $FollowersListCopyWith<$Res> get followersList;
   $UserProfileCopyWith<$Res> get userProfile;
 }
 
@@ -80,6 +83,7 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
     Object? profileTweetsResponse = null,
     Object? profileLikedTweetsResponse = null,
     Object? userprofile = null,
+    Object? followersList = null,
     Object? errorMessage = freezed,
     Object? loading = null,
     Object? tweetsloading = null,
@@ -104,6 +108,10 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
           ? _value.userprofile
           : userprofile // ignore: cast_nullable_to_non_nullable
               as UserProfile,
+      followersList: null == followersList
+          ? _value.followersList
+          : followersList // ignore: cast_nullable_to_non_nullable
+              as FollowersList,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -175,6 +183,14 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
 
   @override
   @pragma('vm:prefer-inline')
+  $FollowersListCopyWith<$Res> get followersList {
+    return $FollowersListCopyWith<$Res>(_value.followersList, (value) {
+      return _then(_value.copyWith(followersList: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $UserProfileCopyWith<$Res> get userProfile {
     return $UserProfileCopyWith<$Res>(_value.userProfile, (value) {
       return _then(_value.copyWith(userProfile: value) as $Val);
@@ -194,6 +210,7 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       {ProfileTweetsResponse profileTweetsResponse,
       ProfileLikedTweetsResponse profileLikedTweetsResponse,
       UserProfile userprofile,
+      FollowersList followersList,
       String? errorMessage,
       bool loading,
       bool tweetsloading,
@@ -212,6 +229,8 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
   @override
   $UserProfileCopyWith<$Res> get userprofile;
   @override
+  $FollowersListCopyWith<$Res> get followersList;
+  @override
   $UserProfileCopyWith<$Res> get userProfile;
 }
 
@@ -229,6 +248,7 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
     Object? profileTweetsResponse = null,
     Object? profileLikedTweetsResponse = null,
     Object? userprofile = null,
+    Object? followersList = null,
     Object? errorMessage = freezed,
     Object? loading = null,
     Object? tweetsloading = null,
@@ -253,6 +273,10 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
           ? _value.userprofile
           : userprofile // ignore: cast_nullable_to_non_nullable
               as UserProfile,
+      followersList: null == followersList
+          ? _value.followersList
+          : followersList // ignore: cast_nullable_to_non_nullable
+              as FollowersList,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -306,6 +330,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
       this.profileLikedTweetsResponse =
           const ProfileLikedTweetsResponse(data: [], total: 0),
       this.userprofile = const UserProfile(imageUrl: "", bannerUrl: ""),
+      this.followersList = const FollowersList(data: []),
       this.errorMessage = null,
       this.loading = true,
       this.tweetsloading = true,
@@ -326,6 +351,9 @@ class _$UserProfileStateImpl implements _UserProfileState {
   @override
   @JsonKey()
   final UserProfile userprofile;
+  @override
+  @JsonKey()
+  final FollowersList followersList;
   @override
   @JsonKey()
   final String? errorMessage;
@@ -357,7 +385,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
 
   @override
   String toString() {
-    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, errorMessage: $errorMessage, loading: $loading, tweetsloading: $tweetsloading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, pageIndex: $pageIndex, userProfile: $userProfile, error: $error)';
+    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, followersList: $followersList, errorMessage: $errorMessage, loading: $loading, tweetsloading: $tweetsloading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, pageIndex: $pageIndex, userProfile: $userProfile, error: $error)';
   }
 
   @override
@@ -373,6 +401,8 @@ class _$UserProfileStateImpl implements _UserProfileState {
                     profileLikedTweetsResponse) &&
             (identical(other.userprofile, userprofile) ||
                 other.userprofile == userprofile) &&
+            (identical(other.followersList, followersList) ||
+                other.followersList == followersList) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.loading, loading) || other.loading == loading) &&
@@ -398,6 +428,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
       profileTweetsResponse,
       profileLikedTweetsResponse,
       userprofile,
+      followersList,
       errorMessage,
       loading,
       tweetsloading,
@@ -422,6 +453,7 @@ abstract class _UserProfileState implements UserProfileState {
       {final ProfileTweetsResponse profileTweetsResponse,
       final ProfileLikedTweetsResponse profileLikedTweetsResponse,
       final UserProfile userprofile,
+      final FollowersList followersList,
       final String? errorMessage,
       final bool loading,
       final bool tweetsloading,
@@ -439,6 +471,8 @@ abstract class _UserProfileState implements UserProfileState {
   ProfileLikedTweetsResponse get profileLikedTweetsResponse;
   @override
   UserProfile get userprofile;
+  @override
+  FollowersList get followersList;
   @override
   String? get errorMessage;
   @override

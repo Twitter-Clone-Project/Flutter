@@ -19,6 +19,7 @@ _$UserProfileImpl _$$UserProfileImplFromJson(Map<String, dynamic> json) =>
       bannerUrl: json['bannerUrl'] as String? ??
           "https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png",
       birthDate: json['birthDate'] as String?,
+      createdAt: json['createdAt'] as String?,
       isFollowed: json['isFollowed'] as bool?,
       isConfirmed: json['isConfirmed'] as bool?,
       isFollowing: json['isFollowing'] as bool?,
@@ -40,6 +41,7 @@ Map<String, dynamic> _$$UserProfileImplToJson(_$UserProfileImpl instance) =>
       'imageUrl': instance.imageUrl,
       'bannerUrl': instance.bannerUrl,
       'birthDate': instance.birthDate,
+      'createdAt': instance.createdAt,
       'isFollowed': instance.isFollowed,
       'isConfirmed': instance.isConfirmed,
       'isFollowing': instance.isFollowing,
@@ -82,4 +84,42 @@ Map<String, dynamic> _$$ProfileLikedTweetsResponseImplToJson(
     <String, dynamic>{
       'data': instance.data,
       'total': instance.total,
+    };
+
+_$FollowerDataImpl _$$FollowerDataImplFromJson(Map<String, dynamic> json) =>
+    _$FollowerDataImpl(
+      userId: json['userId'] as String?,
+      username: json['username'] as String?,
+      name: json['name'] as String?,
+      bio: json['bio'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+      isFollowed: json['isFollowed'] as bool?,
+      isFollowing: json['isFollowing'] as bool?,
+      followersCount: json['followersCount'] as String?,
+      followingCount: json['followingCount'] as String?,
+    );
+
+Map<String, dynamic> _$$FollowerDataImplToJson(_$FollowerDataImpl instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'username': instance.username,
+      'name': instance.name,
+      'bio': instance.bio,
+      'imageUrl': instance.imageUrl,
+      'isFollowed': instance.isFollowed,
+      'isFollowing': instance.isFollowing,
+      'followersCount': instance.followersCount,
+      'followingCount': instance.followingCount,
+    };
+
+_$FollowersListImpl _$$FollowersListImplFromJson(Map<String, dynamic> json) =>
+    _$FollowersListImpl(
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => FollowerData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$FollowersListImplToJson(_$FollowersListImpl instance) =>
+    <String, dynamic>{
+      'data': instance.data,
     };

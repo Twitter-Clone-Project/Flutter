@@ -50,7 +50,7 @@ class CustomButton extends StatelessWidget {
           ),
           onTap: onPressed,
           child: Padding(
-            padding:  EdgeInsets.symmetric(vertical: verticalPadding?? 8.0, horizontal:  horizontalPadding?? 8.0),
+            padding:  EdgeInsets.symmetric(vertical: verticalPadding?? 6.0, horizontal:  horizontalPadding?? 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
