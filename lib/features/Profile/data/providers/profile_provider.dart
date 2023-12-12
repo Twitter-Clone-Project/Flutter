@@ -111,6 +111,8 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     String? website,
     String? location,
     String? birthDate,
+    bool? removeProfilePhoto,
+    bool? removeBannerPhoto
   }) async {
     try {
       state = state.copyWith(loading: true);
@@ -122,6 +124,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         website: website,
         location: location,
         birthDate: birthDate,
+        removeBannerPhoto: removeBannerPhoto
       );
 
       var userProfile = state.userProfile;
