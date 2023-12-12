@@ -18,7 +18,7 @@ class User with _$User {
     String? username,
     String? screenName,
     String? email,
-    String? profileImageURL,
+    @Default("https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg") String profileImageURL,
     bool? isConfirmed,
   }) = _User;
 
