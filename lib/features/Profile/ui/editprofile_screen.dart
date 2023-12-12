@@ -1,22 +1,14 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:x_clone/app/app_keys.dart';
-import 'package:x_clone/app/routes.dart';
-import 'package:x_clone/features/Profile/data/model/user_profile.dart';
-import 'package:x_clone/features/Profile/data/repositories/profile_repository.dart';
-import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
-import 'package:x_clone/features/auth/ui/widgets/auth_field.dart';
-import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
-import 'package:x_clone/theme/app_colors.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
+import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
+import 'package:x_clone/features/auth/ui/widgets/custom_text.dart';
+import 'package:x_clone/theme/app_colors.dart';
 
 class EditProfileScreen extends StatefulHookConsumerWidget {
   const EditProfileScreen({super.key});
@@ -32,6 +24,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
   File? _profileImage;
   File? _bannerImage;
   DateTime? _selectedDate;
+  late bool removeBannerPicture;
 
   late TextEditingController _nameController;
   late TextEditingController _bioController;
@@ -52,6 +45,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
     _websiteController = TextEditingController(text: userProfile.website ?? "");
     _dateOfBirthController =
         TextEditingController(text: userProfile.birthDate ?? "");
+
+    removeBannerPicture = false;
 
     super.initState();
   }
@@ -96,15 +91,22 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
         var result = await ref
             .read(profileNotifierProvider.notifier)
             .updateUserProfile(
-              bannerPhoto: _bannerImage != null ? _bannerImage!.path : null,
-              profilePhoto: _profileImage != null ? _profileImage!.path : null,
-              bio: _bioController.text,
-              website: _websiteController.text,
-              location: _locationController.text,
-              name: _nameController.text,
-              birthDate: _dateOfBirthController.text,
+                bannerPhoto: _bannerImage != null ? _bannerImage!.path : null,
+                profilePhoto:
+                    _profileImage != null ? _profileImage!.path : null,
+                bio: _bioController.text,
+                website: _websiteController.text,
+                location: _locationController.text,
+                name: _nameController.text,
+                birthDate: _dateOfBirthController.text,
+                removeBannerPhoto: removeBannerPicture);
+        ref.read(authNotifierProvider.notifier).updateUser(
+              name: result?.name,
+              profileImageURL: result?.imageUrl,
             );
-        if (result != null && result == true) {
+        // ref.read(authNotif)
+
+        if (result != null) {
           Navigator.pop(context);
         }
       }
@@ -117,8 +119,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
             Icons.arrow_back,
             color: AppColors.whiteColor,
           ),
-          onPressed: () =>
-              Navigator.pop(context),
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text("Edit Profile", style: TextStyle(fontSize: 18)),
         actions: [
@@ -145,19 +146,101 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                         width: mediaQuery.size.width,
                         height: backgroundImageHeight,
                         child: GestureDetector(
-                          onTap: () {
-                            _pickImage((image) {
-                              setState(() {
-                                _bannerImage = image;
+                          onTap: () async {
+                            String updateBanner = await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: AppColors.blackColor,
+                                  title: Text(
+                                    'Banner Photo',
+                                    style: const TextStyle(
+                                      fontSize: 18.0,
+                                      fontFamily: 'Chirp',
+                                      // Use the font family name specified in pubspec.yaml
+                                      color: Colors
+                                          .white, // Set the text color to white
+                                    ),
+                                  ),
+                                  content: const CustomText(
+                                    'Do you want to add or remove the banner photo?',
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(
+                                            "cancel"); // User canceled unblock
+                                      },
+                                      child: const Text(
+                                        'Cancel',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.white,
+                                          fontFamily:
+                                              'Chirp', // Use the font family name specified in pubspec.yaml
+                                        ),
+                                      ),
+                                    ),
+                                    Visibility(
+                                      visible: userProfile.bannerUrl !=
+                                          "https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png",
+                                      child: TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(
+                                              "remove"); // User confirmed unblock
+                                        },
+                                        child: const Text(
+                                          'Remove',
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: Colors.white,
+                                            fontFamily:
+                                                'Chirp', // Use the font family name specified in pubspec.yaml
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(
+                                            "update"); // User confirmed unblock
+                                      },
+                                      child: const Text(
+                                        'update',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.white,
+                                          fontFamily:
+                                              'Chirp', // Use the font family name specified in pubspec.yaml
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            if (updateBanner == "update") {
+                              _pickImage((image) {
+                                setState(() {
+                                  _bannerImage = image;
+                                });
                               });
-                            });
+                              setState(() {
+                                removeBannerPicture = false;
+                              });
+                            } else if (updateBanner == "remove") {
+                              setState(() {
+                                removeBannerPicture = true;
+                              });
+                            }
                           },
                           child: _bannerImage != null
                               ? Image(
                                   image: FileImage(_bannerImage!),
                                   fit: BoxFit.cover,
                                 )
-                              : userProfile.bannerUrl != ""
+                              : userProfile.bannerUrl != "" &&
+                                      !removeBannerPicture
                                   ? Image(
                                       image:
                                           NetworkImage(userProfile.bannerUrl))
@@ -188,7 +271,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                                   ),
                                 ),
                                 child: GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
                                       _pickImage((image) {
                                         setState(() {
                                           _profileImage = image;

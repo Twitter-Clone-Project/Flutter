@@ -13,12 +13,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-
+  another_flushbar : ^1.12.30
   cupertino_icons: ^1.0.5
   flutter_hooks: ^0.18.6
   hooks_riverpod: ^2.3.6
   flutter_riverpod: ^2.3.6
-  url_launcher: ^6.1.12
+  url_launcher: ^6.2.2
   dio: ^5.2.1+1
   hive_flutter: ^1.1.0
   freezed: ^2.3.5

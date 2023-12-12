@@ -9,15 +9,15 @@ abstract class ProfileRepository {
 
   getUserTweets(String username, int page);
 
-  Future<UserProfile?> updateProfile({
-    String? profilePhoto,
-    String? bannerPhoto,
-    String? name,
-    String? bio,
-    String? website,
-    String? location,
-    String? birthDate,
-  });
+  Future<UserProfile?> updateProfile(
+      {String? profilePhoto,
+      String? bannerPhoto,
+      String? name,
+      String? bio,
+      String? website,
+      String? location,
+      String? birthDate,
+      bool? removeBannerPhoto});
   getUserLikedTweets(String username, int page);
 
   Future<bool?> followUser({
@@ -43,6 +43,9 @@ abstract class ProfileRepository {
   Future<bool?> unblockUser({
     required String username,
   });
+
+  Future<FollowersList> fetchFollowersData({required String username});
+  Future<FollowingsList> fetchFollowingsData({required String username});
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -74,7 +77,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ProfileTweetsResponse.fromJson(response.data);
       }
-      return const ProfileTweetsResponse(data: [], total: 0);
+      throw (response.data["message"]);
     } catch (e) {
       rethrow;
     }
@@ -83,7 +86,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   getUserLikedTweets(String username, int page) async {
     try {
-      var response = await HttpClient.dio.get(EndPoints.getUserLikedTweets(username, page));
+      var response = await HttpClient.dio
+          .get(EndPoints.getUserLikedTweets(username, page));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ProfileTweetsResponse.fromJson(response.data);
       }
@@ -102,27 +106,17 @@ class ProfileRepositoryImpl implements ProfileRepository {
     String? website,
     String? location,
     String? birthDate,
+    bool? removeBannerPhoto,
   }) async {
     try {
       FormData data = FormData.fromMap({
         "name": name,
       });
 
-      if (birthDate != null && birthDate != "") {
-        data.fields.add(MapEntry("birthDate", birthDate));
-      }
-
-      if (bio != null && bio != "") {
-        data.fields.add(MapEntry("bio", bio));
-      }
-
-      if (location != null && location != "") {
-        data.fields.add(MapEntry("location", location));
-      }
-
-      if (website != null && website != "") {
-        data.fields.add(MapEntry("website", website));
-      }
+      data.fields.add(MapEntry("birthDate", birthDate ?? ""));
+      data.fields.add(MapEntry("bio", bio ?? ""));
+      data.fields.add(MapEntry("location", location ?? ""));
+      data.fields.add(MapEntry("website", website ?? ""));
 
       if (profilePhoto != null) {
         var file = await MultipartFile.fromFile(
@@ -132,13 +126,17 @@ class ProfileRepositoryImpl implements ProfileRepository {
         data.files.add(MapEntry("profilePhoto", file));
       }
 
-      if (bannerPhoto != null) {
-        var file = await MultipartFile.fromFile(
-          bannerPhoto,
-          filename: path.basename(bannerPhoto),
-        );
+      if (bannerPhoto != null ||
+          (removeBannerPhoto != null && removeBannerPhoto == true)) {
+        MultipartFile? file;
+        if (removeBannerPhoto != null && !removeBannerPhoto) {
+          file = await MultipartFile.fromFile(
+            bannerPhoto!,
+            filename: path.basename(bannerPhoto),
+          );
+          data.files.add(MapEntry("bannerPhoto", file));
+        }
         var isUpdated = "TRUE";
-        data.files.add(MapEntry("bannerPhoto", file));
         data.fields.add(MapEntry("isUpdated", isUpdated));
       } else {
         var isUpdated = "FALSE";
@@ -175,7 +173,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<bool?> unfollowUser({required String username}) async {
     try {
-      var response = await HttpClient.dio.delete(EndPoints.unfollowUser(username));
+      var response =
+          await HttpClient.dio.delete(EndPoints.unfollowUser(username));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
@@ -201,7 +200,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<bool?> unmuteUser({required String username}) async {
     try {
-      var response = await HttpClient.dio.delete(EndPoints.unmuteUser(username));
+      var response =
+          await HttpClient.dio.delete(EndPoints.unmuteUser(username));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
@@ -227,11 +227,52 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<bool?> unblockUser({required String username}) async {
     try {
-      var response = await HttpClient.dio.delete(EndPoints.unblockUser(username));
+      var response =
+          await HttpClient.dio.delete(EndPoints.unblockUser(username));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
       throw (response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<FollowersList> fetchFollowersData({required String username}) async {
+    try {
+      var response =
+          await HttpClient.dio.get(EndPoints.getFollowersData(username));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<dynamic> usersData = response.data["data"]["users"];
+        List<FollowerData> followers = usersData
+            .map((userData) => FollowerData.fromJson(userData))
+            .toList();
+
+        return FollowersList(data: followers);
+      }
+      return const FollowersList(data: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<FollowingsList> fetchFollowingsData({required String username}) async {
+    try {
+      var response =
+          await HttpClient.dio.get(EndPoints.getFollowingData(username));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<dynamic> usersData = response.data["data"]["users"];
+        List<FollowingData> followings = usersData
+            .map((userData) => FollowingData.fromJson(userData))
+            .toList();
+
+        return FollowingsList(data: followings);
+      }
+      return const FollowingsList(data: []);
     } catch (e) {
       rethrow;
     }

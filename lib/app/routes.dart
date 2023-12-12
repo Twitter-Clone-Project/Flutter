@@ -1,4 +1,6 @@
 import 'package:x_clone/features/Profile/ui/editprofile_screen.dart';
+import 'package:x_clone/features/Profile/ui/followers_screen.dart';
+import 'package:x_clone/features/Profile/ui/followings_screen.dart';
 import 'package:x_clone/features/Profile/ui/full_screen_image.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,9 @@ class Routes {
   static const String tweetScreen = "/tweetScreen";
   static const String retweetersScreen = "/retweetersScreen";
   static const String likersScreen = "/likersScreen";
+
+  static const String followersScreen = "/followersScreen";
+  static const String followingsScreen = "/followingsScreen";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -94,6 +99,18 @@ class Routes {
         return MaterialPageRoute(
             builder: (_) => ProfileScreen(
               username: data,
+            ));
+      case followersScreen:
+        var data = settings.arguments as Map<String, String?>;
+        return MaterialPageRoute(
+            builder: (_) => FollowersScreen(
+              username: data["username"]!,
+            ));
+      case followingsScreen:
+        var data = settings.arguments as Map<String, String?>;
+        return MaterialPageRoute(
+            builder: (_) => FollowingsScreen(
+              username: data["username"]!,
             ));
       case fullScreenImage:
         var data = settings.arguments as Map<String, String>; // Correct type
