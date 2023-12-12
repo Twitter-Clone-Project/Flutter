@@ -82,3 +82,6 @@ flutter:
     - family: Roboto
       fonts:
         - asset: res/fonts/Roboto-Regular.ttf
+    - family: Chirp
+      fonts:
+        - asset: res/fonts/Chirp Bold.otf

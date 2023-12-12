@@ -1,4 +1,5 @@
 import 'package:x_clone/features/Profile/ui/editprofile_screen.dart';
+import 'package:x_clone/features/Profile/ui/full_screen_image.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:flutter/material.dart';
 import 'package:x_clone/features/home/ui/add_tweet_screen.dart';
@@ -31,6 +32,7 @@ class Routes {
   static const String addTweet = "/addTweet";
   static const String profileScreen = "/profileScreen";
   static const String editProfileScreen = "/editProfileScreen";
+  static const String fullScreenImage = "/fullScreenImage";
 
   static const String reCAPTCHAscreen = "/reCAPTCHA";
   static const String tweetScreen = "/tweetScreen";
@@ -91,8 +93,14 @@ class Routes {
         var data = settings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => ProfileScreen(
-                  username: data,
-                ));
+              username: data,
+            ));
+      case fullScreenImage:
+        var data = settings.arguments as Map<String, String>; // Correct type
+        return MaterialPageRoute(
+            builder: (_) => FullScreenImage(
+              imageUrl: data["imageUrl"]!, // Accessing the correct key
+            ));
       case editProfileScreen:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
       default:
