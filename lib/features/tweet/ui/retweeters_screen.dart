@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
@@ -61,11 +62,21 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
                 return ListTile(
                     leading: GestureDetector(
                       onTap: () {
-                        // go to user profile
+                        Navigator.pushNamed(context, Routes.profileScreen,
+                            arguments: ref
+                                .watch(tweetNotifierProvider)
+                                .likersList
+                                .data![index]
+                                .screenName);
                       },
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         backgroundColor: AppColors.whiteColor,
-                        // backgroundImage:Image.network(retweeter.profileImageURL!).image,
+                        backgroundImage: NetworkImage(ref
+                                .watch(tweetNotifierProvider)
+                                .likersList
+                                .data![index]
+                                .profileImageURL ??
+                            ''),
                         radius: 20,
                       ),
                     ),
@@ -94,8 +105,10 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
                         : Container(
                             width: 100,
                             height: 40,
-                            child:
-                                CustomButton(text: 'Follow', onPressed: () {}),
+                            child: CustomButton(
+                              text: 'Follow',
+                              onPressed: () {},
+                            ),
                           ));
               },
             ),

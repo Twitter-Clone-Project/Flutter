@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
@@ -54,15 +55,26 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
           : ListView.builder(
               itemCount: tweetprov.likersList.data!.length,
               itemBuilder: (context, index) {
-                final liker = tweetprov.likersList.data![index];
+                final liker =
+                    ref.watch(tweetNotifierProvider).likersList.data![index];
                 return ListTile(
                   leading: GestureDetector(
                     onTap: () {
-                      // go to user profile
+                      Navigator.pushNamed(context, Routes.profileScreen,
+                          arguments: ref
+                              .watch(tweetNotifierProvider)
+                              .likersList
+                              .data![index]
+                              .screenName);
                     },
-                    child: const CircleAvatar(
+                    child: CircleAvatar(
                       backgroundColor: AppColors.whiteColor,
-                      //backgroundImage:Image.network(liker.profileImageURL!),
+                      backgroundImage: NetworkImage(ref
+                              .watch(tweetNotifierProvider)
+                              .likersList
+                              .data![index]
+                              .profileImageURL ??
+                          ''),
                       radius: 20,
                     ),
                   ),

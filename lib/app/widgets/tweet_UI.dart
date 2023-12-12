@@ -5,6 +5,7 @@ import 'package:like_button/like_button.dart';
 import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
+import 'package:x_clone/theme/app_text_style.dart';
 
 import '../../features/home/data/models/home_response.dart';
 import '../../theme/app_assets.dart';
@@ -94,14 +95,18 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     final int? retweetCount = widget.tweet.retweetsCount;
     final String? tweetId = widget.tweet.id;
     final String? text = widget.tweet.text;
-    final String userName = widget.tweet.user?.username ?? '';
-    final String handle = widget.tweet.user?.screenName ?? '';
+    final String userName = widget.tweet.user?.screenName ?? '';
+    final String handle = widget.tweet.user?.username ?? '';
     final String date = widget.tweet.createdAt ?? '';
     final bool verified = false;
-    final List<NetworkImage> images = (widget.tweet.attachmentsUrl ?? [])
+    List<NetworkImage> images = (widget.tweet.attachmentsUrl ?? [])
         .map((url) => NetworkImage(url))
         .toList();
-
+    if (images.isNotEmpty) {
+      if (widget.tweet.attachmentsUrl![0] == "{}") {
+        images = [];
+      }
+    }
     return (Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,10 +115,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
           padding: const EdgeInsets.only(left: 5),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, Routes.profileScreen, arguments: {
-                // "email": _emailController.text,
-                // "isSignUp": false
-              });
+              Navigator.pushNamed(context, Routes.profileScreen,
+                  arguments: widget.tweet.user!.username);
             },
             child: CircleAvatar(
               backgroundImage:
@@ -130,23 +133,17 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
             children: [
               Row(
                 children: [
-                  SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      userName,
-                      style: const TextStyle(
-                        color: AppColors.whiteColor,
-                        fontSize: 18,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  Text(
+                    userName,
+                    style: AppTextStyle.textThemeDark.bodyLarge!
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                   Text(
-                    handle,
-                    style: const TextStyle(color: AppColors.lightGray),
+                    '@$handle',
+                    style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                      color: AppColors.lightThinTextGray,
+                    ),
                   ),
                   SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                   //Date
@@ -157,30 +154,40 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                 ],
               ),
               if (text != null)
-                Text(
-                  text,
-                  style: const TextStyle(
-                    color: AppColors.whiteColor,
-                    fontSize: 16,
-                    fontStyle: FontStyle.normal,
+                RichText(
+                  text: TextSpan(
+                    style: AppTextStyle.textThemeDark.bodyLarge!,
+                    children: text.split(' ').map((word) {
+                      if (word.startsWith('#')) {
+                        return TextSpan(
+                            text: '$word ',
+                            style: AppTextStyle.textThemeDark.bodyLarge!
+                                .copyWith(color: AppColors.primaryColor));
+                      } else {
+                        return TextSpan(text: '$word ');
+                      }
+                    }).toList(),
                   ),
                 ),
-              // if (images.isEmpty == false)
-              //   GestureDetector(
-              //     onTap: () {
-              //       _showImageDialog(context, images);
-              //     },
-              //     child: Container(
-              //       width: double.infinity,
-              //       child: ClipRRect(
-              //         borderRadius: BorderRadius.circular(12.0),
-              //         child: Image(
-              //           image: images[0],
-              //           fit: BoxFit.fitWidth,
-              //         ),
-              //       ),
-              //     ),
-              //   ),
+              if (images.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: GestureDetector(
+                    onTap: () {
+                      _showImageDialog(context, images);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12.0),
+                        child: Image(
+                          image: images[0],
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -253,7 +260,6 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                               );
                       },
                     ),
-                    SizedBox(width: 0.1 * MediaQuery.of(context).size.width),
                   ],
                 ),
               ),
