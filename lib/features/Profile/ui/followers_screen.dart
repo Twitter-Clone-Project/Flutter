@@ -21,7 +21,7 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
     Future.delayed(const Duration(seconds: 0), () {
       ref
           .read(profileNotifierProvider.notifier)
-          .getFollowers(username: widget.username!);
+          .getFollowers(username: widget.username);
     });
   }
 
@@ -66,7 +66,7 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
             leading: GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, Routes.profileScreen,
-                    arguments: follower.name);
+                    arguments: follower.username);
               },
               child: CircleAvatar(
                 backgroundColor: AppColors.whiteColor,

@@ -33,7 +33,7 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
         toolbarHeight: 65,
         backgroundColor: AppColors.pureBlack,
         title: const Text(
-          'Followings',
+          'Following',
           style: TextStyle(
             color: AppColors.whiteColor,
             fontSize: 22,
@@ -66,7 +66,7 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
             leading: GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, Routes.profileScreen,
-                    arguments: following.name);
+                    arguments: following.username);
               },
               child: CircleAvatar(
                 backgroundColor: AppColors.whiteColor,
