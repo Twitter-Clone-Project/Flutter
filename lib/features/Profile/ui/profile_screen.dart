@@ -101,14 +101,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         right: 0,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
+                              horizontal: 12, vertical: 0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Container(
-                                padding: const EdgeInsets.all(2.5),
+                                padding: const EdgeInsets.all(3),
                                 // Adjust the padding to control the border width
                                 decoration: const BoxDecoration(
                                   color: Colors
@@ -124,7 +124,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     );
                                   },
                                   child: CircleAvatar(
-                                    radius: profileImageDiameter / 2,
+                                    radius: profileImageDiameter / 2.5,
                                     backgroundImage: NetworkImage(
                                       userProfile.imageUrl,
                                     ),
@@ -145,13 +145,66 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 )
                                     : userProfile.isBlocked == true
                                     ? CustomButton(
-                                  onPressed: () {
-                                    // Handle the action when the user is blocked
+                                  onPressed: () async {
+                                    // Show confirmation dialog
+                                    bool confirmUnblock = await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: AppColors.blackColor, // Set the background color to dark grey
+                                          title: Text(
+                                            'Unblock ${userProfile.name}?',
+                                            style: const TextStyle(
+                                              fontSize: 18.0,
+                                              fontFamily: 'Chirp', // Use the font family name specified in pubspec.yaml
+                                              color: Colors.white, // Set the text color to white
+                                            ),
+                                          ),
+                                          content: const CustomText(
+                                            'They will be able to follow you and view your posts.',
+                                          ),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(false); // User canceled unblock
+                                              },
+                                              child: const Text(
+                                                'Cancel',
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white,
+                                                  fontFamily: 'Chirp', // Use the font family name specified in pubspec.yaml
+                                                ),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(true); // User confirmed unblock
+                                              },
+                                              child: const Text(
+                                                'Unblock',
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white,
+                                                  fontFamily: 'Chirp', // Use the font family name specified in pubspec.yaml
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+
+                                    // If the user confirmed unblock, then proceed
+                                    if (confirmUnblock == true) {
+                                      ref.read(profileNotifierProvider.notifier).toggleBlockStatus(userProfile.username!);
+                                    }
                                   },
-                                  text: 'BLOCKED',
+                                  text: 'Blocked',
                                   filled: false,
                                   red: true,
                                   horizontalPadding: 20,
+
                                 )
                                     : userProfile.isFollowed == false
                                   ? CustomButton(
@@ -162,14 +215,67 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   filled: true,
                                   horizontalPadding: 20,
                                 )
-                                : CustomButton(
+                                    : CustomButton(
                                   onPressed: () async {
-                                    ref.read(profileNotifierProvider.notifier).toggleFollowStatus(userProfile.username!);
+                                    // Show confirmation dialog
+                                    bool confirmUnfollow = await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: AppColors.blackColor, // Set the background color to dark grey
+                                          title: Text(
+                                            'Unfollow ${userProfile.name}?',
+                                            style: const TextStyle(
+                                              fontSize: 18.0,
+                                              fontFamily: 'Chirp', // Use the font family name specified in pubspec.yaml
+                                              color: Colors.white, // Set the text color to white
+                                            ),
+                                          ),
+                                          content: const CustomText(
+                                            'Their posts will no longer show up in your home timeline. You can still view their profile, unless their posts are protected.',
+                                          ),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(false); // User canceled unfollow
+                                              },
+                                              child: const Text(
+                                                'Cancel',
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white,
+                                                  fontFamily: 'Chirp', // Use the font family name specified in pubspec.yaml
+                                                ),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(true); // User confirmed unfollow
+                                              },
+                                              child: const Text(
+                                                'Unfollow',
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white,
+                                                  fontFamily: 'Chirp', // Use the font family name specified in pubspec.yaml
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+
+                                    // If the user confirmed unfollow, then proceed
+                                    if (confirmUnfollow == true) {
+                                      ref.read(profileNotifierProvider.notifier).toggleFollowStatus(userProfile.username!);
+                                    }
                                   },
-                                  text: 'Unfollow',
+                                  text: 'Following',
                                   filled: false,
                                   horizontalPadding: 20,
                                 ),
+
                               ),
                             ],
                           ),
@@ -461,36 +567,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     );
   }
 
-  Widget _buildTweetsList(
-    List<Tweet> tweets,
-    void Function() onLoading,
-    void Function() onRefresh,
-  ) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          return InkWell(
-            onTap: () {
-              Tweet tweet = tweets[index];
-              Navigator.pushNamed(
-                context,
-                Routes.tweetScreen,
-                arguments: {
-                  "tweet": tweet,
-                  "index": index,
-                },
-              );
-            },
-            child: TweetCompose(
-              tweet: tweets[index],
-              index: index,
-            ),
-          );
-        },
-        childCount: tweets.length,
-      ),
-    );
-  }
+
 }
 
 class CircularIcon extends StatelessWidget {

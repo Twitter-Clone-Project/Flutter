@@ -29,7 +29,8 @@ class CustomButton extends StatelessWidget {
     Color textColor = filled ? AppColors.pureBlack : AppColors.whiteColor;
     Color borderColor = filled ? Colors.transparent : AppColors.borderDarkGray;
 
-    buttonColor = red ? Colors.red : buttonColor;
+    textColor = red ? AppColors.warningColor : textColor;
+    borderColor = red ? AppColors.warningColor : borderColor;
 
     return Container(
       decoration: BoxDecoration(
@@ -68,11 +69,11 @@ class CustomButton extends StatelessWidget {
                   textScaleFactor: 1,
                   style: TextStyle(
                     fontSize: 16.0,
-                    
-                    fontWeight: FontWeight.w700,
                     color: textColor,
+                    fontFamily: 'Chirp', // Use the font family name specified in pubspec.yaml
                   ),
                 ),
+
               ],
             ),
           ),
