@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/home/ui/widget/rounded_button.dart';
 import 'package:x_clone/theme/app_assets.dart';
@@ -90,19 +91,24 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
             Expanded(
               child: SingleChildScrollView(
                 child: Row(
-                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(left: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
                       child: CircleAvatar(
                         backgroundColor: AppColors.whiteColor,
-                        //backgroundImage: Todo: UserImage,
+                        backgroundImage: NetworkImage(ref
+                                .watch(authNotifierProvider)
+                                .user!
+                                .profileImageURL ??
+                            ''),
                         radius: 20,
                       ),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                     Expanded(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextField(
                             controller: _tweetTextController,
@@ -160,7 +166,6 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10, top: 15),
                           child: GestureDetector(
-                            //onTap: onPickImages,
                             child: SvgPicture.asset(
                               AppAssets.earthIcon,
                               height: 15,
