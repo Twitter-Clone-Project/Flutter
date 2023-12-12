@@ -763,7 +763,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             ),
                                           ),
                                           Visibility(
-                                            visible: userProfile.bio != "",
+                                            visible: userProfile.bio != null,
                                             replacement: const SizedBox(
                                               height: 12,
                                             ),
@@ -787,7 +787,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         runSpacing: 6.0,
                                         children: [
                                           Visibility(
-                                            visible: userProfile.location != "",
+                                            visible: userProfile.location != null,
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -811,7 +811,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             ),
                                           ),
                                           Visibility(
-                                            visible: userProfile.website != "",
+                                            visible: userProfile.website != null,
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -1133,7 +1133,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                 ref
                                                     .watch(
                                                         profileNotifierProvider)
-                                                    .profileTweetsResponse
+                                                    .profileLikedTweetsResponse
                                                     .data,
                                               ),
                                             ],
