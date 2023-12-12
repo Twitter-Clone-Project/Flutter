@@ -17,11 +17,15 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 
   }
 
-  // init() {
-  //   fetchUserProfile(state.userProfile.username!);
-  //   getUserTweets(userId: state.userProfile.username!, page: 0);
-  //   getUserLikedTweets(userId: state.userProfile.username!, page: 1);
-  // }
+  init() {
+    // fetchUserProfile(state.userProfile.username!);
+    // getUserTweets(userId: state.userProfile.username!, page: 0);
+    // getUserLikedTweets(userId: state.userProfile.username!, page: 1);
+  }
+
+  loadProfile()  {
+      state = state.copyWith(profileLoading: true, error: null);
+  }
 
   Future<void> fetchUserProfile(String username) async {
     try {
@@ -30,6 +34,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
           await profileRepository.fetchUserProfileData(username: username);
       state = state.copyWith(
           loading: false,
+          profileLoading: false,
           userProfile:
               userProfile ?? const UserProfile(imageUrl: "", bannerUrl: ""));
     } catch (e) {
@@ -130,40 +135,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }
 
 
-
-  Future<void> followUser(String username) async {
-    try {
-      state = state.copyWith(loading: true);
-      final result = await profileRepository.followUser(username: username);
-
-      if (result == true) {
-        // Handle success if needed, for example, refetch the updated profile
-      }
-
-      // TODO: Edit the following line to update the state to reflect the change in the user's follow status
-      state = state.copyWith(loading: false);
-    } catch (e) {
-      state = state.copyWith(loading: false, error: e.toString());
-    }
-  }
-
-  Future<void> unfollowUser(String username) async {
-    try {
-      state = state.copyWith(loading: true);
-      final result = await profileRepository.unfollowUser(username: username);
-
-      if (result == true) {
-        // Handle success if needed, for example, refetch the updated profile
-      }
-
-      // TODO: Edit the following line to update the state to reflect the change in the user's follow status
-      state = state.copyWith(loading: false);
-    } catch (e) {
-      state = state.copyWith(loading: false, error: e.toString());
-    }
-  }
-
-  Future<void> toggleMuteStatus(String username) async {
+  Future<bool> toggleMuteStatus(String username) async {
     try {
       state = state.copyWith(loading: true);
 
@@ -181,6 +153,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       } else {
         await profileRepository.muteUser(username: username);
       }
+      return true;
     } catch (e) {
       // If the asynchronous operation fails, revert the local state to the original mute status
       state = state.copyWith(
@@ -192,10 +165,11 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 
       // Handle the error as needed
       state = state.copyWith(loading: false, error: e.toString());
+      return false;
     }
   }
 
-  Future<void> toggleFollowStatus(String username) async {
+  Future<bool> toggleFollowStatus(String username) async {
     var isFollowed = state.userProfile.isFollowed!;
 
     var oldfollowersCount = state.userProfile.followersCount?? "0";
@@ -229,8 +203,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       } else {
         await profileRepository.followUser(username: username);
       }
-
-
+      return true;
     } catch (e) {
       // If the asynchronous operation fails, revert the local state to the original follow status
       state = state.copyWith(
@@ -243,10 +216,11 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 
       // Handle the error as needed
       state = state.copyWith(loading: false, error: e.toString());
+      return false;
     }
   }
 
-  Future<void> toggleBlockStatus(String username) async {
+  Future<bool> toggleBlockStatus(String username) async {
     var isBlocked = state.userProfile.isBlocked!;
     var isFollowed_tmp = state.userProfile.isFollowed!;
 
@@ -277,6 +251,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       } else {
         await profileRepository.blockUser(username: username);
       }
+      return true;
     } catch (e) {
       // If the asynchronous operation fails, revert the local state to the original block status
       state = state.copyWith(
@@ -290,6 +265,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 
       // Handle the error as needed
       state = state.copyWith(loading: false, error: e.toString());
+      return false;
     }
   }
 
@@ -302,6 +278,25 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     if (followers.data != null) {
       state = state.copyWith(
         followersList: followers,
+        loading: false,
+      );
+    } else {
+      state = state.copyWith(
+        errorMessage: 'Failed to fetch followers',
+        loading: false,
+      );
+    }
+  }
+
+  Future<void> getFollowings({required String username}) async {
+    state = state.copyWith(
+      loading: true,
+    );
+    final FollowingsList followings =
+    await profileRepository.fetchFollowingsData(username: username);
+    if (followings.data != null) {
+      state = state.copyWith(
+        followingsList: followings,
         loading: false,
       );
     } else {

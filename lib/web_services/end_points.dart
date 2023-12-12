@@ -36,5 +36,6 @@ class EndPoints {
   static deleteRetweet(String tweetId) => "/tweets/$tweetId/deleteRetweet";
   static addReply(String tweetId) => "/tweets/$tweetId/addReply";
   static getFollowersData(String username) => "/users/$username/followers";
+  static getFollowingData(String username) => "/users/$username/followings";
 
 }

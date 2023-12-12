@@ -108,3 +108,38 @@ class FollowersList with _$FollowersList {
   factory FollowersList.fromJson(Map<String, dynamic> json) =>
       _$FollowersListFromJson(json);
 }
+
+
+
+FollowingsList FollowingsResponseFromJson(String str) =>
+    FollowingsList.fromJson(json.decode(str));
+
+String FollowingsResponseToJson(FollowingsList data) => json.encode(data.toJson());
+
+@freezed
+class FollowingData with _$FollowingData {
+  const factory FollowingData({
+    String? userId,
+    String? username,
+    String? name,
+    String? bio,
+    String? imageUrl,
+    bool? isFollowed,
+    bool? isFollowing,
+    String? followersCount,
+    String? followingCount,
+  }) = _FollowingData;
+
+  factory FollowingData.fromJson(Map<String, dynamic> json) =>
+      _$FollowingDataFromJson(json);
+}
+
+@freezed
+class FollowingsList with _$FollowingsList {
+  const factory FollowingsList({
+    List<FollowingData>? data,
+  }) = _FollowingsList;
+
+  factory FollowingsList.fromJson(Map<String, dynamic> json) =>
+      _$FollowingsListFromJson(json);
+}

@@ -45,6 +45,7 @@ abstract class ProfileRepository {
   });
 
   Future<FollowersList> fetchFollowersData({required String username});
+  Future<FollowingsList> fetchFollowingsData({required String username});
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -76,7 +77,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ProfileTweetsResponse.fromJson(response.data);
       }
-      return const ProfileTweetsResponse(data: [], total: 0);
+      throw(response.data["message"]);
     } catch (e) {
       rethrow;
     }
@@ -243,6 +244,25 @@ class ProfileRepositoryImpl implements ProfileRepository {
         return FollowersList(data: followers);
       }
       return const FollowersList(data: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<FollowingsList> fetchFollowingsData({required String username}) async {
+    try {
+      var response = await HttpClient.dio.get(EndPoints.getFollowingData(username));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<dynamic> usersData = response.data["data"]["users"];
+        List<FollowingData> followings = usersData
+            .map((userData) => FollowingData.fromJson(userData))
+            .toList();
+
+        return FollowingsList(data: followings);
+      }
+      return const FollowingsList(data: []);
     } catch (e) {
       rethrow;
     }
