@@ -77,7 +77,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ProfileTweetsResponse.fromJson(response.data);
       }
-      return const ProfileTweetsResponse(data: [], total: 0);
+      throw(response.data["message"]);
     } catch (e) {
       rethrow;
     }

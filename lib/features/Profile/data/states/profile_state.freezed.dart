@@ -24,6 +24,7 @@ mixin _$UserProfileState {
   FollowersList get followersList => throw _privateConstructorUsedError;
   FollowingsList get followingsList => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
+  bool get profileLoading => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   bool get tweetsloading => throw _privateConstructorUsedError;
   bool get isBlocked => throw _privateConstructorUsedError;
@@ -52,6 +53,7 @@ abstract class $UserProfileStateCopyWith<$Res> {
       FollowersList followersList,
       FollowingsList followingsList,
       String? errorMessage,
+      bool profileLoading,
       bool loading,
       bool tweetsloading,
       bool isBlocked,
@@ -89,6 +91,7 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
     Object? followersList = null,
     Object? followingsList = null,
     Object? errorMessage = freezed,
+    Object? profileLoading = null,
     Object? loading = null,
     Object? tweetsloading = null,
     Object? isBlocked = null,
@@ -124,6 +127,10 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      profileLoading: null == profileLoading
+          ? _value.profileLoading
+          : profileLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -229,6 +236,7 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       FollowersList followersList,
       FollowingsList followingsList,
       String? errorMessage,
+      bool profileLoading,
       bool loading,
       bool tweetsloading,
       bool isBlocked,
@@ -270,6 +278,7 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
     Object? followersList = null,
     Object? followingsList = null,
     Object? errorMessage = freezed,
+    Object? profileLoading = null,
     Object? loading = null,
     Object? tweetsloading = null,
     Object? isBlocked = null,
@@ -305,6 +314,10 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      profileLoading: null == profileLoading
+          ? _value.profileLoading
+          : profileLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -357,6 +370,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
       this.followersList = const FollowersList(data: []),
       this.followingsList = const FollowingsList(data: []),
       this.errorMessage = null,
+      this.profileLoading = true,
       this.loading = true,
       this.tweetsloading = true,
       this.isBlocked = false,
@@ -387,6 +401,9 @@ class _$UserProfileStateImpl implements _UserProfileState {
   final String? errorMessage;
   @override
   @JsonKey()
+  final bool profileLoading;
+  @override
+  @JsonKey()
   final bool loading;
   @override
   @JsonKey()
@@ -413,7 +430,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
 
   @override
   String toString() {
-    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, followersList: $followersList, followingsList: $followingsList, errorMessage: $errorMessage, loading: $loading, tweetsloading: $tweetsloading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, pageIndex: $pageIndex, userProfile: $userProfile, error: $error)';
+    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, followersList: $followersList, followingsList: $followingsList, errorMessage: $errorMessage, profileLoading: $profileLoading, loading: $loading, tweetsloading: $tweetsloading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, pageIndex: $pageIndex, userProfile: $userProfile, error: $error)';
   }
 
   @override
@@ -435,6 +452,8 @@ class _$UserProfileStateImpl implements _UserProfileState {
                 other.followingsList == followingsList) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
+            (identical(other.profileLoading, profileLoading) ||
+                other.profileLoading == profileLoading) &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.tweetsloading, tweetsloading) ||
                 other.tweetsloading == tweetsloading) &&
@@ -461,6 +480,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
       followersList,
       followingsList,
       errorMessage,
+      profileLoading,
       loading,
       tweetsloading,
       isBlocked,
@@ -487,6 +507,7 @@ abstract class _UserProfileState implements UserProfileState {
       final FollowersList followersList,
       final FollowingsList followingsList,
       final String? errorMessage,
+      final bool profileLoading,
       final bool loading,
       final bool tweetsloading,
       final bool isBlocked,
@@ -509,6 +530,8 @@ abstract class _UserProfileState implements UserProfileState {
   FollowingsList get followingsList;
   @override
   String? get errorMessage;
+  @override
+  bool get profileLoading;
   @override
   bool get loading;
   @override

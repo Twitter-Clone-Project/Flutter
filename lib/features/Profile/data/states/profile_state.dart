@@ -13,6 +13,7 @@ class UserProfileState with _$UserProfileState {
     @Default(FollowersList(data: [])) FollowersList followersList,
     @Default(FollowingsList(data: [])) FollowingsList followingsList,
     @Default(null) String? errorMessage,
+    @Default(true) bool profileLoading,
     @Default(true) bool loading,
     @Default(true) bool tweetsloading,
     @Default(false) bool isBlocked,
