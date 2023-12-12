@@ -58,28 +58,27 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     }
   }
 
-  void _showImageDialog(BuildContext context, Image image) {
+  void _showImageDialog(BuildContext context, List<NetworkImage> images) {
     showDialog(
       context: context,
       builder: (context) {
         return Dialog(
-            child: SingleChildScrollView(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image(
-                  image: image.image,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height,
-                ),
-              ],
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // You can adjust the number of columns here
+                crossAxisSpacing: 4.0,
+                mainAxisSpacing: 4.0,
+              ),
+              itemCount: images.length,
+              itemBuilder: (context, index) {
+                return Image(image: images[index]);
+              },
             ),
           ),
-        ));
+        );
       },
     );
   }
@@ -90,25 +89,35 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     int? index = widget.index;
     final String tweetId = widget.tweet.id ?? '';
     final String? text = widget.tweet.text;
-    final String userName = widget.tweet.user?.username ?? '';
-    final String handle = widget.tweet.user?.screenName ?? '';
+    final String userName = widget.tweet.user?.screenName ?? '';
+    final String handle = widget.tweet.user?.username ?? '';
     final String date = widget.tweet.createdAt ?? '';
     final bool verified = false;
     final Image? image = null;
     final repliesCount =
         ref.watch(homeNotifierProvider).homeResponse.data[index].repliesCount;
+    List<NetworkImage> images = (widget.tweet.attachmentsUrl ?? [])
+        .map((url) => NetworkImage(url))
+        .toList();
+    if (images.isNotEmpty) {
+      if (widget.tweet.attachmentsUrl![0] == "{}") {
+        images = [];
+      }
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: 0.03 * MediaQuery.of(context).size.width,
+              horizontal: 0.005 * MediaQuery.of(context).size.width,
               vertical: 0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               GestureDetector(
                 onTap: () {
-                  // go to user profile
+                  Navigator.pushNamed(context, Routes.profileScreen,
+                      arguments: widget.tweet.user!.username);
                 },
                 child: CircleAvatar(
                   backgroundColor: AppColors.whiteColor,
@@ -119,15 +128,19 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               ),
               SizedBox(width: 0.02 * MediaQuery.of(context).size.width),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.profileScreen,
+                          arguments: widget.tweet.user!.username);
+                    },
                     child: Text(userName,
                         style: AppTextStyle.textThemeDark.bodyLarge!
                             .copyWith(fontWeight: FontWeight.bold)),
                   ),
                   Text(
-                    '@' + handle,
+                    '@$handle',
                     style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
                       color: AppColors.lightThinTextGray,
                     ),
@@ -140,13 +153,48 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
         SizedBox(
           height: 0.005 * MediaQuery.of(context).size.height,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: 0.03 * MediaQuery.of(context).size.width,
-              vertical: 0),
-          child: Text(text!,
-              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith()),
-        ),
+        if (text != null)
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 0.005 * MediaQuery.of(context).size.width,
+                vertical: 0),
+            child: RichText(
+              text: TextSpan(
+                style: AppTextStyle.textThemeDark.bodyLarge!,
+                children: text.split(' ').map((word) {
+                  if (word.startsWith('#')) {
+                    return TextSpan(
+                        text: '$word ',
+                        style: AppTextStyle.textThemeDark.bodyLarge!
+                            .copyWith(color: AppColors.primaryColor));
+                  } else {
+                    return TextSpan(text: '$word ');
+                  }
+                }).toList(),
+              ),
+            ),
+          ),
+        if (images.isEmpty == false)
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 0.005 * MediaQuery.of(context).size.width,
+                vertical: 5),
+            child: GestureDetector(
+              onTap: () {
+                _showImageDialog(context, images);
+              },
+              child: Container(
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: Image(
+                    image: images[0],
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
+              ),
+            ),
+          ),
         const Divider(color: AppColors.lightThinTextGray, thickness: 0.3),
         Padding(
           padding: EdgeInsets.symmetric(

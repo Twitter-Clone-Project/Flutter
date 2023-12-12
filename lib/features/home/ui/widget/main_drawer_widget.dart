@@ -10,10 +10,10 @@ class MainDrawer extends ConsumerWidget {
   const MainDrawer({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authNotifierProvider);
-    String _userName = auth.user?.name??'';
-    String _userUserName = '@${auth.user?.username??''}';
+    String _userName = auth.user?.name ?? '';
+    String _userUserName = '@${auth.user?.username ?? ''}';
     int _numberOfFollowing = 13; // TODO: Provider to get it when changed
     int _numberOfFollowers = 0; // TODO: Provider to get it when changed
 
@@ -31,17 +31,18 @@ class MainDrawer extends ConsumerWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, Routes.profileScreen);
+                        Navigator.pushNamed(context, Routes.profileScreen,
+                            arguments: auth.user?.username);
                       },
                       child: CircleAvatar(
                         backgroundColor: const Color.fromARGB(255, 59, 158, 59),
+                        backgroundImage:
+                            NetworkImage(auth.user!.profileImageURL ?? ''),
                         child: Text(
                           _userName[0],
                           style: AppTextStyle.textThemeDark.headline6!
                               .copyWith(color: Colors.white, fontSize: 25),
                         ),
-                        // Child : Sura aw awl harf mn esm el user
                       ),
                     ),
                     const Spacer(),

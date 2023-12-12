@@ -34,12 +34,10 @@ class Routes {
   static const String editProfileScreen = "/editProfileScreen";
   static const String fullScreenImage = "/fullScreenImage";
 
-
   static const String reCAPTCHAscreen = "/reCAPTCHA";
   static const String tweetScreen = "/tweetScreen";
   static const String retweetersScreen = "/retweetersScreen";
   static const String likersScreen = "/likersScreen";
-
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -103,7 +101,6 @@ class Routes {
             builder: (_) => FullScreenImage(
               imageUrl: data["imageUrl"]!, // Accessing the correct key
             ));
-
       case editProfileScreen:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
       default:
