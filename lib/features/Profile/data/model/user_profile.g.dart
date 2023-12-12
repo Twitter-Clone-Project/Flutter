@@ -123,3 +123,42 @@ Map<String, dynamic> _$$FollowersListImplToJson(_$FollowersListImpl instance) =>
     <String, dynamic>{
       'data': instance.data,
     };
+
+_$FollowingDataImpl _$$FollowingDataImplFromJson(Map<String, dynamic> json) =>
+    _$FollowingDataImpl(
+      userId: json['userId'] as String?,
+      username: json['username'] as String?,
+      name: json['name'] as String?,
+      bio: json['bio'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+      isFollowed: json['isFollowed'] as bool?,
+      isFollowing: json['isFollowing'] as bool?,
+      followersCount: json['followersCount'] as String?,
+      followingCount: json['followingCount'] as String?,
+    );
+
+Map<String, dynamic> _$$FollowingDataImplToJson(_$FollowingDataImpl instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'username': instance.username,
+      'name': instance.name,
+      'bio': instance.bio,
+      'imageUrl': instance.imageUrl,
+      'isFollowed': instance.isFollowed,
+      'isFollowing': instance.isFollowing,
+      'followersCount': instance.followersCount,
+      'followingCount': instance.followingCount,
+    };
+
+_$FollowingsListImpl _$$FollowingsListImplFromJson(Map<String, dynamic> json) =>
+    _$FollowingsListImpl(
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => FollowingData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$FollowingsListImplToJson(
+        _$FollowingsListImpl instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };

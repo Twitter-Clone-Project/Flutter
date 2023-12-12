@@ -42,7 +42,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final userProfile = ref.watch(profileNotifierProvider).userProfile;
-    var myUser = ref.read(authNotifierProvider).user;
+    var myUser = ref.watch(authNotifierProvider).user;
 
     var backgroundImageHeight = mediaQuery.size.height * 0.15;
     var profileImageDiameter = mediaQuery.size.width * 0.25;
@@ -530,16 +530,34 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   runSpacing: 4.0,
                                   children: [
                                     Row(mainAxisSize: MainAxisSize.min, children: [
-                                      Text(userProfile.followingsCount ?? "0",
-                                          style: const TextStyle(
-                                              color: AppColors.whiteColor,
-                                              fontWeight: FontWeight.bold)),
-                                      const SizedBox(width: 4),
-                                      const Text(
-                                        "Following",
-                                        style: TextStyle(
-                                            color: AppColors.lightThinTextGray),
-                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            Routes.followingsScreen,
+                                            arguments: {"username": userProfile.username},
+                                          );
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              userProfile.followingsCount ?? "0",
+                                              style: const TextStyle(
+                                                color: AppColors.whiteColor,
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 4),
+                                            const Text(
+                                              "Following",
+                                              style: TextStyle(
+                                                color: AppColors.lightThinTextGray,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+
                                     ]),
                                     Row(mainAxisSize: MainAxisSize.min, children: [
                                       InkWell(
@@ -584,17 +602,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(12, 0, 4, 0),
                         child: Column(
+
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Visibility(
                               visible: userProfile.isBlocked != true,
-                              replacement: const Center(
+                              replacement: Center(
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 50),
-                                  child: CustomText(
-                                    "You Blocked This User",
-                                    textSize: CustomTextSize.medium,
-                                    color: Colors.grey,
+                                  child: Text("@${userProfile.username} is blocked",
+                                    style: const TextStyle(
+                                      color: AppColors.whiteColor,
+                                      fontSize: 22,
+                                      fontFamily: 'Chirp',
+                                    ),
                                   ),
                                 ),
                               ),

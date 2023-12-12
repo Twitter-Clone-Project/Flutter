@@ -1322,3 +1322,456 @@ abstract class _FollowersList implements FollowersList {
   _$$FollowersListImplCopyWith<_$FollowersListImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+FollowingData _$FollowingDataFromJson(Map<String, dynamic> json) {
+  return _FollowingData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FollowingData {
+  String? get userId => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get bio => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
+  bool? get isFollowed => throw _privateConstructorUsedError;
+  bool? get isFollowing => throw _privateConstructorUsedError;
+  String? get followersCount => throw _privateConstructorUsedError;
+  String? get followingCount => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FollowingDataCopyWith<FollowingData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FollowingDataCopyWith<$Res> {
+  factory $FollowingDataCopyWith(
+          FollowingData value, $Res Function(FollowingData) then) =
+      _$FollowingDataCopyWithImpl<$Res, FollowingData>;
+  @useResult
+  $Res call(
+      {String? userId,
+      String? username,
+      String? name,
+      String? bio,
+      String? imageUrl,
+      bool? isFollowed,
+      bool? isFollowing,
+      String? followersCount,
+      String? followingCount});
+}
+
+/// @nodoc
+class _$FollowingDataCopyWithImpl<$Res, $Val extends FollowingData>
+    implements $FollowingDataCopyWith<$Res> {
+  _$FollowingDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = freezed,
+    Object? username = freezed,
+    Object? name = freezed,
+    Object? bio = freezed,
+    Object? imageUrl = freezed,
+    Object? isFollowed = freezed,
+    Object? isFollowing = freezed,
+    Object? followersCount = freezed,
+    Object? followingCount = freezed,
+  }) {
+    return _then(_value.copyWith(
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFollowed: freezed == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      followersCount: freezed == followersCount
+          ? _value.followersCount
+          : followersCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      followingCount: freezed == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FollowingDataImplCopyWith<$Res>
+    implements $FollowingDataCopyWith<$Res> {
+  factory _$$FollowingDataImplCopyWith(
+          _$FollowingDataImpl value, $Res Function(_$FollowingDataImpl) then) =
+      __$$FollowingDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? userId,
+      String? username,
+      String? name,
+      String? bio,
+      String? imageUrl,
+      bool? isFollowed,
+      bool? isFollowing,
+      String? followersCount,
+      String? followingCount});
+}
+
+/// @nodoc
+class __$$FollowingDataImplCopyWithImpl<$Res>
+    extends _$FollowingDataCopyWithImpl<$Res, _$FollowingDataImpl>
+    implements _$$FollowingDataImplCopyWith<$Res> {
+  __$$FollowingDataImplCopyWithImpl(
+      _$FollowingDataImpl _value, $Res Function(_$FollowingDataImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = freezed,
+    Object? username = freezed,
+    Object? name = freezed,
+    Object? bio = freezed,
+    Object? imageUrl = freezed,
+    Object? isFollowed = freezed,
+    Object? isFollowing = freezed,
+    Object? followersCount = freezed,
+    Object? followingCount = freezed,
+  }) {
+    return _then(_$FollowingDataImpl(
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFollowed: freezed == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      followersCount: freezed == followersCount
+          ? _value.followersCount
+          : followersCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      followingCount: freezed == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FollowingDataImpl implements _FollowingData {
+  const _$FollowingDataImpl(
+      {this.userId,
+      this.username,
+      this.name,
+      this.bio,
+      this.imageUrl,
+      this.isFollowed,
+      this.isFollowing,
+      this.followersCount,
+      this.followingCount});
+
+  factory _$FollowingDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FollowingDataImplFromJson(json);
+
+  @override
+  final String? userId;
+  @override
+  final String? username;
+  @override
+  final String? name;
+  @override
+  final String? bio;
+  @override
+  final String? imageUrl;
+  @override
+  final bool? isFollowed;
+  @override
+  final bool? isFollowing;
+  @override
+  final String? followersCount;
+  @override
+  final String? followingCount;
+
+  @override
+  String toString() {
+    return 'FollowingData(userId: $userId, username: $username, name: $name, bio: $bio, imageUrl: $imageUrl, isFollowed: $isFollowed, isFollowing: $isFollowing, followersCount: $followersCount, followingCount: $followingCount)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FollowingDataImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.isFollowed, isFollowed) ||
+                other.isFollowed == isFollowed) &&
+            (identical(other.isFollowing, isFollowing) ||
+                other.isFollowing == isFollowing) &&
+            (identical(other.followersCount, followersCount) ||
+                other.followersCount == followersCount) &&
+            (identical(other.followingCount, followingCount) ||
+                other.followingCount == followingCount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, userId, username, name, bio,
+      imageUrl, isFollowed, isFollowing, followersCount, followingCount);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FollowingDataImplCopyWith<_$FollowingDataImpl> get copyWith =>
+      __$$FollowingDataImplCopyWithImpl<_$FollowingDataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FollowingDataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FollowingData implements FollowingData {
+  const factory _FollowingData(
+      {final String? userId,
+      final String? username,
+      final String? name,
+      final String? bio,
+      final String? imageUrl,
+      final bool? isFollowed,
+      final bool? isFollowing,
+      final String? followersCount,
+      final String? followingCount}) = _$FollowingDataImpl;
+
+  factory _FollowingData.fromJson(Map<String, dynamic> json) =
+      _$FollowingDataImpl.fromJson;
+
+  @override
+  String? get userId;
+  @override
+  String? get username;
+  @override
+  String? get name;
+  @override
+  String? get bio;
+  @override
+  String? get imageUrl;
+  @override
+  bool? get isFollowed;
+  @override
+  bool? get isFollowing;
+  @override
+  String? get followersCount;
+  @override
+  String? get followingCount;
+  @override
+  @JsonKey(ignore: true)
+  _$$FollowingDataImplCopyWith<_$FollowingDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+FollowingsList _$FollowingsListFromJson(Map<String, dynamic> json) {
+  return _FollowingsList.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FollowingsList {
+  List<FollowingData>? get data => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FollowingsListCopyWith<FollowingsList> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FollowingsListCopyWith<$Res> {
+  factory $FollowingsListCopyWith(
+          FollowingsList value, $Res Function(FollowingsList) then) =
+      _$FollowingsListCopyWithImpl<$Res, FollowingsList>;
+  @useResult
+  $Res call({List<FollowingData>? data});
+}
+
+/// @nodoc
+class _$FollowingsListCopyWithImpl<$Res, $Val extends FollowingsList>
+    implements $FollowingsListCopyWith<$Res> {
+  _$FollowingsListCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = freezed,
+  }) {
+    return _then(_value.copyWith(
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<FollowingData>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FollowingsListImplCopyWith<$Res>
+    implements $FollowingsListCopyWith<$Res> {
+  factory _$$FollowingsListImplCopyWith(_$FollowingsListImpl value,
+          $Res Function(_$FollowingsListImpl) then) =
+      __$$FollowingsListImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<FollowingData>? data});
+}
+
+/// @nodoc
+class __$$FollowingsListImplCopyWithImpl<$Res>
+    extends _$FollowingsListCopyWithImpl<$Res, _$FollowingsListImpl>
+    implements _$$FollowingsListImplCopyWith<$Res> {
+  __$$FollowingsListImplCopyWithImpl(
+      _$FollowingsListImpl _value, $Res Function(_$FollowingsListImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = freezed,
+  }) {
+    return _then(_$FollowingsListImpl(
+      data: freezed == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<FollowingData>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FollowingsListImpl implements _FollowingsList {
+  const _$FollowingsListImpl({final List<FollowingData>? data}) : _data = data;
+
+  factory _$FollowingsListImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FollowingsListImplFromJson(json);
+
+  final List<FollowingData>? _data;
+  @override
+  List<FollowingData>? get data {
+    final value = _data;
+    if (value == null) return null;
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'FollowingsList(data: $data)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FollowingsListImpl &&
+            const DeepCollectionEquality().equals(other._data, _data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FollowingsListImplCopyWith<_$FollowingsListImpl> get copyWith =>
+      __$$FollowingsListImplCopyWithImpl<_$FollowingsListImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FollowingsListImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FollowingsList implements FollowingsList {
+  const factory _FollowingsList({final List<FollowingData>? data}) =
+      _$FollowingsListImpl;
+
+  factory _FollowingsList.fromJson(Map<String, dynamic> json) =
+      _$FollowingsListImpl.fromJson;
+
+  @override
+  List<FollowingData>? get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$FollowingsListImplCopyWith<_$FollowingsListImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
