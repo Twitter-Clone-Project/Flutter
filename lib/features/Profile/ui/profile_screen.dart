@@ -1252,7 +1252,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           },
           child: TweetCompose(
             tweet: tweets[index],
-            index: index,
+            index: index, whom: 1,
           ),
         );
       },
