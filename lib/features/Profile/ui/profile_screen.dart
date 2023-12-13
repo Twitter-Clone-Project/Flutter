@@ -787,7 +787,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         runSpacing: 6.0,
                                         children: [
                                           Visibility(
-                                            visible: userProfile.location != null,
+                                            visible:
+                                                userProfile.location != null,
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -811,7 +812,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             ),
                                           ),
                                           Visibility(
-                                            visible: userProfile.website != null,
+                                            visible:
+                                                userProfile.website != null,
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -983,8 +985,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       ),
                                       const SizedBox(height: 10),
                                       Visibility(
-                                        visible:
-                                        userProfile.isMuted!,                                        child: Row(children: [
+                                        visible: userProfile.isMuted!,
+                                        child: Row(children: [
                                           const Text(
                                             "You have muted posts from this account ",
                                             style: TextStyle(
@@ -997,7 +999,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               bool confirmUnmute =
                                                   await showDialog(
                                                 context: context,
-                                                builder: (BuildContext context) {
+                                                builder:
+                                                    (BuildContext context) {
                                                   return AlertDialog(
                                                     backgroundColor:
                                                         AppColors.blackColor,
@@ -1053,8 +1056,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               // If the user confirmed unblock, then proceed
                                               if (confirmUnmute == true) {
                                                 bool success = await ref
-                                                    .read(profileNotifierProvider
-                                                        .notifier)
+                                                    .read(
+                                                        profileNotifierProvider
+                                                            .notifier)
                                                     .toggleMuteStatus(
                                                         userProfile.username!);
                                                 showFlushbar(
@@ -1193,18 +1197,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       physics: const NeverScrollableScrollPhysics(),
       itemCount: tweets.length,
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
+        return InkWell(
           onTap: () {
             Tweet tweet = tweets[index];
             Navigator.pushNamed(
               context,
               Routes.tweetScreen,
-              arguments: {"tweet": tweet, "index": index},
+              arguments: {"tweet": tweet, "index": index, "whom": 1},
             );
           },
           child: TweetCompose(
             tweet: tweets[index],
             index: index,
+            whom: 1, // 0->Home , 1->Profile
           ),
         );
       },
