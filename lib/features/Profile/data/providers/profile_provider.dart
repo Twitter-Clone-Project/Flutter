@@ -28,6 +28,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     state = state.copyWith(profileLoading: true, error: null);
   }
 
+
   Future<void> fetchUserProfile(String username) async {
     try {
       state = state.copyWith(loading: true, error: null);
@@ -49,10 +50,10 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }) async {
     try {
       if (page == 1) {
-        state = state.copyWith(tweetsloading: true);
+        state = state.copyWith(tweetsloading: true, myPostsIndex: 0);
       }
       final ProfileTweetsResponse profileTweetsResponse =
-          await profileRepository.getUserTweets(username, page);
+      await profileRepository.getUserTweets(username, page);
       final List<Tweet> tweets;
 
       if (page == 1) {
@@ -63,9 +64,11 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         tweets = oldList;
       }
       state = state.copyWith(
-          profileTweetsResponse: state.profileTweetsResponse
-              .copyWith(data: tweets, total: profileTweetsResponse.total),
-          tweetsloading: false);
+        profileTweetsResponse: state.profileTweetsResponse
+            .copyWith(data: tweets, total: profileTweetsResponse.total),
+        tweetsloading: false,
+        myPostsIndex: page,
+      );
       return profileTweetsResponse;
     } catch (e) {
       state = state.copyWith(tweetsloading: false, errorMessage: e.toString());
@@ -79,10 +82,10 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }) async {
     try {
       if (page == 1) {
-        state = state.copyWith(tweetsloading: true);
+        state = state.copyWith(tweetsloading: true, myLikedPostsIndex: 0);
       }
       final ProfileLikedTweetsResponse profileLikedTweetsResponse =
-          await profileRepository.getUserLikedTweets(username, page);
+      await profileRepository.getUserLikedTweets(username, page);
       final List<Tweet> tweets;
 
       if (page == 1) {
@@ -93,15 +96,18 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         tweets = oldList;
       }
       state = state.copyWith(
-          profileLikedTweetsResponse: state.profileLikedTweetsResponse
-              .copyWith(data: tweets, total: profileLikedTweetsResponse.total),
-          tweetsloading: false);
+        profileLikedTweetsResponse: state.profileLikedTweetsResponse
+            .copyWith(data: tweets, total: profileLikedTweetsResponse.total),
+        tweetsloading: false,
+        myLikedPostsIndex: page,
+      );
       return profileLikedTweetsResponse;
     } catch (e) {
       state = state.copyWith(tweetsloading: false, errorMessage: e.toString());
       return const ProfileLikedTweetsResponse(data: [], total: 0);
     }
   }
+
 
   Future<UserProfile?> updateUserProfile(
       {String? profilePhoto,

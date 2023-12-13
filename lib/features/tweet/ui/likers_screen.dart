@@ -30,11 +30,15 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
     final tweetprov = ref.watch(tweetNotifierProvider);
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 65,
         backgroundColor: AppColors.pureBlack,
-        title: Text(
+        title: const Text(
           'Liked by',
-          style: AppTextStyle.textThemeDark.headlineSmall!
-              .copyWith(color: AppColors.whiteColor),
+          style: TextStyle(
+            color: AppColors.whiteColor,
+            fontSize: 22,
+            fontFamily: 'Chirp',
+          ),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -74,7 +78,7 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
                               .likersList
                               .data![index]
                               .profileImageURL ??
-                          ''),
+                          'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
                       radius: 20,
                     ),
                   ),
@@ -90,21 +94,21 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
                       color: AppColors.lightGray,
                     ),
                   ),
-                  trailing: liker.isFollowed!
-                      ? Container(
-                          width: 120,
-                          height: 40,
-                          child: CustomButton(
-                            text: 'Following',
-                            onPressed: () {},
-                            filled: false,
-                          ),
-                        )
-                      : Container(
-                          width: 120,
-                          height: 40,
-                          child: CustomButton(text: 'Follow', onPressed: () {}),
-                        ),
+                  // trailing: liker.isFollowed!
+                  //     ? Container(
+                  //         width: 120,
+                  //         height: 40,
+                  //         child: CustomButton(
+                  //           text: 'Following',
+                  //           onPressed: () {},
+                  //           filled: false,
+                  //         ),
+                  //       )
+                  //     : Container(
+                  //         width: 120,
+                  //         height: 40,
+                  //         child: CustomButton(text: 'Follow', onPressed: () {}),
+                  //       ),
                 );
               },
             ),

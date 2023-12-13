@@ -1,9 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide RefreshIndicator;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
@@ -26,8 +24,10 @@ class ProfileScreen extends StatefulHookConsumerWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen>
     with TickerProviderStateMixin {
   final RefreshController _controller = RefreshController();
-  final ScrollController _scrollController = ScrollController();
-  int pageIndex = 1;
+  final RefreshController _tweetsController = RefreshController();
+  final RefreshController _LikedTweetsController = RefreshController();
+  int tweetsPageIndex = 1;
+  int likedTweetsPageIndex = 1;
   late TabController _tabcontroller;
 
   @override
@@ -53,9 +53,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
     var backgroundImageHeight = mediaQuery.size.height * 0.15;
     var profileImageDiameter = mediaQuery.size.width * 0.25;
-
-    List<String> numbersList =
-        List.generate(50, (index) => (index + 1).toString());
 
     return Scaffold(
       floatingActionButton:
@@ -165,109 +162,106 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             ],
                           ),
                           actions: [
-                            IconButton(
-                              icon: ref.watch(profileNotifierProvider).loading
-                                  ? const CircularProgressIndicator(
-                                      color: Colors.white,
-                                    )
-                                  : const Icon(Icons.refresh),
-                              onPressed: () async {
-                                _onRefresh();
-                              },
-                            ),
-                            Visibility(
-                              visible: !(userProfile.username ==
-                                  ref
-                                      .watch(authNotifierProvider)
-                                      .user
-                                      ?.username),
-                              child: PopupMenuButton<String>(
-                                icon: const Icon(Icons.more_vert,
-                                    size: 25, color: Colors.white),
-                                onSelected: (value) async {
-                                  switch (value) {
-                                    case "unblock":
-                                      {
-                                        bool success = await ref
-                                            .read(profileNotifierProvider
-                                                .notifier)
-                                            .toggleBlockStatus(
-                                                userProfile.username!);
-                                        showFlushbar(
-                                            context,
-                                            success,
-                                            "You unblocked ${userProfile.username}",
-                                            " Unblock failed, try again later");
-                                      }
-                                      break;
-                                    case "block":
+                            // IconButton(
+                            //   icon: ref.watch(profileNotifierProvider).loading
+                            //       ? const CircularProgressIndicator(
+                            //           color: Colors.white,
+                            //           strokeWidth: 1,
+                            //         )
+                            //       : const Icon(
+                            //           Icons.refresh,
+                            //           color: AppColors.whiteColor,
+                            //         ),
+                            //   onPressed: () async {
+                            //     _onRefresh();
+                            //   },
+                            // ),
+                            PopupMenuButton<String>(
+                              icon: const Icon(Icons.more_vert,
+                                  size: 25, color: Colors.white),
+                              onSelected: (value) async {
+                                switch (value) {
+                                  case "unblock":
+                                    {
                                       bool success = await ref
-                                          .read(
-                                              profileNotifierProvider.notifier)
+                                          .read(profileNotifierProvider
+                                          .notifier)
                                           .toggleBlockStatus(
-                                              userProfile.username!);
+                                          userProfile.username!);
                                       showFlushbar(
                                           context,
                                           success,
-                                          "You blocked ${userProfile.username}",
-                                          " block failed, try again later");
-                                      break;
-                                    case "unmute":
-                                      bool success = await ref
-                                          .read(
-                                              profileNotifierProvider.notifier)
-                                          .toggleMuteStatus(
-                                              userProfile.username!);
-                                      showFlushbar(
-                                          context,
-                                          success,
-                                          "You unmuted ${userProfile.username}",
-                                          " Unmute failed, try again later");
-                                      break;
-                                    case "mute":
-                                      bool success = await ref
-                                          .read(
-                                              profileNotifierProvider.notifier)
-                                          .toggleMuteStatus(
-                                              userProfile.username!);
-                                      showFlushbar(
-                                          context,
-                                          success,
-                                          "You muted ${userProfile.username}",
-                                          " mute failed, try again later");
-                                      break;
-                                  }
-                                },
-                                itemBuilder: (BuildContext context) {
-                                  List<PopupMenuEntry<String>> items = [];
+                                          "You unblocked ${userProfile.username}",
+                                          " Unblock failed, try again later");
+                                    }
+                                    break;
+                                  case "block":
+                                    bool success = await ref
+                                        .read(
+                                        profileNotifierProvider.notifier)
+                                        .toggleBlockStatus(
+                                        userProfile.username!);
+                                    showFlushbar(
+                                        context,
+                                        success,
+                                        "You blocked ${userProfile.username}",
+                                        " block failed, try again later");
+                                    break;
+                                  case "unmute":
+                                    bool success = await ref
+                                        .read(
+                                        profileNotifierProvider.notifier)
+                                        .toggleMuteStatus(
+                                        userProfile.username!);
+                                    showFlushbar(
+                                        context,
+                                        success,
+                                        "You unmuted ${userProfile.username}",
+                                        " Unmute failed, try again later");
+                                    break;
+                                  case "mute":
+                                    bool success = await ref
+                                        .read(
+                                        profileNotifierProvider.notifier)
+                                        .toggleMuteStatus(
+                                        userProfile.username!);
+                                    showFlushbar(
+                                        context,
+                                        success,
+                                        "You muted ${userProfile.username}",
+                                        " mute failed, try again later");
+                                    break;
+                                }
+                              },
+                              itemBuilder: (BuildContext context) {
+                                List<PopupMenuEntry<String>> items = [];
 
-                                  if (userProfile.isBlocked!) {
-                                    items.add(const PopupMenuItem<String>(
-                                      value: 'unblock',
-                                      child: Text('Unblock'),
-                                    ));
-                                  } else {
-                                    items.add(const PopupMenuItem<String>(
-                                      value: 'block',
-                                      child: Text('Block'),
-                                    ));
-                                  }
+                                if (userProfile.isBlocked!) {
+                                  items.add(const PopupMenuItem<String>(
+                                    value: 'unblock',
+                                    child: Text('Unblock'),
+                                  ));
+                                } else {
+                                  items.add(const PopupMenuItem<String>(
+                                    value: 'block',
+                                    child: Text('Block'),
+                                  ));
+                                }
 
-                                  if (userProfile.isMuted!) {
-                                    items.add(const PopupMenuItem<String>(
-                                      value: 'unmute',
-                                      child: Text('Unmute'),
-                                    ));
-                                  } else {
-                                    items.add(const PopupMenuItem<String>(
-                                      value: 'mute',
-                                      child: Text('Mute'),
-                                    ));
-                                  }
+                                if (userProfile.isMuted!) {
+                                  items.add(const PopupMenuItem<String>(
+                                    value: 'unmute',
+                                    child: Text('Unmute'),
+                                  ));
+                                } else {
+                                  items.add(const PopupMenuItem<String>(
+                                    value: 'mute',
+                                    child: Text('Mute'),
+                                  ));
+                                }
 
-                                  return items;
-                                },
-                              ),
+                                return items;
+                              },
                             )
                           ],
                         ),
@@ -285,7 +279,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          userProfile.name!,
+                                          " ${userProfile.name!}",
                                           style: const TextStyle(
                                             color: AppColors.whiteColor,
                                             fontSize: 22,
@@ -294,7 +288,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         ),
                                         const SizedBox(height: 2),
                                         Text(
-                                          "@${userProfile.username}",
+                                          " @${userProfile.username}",
                                           style: const TextStyle(
                                             color: AppColors.lightThinTextGray,
                                           ),
@@ -654,26 +648,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             color: Colors.white,
                           ),
                           expandedHeight:
-                              backgroundImageHeight + profileImageDiameter,
+                              backgroundImageHeight + profileImageDiameter / 2,
                           floating: true,
                           pinned: true,
                           //stretch: true,
                           backgroundColor: Colors.black87,
                           actions: [
-                            IconButton(
-                              icon: ref.watch(profileNotifierProvider).loading
-                                  ? const CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 1,
-                                    )
-                                  : const Icon(
-                                      Icons.refresh,
-                                      color: AppColors.whiteColor,
-                                    ),
-                              onPressed: () async {
-                                _onRefresh();
-                              },
-                            ),
+                            // IconButton(
+                            //   icon: ref.watch(profileNotifierProvider).loading
+                            //       ? const CircularProgressIndicator(
+                            //           color: Colors.white,
+                            //           strokeWidth: 1,
+                            //         )
+                            //       : const Icon(
+                            //           Icons.refresh,
+                            //           color: AppColors.whiteColor,
+                            //         ),
+                            //   onPressed: () async {
+                            //     _onRefresh();
+                            //   },
+                            // ),
                             // IconButton(
                             //   icon: const Icon(Icons.search,
                             //       size: 25, color: Colors.white),
@@ -1157,29 +1151,121 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     .tweetsloading ==
                                 false) {
                               return Expanded(
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.9,
                                   child: TabBarView(
                                     controller: _tabcontroller,
                                     children: [
                                       // Posts Tab
-                                      _buildTweetsListView(
-                                        ref
-                                            .watch(profileNotifierProvider)
-                                            .profileTweetsResponse
-                                            .data, 1
+                                      SmartRefresher(
+                                        controller: _tweetsController,
+                                        header: const ClassicHeader(
+                                          releaseText: 'Release to refresh',
+                                          refreshingText: 'Refreshing...',
+                                          completeText: 'Refresh completed',
+                                          failedText: 'Refresh failed',
+                                          idleText: 'Pull down to refresh',
+                                        ),
+                                        enablePullDown: true,
+                                        enablePullUp: true,
+                                        footer: const ClassicFooter(
+                                          loadingText: 'Load for more',
+                                        ),
+                                        onLoading: _onLoading_Tweets,
+                                        onRefresh: _onRefresh,
+                                        child:   ListView.separated(
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: ref
+                                              .watch(profileNotifierProvider)
+                                              .profileTweetsResponse
+                                              .data
+                                              .length,
+                                          itemBuilder:
+                                              (BuildContext context, int index) =>
+                                              InkWell(
+                                                child: TweetCompose(
+                                                  tweet: ref
+                                                      .watch(profileNotifierProvider)
+                                                      .profileTweetsResponse
+                                                      .data[index],
+                                                  index: index,
+                                                  whom: 1, //0->Home , 1->Profile
+                                                ),
+                                                onTap: () {
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    Routes.tweetScreen,
+                                                    arguments: {
+                                                      "tweet": ref
+                                                          .watch(profileNotifierProvider)
+                                                          .profileTweetsResponse
+                                                          .data[index],
+                                                      "index": index,
+                                                      "whom": 1, //0->Home , 1->Profile
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                          separatorBuilder:
+                                              (BuildContext context, int index) =>
+                                          const Divider(),
+                                        ),
                                       ),
-                                      // Likes Tab
-                                      _buildTweetsListView(
-                                        ref
-                                            .watch(profileNotifierProvider)
-                                            .profileLikedTweetsResponse
-                                            .data, 2
+                                      SmartRefresher(
+                                        controller: _LikedTweetsController,
+                                        header: const ClassicHeader(
+                                          releaseText: 'Release to refresh',
+                                          refreshingText: 'Refreshing...',
+                                          completeText: 'Refresh completed',
+                                          failedText: 'Refresh failed',
+                                          idleText: 'Pull down to refresh',
+                                        ),
+                                        enablePullDown: true,
+                                        enablePullUp: true,
+                                        footer: const ClassicFooter(
+                                          loadingText: 'Load for more',
+                                        ),
+                                        onLoading: _onLoading_LikedTweets,
+                                        onRefresh: _onRefresh,
+                                        child:   ListView.separated(
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: ref
+                                              .watch(profileNotifierProvider)
+                                              .profileLikedTweetsResponse
+                                              .data
+                                              .length,
+                                          itemBuilder:
+                                              (BuildContext context, int index) =>
+                                              InkWell(
+                                                child: TweetCompose(
+                                                  tweet: ref
+                                                      .watch(profileNotifierProvider)
+                                                      .profileLikedTweetsResponse
+                                                      .data[index],
+                                                  index: index,
+                                                  whom: 1, //0->Home , 1->Profile
+                                                ),
+                                                onTap: () {
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    Routes.tweetScreen,
+                                                    arguments: {
+                                                      "tweet": ref
+                                                          .watch(profileNotifierProvider)
+                                                          .profileLikedTweetsResponse
+                                                          .data[index],
+                                                      "index": index,
+                                                      "whom": 1, //0->Home , 1->Profile
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                          separatorBuilder:
+                                              (BuildContext context, int index) =>
+                                          const Divider(),
+                                        ),
                                       ),
+                                      // Text("data")
                                     ],
                                   ),
-                                ),
                               );
                             } else {
                               // You can replace this with a loading indicator or any other UI while loading
@@ -1202,21 +1288,38 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   }
 
   void _onRefresh() async {
+    tweetsPageIndex = 1;
+    likedTweetsPageIndex = 1;
     await loadData();
     _controller.refreshCompleted();
+    _tweetsController.refreshCompleted();
+    _LikedTweetsController.refreshCompleted();
   }
 
-  void _onLoading() async {
+  void _onLoading_Tweets() async {
     final provider = ref.read(profileNotifierProvider);
 
-    if (provider.profileTweetsResponse.data.length ==
-        provider.profileTweetsResponse.total) {
-      _controller.loadNoData();
+    if (provider.profileTweetsResponse.data.length == provider.profileTweetsResponse.total) {
+      _tweetsController.loadNoData();
     } else {
-      if (pageIndex == 0) pageIndex++;
-      pageIndex++;
-      await loadData();
-      _controller.loadComplete();
+      if (tweetsPageIndex == 0) tweetsPageIndex++;
+      tweetsPageIndex++;
+      await ref.read(profileNotifierProvider.notifier).getUserTweets(username: widget.username!,
+          page: tweetsPageIndex);
+      _tweetsController.loadComplete();
+    }
+  }
+  void _onLoading_LikedTweets() async {
+    final provider = ref.read(profileNotifierProvider);
+
+    if (provider.profileLikedTweetsResponse.data.length == provider.profileLikedTweetsResponse.total) {
+      _LikedTweetsController.loadNoData();
+    } else {
+      if (likedTweetsPageIndex == 0) likedTweetsPageIndex++;
+      likedTweetsPageIndex++;
+      await ref.read(profileNotifierProvider.notifier).getUserLikedTweets(username: widget.username!,
+          page: likedTweetsPageIndex);
+      _LikedTweetsController.loadComplete();
     }
   }
 
@@ -1226,39 +1329,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         .fetchUserProfile(widget.username!);
     await ref.read(profileNotifierProvider.notifier).getUserLikedTweets(
           username: widget.username!,
-          page: pageIndex,
+          page: likedTweetsPageIndex,
         );
     await ref.read(profileNotifierProvider.notifier).getUserTweets(
           username: widget.username!,
-          page: pageIndex,
+          page: tweetsPageIndex,
         );
   }
 
   bool get wantKeepAlive => true;
 
-  Widget _buildTweetsListView(List<Tweet> tweets, int Whom) {
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: tweets.length,
-      itemBuilder: (BuildContext context, int index) {
-        print("Tweet number ${index} is ${tweets[index]}");
-        return GestureDetector(
-          onTap: () {
-            Tweet tweet = tweets[index];
-            Navigator.pushNamed(
-              context,
-              Routes.tweetScreen,
-              arguments: {"tweet": tweet, "index": index, "whom": Whom},
-            );
-          },
-          child: TweetCompose(
-            tweet: tweets[index],
-            index: index, whom: Whom,
-          ),
-        );
-      },
-    );
-  }
 
   String formatDate(String dateString, bool birthdate) {
     DateTime date = DateTime.parse(dateString);

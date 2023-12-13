@@ -101,7 +101,7 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
                           },
                           child: CircleAvatar(
                             backgroundColor: AppColors.whiteColor,
-                            backgroundImage: NetworkImage(following.imageUrl ?? ''),
+                            backgroundImage: NetworkImage(following.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
                             radius: 20,
                           ),
                         ),
@@ -127,7 +127,7 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
                     ),
                   ],
                 ),
-                trailing: buildTrailingWidget(following, context),
+                // trailing: buildTrailingWidget(following, context),
               ),
               const SizedBox(height: 4,),
               // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
@@ -152,12 +152,12 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
         children: [
           CustomButton(
             horizontalPadding: 20,
-            text: following.isFollowing! ? 'Following' : 'Follow',
+            text: following.isFollowed! ? 'Following' : 'Follow',
             onPressed: () async {
               // ref.read(profileNotifierProvider.notifier)
               //     .toggleFollowStatus(follower.username!);
             },
-            filled: following.isFollowing! ? false : true,
+            filled: following.isFollowed! ? false : true,
           ),
         ],
       ),
