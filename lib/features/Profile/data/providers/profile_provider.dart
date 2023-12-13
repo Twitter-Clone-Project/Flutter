@@ -103,29 +103,27 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     }
   }
 
-  Future<UserProfile?> updateUserProfile({
-    String? profilePhoto,
-    String? bannerPhoto,
-    String? name,
-    String? bio,
-    String? website,
-    String? location,
-    String? birthDate,
-    bool? removeProfilePhoto,
-    bool? removeBannerPhoto
-  }) async {
+  Future<UserProfile?> updateUserProfile(
+      {String? profilePhoto,
+      String? bannerPhoto,
+      String? name,
+      String? bio,
+      String? website,
+      String? location,
+      String? birthDate,
+      bool? removeProfilePhoto,
+      bool? removeBannerPhoto}) async {
     try {
       state = state.copyWith(loading: true);
       final result = await profileRepository.updateProfile(
-        profilePhoto: profilePhoto,
-        bannerPhoto: bannerPhoto,
-        name: name,
-        bio: bio,
-        website: website,
-        location: location,
-        birthDate: birthDate,
-        removeBannerPhoto: removeBannerPhoto
-      );
+          profilePhoto: profilePhoto,
+          bannerPhoto: bannerPhoto,
+          name: name,
+          bio: bio,
+          website: website,
+          location: location,
+          birthDate: birthDate,
+          removeBannerPhoto: removeBannerPhoto);
 
       var userProfile = state.userProfile;
       var updatedUserProfile = UserProfile(
@@ -320,6 +318,102 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         errorMessage: 'Failed to fetch followers',
         loading: false,
       );
+    }
+  }
+
+  addLike({required String tweetId}) async {
+    try {
+      List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isLiked: true,
+          likesCount: tweetlist[tweetIndex].likesCount! + 1,
+        );
+        state = state.copyWith(
+          profileTweetsResponse:
+              state.profileTweetsResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  deleteLike({required String tweetId}) async {
+    try {
+      List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isLiked: false,
+          likesCount: tweetlist[tweetIndex].likesCount! - 1,
+        );
+        state = state.copyWith(
+          profileTweetsResponse:
+              state.profileTweetsResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  addRetweet({required String tweetId}) async {
+    try {
+      List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isRetweeted: true,
+          retweetsCount: tweetlist[tweetIndex].retweetsCount! + 1,
+        );
+        state = state.copyWith(
+          profileTweetsResponse:
+              state.profileTweetsResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  deleteRetweet({required String tweetId}) async {
+    try {
+      List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isRetweeted: false,
+          retweetsCount: tweetlist[tweetIndex].retweetsCount! - 1,
+        );
+        state = state.copyWith(
+          profileTweetsResponse:
+              state.profileTweetsResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
     }
   }
 }

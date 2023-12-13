@@ -1,4 +1,4 @@
-const baseUrl = "https://10.0.2.2:2023/api/v1";
+const baseUrl = "https://twitter-clone.onthewifi.com:2023/api/v1/";
 
 class EndPoints {
   static const login = "/auth/signin";

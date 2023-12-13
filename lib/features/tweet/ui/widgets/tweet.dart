@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:like_button/like_button.dart';
 import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
+import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/theme/app_assets.dart';
@@ -13,8 +14,10 @@ import 'package:x_clone/theme/app_text_style.dart';
 class TweetComponent extends StatefulHookConsumerWidget {
   final Tweet tweet;
   final int index;
+  final int whom;
 
-  TweetComponent({Key? key, required this.tweet, required this.index})
+  TweetComponent(
+      {Key? key, required this.tweet, required this.index, required this.whom})
       : super(key: key) {}
 
   @override
@@ -24,22 +27,9 @@ class TweetComponent extends StatefulHookConsumerWidget {
 }
 
 class _TweetComposeState extends ConsumerState<TweetComponent> {
-  late int likeCountBeforeMe;
-  late int retweetsCount;
-  late int repliesCount;
-  late int likesCount;
-  late int retweetCountBeforeMe;
-  late var likeIcon = AppAssets.likeOutlinedIcon;
-  late bool isRetweeted;
   @override
   void initState() {
     super.initState();
-    likeIcon = AppAssets.likeOutlinedIcon;
-    likesCount = widget.tweet.likesCount ?? 0;
-    repliesCount = widget.tweet.repliesCount ?? 0;
-    retweetsCount = widget.tweet.retweetsCount ?? 0;
-    retweetCountBeforeMe = widget.tweet.retweetsCount ?? 0;
-    isRetweeted = widget.tweet.isRetweeted ?? false;
   }
 
   String formatCount(int count) {
@@ -85,17 +75,105 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
 
   @override
   Widget build(BuildContext context) {
-    // bool isRetweeted = widget.tweet.isRetweeted ?? false;
-    int? index = widget.index;
+    final int index = widget.index;
     final String tweetId = widget.tweet.id ?? '';
-    final String? text = widget.tweet.text;
-    final String userName = widget.tweet.user?.screenName ?? '';
-    final String handle = widget.tweet.user?.username ?? '';
     final String date = widget.tweet.createdAt ?? '';
-    final bool verified = false;
-    final Image? image = null;
-    final repliesCount =
-        ref.watch(homeNotifierProvider).homeResponse.data[index].repliesCount;
+    bool isRetweeted = widget.tweet.isRetweeted ?? false;
+    int? retweetCount = widget.tweet.retweetsCount;
+    int? likesCount = widget.tweet.likesCount;
+    String? text = widget.tweet.text;
+    String userName = widget.tweet.user?.screenName ?? '';
+    String handle = widget.tweet.user?.username ?? '';
+    int? repliesCount = widget.tweet.repliesCount;
+    //Handle if Click From Home Or Profile
+    if (widget.whom == 0) {
+      print("===============From Home====================");
+      isRetweeted = ref
+              .watch(homeNotifierProvider)
+              .homeResponse
+              .data[index]
+              .isRetweeted ??
+          false;
+      retweetCount = ref
+              .watch(homeNotifierProvider)
+              .homeResponse
+              .data[index]
+              .retweetsCount ??
+          0;
+      likesCount =
+          ref.watch(homeNotifierProvider).homeResponse.data[index].likesCount ??
+              0;
+      repliesCount = ref
+              .watch(homeNotifierProvider)
+              .homeResponse
+              .data[index]
+              .repliesCount ??
+          0;
+      text =
+          ref.watch(homeNotifierProvider).homeResponse.data[index].text ?? '';
+      userName = ref
+              .watch(homeNotifierProvider)
+              .homeResponse
+              .data[index]
+              .user!
+              .screenName ??
+          '';
+      userName = ref
+              .watch(homeNotifierProvider)
+              .homeResponse
+              .data[index]
+              .user!
+              .username ??
+          '';
+    } else if (widget.whom == 1) {
+      print("===============From Profile====================");
+
+      isRetweeted = ref
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .isRetweeted ??
+          false;
+      retweetCount = ref
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .retweetsCount ??
+          0;
+      likesCount = ref
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .likesCount ??
+          0;
+      repliesCount = ref
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .repliesCount ??
+          0;
+      text = ref
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .text ??
+          '';
+      userName = ref
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .user!
+              .screenName ??
+          '';
+      userName = ref
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .user!
+              .username ??
+          '';
+    }
+    // Handle Images Of Tweet
     List<NetworkImage> images = (widget.tweet.attachmentsUrl ?? [])
         .map((url) => NetworkImage(url))
         .toList();
@@ -208,7 +286,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                   Navigator.pushNamed(context, Routes.retweetersScreen,
                       arguments: tweetId);
                 },
-                child: Text(retweetsCount.toString(),
+                child: Text(retweetCount.toString(),
                     style: AppTextStyle.textThemeDark.bodyLarge!
                         .copyWith(fontWeight: FontWeight.bold)),
               ),
@@ -263,17 +341,24 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                 pathName:
                     isRetweeted ? AppAssets.retweetIcon : AppAssets.retweetIcon,
                 onTap: () {
-                  setState(() {
-                    isRetweeted = !isRetweeted;
-                    isRetweeted ? retweetsCount++ : retweetsCount--;
-                    isRetweeted
-                        ? ref
-                            .read(homeNotifierProvider.notifier)
-                            .addRetweet(tweetId: tweetId!, index: index)
-                        : ref
-                            .read(homeNotifierProvider.notifier)
-                            .deleteRetweet(tweetId: tweetId!, index: index);
-                  });
+                  isRetweeted = !isRetweeted;
+                  isRetweeted
+                      ? {
+                          ref
+                              .read(homeNotifierProvider.notifier)
+                              .addRetweet(tweetId: tweetId!),
+                          ref
+                              .read(profileNotifierProvider.notifier)
+                              .addRetweet(tweetId: tweetId!),
+                        }
+                      : {
+                          ref
+                              .read(homeNotifierProvider.notifier)
+                              .deleteRetweet(tweetId: tweetId!),
+                          ref
+                              .read(profileNotifierProvider.notifier)
+                              .deleteRetweet(tweetId: tweetId!),
+                        };
                 },
               ),
               TweetIconButton(
@@ -291,14 +376,23 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                 size: 23,
                 onTap: (isLiked) async {
                   isLiked = !isLiked;
-                  isLiked ? likesCount++ : likesCount--;
                   isLiked
-                      ? ref
-                          .read(homeNotifierProvider.notifier)
-                          .addLike(tweetId: tweetId!, index: index)
-                      : ref
-                          .read(homeNotifierProvider.notifier)
-                          .deleteLike(tweetId: tweetId!, index: index);
+                      ? {
+                          ref
+                              .read(homeNotifierProvider.notifier)
+                              .addLike(tweetId: tweetId!),
+                          ref
+                              .read(profileNotifierProvider.notifier)
+                              .addLike(tweetId: tweetId!),
+                        }
+                      : {
+                          ref
+                              .read(homeNotifierProvider.notifier)
+                              .deleteLike(tweetId: tweetId!),
+                          ref
+                              .read(profileNotifierProvider.notifier)
+                              .deleteLike(tweetId: tweetId!),
+                        };
                 },
                 likeBuilder: (isLiked) {
                   return isLiked
