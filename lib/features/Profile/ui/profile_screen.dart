@@ -58,20 +58,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         List.generate(50, (index) => (index + 1).toString());
 
     return Scaffold(
-      floatingActionButton: userProfile.username == ref.watch(authNotifierProvider)
-              .user
-              ?.username
-          ? FloatingActionButton(
-        backgroundColor: AppColors.primaryColor,
-        onPressed: () {
-          Navigator.pushNamed(context, Routes.addTweet);
-        },
-        child: const Icon(
-          Icons.add,
-          color: AppColors.whiteColor,
-        ),
-      )
-          : null,
+      floatingActionButton:
+          userProfile.username == ref.watch(authNotifierProvider).user?.username
+              ? FloatingActionButton(
+                  backgroundColor: AppColors.primaryColor,
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.addTweet);
+                  },
+                  child: const Icon(
+                    Icons.add,
+                    color: AppColors.whiteColor,
+                  ),
+                )
+              : null,
       body: ref.watch(profileNotifierProvider).profileLoading
           ? const Center(
               child: SizedBox(
@@ -169,8 +168,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             IconButton(
                               icon: ref.watch(profileNotifierProvider).loading
                                   ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
+                                      color: Colors.white,
+                                    )
                                   : const Icon(Icons.refresh),
                               onPressed: () async {
                                 _onRefresh();
@@ -333,8 +332,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    Colors.transparent, // Start with a transparent color
-                                    Colors.black, // End with the desired background color
+                                    Colors
+                                        .transparent, // Start with a transparent color
+                                    Colors
+                                        .black, // End with the desired background color
                                   ],
                                 ),
                               ),
@@ -358,7 +359,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       child: Image(
                                         fit: BoxFit.cover,
                                         image:
-                                        NetworkImage(userProfile.bannerUrl),
+                                            NetworkImage(userProfile.bannerUrl),
                                       ),
                                     ),
                                   ),
@@ -373,9 +374,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.end,
+                                            CrossAxisAlignment.end,
                                         children: [
                                           Container(
                                             padding: const EdgeInsets.all(3),
@@ -392,13 +393,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                   Routes.fullScreenImage,
                                                   arguments: {
                                                     "imageUrl":
-                                                    userProfile.imageUrl
+                                                        userProfile.imageUrl
                                                   },
                                                 );
                                               },
                                               child: CircleAvatar(
                                                 radius:
-                                                profileImageDiameter / 2.5,
+                                                    profileImageDiameter / 2.5,
                                                 backgroundImage: NetworkImage(
                                                   userProfile.imageUrl,
                                                 ),
@@ -408,231 +409,238 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           // Add your button here
                                           Container(
                                             constraints: const BoxConstraints(),
-                                            child:
-                                            (userProfile.username ==
-                                                myUser!.username)
+                                            child: (userProfile.username ==
+                                                    myUser!.username)
                                                 ? CustomButton(
-                                              onPressed: () {
-                                                Navigator.pushNamed(
-                                                    context,
-                                                    Routes
-                                                        .editProfileScreen);
-                                              },
-                                              text: 'Edit Profile',
-                                              filled: false,
-                                              horizontalPadding: 20,
-                                            )
-                                                : userProfile.isBlocked ==
-                                                true
-                                                ? CustomButton(
-                                              onPressed: () async {
-                                                bool
-                                                confirmUnblock =
-                                                await showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext
-                                                  context) {
-                                                    return AlertDialog(
-                                                      backgroundColor:
-                                                      AppColors
-                                                          .blackColor,
-                                                      title: Text(
-                                                        'Unblock ${userProfile.name}?',
-                                                        style:
-                                                        const TextStyle(
-                                                          fontSize:
-                                                          18.0,
-                                                          fontFamily:
-                                                          'Chirp',
-                                                          // Use the font family name specified in pubspec.yaml
-                                                          color: Colors
-                                                              .white, // Set the text color to white
-                                                        ),
-                                                      ),
-                                                      content:
-                                                      const CustomText(
-                                                        'They will be able to follow you and view your posts.',
-                                                      ),
-                                                      actions: <Widget>[
-                                                        TextButton(
-                                                          onPressed:
-                                                              () {
-                                                            Navigator.of(context)
-                                                                .pop(false); // User canceled unblock
-                                                          },
-                                                          child:
-                                                          const Text(
-                                                            'Cancel',
-                                                            style:
-                                                            TextStyle(
-                                                              fontSize:
-                                                              14.0,
-                                                              color:
-                                                              Colors.white,
-                                                              fontFamily:
-                                                              'Chirp', // Use the font family name specified in pubspec.yaml
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        TextButton(
-                                                          onPressed:
-                                                              () {
-                                                            Navigator.of(context)
-                                                                .pop(true); // User confirmed unblock
-                                                          },
-                                                          child:
-                                                          const Text(
-                                                            'Unblock',
-                                                            style:
-                                                            TextStyle(
-                                                              fontSize:
-                                                              14.0,
-                                                              color:
-                                                              Colors.white,
-                                                              fontFamily:
-                                                              'Chirp', // Use the font family name specified in pubspec.yaml
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
+                                                    onPressed: () {
+                                                      Navigator.pushNamed(
+                                                          context,
+                                                          Routes
+                                                              .editProfileScreen);
+                                                    },
+                                                    text: 'Edit Profile',
+                                                    filled: false,
+                                                    horizontalPadding: 20,
+                                                  )
+                                                : userProfile.isBlocked == true
+                                                    ? CustomButton(
+                                                        onPressed: () async {
+                                                          bool confirmUnblock =
+                                                              await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                backgroundColor:
+                                                                    AppColors
+                                                                        .blackColor,
+                                                                title: Text(
+                                                                  'Unblock ${userProfile.name}?',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        18.0,
+                                                                    fontFamily:
+                                                                        'Chirp',
+                                                                    // Use the font family name specified in pubspec.yaml
+                                                                    color: Colors
+                                                                        .white, // Set the text color to white
+                                                                  ),
+                                                                ),
+                                                                content:
+                                                                    const CustomText(
+                                                                  'They will be able to follow you and view your posts.',
+                                                                ),
+                                                                actions: <Widget>[
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop(
+                                                                              false); // User canceled unblock
+                                                                    },
+                                                                    child:
+                                                                        const Text(
+                                                                      'Cancel',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            14.0,
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontFamily:
+                                                                            'Chirp', // Use the font family name specified in pubspec.yaml
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop(
+                                                                              true); // User confirmed unblock
+                                                                    },
+                                                                    child:
+                                                                        const Text(
+                                                                      'Unblock',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            14.0,
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontFamily:
+                                                                            'Chirp', // Use the font family name specified in pubspec.yaml
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
 
-                                                // If the user confirmed unblock, then proceed
-                                                if (confirmUnblock ==
-                                                    true) {
-                                                  bool success = await ref
-                                                      .read(profileNotifierProvider
-                                                      .notifier)
-                                                      .toggleBlockStatus(
-                                                      userProfile
-                                                          .username!);
-                                                  showFlushbar(
-                                                      context,
-                                                      success,
-                                                      "You unblocked ${userProfile.username}",
-                                                      " Unblock failed, try again later");
-                                                }
-                                              },
-                                              text: 'Blocked',
-                                              filled: false,
-                                              red: true,
-                                              horizontalPadding: 20,
-                                            )
-                                                : userProfile
-                                                .isFollowed ==
-                                                false
-                                                ? CustomButton(
-                                              onPressed:
-                                                  () async {
-                                                ref
-                                                    .read(profileNotifierProvider
-                                                    .notifier)
-                                                    .toggleFollowStatus(
-                                                    userProfile
-                                                        .username!);
-                                              },
-                                              text: 'Follow',
-                                              filled: true,
-                                              horizontalPadding:
-                                              20,
-                                            )
-                                                : CustomButton(
-                                              onPressed:
-                                                  () async {
-                                                // Show confirmation dialog
-                                                bool
-                                                confirmUnfollow =
-                                                await showDialog(
-                                                  context:
-                                                  context,
-                                                  builder:
-                                                      (BuildContext
-                                                  context) {
-                                                    return AlertDialog(
-                                                      backgroundColor:
-                                                      AppColors
-                                                          .blackColor,
-                                                      // Set the background color to dark grey
-                                                      title:
-                                                      Text(
-                                                        'Unfollow ${userProfile.name}?',
-                                                        style:
-                                                        const TextStyle(
-                                                          fontSize:
-                                                          18.0,
-                                                          fontFamily:
-                                                          'Chirp',
-                                                          // Use the font family name specified in pubspec.yaml
-                                                          color:
-                                                          Colors.white, // Set the text color to white
-                                                        ),
-                                                      ),
-                                                      content:
-                                                      const CustomText(
-                                                        'Their posts will no longer show up in your home timeline. You can still view their profile, unless their posts are protected.',
-                                                      ),
-                                                      actions: <Widget>[
-                                                        TextButton(
-                                                          onPressed:
-                                                              () {
-                                                            Navigator.of(context).pop(false); // User canceled unfollow
-                                                          },
-                                                          child:
-                                                          const Text(
-                                                            'Cancel',
-                                                            style:
-                                                            TextStyle(
-                                                              fontSize: 14.0,
-                                                              color: Colors.white,
-                                                              fontFamily: 'Chirp', // Use the font family name specified in pubspec.yaml
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        TextButton(
-                                                          onPressed:
-                                                              () {
-                                                            Navigator.of(context).pop(true); // User confirmed unfollow
-                                                          },
-                                                          child:
-                                                          const Text(
-                                                            'Unfollow',
-                                                            style:
-                                                            TextStyle(
-                                                              fontSize: 14.0,
-                                                              color: Colors.white,
-                                                              fontFamily: 'Chirp', // Use the font family name specified in pubspec.yaml
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
+                                                          // If the user confirmed unblock, then proceed
+                                                          if (confirmUnblock ==
+                                                              true) {
+                                                            bool success = await ref
+                                                                .read(profileNotifierProvider
+                                                                    .notifier)
+                                                                .toggleBlockStatus(
+                                                                    userProfile
+                                                                        .username!);
+                                                            showFlushbar(
+                                                                context,
+                                                                success,
+                                                                "You unblocked ${userProfile.username}",
+                                                                " Unblock failed, try again later");
+                                                          }
+                                                        },
+                                                        text: 'Blocked',
+                                                        filled: false,
+                                                        red: true,
+                                                        horizontalPadding: 20,
+                                                      )
+                                                    : userProfile.isFollowed ==
+                                                            false
+                                                        ? CustomButton(
+                                                            onPressed:
+                                                                () async {
+                                                              ref
+                                                                  .read(profileNotifierProvider
+                                                                      .notifier)
+                                                                  .toggleFollowStatus(
+                                                                      userProfile
+                                                                          .username!);
+                                                            },
+                                                            text: 'Follow',
+                                                            filled: true,
+                                                            horizontalPadding:
+                                                                20,
+                                                          )
+                                                        : CustomButton(
+                                                            onPressed:
+                                                                () async {
+                                                              // Show confirmation dialog
+                                                              bool
+                                                                  confirmUnfollow =
+                                                                  await showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return AlertDialog(
+                                                                    backgroundColor:
+                                                                        AppColors
+                                                                            .blackColor,
+                                                                    // Set the background color to dark grey
+                                                                    title: Text(
+                                                                      'Unfollow ${userProfile.name}?',
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontSize:
+                                                                            18.0,
+                                                                        fontFamily:
+                                                                            'Chirp',
+                                                                        // Use the font family name specified in pubspec.yaml
+                                                                        color: Colors
+                                                                            .white, // Set the text color to white
+                                                                      ),
+                                                                    ),
+                                                                    content:
+                                                                        const CustomText(
+                                                                      'Their posts will no longer show up in your home timeline. You can still view their profile, unless their posts are protected.',
+                                                                    ),
+                                                                    actions: <Widget>[
+                                                                      TextButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop(false); // User canceled unfollow
+                                                                        },
+                                                                        child:
+                                                                            const Text(
+                                                                          'Cancel',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                14.0,
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontFamily:
+                                                                                'Chirp', // Use the font family name specified in pubspec.yaml
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      TextButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop(true); // User confirmed unfollow
+                                                                        },
+                                                                        child:
+                                                                            const Text(
+                                                                          'Unfollow',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                14.0,
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontFamily:
+                                                                                'Chirp', // Use the font family name specified in pubspec.yaml
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
 
-                                                // If the user confirmed unfollow, then proceed
-                                                if (confirmUnfollow ==
-                                                    true) {
-                                                  bool success = await ref
-                                                      .read(profileNotifierProvider
-                                                      .notifier)
-                                                      .toggleFollowStatus(
-                                                      userProfile
-                                                          .username!);
-                                                  showFlushbar(
-                                                      context,
-                                                      success,
-                                                      "You unfollowed ${userProfile.username}",
-                                                      " Unfollow failed, try again later");
-                                                }
-                                              },
-                                              text: 'Following',
-                                              filled: false,
-                                              horizontalPadding:
-                                              20,
-                                            ),
+                                                              // If the user confirmed unfollow, then proceed
+                                                              if (confirmUnfollow ==
+                                                                  true) {
+                                                                bool success = await ref
+                                                                    .read(profileNotifierProvider
+                                                                        .notifier)
+                                                                    .toggleFollowStatus(
+                                                                        userProfile
+                                                                            .username!);
+                                                                showFlushbar(
+                                                                    context,
+                                                                    success,
+                                                                    "You unfollowed ${userProfile.username}",
+                                                                    " Unfollow failed, try again later");
+                                                              }
+                                                            },
+                                                            text: 'Following',
+                                                            filled: false,
+                                                            horizontalPadding:
+                                                                20,
+                                                          ),
                                           ),
                                         ],
                                       ),
@@ -646,7 +654,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             color: Colors.white,
                           ),
                           expandedHeight:
-                              backgroundImageHeight + profileImageDiameter ,
+                              backgroundImageHeight + profileImageDiameter,
                           floating: true,
                           pinned: true,
                           //stretch: true,
@@ -655,10 +663,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                             IconButton(
                               icon: ref.watch(profileNotifierProvider).loading
                                   ? const CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 1,
-                              )
-                                  : const Icon(Icons.refresh, color: AppColors.whiteColor,),
+                                      color: Colors.white,
+                                      strokeWidth: 1,
+                                    )
+                                  : const Icon(
+                                      Icons.refresh,
+                                      color: AppColors.whiteColor,
+                                    ),
                               onPressed: () async {
                                 _onRefresh();
                               },
@@ -769,16 +780,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           delegate: SliverChildListDelegate(
                             [
                               Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(12, 0, 4, 0),
+                                padding: const EdgeInsets.fromLTRB(12, 0, 4, 0),
                                 child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SizedBox(height: 12),
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           userProfile.name!,
@@ -792,8 +801,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         Text(
                                           "@${userProfile.username}",
                                           style: const TextStyle(
-                                            color:
-                                            AppColors.lightThinTextGray,
+                                            color: AppColors.lightThinTextGray,
                                           ),
                                         ),
                                         Visibility(
@@ -802,16 +810,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             height: 12,
                                           ),
                                           child: Container(
-                                            margin:
-                                            const EdgeInsets.symmetric(
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical: 12.0),
                                             // Adjust the value as needed
                                             child: Text(
                                               userProfile.bio ?? "",
                                               softWrap: true,
                                               style: const TextStyle(
-                                                  color:
-                                                  AppColors.whiteColor),
+                                                  color: AppColors.whiteColor),
                                             ),
                                           ),
                                         ),
@@ -821,15 +827,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       runSpacing: 6.0,
                                       children: [
                                         Visibility(
-                                          visible: userProfile.location != null,
+                                          visible: userProfile.location != "" &&
+                                              userProfile.location != null,
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               const Icon(
                                                 Icons.location_on_outlined,
                                                 size: 16,
-                                                color: AppColors
-                                                    .lightThinTextGray,
+                                                color:
+                                                    AppColors.lightThinTextGray,
                                               ),
                                               Text(
                                                   " ${userProfile.location}" ??
@@ -845,15 +852,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           ),
                                         ),
                                         Visibility(
-                                          visible: userProfile.website != null,
+                                          visible: userProfile.website != "" &&
+                                              userProfile.website != null,
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               const Icon(
                                                 Icons.link_outlined,
                                                 size: 16,
-                                                color: AppColors
-                                                    .lightThinTextGray,
+                                                color:
+                                                    AppColors.lightThinTextGray,
                                               ),
                                               const SizedBox(width: 4),
                                               InkWell(
@@ -863,8 +871,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                     " ${userProfile.website}" ??
                                                         "mou.com",
                                                     style: TextStyle(
-                                                      color: AppColors
-                                                          .TwitterBlue,
+                                                      color:
+                                                          AppColors.TwitterBlue,
                                                     )),
                                               ),
                                               const SizedBox(
@@ -875,22 +883,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         ),
                                         Visibility(
                                           visible:
-                                          userProfile.birthDate != "",
+                                              userProfile.birthDate != "" &&
+                                                  userProfile.birthDate != null,
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               const Icon(
                                                 Icons.face_unlock_sharp,
                                                 size: 16,
-                                                color: AppColors
-                                                    .lightThinTextGray,
+                                                color:
+                                                    AppColors.lightThinTextGray,
                                               ),
                                               Text(
                                                   formatDate(
-                                                      userProfile
-                                                          .birthDate ??
-                                                          "2002-03-17",
-                                                      true) ??
+                                                          userProfile
+                                                                  .birthDate ??
+                                                              "2002-03-17",
+                                                          true) ??
                                                       "Created At Date",
                                                   style: TextStyle(
                                                     color: AppColors
@@ -904,22 +913,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         ),
                                         Visibility(
                                           visible:
-                                          userProfile.createdAt != "",
+                                              userProfile.createdAt != "" &&
+                                                  userProfile.createdAt != null,
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               const Icon(
                                                 Icons.date_range,
                                                 size: 16,
-                                                color: AppColors
-                                                    .lightThinTextGray,
+                                                color:
+                                                    AppColors.lightThinTextGray,
                                               ),
                                               Text(
                                                   formatDate(
-                                                      userProfile
-                                                          .createdAt ??
-                                                          "2023-12-10T17:11:45.000Z",
-                                                      false) ??
+                                                          userProfile
+                                                                  .createdAt ??
+                                                              "2023-12-10T17:11:45.000Z",
+                                                          false) ??
                                                       "Created At Date",
                                                   style: TextStyle(
                                                     color: AppColors
@@ -945,7 +955,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                     Routes.followingsScreen,
                                                     arguments: {
                                                       "username":
-                                                      userProfile.username
+                                                          userProfile.username
                                                     },
                                                   );
                                                 },
@@ -953,13 +963,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                   children: [
                                                     Text(
                                                       userProfile
-                                                          .followingsCount ??
+                                                              .followingsCount ??
                                                           "0",
                                                       style: const TextStyle(
                                                         color: AppColors
                                                             .whiteColor,
                                                         fontWeight:
-                                                        FontWeight.w900,
+                                                            FontWeight.w900,
                                                       ),
                                                     ),
                                                     const SizedBox(width: 4),
@@ -984,7 +994,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                     Routes.followersScreen,
                                                     arguments: {
                                                       "username":
-                                                      userProfile.username
+                                                          userProfile.username
                                                     },
                                                   );
                                                 },
@@ -992,23 +1002,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                   children: [
                                                     Text(
                                                       userProfile
-                                                          .followersCount ??
+                                                              .followersCount ??
                                                           "0",
                                                       style: const TextStyle(
                                                         color: AppColors
                                                             .whiteColor,
                                                         fontWeight:
-                                                        FontWeight.w900,
+                                                            FontWeight.w900,
                                                       ),
                                                     ),
                                                     const SizedBox(width: 4),
-                                                    const Text(
-                                                      "Followers",
+                                                    Text(
+                                                      userProfile.followersCount ==
+                                                              "1"
+                                                          ? 'Follower'
+                                                          : 'Followers',
                                                       style: TextStyle(
                                                         color: AppColors
                                                             .lightThinTextGray,
                                                       ),
-                                                    ),
+                                                    )
                                                   ],
                                                 ),
                                               )
@@ -1017,96 +1030,96 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     ),
                                     const SizedBox(height: 10),
                                     Visibility(
-                                      visible:
-                                      userProfile.isMuted!,                                        child: Row(children: [
-                                      const Text(
-                                        "You have muted posts from this account ",
-                                        style: TextStyle(
-                                          color: AppColors.whiteColor,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () async {
-                                          bool confirmUnmute =
-                                          await showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor:
-                                                AppColors.blackColor,
-                                                title: Text(
-                                                  'Unmute ${userProfile.name}?',
-                                                  style: const TextStyle(
-                                                    fontSize: 18.0,
-                                                    fontFamily: 'Chirp',
-                                                    // Use the font family name specified in pubspec.yaml
-                                                    color: Colors
-                                                        .white, // Set the text color to white
-                                                  ),
-                                                ),
-                                                content: const CustomText(
-                                                  'Posts from this account will now be allowed in your Home timeline.',
-                                                ),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop(
-                                                          false); // User canceled unblock
-                                                    },
-                                                    child: const Text(
-                                                      'Cancel',
-                                                      style: TextStyle(
-                                                        fontSize: 14.0,
-                                                        color: Colors.white,
-                                                        fontFamily:
-                                                        'Chirp', // Use the font family name specified in pubspec.yaml
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop(
-                                                          true); // User confirmed unblock
-                                                    },
-                                                    child: const Text(
-                                                      'Unmute',
-                                                      style: TextStyle(
-                                                        fontSize: 14.0,
-                                                        color: Colors.white,
-                                                        fontFamily:
-                                                        'Chirp', // Use the font family name specified in pubspec.yaml
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-
-                                          // If the user confirmed unblock, then proceed
-                                          if (confirmUnmute == true) {
-                                            bool success = await ref
-                                                .read(profileNotifierProvider
-                                                .notifier)
-                                                .toggleMuteStatus(
-                                                userProfile.username!);
-                                            showFlushbar(
-                                                context,
-                                                success,
-                                                "You unmuted ${userProfile.username}",
-                                                " Unmute failed, try again later");
-                                          }
-                                        },
-                                        child: Text(
-                                          "Unmute",
+                                      visible: userProfile.isMuted!,
+                                      child: Row(children: [
+                                        const Text(
+                                          "You have muted posts from this account ",
                                           style: TextStyle(
-                                            color: AppColors.TwitterBlue,
-                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.whiteColor,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
-                                      ),
-                                    ]),
+                                        InkWell(
+                                          onTap: () async {
+                                            bool confirmUnmute =
+                                                await showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor:
+                                                      AppColors.blackColor,
+                                                  title: Text(
+                                                    'Unmute ${userProfile.name}?',
+                                                    style: const TextStyle(
+                                                      fontSize: 18.0,
+                                                      fontFamily: 'Chirp',
+                                                      // Use the font family name specified in pubspec.yaml
+                                                      color: Colors
+                                                          .white, // Set the text color to white
+                                                    ),
+                                                  ),
+                                                  content: const CustomText(
+                                                    'Posts from this account will now be allowed in your Home timeline.',
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop(
+                                                            false); // User canceled unblock
+                                                      },
+                                                      child: const Text(
+                                                        'Cancel',
+                                                        style: TextStyle(
+                                                          fontSize: 14.0,
+                                                          color: Colors.white,
+                                                          fontFamily:
+                                                              'Chirp', // Use the font family name specified in pubspec.yaml
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop(
+                                                            true); // User confirmed unblock
+                                                      },
+                                                      child: const Text(
+                                                        'Unmute',
+                                                        style: TextStyle(
+                                                          fontSize: 14.0,
+                                                          color: Colors.white,
+                                                          fontFamily:
+                                                              'Chirp', // Use the font family name specified in pubspec.yaml
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+
+                                            // If the user confirmed unblock, then proceed
+                                            if (confirmUnmute == true) {
+                                              bool success = await ref
+                                                  .read(profileNotifierProvider
+                                                      .notifier)
+                                                  .toggleMuteStatus(
+                                                      userProfile.username!);
+                                              showFlushbar(
+                                                  context,
+                                                  success,
+                                                  "You unmuted ${userProfile.username}",
+                                                  " Unmute failed, try again later");
+                                            }
+                                          },
+                                          child: Text(
+                                            "Unmute",
+                                            style: TextStyle(
+                                              color: AppColors.TwitterBlue,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
                                     ),
                                   ],
                                 ),
@@ -1122,64 +1135,67 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ),
                         ),
                       ],
-                body: Visibility(
-                  visible: userProfile.isBlocked != true,
-                  replacement: Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 50),
-                      child: Text(
-                        "@${userProfile.username} is blocked",
-                        style: const TextStyle(
-                          color: AppColors.whiteColor,
-                          fontSize: 22,
-                          fontFamily: 'Chirp',
-                        ),
-                      ),
-                    ),
-                  ),
-                  child: Builder(
-                    builder: (context) {
-                      if (ref.watch(profileNotifierProvider).tweetsloading == false) {
-                        return Expanded(
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.9,
-                            child: TabBarView(
-                              controller: _tabcontroller,
-                              children: [
-                                // Posts Tab
-                                _buildTweetsListView(
-                                  ref
-                                      .watch(profileNotifierProvider)
-                                      .profileTweetsResponse
-                                      .data,
-                                ),
-                                // Likes Tab
-                                _buildTweetsListView(
-                                  ref
-                                      .watch(profileNotifierProvider)
-                                      .profileLikedTweetsResponse
-                                      .data,
-                                ),
-                              ],
+                      body: Visibility(
+                        visible: userProfile.isBlocked != true,
+                        replacement: Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 50),
+                            child: Text(
+                              "@${userProfile.username} is blocked",
+                              style: const TextStyle(
+                                color: AppColors.whiteColor,
+                                fontSize: 22,
+                                fontFamily: 'Chirp',
+                              ),
                             ),
                           ),
-                        );
-                      } else {
-                        // You can replace this with a loading indicator or any other UI while loading
-                        return Center(
-                            child: SizedBox(
-                              width: 70,
-                              height: 70,
-                              child: CircularProgressIndicator(
-                                color: AppColors.whiteColor,
-                                strokeWidth: 1,
-                              ),
-                            ));
-                      }
-                    },
-                  ),
-                ),
-
+                        ),
+                        child: Builder(
+                          builder: (context) {
+                            if (ref
+                                    .watch(profileNotifierProvider)
+                                    .tweetsloading ==
+                                false) {
+                              return Expanded(
+                                child: SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.9,
+                                  child: TabBarView(
+                                    controller: _tabcontroller,
+                                    children: [
+                                      // Posts Tab
+                                      _buildTweetsListView(
+                                        ref
+                                            .watch(profileNotifierProvider)
+                                            .profileTweetsResponse
+                                            .data,
+                                      ),
+                                      // Likes Tab
+                                      _buildTweetsListView(
+                                        ref
+                                            .watch(profileNotifierProvider)
+                                            .profileLikedTweetsResponse
+                                            .data,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            } else {
+                              // You can replace this with a loading indicator or any other UI while loading
+                              return Center(
+                                  child: SizedBox(
+                                width: 70,
+                                height: 70,
+                                child: CircularProgressIndicator(
+                                  color: AppColors.whiteColor,
+                                  strokeWidth: 1,
+                                ),
+                              ));
+                            }
+                          },
+                        ),
+                      ),
                     ),
             ),
     );
@@ -1283,4 +1299,3 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     ).show(context);
   }
 }
-

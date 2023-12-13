@@ -40,7 +40,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 children: [
                   Padding(
                     padding:
-                        const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                     child: Row(
                       children: [
                         InkWell(
@@ -54,15 +54,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                                     .watch(authNotifierProvider)
                                     .user!
                                     .profileImageURL ??
-                                ''),
-                            child: Text(
-                              ref.watch(authNotifierProvider).user!.name![0],
-                              style: AppTextStyle.textThemeDark.headline6!
-                                  .copyWith(color: Colors.white, fontSize: 25),
-                            ),
+                                'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                            child: null
                           ),
                         ),
                         const Spacer(),
+                        CircleAvatar(
+                            backgroundColor:
+                            const Color.fromARGB(255, 59, 158, 59),
+                            backgroundImage: NetworkImage('https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1702425600&semt=ais'),
+                            child: null
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.settings),
+                          onPressed: ()  {
+                            //TODO Settings
+                          },
+                        ),
                       ],
                     ),
                   ),

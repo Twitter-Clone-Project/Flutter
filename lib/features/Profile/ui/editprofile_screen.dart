@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:x_clone/app/app_keys.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
+import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_text.dart';
 import 'package:x_clone/theme/app_colors.dart';
 
@@ -114,26 +115,39 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 65,
+        backgroundColor: AppColors.pureBlack,
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(
+            color: AppColors.whiteColor,
+            fontSize: 22,
+            fontFamily: 'Chirp',
+          ),
+        ),
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
+          icon: const Icon(
+            Icons.arrow_back_sharp,
             color: AppColors.whiteColor,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        title: Text("Edit Profile", style: TextStyle(fontSize: 18)),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1.0),
+          child: Divider(color: AppColors.whiteColor, thickness: 0.1),
+        ),
         actions: [
-          TextButton(
-            onPressed: onSubmit,
-            style: TextButton.styleFrom(
-              primary: Colors.white, // Set text color
-              padding: EdgeInsets.symmetric(
-                  horizontal: 16.0), // Adjust padding as needed
-            ),
-            child: Text("Save", style: TextStyle(fontSize: 16)),
+          Container(
+            child: CustomButton(text: "Save", onPressed: onSubmit, filled: false,
+            horizontalPadding: 25,
+            verticalPadding: 1,),
           ),
+
         ],
       ),
+
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : Form(
