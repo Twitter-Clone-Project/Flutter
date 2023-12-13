@@ -1,4 +1,4 @@
-const baseUrl = "https://10.0.2.2:2023/api/v1";
+const baseUrl = "https://twitter-clone.onthewifi.com:2023/api/v1/";
 
 class EndPoints {
   static const login = "/auth/signin";
@@ -26,7 +26,7 @@ class EndPoints {
   static unmuteUser(String username) => "/users/$username/unmute";
   static blockUser(String username) => "/users/$username/block";
   static unblockUser(String username) => "/users/$username/unblock";
-  static mutedUsers(String username) => "/users/mutedUsers"; //TODO in settings
+  static mutedUsers(String username) => "/users/mutedUsers";
   static getLikersData(String tweetId) => "/tweets/$tweetId/likers";
   static getRetweetersData(String tweetId) => "/tweets/$tweetId/retweeters";
   static getRepliersData(String tweetId) => "/tweets/$tweetId/replies";

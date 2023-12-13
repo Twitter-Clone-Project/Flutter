@@ -76,7 +76,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               enablePullDown: true,
               onRefresh: _onRefresh,
               controller: _controller,
-              child: userProfile.isBlockingMe!
+              child: userProfile.isBlockingMe==true
                   ? CustomScrollView(
                 slivers: [
                   SliverAppBar(
