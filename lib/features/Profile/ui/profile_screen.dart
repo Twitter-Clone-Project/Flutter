@@ -858,7 +858,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               const SizedBox(width: 4),
                                               InkWell(
                                                 onTap: () => _launchUrl(
-                                                    "https://${userProfile.website!}"),
+                                                    "${userProfile.website!}"),
                                                 child: Text(
                                                     " ${userProfile.website}" ??
                                                         "mou.com",

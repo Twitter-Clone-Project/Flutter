@@ -127,11 +127,11 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
                     ),
                   ],
                 ),
-                // trailing: buildTrailingWidget(follower, context),
+                trailing: buildTrailingWidget(following, context),
               ),
               const SizedBox(height: 4,),
-              const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
-              const SizedBox(height: 4,),
+              // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
+              // const SizedBox(height: 4,),
 
             ],
           );
@@ -139,8 +139,8 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
       ),
     );
   }
-  Widget? buildTrailingWidget(FollowerData follower, BuildContext context) {
-    if (follower.username == ref.watch(authNotifierProvider).user?.username) {
+  Widget? buildTrailingWidget(FollowingData following, BuildContext context) {
+    if (following.username == ref.watch(authNotifierProvider).user?.username) {
       return null; // or any other widget if you don't want to show anything
     }
 
@@ -152,12 +152,12 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
         children: [
           CustomButton(
             horizontalPadding: 20,
-            text: follower.isFollowing! ? 'Following' : 'Follow',
+            text: following.isFollowing! ? 'Following' : 'Follow',
             onPressed: () async {
-              ref.read(profileNotifierProvider.notifier)
-                  .toggleFollowStatus(follower.username!);
+              // ref.read(profileNotifierProvider.notifier)
+              //     .toggleFollowStatus(follower.username!);
             },
-            filled: false,
+            filled: following.isFollowing! ? false : true,
           ),
         ],
       ),

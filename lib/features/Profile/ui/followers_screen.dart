@@ -127,11 +127,11 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
                     ),
                   ],
                 ),
-                // trailing: buildTrailingWidget(follower, context),
+                trailing: buildTrailingWidget(follower, context),
               ),
               const SizedBox(height: 4,),
-              const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
-              const SizedBox(height: 4,),
+              // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
+              // const SizedBox(height: 4,),
             ],
           );
         },
@@ -153,8 +153,8 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
             horizontalPadding: 20,
             text: follower.isFollowing! ? 'Following' : 'Follow',
             onPressed: () async {
-              ref.read(profileNotifierProvider.notifier)
-                  .toggleFollowStatus(follower.username!);
+              // ref.read(profileNotifierProvider.notifier)
+              //     .toggleFollowStatus(follower.username!);
             },
             filled: false,
           ),
