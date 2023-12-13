@@ -35,7 +35,6 @@ class Routes {
   static const String profileScreen = "/profileScreen";
   static const String editProfileScreen = "/editProfileScreen";
   static const String fullScreenImage = "/fullScreenImage";
-
   static const String reCAPTCHAscreen = "/reCAPTCHA";
   static const String tweetScreen = "/tweetScreen";
   static const String retweetersScreen = "/retweetersScreen";
