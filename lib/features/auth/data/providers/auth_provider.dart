@@ -108,7 +108,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         screenName: state.user!.screenName,
         username: state.user!.username,
         name: name,
-        profileImageURL: profileImageURL,
+        profileImageURL: profileImageURL?? "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
       );
       state = state.copyWith(user: user);
 

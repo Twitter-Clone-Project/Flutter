@@ -79,7 +79,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }) async {
     try {
       if (page == 1) {
-        state = state.copyWith(loading: true);
+        state = state.copyWith(tweetsloading: true);
       }
       final ProfileLikedTweetsResponse profileLikedTweetsResponse =
           await profileRepository.getUserLikedTweets(username, page);
@@ -95,10 +95,10 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       state = state.copyWith(
           profileLikedTweetsResponse: state.profileLikedTweetsResponse
               .copyWith(data: tweets, total: profileLikedTweetsResponse.total),
-          loading: false);
+          tweetsloading: false);
       return profileLikedTweetsResponse;
     } catch (e) {
-      state = state.copyWith(loading: false, errorMessage: e.toString());
+      state = state.copyWith(tweetsloading: false, errorMessage: e.toString());
       return const ProfileLikedTweetsResponse(data: [], total: 0);
     }
   }
