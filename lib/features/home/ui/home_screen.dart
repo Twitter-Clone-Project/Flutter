@@ -55,11 +55,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                                     .user!
                                     .profileImageURL ??
                                 ''),
-                            child: Text(
-                              ref.watch(authNotifierProvider).user!.name![0],
-                              style: AppTextStyle.textThemeDark.headline6!
-                                  .copyWith(color: Colors.white, fontSize: 25),
-                            ),
+                            // child: Text(
+                            //   ref.watch(authNotifierProvider).user!.name![0],
+                            //   style: AppTextStyle.textThemeDark.headline6!
+                            //       .copyWith(color: Colors.white, fontSize: 25),
+                            // ),
                           ),
                         ),
                         const Spacer(),

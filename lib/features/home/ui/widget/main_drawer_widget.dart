@@ -38,11 +38,11 @@ class MainDrawer extends ConsumerWidget {
                         backgroundColor: const Color.fromARGB(255, 59, 158, 59),
                         backgroundImage:
                             NetworkImage(auth.user!.profileImageURL ?? ''),
-                        child: Text(
-                          _userName[0],
-                          style: AppTextStyle.textThemeDark.headline6!
-                              .copyWith(color: Colors.white, fontSize: 25),
-                        ),
+                        // child: Text(
+                        //   _userName[0],
+                        //   style: AppTextStyle.textThemeDark.headline6!
+                        //       .copyWith(color: Colors.white, fontSize: 25),
+                        // ),
                       ),
                     ),
                     const Spacer(),
