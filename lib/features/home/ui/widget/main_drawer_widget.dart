@@ -37,12 +37,8 @@ class MainDrawer extends ConsumerWidget {
                       child: CircleAvatar(
                         backgroundColor: const Color.fromARGB(255, 59, 158, 59),
                         backgroundImage:
-                            NetworkImage(auth.user!.profileImageURL ?? ''),
-                        // child: Text(
-                        //   _userName[0],
-                        //   style: AppTextStyle.textThemeDark.headline6!
-                        //       .copyWith(color: Colors.white, fontSize: 25),
-                        // ),
+                            NetworkImage(auth.user!.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                        child: null
                       ),
                     ),
                     const Spacer(),

@@ -89,9 +89,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
       var response = await HttpClient.dio
           .get(EndPoints.getUserLikedTweets(username, page));
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return ProfileTweetsResponse.fromJson(response.data);
+        return ProfileLikedTweetsResponse.fromJson(response.data);
       }
-      return const ProfileTweetsResponse(data: [], total: 0);
+      return const ProfileLikedTweetsResponse(data: [], total: 0);
     } catch (e) {
       rethrow;
     }

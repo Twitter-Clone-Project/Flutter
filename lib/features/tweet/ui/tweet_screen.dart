@@ -20,9 +20,9 @@ class TweetScreen extends StatefulHookConsumerWidget {
       required this.tweet,
       required this.index,
       required this.whom});
-  Tweet? tweet;
-  int? index;
-  int? whom;
+  Tweet tweet;
+  int index;
+  int whom;
 
   @override
   ConsumerState<TweetScreen> createState() => _TweetScreenState();
