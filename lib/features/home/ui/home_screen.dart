@@ -110,18 +110,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                                         .homeResponse
                                         .data![index],
                                     index: index,
+                                    whom: 0, //0->Home , 1->Profile
                                   ),
                                   onTap: () {
-                                    Tweet tweet = ref
-                                        .watch(homeNotifierProvider)
-                                        .homeResponse
-                                        .data![index];
                                     Navigator.pushNamed(
                                       context,
                                       Routes.tweetScreen,
                                       arguments: {
-                                        "tweet": tweet,
+                                        "tweet": ref
+                                            .watch(homeNotifierProvider)
+                                            .homeResponse
+                                            .data![index],
                                         "index": index,
+                                        "whom": 0, //0->Home , 1->Profile
                                       },
                                     );
                                   },

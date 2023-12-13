@@ -47,83 +47,99 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
-  addLike({required String tweetId, required int index}) async {
+  addLike({required String tweetId}) async {
     try {
       homeRepository.addLike(tweetId: tweetId);
-      List<Tweet> tweetlist =
-          List.from(state.homeResponse.data); // Create a new list
-      tweetlist[index] = tweetlist[index].copyWith(
-        isLiked: true,
-        likesCount: state.homeResponse.data[index].likesCount! + 1,
-      );
-      state = state.copyWith(
-        homeResponse: state.homeResponse.copyWith(data: tweetlist),
-        loading: false,
-      );
-      return true;
+      List<Tweet> tweetlist = List.from(state.homeResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isLiked: true,
+          likesCount: tweetlist[tweetIndex].likesCount! + 1,
+        );
+        state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       return false;
-      // Handle error
     }
   }
 
-  deleteLike({required String tweetId, required int index}) async {
+  deleteLike({required String tweetId}) async {
     try {
       homeRepository.deleteLike(tweetId: tweetId);
-      List<Tweet> tweetlist =
-          List.from(state.homeResponse.data); // Create a new list
-      tweetlist[index] = tweetlist[index].copyWith(
-        isLiked: false,
-        likesCount: state.homeResponse.data[index].likesCount! - 1,
-      );
-      state = state.copyWith(
-        homeResponse: state.homeResponse.copyWith(data: tweetlist),
-        loading: false,
-      );
-      return true;
+      List<Tweet> tweetlist = List.from(state.homeResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isLiked: false,
+          likesCount: tweetlist[tweetIndex].likesCount! - 1,
+        );
+        state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       return false;
-      // Handle error
     }
   }
 
-  addRetweet({required String tweetId, required int index}) async {
+  addRetweet({required String tweetId}) async {
     try {
       homeRepository.addRetweet(tweetId: tweetId);
-      List<Tweet> tweetlist =
-          List.from(state.homeResponse.data); // Create a new list
-      tweetlist[index] = tweetlist[index].copyWith(
-        isRetweeted: true,
-        retweetsCount: state.homeResponse.data[index].retweetsCount! + 1,
-      );
-      state = state.copyWith(
-        homeResponse: state.homeResponse.copyWith(data: tweetlist),
-        loading: false,
-      );
-      return true;
+      List<Tweet> tweetlist = List.from(state.homeResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isRetweeted: true,
+          retweetsCount: tweetlist[tweetIndex].retweetsCount! + 1,
+        );
+        state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       return false;
-      // Handle error
     }
   }
 
-  deleteRetweet({required String tweetId, required int index}) async {
+  deleteRetweet({required String tweetId}) async {
     try {
       homeRepository.deleteRetweet(tweetId: tweetId);
-      List<Tweet> tweetlist =
-          List.from(state.homeResponse.data); // Create a new list
-      tweetlist[index] = tweetlist[index].copyWith(
-        isRetweeted: false,
-        retweetsCount: state.homeResponse.data[index].retweetsCount! - 1,
-      );
-      state = state.copyWith(
-        homeResponse: state.homeResponse.copyWith(data: tweetlist),
-        loading: false,
-      );
-      return true;
+      List<Tweet> tweetlist = List.from(state.homeResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isRetweeted: false,
+          retweetsCount: tweetlist[tweetIndex].retweetsCount! - 1,
+        );
+        state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       return false;
-      // Handle error
     }
   }
 

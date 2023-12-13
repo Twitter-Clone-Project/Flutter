@@ -15,9 +15,14 @@ import 'package:x_clone/theme/app_text_style.dart';
 import '../../home/data/models/home_response.dart';
 
 class TweetScreen extends StatefulHookConsumerWidget {
-  TweetScreen({super.key, required this.tweet, required this.index});
+  TweetScreen(
+      {super.key,
+      required this.tweet,
+      required this.index,
+      required this.whom});
   Tweet? tweet;
   int? index;
+  int? whom;
 
   @override
   ConsumerState<TweetScreen> createState() => _TweetScreenState();
@@ -77,6 +82,7 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                   TweetComponent(
                     tweet: widget.tweet!,
                     index: widget.index!,
+                    whom: widget.whom!, // 0 -> Home , 1-> Profile
                   ),
                   homeProvider.loading
                       ? const Center(child: CircularProgressIndicator())

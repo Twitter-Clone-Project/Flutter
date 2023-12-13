@@ -65,8 +65,11 @@ class Routes {
       case tweetScreen:
         var data = settings.arguments as Map;
         return MaterialPageRoute(
-            builder: (_) =>
-                TweetScreen(tweet: data["tweet"], index: data["index"]));
+            builder: (_) => TweetScreen(
+                  tweet: data["tweet"],
+                  index: data["index"],
+                  whom: data["whom"],
+                ));
       case retweetersScreen:
         var data = settings.arguments as String;
         return MaterialPageRoute(
@@ -98,26 +101,26 @@ class Routes {
         var data = settings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => ProfileScreen(
-              username: data,
-            ));
+                  username: data,
+                ));
       case followersScreen:
         var data = settings.arguments as Map<String, String?>;
         return MaterialPageRoute(
             builder: (_) => FollowersScreen(
-              username: data["username"]!,
-            ));
+                  username: data["username"]!,
+                ));
       case followingsScreen:
         var data = settings.arguments as Map<String, String?>;
         return MaterialPageRoute(
             builder: (_) => FollowingsScreen(
-              username: data["username"]!,
-            ));
+                  username: data["username"]!,
+                ));
       case fullScreenImage:
         var data = settings.arguments as Map<String, String>; // Correct type
         return MaterialPageRoute(
             builder: (_) => FullScreenImage(
-              imageUrl: data["imageUrl"]!, // Accessing the correct key
-            ));
+                  imageUrl: data["imageUrl"]!, // Accessing the correct key
+                ));
       case editProfileScreen:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
       default:
