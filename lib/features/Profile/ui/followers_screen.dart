@@ -6,6 +6,9 @@ import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
+import '../../auth/data/providers/auth_provider.dart';
+import '../data/model/user_profile.dart';
+
 class FollowersScreen extends StatefulHookConsumerWidget {
   const FollowersScreen({super.key, required this.username});
   final String username;
@@ -21,7 +24,7 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
     Future.delayed(const Duration(seconds: 0), () {
       ref
           .read(profileNotifierProvider.notifier)
-          .getFollowers(username: widget.username!);
+          .getFollowers(username: widget.username);
     });
   }
 
@@ -60,50 +63,104 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
           : ListView.builder(
         itemCount: profileProv.followersList.data!.length,
         itemBuilder: (context, index) {
-          final follower =
-          ref.watch(profileNotifierProvider).followersList.data![index];
-          return ListTile(
-            leading: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, Routes.profileScreen,
-                    arguments: follower.name);
-              },
-              child: CircleAvatar(
-                backgroundColor: AppColors.whiteColor,
-                backgroundImage: NetworkImage(follower.imageUrl ?? ''),
-                radius: 20,
+          final follower = ref.watch(profileNotifierProvider).followersList.data![index];
+          return Column(
+            children: [
+              ListTile(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    follower.isFollowing!
+                        ? Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          child: const Row(
+                            children: [
+                              Icon(
+                                Icons.person,
+                                size: 16,
+                                color: AppColors.lightGray,
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                'Follows you',
+                                style: TextStyle(color: AppColors.lightGray, fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                        : const SizedBox.shrink(),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.profileScreen, arguments: follower.username);
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: AppColors.whiteColor,
+                            backgroundImage: NetworkImage(follower.imageUrl ?? ''),
+                            radius: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              follower.name!,
+                              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '@${follower.username}',
+                              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                                color: AppColors.lightGray,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                // trailing: buildTrailingWidget(follower, context),
               ),
-            ),
-            title: Text(
-              follower.name!,
-              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            subtitle: Text(
-              '@${follower.username}',
-              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                color: AppColors.lightGray,
-              ),
-            ),
-            trailing: follower.isFollowing!
-                ? Container(
-              width: 120,
-              height: 40,
-              child: CustomButton(
-                text: 'Following',
-                onPressed: () {},
-                filled: false,
-              ),
-            )
-                : Container(
-              width: 120,
-              height: 40,
-              child: CustomButton(text: 'Follow', onPressed: () {}),
-            ),
+              const SizedBox(height: 4,),
+              const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
+              const SizedBox(height: 4,),
+            ],
           );
         },
       ),
     );
   }
+  Widget? buildTrailingWidget(FollowerData follower, BuildContext context) {
+    if (follower.username == ref.watch(authNotifierProvider).user?.username) {
+      return null; // or any other widget if you don't want to show anything
+    }
+
+    return Container(
+      width: 120,
+      height: 40,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          CustomButton(
+            horizontalPadding: 20,
+            text: follower.isFollowing! ? 'Following' : 'Follow',
+            onPressed: () async {
+              ref.read(profileNotifierProvider.notifier)
+                  .toggleFollowStatus(follower.username!);
+            },
+            filled: false,
+          ),
+        ],
+      ),
+    );
+  }
+
 }

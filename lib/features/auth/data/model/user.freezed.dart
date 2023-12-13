@@ -25,7 +25,7 @@ mixin _$User {
   String? get username => throw _privateConstructorUsedError;
   String? get screenName => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  String? get profileImageURL => throw _privateConstructorUsedError;
+  String get profileImageURL => throw _privateConstructorUsedError;
   bool? get isConfirmed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $UserCopyWith<$Res> {
       String? username,
       String? screenName,
       String? email,
-      String? profileImageURL,
+      String profileImageURL,
       bool? isConfirmed});
 }
 
@@ -66,7 +66,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? username = freezed,
     Object? screenName = freezed,
     Object? email = freezed,
-    Object? profileImageURL = freezed,
+    Object? profileImageURL = null,
     Object? isConfirmed = freezed,
   }) {
     return _then(_value.copyWith(
@@ -90,10 +90,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
+      profileImageURL: null == profileImageURL
           ? _value.profileImageURL
           : profileImageURL // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       isConfirmed: freezed == isConfirmed
           ? _value.isConfirmed
           : isConfirmed // ignore: cast_nullable_to_non_nullable
@@ -115,7 +115,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? username,
       String? screenName,
       String? email,
-      String? profileImageURL,
+      String profileImageURL,
       bool? isConfirmed});
 }
 
@@ -134,7 +134,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? username = freezed,
     Object? screenName = freezed,
     Object? email = freezed,
-    Object? profileImageURL = freezed,
+    Object? profileImageURL = null,
     Object? isConfirmed = freezed,
   }) {
     return _then(_$UserImpl(
@@ -158,10 +158,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
+      profileImageURL: null == profileImageURL
           ? _value.profileImageURL
           : profileImageURL // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       isConfirmed: freezed == isConfirmed
           ? _value.isConfirmed
           : isConfirmed // ignore: cast_nullable_to_non_nullable
@@ -179,7 +179,8 @@ class _$UserImpl implements _User {
       this.username,
       this.screenName,
       this.email,
-      this.profileImageURL,
+      this.profileImageURL =
+          "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
       this.isConfirmed});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
@@ -196,7 +197,8 @@ class _$UserImpl implements _User {
   @override
   final String? email;
   @override
-  final String? profileImageURL;
+  @JsonKey()
+  final String profileImageURL;
   @override
   final bool? isConfirmed;
 
@@ -249,7 +251,7 @@ abstract class _User implements User {
       final String? username,
       final String? screenName,
       final String? email,
-      final String? profileImageURL,
+      final String profileImageURL,
       final bool? isConfirmed}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
@@ -265,7 +267,7 @@ abstract class _User implements User {
   @override
   String? get email;
   @override
-  String? get profileImageURL;
+  String get profileImageURL;
   @override
   bool? get isConfirmed;
   @override

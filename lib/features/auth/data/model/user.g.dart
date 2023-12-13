@@ -12,7 +12,8 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       username: json['username'] as String?,
       screenName: json['screenName'] as String?,
       email: json['email'] as String?,
-      profileImageURL: json['profileImageURL'] as String?,
+      profileImageURL: json['profileImageURL'] as String? ??
+          "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
       isConfirmed: json['isConfirmed'] as bool?,
     );
 

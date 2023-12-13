@@ -96,26 +96,30 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  //
-  // Future<bool>updateUser(
-  //     {
-  //       String? name,
-  //       String? phone
-  //     }) async {
-  //   try {
-  //     state = state.copyWith(loading: true, errorMessage: '');
-  //
-  //     final user = await _repo.updateUser(
-  //       phone: phone,
-  //       name: name,
-  //     );
-  //     _onUserLoggedIn(user);
-  //     return true;
-  //   } catch (e) {
-  //     state = state.copyWith(errorMessage: e.toString(), loading: false);
-  //     return false;
-  //   }
-  // }
+  Future<bool> updateUser({
+    String? name,
+    String? profileImageURL,
+  }) async {
+    try {
+      User user = User(
+        isConfirmed: state.user!.isConfirmed,
+        email: state.user!.email!,
+        userId: state.user!.userId,
+        screenName: state.user!.screenName,
+        username: state.user!.username,
+        name: name,
+        profileImageURL: profileImageURL?? "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
+      );
+      state = state.copyWith(user: user);
+
+      // _onUserLoggedIn(user);
+      return true;
+    } catch (e) {
+      // state = state.copyWith(errorMessage: e.toString());
+      return false;
+    }
+  }
+
   void _onUserLoggedIn(User? user) {
     state = state.copyWith(
         googleLoading: false,
