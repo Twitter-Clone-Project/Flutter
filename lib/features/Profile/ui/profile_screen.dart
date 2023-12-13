@@ -1168,14 +1168,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         ref
                                             .watch(profileNotifierProvider)
                                             .profileTweetsResponse
-                                            .data,
+                                            .data, 1
                                       ),
                                       // Likes Tab
                                       _buildTweetsListView(
                                         ref
                                             .watch(profileNotifierProvider)
                                             .profileLikedTweetsResponse
-                                            .data,
+                                            .data, 2
                                       ),
                                     ],
                                   ),
@@ -1236,23 +1236,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   bool get wantKeepAlive => true;
 
-  Widget _buildTweetsListView(List<Tweet> tweets) {
+  Widget _buildTweetsListView(List<Tweet> tweets, int Whom) {
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       itemCount: tweets.length,
       itemBuilder: (BuildContext context, int index) {
+        print("Tweet number ${index} is ${tweets[index]}");
         return GestureDetector(
           onTap: () {
             Tweet tweet = tweets[index];
             Navigator.pushNamed(
               context,
               Routes.tweetScreen,
-              arguments: {"tweet": tweet, "index": index},
+              arguments: {"tweet": tweet, "index": index, "whom": Whom},
             );
           },
           child: TweetCompose(
             tweet: tweets[index],
-            index: index, whom: 1,
+            index: index, whom: Whom,
           ),
         );
       },

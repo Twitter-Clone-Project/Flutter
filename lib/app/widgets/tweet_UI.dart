@@ -128,50 +128,97 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
               .user!
               .username ??
           '';
-    } else if (widget.whom == 1) {
+    }
+    else if (widget.whom == 1) {
       isRetweeted = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .isRetweeted ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .isRetweeted ??
           false;
       retweetCount = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .retweetsCount ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .retweetsCount ??
           0;
       likesCount = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .likesCount ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .likesCount ??
           0;
       repliesCount = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .repliesCount ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .repliesCount ??
           0;
       text = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .text ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .text ??
           '';
       userName = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .user!
-              .screenName ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .user!
+          .screenName ??
           '';
       handle = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .user!
-              .username ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .user!
+          .username ??
+          '';
+    }
+    else if (widget.whom == 2) {
+      isRetweeted = ref
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .isRetweeted ??
+          false;
+      retweetCount = ref
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .retweetsCount ??
+          0;
+      likesCount = ref
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .likesCount ??
+          0;
+      repliesCount = ref
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .repliesCount ??
+          0;
+      text = ref
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .text ??
+          '';
+      userName = ref
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .user!
+          .screenName ??
+          '';
+      handle = ref
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .user!
+          .username ??
           '';
     }
     // Handle Images Of Tweet
