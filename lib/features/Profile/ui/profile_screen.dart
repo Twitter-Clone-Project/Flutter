@@ -111,7 +111,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   },
                                   child: Image(
                                     fit: BoxFit.cover,
-                                    image: NetworkImage(userProfile.bannerUrl),
+                                    image: NetworkImage(userProfile.bannerUrl?? "https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png"),
                                   ),
                                 ),
                               ),
@@ -150,7 +150,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           child: CircleAvatar(
                                             radius: profileImageDiameter / 2.5,
                                             backgroundImage: NetworkImage(
-                                              userProfile.imageUrl,
+                                              userProfile.imageUrl?? "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
                                             ),
                                           ),
                                         ),
@@ -184,10 +184,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   case "unblock":
                                     {
                                       bool success = await ref
-                                          .read(profileNotifierProvider
-                                          .notifier)
+                                          .read(
+                                              profileNotifierProvider.notifier)
                                           .toggleBlockStatus(
-                                          userProfile.username!);
+                                              userProfile.username!);
                                       showFlushbar(
                                           context,
                                           success,
@@ -197,10 +197,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     break;
                                   case "block":
                                     bool success = await ref
-                                        .read(
-                                        profileNotifierProvider.notifier)
+                                        .read(profileNotifierProvider.notifier)
                                         .toggleBlockStatus(
-                                        userProfile.username!);
+                                            userProfile.username!);
                                     showFlushbar(
                                         context,
                                         success,
@@ -209,10 +208,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     break;
                                   case "unmute":
                                     bool success = await ref
-                                        .read(
-                                        profileNotifierProvider.notifier)
+                                        .read(profileNotifierProvider.notifier)
                                         .toggleMuteStatus(
-                                        userProfile.username!);
+                                            userProfile.username!);
                                     showFlushbar(
                                         context,
                                         success,
@@ -221,10 +219,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     break;
                                   case "mute":
                                     bool success = await ref
-                                        .read(
-                                        profileNotifierProvider.notifier)
+                                        .read(profileNotifierProvider.notifier)
                                         .toggleMuteStatus(
-                                        userProfile.username!);
+                                            userProfile.username!);
                                     showFlushbar(
                                         context,
                                         success,
@@ -325,7 +322,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 gradient: LinearGradient(
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
-                                  colors: [
+                                  colors: const [
                                     Colors
                                         .transparent, // Start with a transparent color
                                     Colors
@@ -1120,11 +1117,35 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ),
                               TabBar(
                                 controller: _tabcontroller,
+                                indicatorColor: Colors.white, // Set your desired color here
                                 tabs: const [
-                                  Tab(text: "Posts"),
-                                  Tab(text: "Likes"),
+                                  Tab(
+                                    child: Text(
+                                      "Posts",
+                                      style: TextStyle(
+                                        color: AppColors.whiteColor,
+                                        fontSize: 16,
+                                        fontFamily:
+                                            'Chirp', // Set your custom font here
+                                      ),
+                                    ),
+                                  ),
+                                  Tab(
+                                    child: Text(
+                                      "Likes",
+                                      style: TextStyle(
+                                        color: AppColors.whiteColor,
+                                        fontSize: 16,
+                                        fontFamily:
+                                            'Chirp', // Set your custom font here
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
+                              SizedBox(
+                                height: 12,
+                              )
                             ],
                           ),
                         ),
@@ -1151,43 +1172,63 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     .tweetsloading ==
                                 false) {
                               return Expanded(
-                                  child: TabBarView(
-                                    controller: _tabcontroller,
-                                    children: [
-                                      // Posts Tab
-                                      SmartRefresher(
-                                        controller: _tweetsController,
-                                        header: const ClassicHeader(
-                                          releaseText: 'Release to refresh',
-                                          refreshingText: 'Refreshing...',
-                                          completeText: 'Refresh completed',
-                                          failedText: 'Refresh failed',
-                                          idleText: 'Pull down to refresh',
-                                        ),
-                                        enablePullDown: true,
-                                        enablePullUp: true,
-                                        footer: const ClassicFooter(
-                                          loadingText: 'Load for more',
-                                        ),
-                                        onLoading: _onLoading_Tweets,
-                                        onRefresh: _onRefresh,
-                                        child:   ListView.separated(
-                                          physics: NeverScrollableScrollPhysics(),
-                                          itemCount: ref
+                                child: TabBarView(
+                                  controller: _tabcontroller,
+                                  children: [
+                                    // Posts Tab
+                                    SmartRefresher(
+                                      controller: _tweetsController,
+                                      header: const ClassicHeader(
+                                        releaseText: 'Release to refresh',
+                                        refreshingText: 'Refreshing...',
+                                        completeText: 'Refresh completed',
+                                        failedText: 'Refresh failed',
+                                        idleText: 'Pull down to refresh',
+                                      ),
+                                      enablePullDown: true,
+                                      enablePullUp: true,
+                                      footer: const ClassicFooter(
+                                        loadingText: 'Load for more',
+                                      ),
+                                      onLoading: _onLoading_Tweets,
+                                      onRefresh: _onRefresh,
+                                      child: ref
                                               .watch(profileNotifierProvider)
                                               .profileTweetsResponse
                                               .data
-                                              .length,
-                                          itemBuilder:
-                                              (BuildContext context, int index) =>
-                                              InkWell(
+                                              .isEmpty
+                                          ? const Center(
+                                              child: Text(
+                                                "No Tweets",
+                                                style: const TextStyle(
+                                                  color: AppColors.whiteColor,
+                                                  fontSize: 22,
+                                                  fontFamily: 'Chirp',
+                                                ),
+                                              ),
+                                            )
+                                          : ListView.separated(
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemCount: ref
+                                                  .watch(
+                                                      profileNotifierProvider)
+                                                  .profileTweetsResponse
+                                                  .data
+                                                  .length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                          int index) =>
+                                                      InkWell(
                                                 child: TweetCompose(
                                                   tweet: ref
-                                                      .watch(profileNotifierProvider)
+                                                      .watch(
+                                                          profileNotifierProvider)
                                                       .profileTweetsResponse
                                                       .data[index],
                                                   index: index,
-                                                  whom: 1, //0->Home , 1->Profile
+                                                  whom:
+                                                      1, //0->Home , 1->Profile
                                                 ),
                                                 onTap: () {
                                                   Navigator.pushNamed(
@@ -1195,53 +1236,76 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                     Routes.tweetScreen,
                                                     arguments: {
                                                       "tweet": ref
-                                                          .watch(profileNotifierProvider)
+                                                          .watch(
+                                                              profileNotifierProvider)
                                                           .profileTweetsResponse
                                                           .data[index],
                                                       "index": index,
-                                                      "whom": 1, //0->Home , 1->Profile
+                                                      "whom":
+                                                          1, //0->Home , 1->Profile
                                                     },
                                                   );
                                                 },
                                               ),
-                                          separatorBuilder:
-                                              (BuildContext context, int index) =>
-                                          const Divider(),
-                                        ),
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                          int index) =>
+                                                      const Divider(),
+                                            ),
+                                    ),
+                                    SmartRefresher(
+                                      controller: _LikedTweetsController,
+                                      header: const ClassicHeader(
+                                        releaseText: 'Release to refresh',
+                                        refreshingText: 'Refreshing...',
+                                        completeText: 'Refresh completed',
+                                        failedText: 'Refresh failed',
+                                        idleText: 'Pull down to refresh',
                                       ),
-                                      SmartRefresher(
-                                        controller: _LikedTweetsController,
-                                        header: const ClassicHeader(
-                                          releaseText: 'Release to refresh',
-                                          refreshingText: 'Refreshing...',
-                                          completeText: 'Refresh completed',
-                                          failedText: 'Refresh failed',
-                                          idleText: 'Pull down to refresh',
-                                        ),
-                                        enablePullDown: true,
-                                        enablePullUp: true,
-                                        footer: const ClassicFooter(
-                                          loadingText: 'Load for more',
-                                        ),
-                                        onLoading: _onLoading_LikedTweets,
-                                        onRefresh: _onRefresh,
-                                        child:   ListView.separated(
-                                          physics: NeverScrollableScrollPhysics(),
-                                          itemCount: ref
+                                      enablePullDown: true,
+                                      enablePullUp: true,
+                                      footer: const ClassicFooter(
+                                        loadingText: 'Load for more',
+                                      ),
+                                      onLoading: _onLoading_LikedTweets,
+                                      onRefresh: _onRefresh,
+                                      child: ref
                                               .watch(profileNotifierProvider)
                                               .profileLikedTweetsResponse
                                               .data
-                                              .length,
-                                          itemBuilder:
-                                              (BuildContext context, int index) =>
-                                              InkWell(
+                                              .isEmpty
+                                          ? const Center(
+                                              child: Text(
+                                                "No Tweets",
+                                                style: const TextStyle(
+                                                  color: AppColors.whiteColor,
+                                                  fontSize: 22,
+                                                  fontFamily: 'Chirp',
+                                                ),
+                                              ),
+                                            )
+                                          : ListView.separated(
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemCount: ref
+                                                  .watch(
+                                                      profileNotifierProvider)
+                                                  .profileLikedTweetsResponse
+                                                  .data
+                                                  .length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                          int index) =>
+                                                      InkWell(
                                                 child: TweetCompose(
                                                   tweet: ref
-                                                      .watch(profileNotifierProvider)
+                                                      .watch(
+                                                          profileNotifierProvider)
                                                       .profileLikedTweetsResponse
                                                       .data[index],
                                                   index: index,
-                                                  whom: 1, //0->Home , 1->Profile
+                                                  whom:
+                                                      2, //0->Home , 1->Profile
                                                 ),
                                                 onTap: () {
                                                   Navigator.pushNamed(
@@ -1249,23 +1313,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                     Routes.tweetScreen,
                                                     arguments: {
                                                       "tweet": ref
-                                                          .watch(profileNotifierProvider)
+                                                          .watch(
+                                                              profileNotifierProvider)
                                                           .profileLikedTweetsResponse
                                                           .data[index],
                                                       "index": index,
-                                                      "whom": 1, //0->Home , 1->Profile
+                                                      "whom":
+                                                          2, //0->Home , 1->Profile
                                                     },
                                                   );
                                                 },
                                               ),
-                                          separatorBuilder:
-                                              (BuildContext context, int index) =>
-                                          const Divider(),
-                                        ),
-                                      ),
-                                      // Text("data")
-                                    ],
-                                  ),
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                          int index) =>
+                                                      const Divider(),
+                                            ),
+                                    ),
+                                    // Text("data")
+                                  ],
+                                ),
                               );
                             } else {
                               // You can replace this with a loading indicator or any other UI while loading
@@ -1299,26 +1366,30 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   void _onLoading_Tweets() async {
     final provider = ref.read(profileNotifierProvider);
 
-    if (provider.profileTweetsResponse.data.length == provider.profileTweetsResponse.total) {
+    if (provider.profileTweetsResponse.data.length ==
+        provider.profileTweetsResponse.total) {
       _tweetsController.loadNoData();
     } else {
       if (tweetsPageIndex == 0) tweetsPageIndex++;
       tweetsPageIndex++;
-      await ref.read(profileNotifierProvider.notifier).getUserTweets(username: widget.username!,
-          page: tweetsPageIndex);
+      await ref
+          .read(profileNotifierProvider.notifier)
+          .getUserTweets(username: widget.username!, page: tweetsPageIndex);
       _tweetsController.loadComplete();
     }
   }
+
   void _onLoading_LikedTweets() async {
     final provider = ref.read(profileNotifierProvider);
 
-    if (provider.profileLikedTweetsResponse.data.length == provider.profileLikedTweetsResponse.total) {
+    if (provider.profileLikedTweetsResponse.data.length ==
+        provider.profileLikedTweetsResponse.total) {
       _LikedTweetsController.loadNoData();
     } else {
       if (likedTweetsPageIndex == 0) likedTweetsPageIndex++;
       likedTweetsPageIndex++;
-      await ref.read(profileNotifierProvider.notifier).getUserLikedTweets(username: widget.username!,
-          page: likedTweetsPageIndex);
+      await ref.read(profileNotifierProvider.notifier).getUserLikedTweets(
+          username: widget.username!, page: likedTweetsPageIndex);
       _LikedTweetsController.loadComplete();
     }
   }
@@ -1338,7 +1409,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   }
 
   bool get wantKeepAlive => true;
-
 
   String formatDate(String dateString, bool birthdate) {
     DateTime date = DateTime.parse(dateString);
