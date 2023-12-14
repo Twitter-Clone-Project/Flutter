@@ -111,7 +111,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   },
                                   child: Image(
                                     fit: BoxFit.cover,
-                                    image: NetworkImage(userProfile.bannerUrl?? "https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png"),
+                                    image: NetworkImage(userProfile.bannerUrl ??
+                                        "https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png"),
                                   ),
                                 ),
                               ),
@@ -150,7 +151,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           child: CircleAvatar(
                                             radius: profileImageDiameter / 2.5,
                                             backgroundImage: NetworkImage(
-                                              userProfile.imageUrl?? "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
+                                              userProfile.imageUrl ??
+                                                  "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
                                             ),
                                           ),
                                         ),
@@ -1117,7 +1119,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ),
                               TabBar(
                                 controller: _tabcontroller,
-                                indicatorColor: Colors.white, // Set your desired color here
+                                indicatorColor:
+                                    Colors.white, // Set your desired color here
                                 tabs: const [
                                   Tab(
                                     child: Text(

@@ -35,11 +35,12 @@ class MainDrawer extends ConsumerWidget {
                             arguments: auth.user?.username);
                       },
                       child: CircleAvatar(
-                        backgroundColor: const Color.fromARGB(255, 59, 158, 59),
-                        backgroundImage:
-                            NetworkImage(auth.user!.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                        child: null
-                      ),
+                          backgroundColor:
+                              const Color.fromARGB(255, 59, 158, 59),
+                          backgroundImage: NetworkImage(auth
+                                  .user!.profileImageURL ??
+                              'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                          child: null),
                     ),
                     const Spacer(),
                     IconButton(
@@ -94,10 +95,16 @@ class MainDrawer extends ConsumerWidget {
                     size: 30,
                     color: Theme.of(context).colorScheme.onBackground,
                   ),
-                  title: Text(
-                    'Profile',
-                    style: AppTextStyle.textThemeDark.headline5!
-                        .copyWith(fontWeight: FontWeight.bold),
+                  title: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.profileScreen,
+                          arguments: auth.user?.username);
+                    },
+                    child: Text(
+                      'Profile',
+                      style: AppTextStyle.textThemeDark.headline5!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 ListTile(

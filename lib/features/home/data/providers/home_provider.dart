@@ -52,7 +52,6 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
       homeRepository.addLike(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
       int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-
       if (tweetIndex != -1) {
         tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
           isLiked: true,
