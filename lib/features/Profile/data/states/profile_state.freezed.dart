@@ -31,7 +31,8 @@ mixin _$UserProfileState {
   bool get isMuted => throw _privateConstructorUsedError;
   bool get isFollowed => throw _privateConstructorUsedError;
   int get screenIndex => throw _privateConstructorUsedError;
-  int get pageIndex => throw _privateConstructorUsedError;
+  int get myPostsIndex => throw _privateConstructorUsedError;
+  int get myLikedPostsIndex => throw _privateConstructorUsedError;
   UserProfile get userProfile => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
@@ -60,7 +61,8 @@ abstract class $UserProfileStateCopyWith<$Res> {
       bool isMuted,
       bool isFollowed,
       int screenIndex,
-      int pageIndex,
+      int myPostsIndex,
+      int myLikedPostsIndex,
       UserProfile userProfile,
       String? error});
 
@@ -98,7 +100,8 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
     Object? isMuted = null,
     Object? isFollowed = null,
     Object? screenIndex = null,
-    Object? pageIndex = null,
+    Object? myPostsIndex = null,
+    Object? myLikedPostsIndex = null,
     Object? userProfile = null,
     Object? error = freezed,
   }) {
@@ -155,9 +158,13 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
           ? _value.screenIndex
           : screenIndex // ignore: cast_nullable_to_non_nullable
               as int,
-      pageIndex: null == pageIndex
-          ? _value.pageIndex
-          : pageIndex // ignore: cast_nullable_to_non_nullable
+      myPostsIndex: null == myPostsIndex
+          ? _value.myPostsIndex
+          : myPostsIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      myLikedPostsIndex: null == myLikedPostsIndex
+          ? _value.myLikedPostsIndex
+          : myLikedPostsIndex // ignore: cast_nullable_to_non_nullable
               as int,
       userProfile: null == userProfile
           ? _value.userProfile
@@ -243,7 +250,8 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       bool isMuted,
       bool isFollowed,
       int screenIndex,
-      int pageIndex,
+      int myPostsIndex,
+      int myLikedPostsIndex,
       UserProfile userProfile,
       String? error});
 
@@ -285,7 +293,8 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
     Object? isMuted = null,
     Object? isFollowed = null,
     Object? screenIndex = null,
-    Object? pageIndex = null,
+    Object? myPostsIndex = null,
+    Object? myLikedPostsIndex = null,
     Object? userProfile = null,
     Object? error = freezed,
   }) {
@@ -342,9 +351,13 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
           ? _value.screenIndex
           : screenIndex // ignore: cast_nullable_to_non_nullable
               as int,
-      pageIndex: null == pageIndex
-          ? _value.pageIndex
-          : pageIndex // ignore: cast_nullable_to_non_nullable
+      myPostsIndex: null == myPostsIndex
+          ? _value.myPostsIndex
+          : myPostsIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      myLikedPostsIndex: null == myLikedPostsIndex
+          ? _value.myLikedPostsIndex
+          : myLikedPostsIndex // ignore: cast_nullable_to_non_nullable
               as int,
       userProfile: null == userProfile
           ? _value.userProfile
@@ -377,7 +390,8 @@ class _$UserProfileStateImpl implements _UserProfileState {
       this.isMuted = false,
       this.isFollowed = false,
       this.screenIndex = 0,
-      this.pageIndex = 0,
+      this.myPostsIndex = 0,
+      this.myLikedPostsIndex = 0,
       required this.userProfile,
       this.error});
 
@@ -422,7 +436,10 @@ class _$UserProfileStateImpl implements _UserProfileState {
   final int screenIndex;
   @override
   @JsonKey()
-  final int pageIndex;
+  final int myPostsIndex;
+  @override
+  @JsonKey()
+  final int myLikedPostsIndex;
   @override
   final UserProfile userProfile;
   @override
@@ -430,7 +447,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
 
   @override
   String toString() {
-    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, followersList: $followersList, followingsList: $followingsList, errorMessage: $errorMessage, profileLoading: $profileLoading, loading: $loading, tweetsloading: $tweetsloading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, pageIndex: $pageIndex, userProfile: $userProfile, error: $error)';
+    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, followersList: $followersList, followingsList: $followingsList, errorMessage: $errorMessage, profileLoading: $profileLoading, loading: $loading, tweetsloading: $tweetsloading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, myPostsIndex: $myPostsIndex, myLikedPostsIndex: $myLikedPostsIndex, userProfile: $userProfile, error: $error)';
   }
 
   @override
@@ -464,8 +481,10 @@ class _$UserProfileStateImpl implements _UserProfileState {
                 other.isFollowed == isFollowed) &&
             (identical(other.screenIndex, screenIndex) ||
                 other.screenIndex == screenIndex) &&
-            (identical(other.pageIndex, pageIndex) ||
-                other.pageIndex == pageIndex) &&
+            (identical(other.myPostsIndex, myPostsIndex) ||
+                other.myPostsIndex == myPostsIndex) &&
+            (identical(other.myLikedPostsIndex, myLikedPostsIndex) ||
+                other.myLikedPostsIndex == myLikedPostsIndex) &&
             (identical(other.userProfile, userProfile) ||
                 other.userProfile == userProfile) &&
             (identical(other.error, error) || other.error == error));
@@ -487,7 +506,8 @@ class _$UserProfileStateImpl implements _UserProfileState {
       isMuted,
       isFollowed,
       screenIndex,
-      pageIndex,
+      myPostsIndex,
+      myLikedPostsIndex,
       userProfile,
       error);
 
@@ -514,7 +534,8 @@ abstract class _UserProfileState implements UserProfileState {
       final bool isMuted,
       final bool isFollowed,
       final int screenIndex,
-      final int pageIndex,
+      final int myPostsIndex,
+      final int myLikedPostsIndex,
       required final UserProfile userProfile,
       final String? error}) = _$UserProfileStateImpl;
 
@@ -545,7 +566,9 @@ abstract class _UserProfileState implements UserProfileState {
   @override
   int get screenIndex;
   @override
-  int get pageIndex;
+  int get myPostsIndex;
+  @override
+  int get myLikedPostsIndex;
   @override
   UserProfile get userProfile;
   @override

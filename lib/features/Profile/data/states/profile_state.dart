@@ -20,7 +20,8 @@ class UserProfileState with _$UserProfileState {
     @Default(false) bool isMuted,
     @Default(false) bool isFollowed,
     @Default(0) int screenIndex,
-    @Default(0) int pageIndex,
+    @Default(0) int myPostsIndex,
+    @Default(0) int myLikedPostsIndex,
     required UserProfile userProfile,
     String? error, // Add an error field for handling errors
   }) = _UserProfileState;

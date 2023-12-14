@@ -30,11 +30,15 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
     final tweetprov = ref.watch(tweetNotifierProvider);
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 65,
         backgroundColor: AppColors.pureBlack,
-        title: Text(
+        title: const Text(
           'Reposted by',
-          style: AppTextStyle.textThemeDark.headlineSmall!
-              .copyWith(color: AppColors.whiteColor),
+          style: TextStyle(
+            color: AppColors.whiteColor,
+            fontSize: 22,
+            fontFamily: 'Chirp',
+          ),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -47,10 +51,7 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
         ),
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(1.0),
-          child: Divider(
-            color: AppColors.whiteColor,
-            thickness: 0.1,
-          ),
+          child: Divider(color: AppColors.whiteColor, thickness: 0.1),
         ),
       ),
       body: tweetprov.loading
@@ -76,7 +77,7 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
                                 .likersList
                                 .data![index]
                                 .profileImageURL ??
-                            ''),
+                            'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
                         radius: 20,
                       ),
                     ),
@@ -92,24 +93,25 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
                         color: AppColors.lightGray,
                       ),
                     ),
-                    trailing: retweeter.isFollowed!
-                        ? Container(
-                            width: 100,
-                            height: 40,
-                            child: CustomButton(
-                              text: 'Following',
-                              onPressed: () {},
-                              filled: false,
-                            ),
-                          )
-                        : Container(
-                            width: 100,
-                            height: 40,
-                            child: CustomButton(
-                              text: 'Follow',
-                              onPressed: () {},
-                            ),
-                          ));
+                    // trailing: retweeter.isFollowed!
+                    //     ? Container(
+                    //         width: 100,
+                    //         height: 40,
+                    //         child: CustomButton(
+                    //           text: 'Following',
+                    //           onPressed: () {},
+                    //           filled: false,
+                    //         ),
+                    //       )
+                    //     : Container(
+                    //         width: 100,
+                    //         height: 40,
+                    //         child: CustomButton(
+                    //           text: 'Follow',
+                    //           onPressed: () {},
+                    //         ),
+                    //       )
+                );
               },
             ),
     );

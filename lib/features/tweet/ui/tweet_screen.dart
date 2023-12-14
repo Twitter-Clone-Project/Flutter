@@ -49,11 +49,15 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
     final homeProvider = ref.watch(homeNotifierProvider);
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 65,
         backgroundColor: AppColors.pureBlack,
-        title: Text(
+        title: const Text(
           'Post',
-          style: AppTextStyle.textThemeDark.headlineSmall!
-              .copyWith(color: AppColors.whiteColor),
+          style: TextStyle(
+            color: AppColors.whiteColor,
+            fontSize: 22,
+            fontFamily: 'Chirp',
+          ),
         ),
         leading: IconButton(
           icon: const Icon(

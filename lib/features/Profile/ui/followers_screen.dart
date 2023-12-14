@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
@@ -18,13 +19,13 @@ class FollowersScreen extends StatefulHookConsumerWidget {
 }
 
 class _FollowersScreenState extends ConsumerState<FollowersScreen> {
+  final RefreshController _controller = RefreshController();
+
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 0), () {
-      ref
-          .read(profileNotifierProvider.notifier)
-          .getFollowers(username: widget.username);
+      _onRefresh();
     });
   }
 
@@ -101,33 +102,37 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
                           },
                           child: CircleAvatar(
                             backgroundColor: AppColors.whiteColor,
-                            backgroundImage: NetworkImage(follower.imageUrl ?? ''),
+                            backgroundImage: NetworkImage(follower.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
                             radius: 20,
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              follower.name!,
-                              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                follower.name!,
+                                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            Text(
-                              '@${follower.username}',
-                              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                                color: AppColors.lightGray,
+                              Text(
+                                '@${follower.username}',
+                                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                                  color: AppColors.lightGray,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
-                trailing: buildTrailingWidget(follower, context),
+                // trailing: buildTrailingWidget(follower, context),
               ),
               const SizedBox(height: 4,),
               // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
@@ -153,8 +158,9 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
             horizontalPadding: 20,
             text: follower.isFollowing! ? 'Following' : 'Follow',
             onPressed: () async {
-              // ref.read(profileNotifierProvider.notifier)
-              //     .toggleFollowStatus(follower.username!);
+              ref.read(profileNotifierProvider.notifier)
+                  .toggleFollowStatus(follower.username!);
+              _onRefresh();
             },
             filled: false,
           ),
@@ -162,5 +168,13 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
       ),
     );
   }
-
+  loadData() async {
+    await       ref
+        .read(profileNotifierProvider.notifier)
+        .getFollowers(username: widget.username);
+  }
+  void _onRefresh() async {
+    await loadData();
+    _controller.refreshCompleted();
+  }
 }
