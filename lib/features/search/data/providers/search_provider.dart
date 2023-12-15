@@ -54,6 +54,13 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
       );
     }
   }
+  Future<void> resetSearchedUsers() async {
+    state = state.copyWith(
+      usersList: const UsersList(data: []), // Assuming UsersList has a factory method for an empty state
+      loading: false,
+      errorMessage: null,
+    );
+  }
 
 }
 

@@ -25,9 +25,12 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
     _searchFocusNode = FocusNode();
 
     // Request focus on the search field when the screen is first opened
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       FocusScope.of(context).requestFocus(_searchFocusNode);
     });
+
+    // Reset searched users
+    ref.read(searchNotifierProvider.notifier).resetSearchedUsers();
 
     Future.delayed(
       const Duration(seconds: 0),
@@ -36,6 +39,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
       },
     );
   }
+
 
   @override
   void dispose() {
@@ -70,14 +74,18 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                 height: 40,
                 child: TextField(
                   onChanged: (String value) async {
-                    await ref
-                        .read(searchNotifierProvider.notifier)
-                        .getSearchedUsers(query: value);
+                    if(value!=""){
+                      await ref
+                          .read(searchNotifierProvider.notifier)
+                          .getSearchedUsers(query: value);
+                    }
+
                   },
                   controller: _searchController,
                   focusNode: _searchFocusNode,
                   onSubmitted: (value) {
-                    // Handle search logic here
+                    Navigator.pushNamed(context, Routes.searchAllResultsScreen, arguments: value);
+
                   },
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(10).copyWith(

@@ -57,3 +57,18 @@ Map<String, dynamic> _$$UsersListImplToJson(_$UsersListImpl instance) =>
     <String, dynamic>{
       'data': instance.data,
     };
+
+_$TweetListImpl _$$TweetListImplFromJson(Map<String, dynamic> json) =>
+    _$TweetListImpl(
+      data: (json['data'] as List<dynamic>?)
+              ?.map((e) => Tweet.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      total: json['total'] as int?,
+    );
+
+Map<String, dynamic> _$$TweetListImplToJson(_$TweetListImpl instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+      'total': instance.total,
+    };

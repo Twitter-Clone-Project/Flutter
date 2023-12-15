@@ -654,3 +654,164 @@ abstract class _UsersList implements UsersList {
   _$$UsersListImplCopyWith<_$UsersListImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+TweetList _$TweetListFromJson(Map<String, dynamic> json) {
+  return _TweetList.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TweetList {
+  List<Tweet> get data => throw _privateConstructorUsedError;
+  int? get total => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TweetListCopyWith<TweetList> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TweetListCopyWith<$Res> {
+  factory $TweetListCopyWith(TweetList value, $Res Function(TweetList) then) =
+      _$TweetListCopyWithImpl<$Res, TweetList>;
+  @useResult
+  $Res call({List<Tweet> data, int? total});
+}
+
+/// @nodoc
+class _$TweetListCopyWithImpl<$Res, $Val extends TweetList>
+    implements $TweetListCopyWith<$Res> {
+  _$TweetListCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? total = freezed,
+  }) {
+    return _then(_value.copyWith(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Tweet>,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TweetListImplCopyWith<$Res>
+    implements $TweetListCopyWith<$Res> {
+  factory _$$TweetListImplCopyWith(
+          _$TweetListImpl value, $Res Function(_$TweetListImpl) then) =
+      __$$TweetListImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<Tweet> data, int? total});
+}
+
+/// @nodoc
+class __$$TweetListImplCopyWithImpl<$Res>
+    extends _$TweetListCopyWithImpl<$Res, _$TweetListImpl>
+    implements _$$TweetListImplCopyWith<$Res> {
+  __$$TweetListImplCopyWithImpl(
+      _$TweetListImpl _value, $Res Function(_$TweetListImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? total = freezed,
+  }) {
+    return _then(_$TweetListImpl(
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<Tweet>,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TweetListImpl implements _TweetList {
+  const _$TweetListImpl({final List<Tweet> data = const [], this.total})
+      : _data = data;
+
+  factory _$TweetListImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TweetListImplFromJson(json);
+
+  final List<Tweet> _data;
+  @override
+  @JsonKey()
+  List<Tweet> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_data);
+  }
+
+  @override
+  final int? total;
+
+  @override
+  String toString() {
+    return 'TweetList(data: $data, total: $total)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TweetListImpl &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.total, total) || other.total == total));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_data), total);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TweetListImplCopyWith<_$TweetListImpl> get copyWith =>
+      __$$TweetListImplCopyWithImpl<_$TweetListImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TweetListImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TweetList implements TweetList {
+  const factory _TweetList({final List<Tweet> data, final int? total}) =
+      _$TweetListImpl;
+
+  factory _TweetList.fromJson(Map<String, dynamic> json) =
+      _$TweetListImpl.fromJson;
+
+  @override
+  List<Tweet> get data;
+  @override
+  int? get total;
+  @override
+  @JsonKey(ignore: true)
+  _$$TweetListImplCopyWith<_$TweetListImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

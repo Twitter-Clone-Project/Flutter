@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../home/data/models/home_response.dart';
+
 part 'search_response.freezed.dart';
 part 'search_response.g.dart';
 
@@ -59,4 +61,19 @@ class UsersList with _$UsersList {
 
   factory UsersList.fromJson(Map<String, dynamic> json) =>
       _$UsersListFromJson(json);
+}
+
+TweetList tweetListFromJson(String str) =>
+    TweetList.fromJson(json.decode(str));
+
+String tweetListToJson(TweetList data) => json.encode(data.toJson());
+
+@freezed
+class TweetList with _$TweetList {
+  const factory TweetList({
+    @Default([]) List<Tweet> data,
+    int? total,
+  }) = _TweetList;
+  factory TweetList.fromJson(Map<String, dynamic> json) =>
+      _$TweetListFromJson(json);
 }
