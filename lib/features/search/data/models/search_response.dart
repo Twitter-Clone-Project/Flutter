@@ -28,3 +28,35 @@ TrendingList trendResponseFromJson(String str) =>
     TrendingList.fromJson(json.decode(str));
 
 String trendResponseToJson(TrendingList data) => json.encode(data.toJson());
+
+
+
+//Searched Users List
+UsersList UsersResponseFromJson(String str) =>
+    UsersList.fromJson(json.decode(str));
+
+String UsersResponseToJson(UsersList data) => json.encode(data.toJson());
+
+@freezed
+class UserData with _$UserData {
+  const factory UserData({
+    String? id,
+    String? email,
+    String? name,
+    String? username,
+    String? profileImageUrl,
+  }) = _UserData;
+
+  factory UserData.fromJson(Map<String, dynamic> json) =>
+      _$UserDataFromJson(json);
+}
+
+@freezed
+class UsersList with _$UsersList {
+  const factory UsersList({
+    List<UserData>? data,
+  }) = _UsersList;
+
+  factory UsersList.fromJson(Map<String, dynamic> json) =>
+      _$UsersListFromJson(json);
+}

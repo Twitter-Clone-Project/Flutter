@@ -40,4 +40,7 @@ class EndPoints {
   static getTrendingData() => "/trends";
   static getFollowersData(String username) => "/users/$username/followers";
   static getFollowingData(String username) => "/users/$username/followings";
+
+  static searchUsers(String query) => "/users/search?query=$query";
+
 }

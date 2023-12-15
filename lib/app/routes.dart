@@ -5,6 +5,7 @@ import 'package:x_clone/features/Profile/ui/full_screen_image.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:flutter/material.dart';
 import 'package:x_clone/features/home/ui/add_tweet_screen.dart';
+import 'package:x_clone/features/search/ui/search_results_screen.dart';
 
 import 'package:x_clone/features/tweet/ui/likers_screen.dart';
 import 'package:x_clone/features/tweet/ui/retweeters_screen.dart';
@@ -42,6 +43,8 @@ class Routes {
 
   static const String followersScreen = "/followersScreen";
   static const String followingsScreen = "/followingsScreen";
+
+  static const String searchResultsScreen = "/searchResultsScreen";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -122,6 +125,8 @@ class Routes {
                 ));
       case editProfileScreen:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
+      case searchResultsScreen:
+        return MaterialPageRoute(builder: (_) => const SearchResultsScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

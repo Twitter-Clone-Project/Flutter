@@ -35,6 +35,26 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
       );
     }
   }
+
+  Future<void> getSearchedUsers({required String query}) async {
+    state = state.copyWith(
+      loading: true,
+    );
+    final UsersList users =
+    await searchRepository.searchUsers(query: query);
+    if (users.data != null) {
+      state = state.copyWith(
+        usersList: users,
+        loading: false,
+      );
+    } else {
+      state = state.copyWith(
+        errorMessage: 'Failed to fetch users',
+        loading: false,
+      );
+    }
+  }
+
 }
 
 final searchNotifierProvider =

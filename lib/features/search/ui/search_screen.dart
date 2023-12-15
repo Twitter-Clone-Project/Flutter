@@ -59,7 +59,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           title: SizedBox(
             height: 40,
             child: TextField(
-              //controller: searchController,
+              onTap: () {
+                Navigator.pushNamed(context, Routes.searchResultsScreen);
+              },              //controller: searchController,
               onSubmitted: (value) {},
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(10).copyWith(

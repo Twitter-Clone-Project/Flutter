@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SearchState {
   TrendingList get trendingList => throw _privateConstructorUsedError;
+  UsersList get usersList => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   int get screenIndex => throw _privateConstructorUsedError;
@@ -34,11 +35,13 @@ abstract class $SearchStateCopyWith<$Res> {
   @useResult
   $Res call(
       {TrendingList trendingList,
+      UsersList usersList,
       String? errorMessage,
       bool loading,
       int screenIndex});
 
   $TrendingListCopyWith<$Res> get trendingList;
+  $UsersListCopyWith<$Res> get usersList;
 }
 
 /// @nodoc
@@ -55,6 +58,7 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   @override
   $Res call({
     Object? trendingList = null,
+    Object? usersList = null,
     Object? errorMessage = freezed,
     Object? loading = null,
     Object? screenIndex = null,
@@ -64,6 +68,10 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
           ? _value.trendingList
           : trendingList // ignore: cast_nullable_to_non_nullable
               as TrendingList,
+      usersList: null == usersList
+          ? _value.usersList
+          : usersList // ignore: cast_nullable_to_non_nullable
+              as UsersList,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -86,6 +94,14 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
       return _then(_value.copyWith(trendingList: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UsersListCopyWith<$Res> get usersList {
+    return $UsersListCopyWith<$Res>(_value.usersList, (value) {
+      return _then(_value.copyWith(usersList: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -98,12 +114,15 @@ abstract class _$$SearchStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {TrendingList trendingList,
+      UsersList usersList,
       String? errorMessage,
       bool loading,
       int screenIndex});
 
   @override
   $TrendingListCopyWith<$Res> get trendingList;
+  @override
+  $UsersListCopyWith<$Res> get usersList;
 }
 
 /// @nodoc
@@ -118,6 +137,7 @@ class __$$SearchStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? trendingList = null,
+    Object? usersList = null,
     Object? errorMessage = freezed,
     Object? loading = null,
     Object? screenIndex = null,
@@ -127,6 +147,10 @@ class __$$SearchStateImplCopyWithImpl<$Res>
           ? _value.trendingList
           : trendingList // ignore: cast_nullable_to_non_nullable
               as TrendingList,
+      usersList: null == usersList
+          ? _value.usersList
+          : usersList // ignore: cast_nullable_to_non_nullable
+              as UsersList,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -148,6 +172,7 @@ class __$$SearchStateImplCopyWithImpl<$Res>
 class _$SearchStateImpl implements _SearchState {
   const _$SearchStateImpl(
       {this.trendingList = const TrendingList(data: []),
+      this.usersList = const UsersList(data: []),
       this.errorMessage = null,
       this.loading = true,
       this.screenIndex = 0});
@@ -155,6 +180,9 @@ class _$SearchStateImpl implements _SearchState {
   @override
   @JsonKey()
   final TrendingList trendingList;
+  @override
+  @JsonKey()
+  final UsersList usersList;
   @override
   @JsonKey()
   final String? errorMessage;
@@ -167,7 +195,7 @@ class _$SearchStateImpl implements _SearchState {
 
   @override
   String toString() {
-    return 'SearchState(trendingList: $trendingList, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex)';
+    return 'SearchState(trendingList: $trendingList, usersList: $usersList, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex)';
   }
 
   @override
@@ -177,6 +205,8 @@ class _$SearchStateImpl implements _SearchState {
             other is _$SearchStateImpl &&
             (identical(other.trendingList, trendingList) ||
                 other.trendingList == trendingList) &&
+            (identical(other.usersList, usersList) ||
+                other.usersList == usersList) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.loading, loading) || other.loading == loading) &&
@@ -186,7 +216,7 @@ class _$SearchStateImpl implements _SearchState {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, trendingList, errorMessage, loading, screenIndex);
+      runtimeType, trendingList, usersList, errorMessage, loading, screenIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -198,12 +228,15 @@ class _$SearchStateImpl implements _SearchState {
 abstract class _SearchState implements SearchState {
   const factory _SearchState(
       {final TrendingList trendingList,
+      final UsersList usersList,
       final String? errorMessage,
       final bool loading,
       final int screenIndex}) = _$SearchStateImpl;
 
   @override
   TrendingList get trendingList;
+  @override
+  UsersList get usersList;
   @override
   String? get errorMessage;
   @override
