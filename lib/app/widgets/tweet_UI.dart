@@ -84,6 +84,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     final String tweetId = widget.tweet.id ?? '';
     final String date = widget.tweet.createdAt ?? '';
     bool isRetweeted = widget.tweet.isRetweeted ?? false;
+    bool isliked = widget.tweet.isRetweeted ?? false;
+
     int? retweetCount = widget.tweet.retweetsCount;
     int? likesCount = widget.tweet.likesCount;
     String? text = widget.tweet.text;
@@ -91,6 +93,9 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     String handle = widget.tweet.user?.username ?? '';
     int? repliesCount = widget.tweet.repliesCount;
     if (widget.whom == 0) {
+      isliked =
+          ref.watch(homeNotifierProvider).homeResponse.data[index].isLiked ??
+              false;
       isRetweeted = ref
               .watch(homeNotifierProvider)
               .homeResponse
@@ -128,97 +133,107 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
               .user!
               .username ??
           '';
-    }
-    else if (widget.whom == 1) {
+    } else if (widget.whom == 1) {
+      isliked = ref
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .isLiked ??
+          false;
       isRetweeted = ref
-          .watch(profileNotifierProvider)
-          .profileTweetsResponse
-          .data[index]
-          .isRetweeted ??
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .isRetweeted ??
           false;
       retweetCount = ref
-          .watch(profileNotifierProvider)
-          .profileTweetsResponse
-          .data[index]
-          .retweetsCount ??
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .retweetsCount ??
           0;
       likesCount = ref
-          .watch(profileNotifierProvider)
-          .profileTweetsResponse
-          .data[index]
-          .likesCount ??
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .likesCount ??
           0;
       repliesCount = ref
-          .watch(profileNotifierProvider)
-          .profileTweetsResponse
-          .data[index]
-          .repliesCount ??
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .repliesCount ??
           0;
       text = ref
-          .watch(profileNotifierProvider)
-          .profileTweetsResponse
-          .data[index]
-          .text ??
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .text ??
           '';
       userName = ref
-          .watch(profileNotifierProvider)
-          .profileTweetsResponse
-          .data[index]
-          .user!
-          .screenName ??
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .user!
+              .screenName ??
           '';
       handle = ref
-          .watch(profileNotifierProvider)
-          .profileTweetsResponse
-          .data[index]
-          .user!
-          .username ??
+              .watch(profileNotifierProvider)
+              .profileTweetsResponse
+              .data[index]
+              .user!
+              .username ??
           '';
-    }
-    else if (widget.whom == 2) {
+    } else if (widget.whom == 2) {
+      isliked = ref
+              .watch(profileNotifierProvider)
+              .profileLikedTweetsResponse
+              .data[index]
+              .isLiked ??
+          false;
       isRetweeted = ref
-          .watch(profileNotifierProvider)
-          .profileLikedTweetsResponse
-          .data[index]
-          .isRetweeted ??
+              .watch(profileNotifierProvider)
+              .profileLikedTweetsResponse
+              .data[index]
+              .isRetweeted ??
           false;
       retweetCount = ref
-          .watch(profileNotifierProvider)
-          .profileLikedTweetsResponse
-          .data[index]
-          .retweetsCount ??
+              .watch(profileNotifierProvider)
+              .profileLikedTweetsResponse
+              .data[index]
+              .retweetsCount ??
           0;
       likesCount = ref
-          .watch(profileNotifierProvider)
-          .profileLikedTweetsResponse
-          .data[index]
-          .likesCount ??
+              .watch(profileNotifierProvider)
+              .profileLikedTweetsResponse
+              .data[index]
+              .likesCount ??
           0;
       repliesCount = ref
-          .watch(profileNotifierProvider)
-          .profileLikedTweetsResponse
-          .data[index]
-          .repliesCount ??
+              .watch(profileNotifierProvider)
+              .profileLikedTweetsResponse
+              .data[index]
+              .repliesCount ??
           0;
       text = ref
-          .watch(profileNotifierProvider)
-          .profileLikedTweetsResponse
-          .data[index]
-          .text ??
+              .watch(profileNotifierProvider)
+              .profileLikedTweetsResponse
+              .data[index]
+              .text ??
           '';
       userName = ref
-          .watch(profileNotifierProvider)
-          .profileLikedTweetsResponse
-          .data[index]
-          .user!
-          .screenName ??
+              .watch(profileNotifierProvider)
+              .profileLikedTweetsResponse
+              .data[index]
+              .user!
+              .screenName ??
           '';
       handle = ref
-          .watch(profileNotifierProvider)
-          .profileLikedTweetsResponse
-          .data[index]
-          .user!
-          .username ??
+              .watch(profileNotifierProvider)
+              .profileLikedTweetsResponse
+              .data[index]
+              .user!
+              .username ??
           '';
     }
     // Handle Images Of Tweet
@@ -335,7 +350,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                     .addRetweet(tweetId: tweetId!),
                                 ref
                                     .read(profileNotifierProvider.notifier)
-                                    .addRetweet(tweetId: tweetId!),
+                                    .addRetweet(
+                                        tweetId: tweetId!, whom: widget.whom),
                               }
                             : {
                                 ref
@@ -343,7 +359,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                     .deleteRetweet(tweetId: tweetId!),
                                 ref
                                     .read(profileNotifierProvider.notifier)
-                                    .deleteRetweet(tweetId: tweetId!),
+                                    .deleteRetweet(
+                                        tweetId: tweetId!, whom: widget.whom),
                               };
                       },
                     ),
@@ -353,12 +370,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                       onTap: () {},
                     ),
                     LikeButton(
-                      isLiked: ref
-                              .watch(homeNotifierProvider)
-                              .homeResponse
-                              .data[index]
-                              .isLiked ??
-                          false,
+                      isLiked: isliked,
                       size: 23,
                       likeCount: likesCount,
                       countBuilder: (likecount, isLiked, text) {
@@ -381,7 +393,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                     .addLike(tweetId: tweetId!),
                                 ref
                                     .read(profileNotifierProvider.notifier)
-                                    .addLike(tweetId: tweetId!),
+                                    .addLike(
+                                        tweetId: tweetId!, whom: widget.whom),
                               }
                             : {
                                 ref
@@ -389,7 +402,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                     .deleteLike(tweetId: tweetId!),
                                 ref
                                     .read(profileNotifierProvider.notifier)
-                                    .deleteLike(tweetId: tweetId!),
+                                    .deleteLike(
+                                        tweetId: tweetId!, whom: widget.whom),
                               };
                       },
                       likeBuilder: (isLiked) {

@@ -5,18 +5,22 @@ import '../../home/ui/navigation_screen.dart';
 import '../data/providers/auth_provider.dart';
 import 'intro_screen.dart';
 
-
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref, child) {
-      return ref
-          .watch(authNotifierProvider.select((value) => value.isLogin))==true && ref
-          .watch(authNotifierProvider.select((value) => value.user?.isConfirmed))==true
-
-          ?const NavigationScreen():const IntroScreen();
-    });
+    return Consumer(
+      builder: (context, ref, child) {
+        return ref.watch(authNotifierProvider
+                        .select((value) => value.isLogin)) ==
+                    true &&
+                ref.watch(authNotifierProvider
+                        .select((value) => value.user?.isConfirmed)) ==
+                    true
+            ? const NavigationScreen()
+            : const IntroScreen();
+      },
+    );
   }
 }
