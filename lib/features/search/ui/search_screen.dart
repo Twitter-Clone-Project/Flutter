@@ -100,18 +100,30 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount:
-                ref.watch(searchNotifierProvider).trendingList.data!.length,
-                itemBuilder: (ctx, index) => ListTile(
-                  title: Text(
-                    '${index + 1}. Trending',
-                    style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.bold, color: AppColors.darkGray),
-                  ),
-                  subtitle: Text(
-                    '#${ref.watch(searchNotifierProvider).trendingList.data![index].name}',
-                    style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
+                itemCount: ref.watch(searchNotifierProvider).trendingList.data!.length,
+                itemBuilder: (ctx, index) => GestureDetector(
+                  onTap: () {
+                    // Navigate to search_allresults_screen with the trend as a query
+                    String trendQuery = ref.watch(searchNotifierProvider).trendingList.data![index].name!;
+                    Navigator.pushNamed(
+                      context,
+                      Routes.searchAllResultsScreen,
+                      arguments: "$trendQuery",
+                    );
+                  },
+                  child: ListTile(
+                    title: Text(
+                      '${index + 1}. Trending',
+                      style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.darkGray,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '#${ref.watch(searchNotifierProvider).trendingList.data![index].name}',
+                      style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

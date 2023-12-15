@@ -25,13 +25,13 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
   @override
   void initState() {
     super.initState();
-    _searchController = TextEditingController();
+    _searchController = TextEditingController(text: widget.query); // Set the initial text
     _searchFocusNode = FocusNode();
     _tabController = TabController(length: 2, vsync: this);
 
     Future.delayed(
       const Duration(seconds: 0),
-      () {
+          () {
         ref.read(searchNotifierProvider.notifier).fetchTrendingData();
       },
     );
@@ -53,73 +53,74 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-            backgroundColor: AppColors.pureBlack,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white, // Set the color of the back button
-              ),
-              onPressed: () {
-                // Dismiss the keyboard before navigating back
-                FocusScope.of(context).unfocus();
-                Navigator.pop(context);
+          backgroundColor: AppColors.pureBlack,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+            },
+          ),
+          title: SizedBox(
+            height: 40,
+            child: TextField(
+              controller: _searchController,
+              focusNode: _searchFocusNode,
+              onTap: () {
+                Navigator.pushNamed(context, Routes.searchResultsScreen);
               },
-            ),
-            title: SizedBox(
-              height: 40,
-              child: TextField(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.searchResultsScreen);
-                },              //controller: searchController,
-                onSubmitted: (value) {},
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(10).copyWith(
-                    left: 20,
-                  ),
-                  fillColor: AppColors.borderDarkGray,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: const BorderSide(
-                      color: AppColors.borderDarkGray,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: const BorderSide(
-                      color: AppColors.borderDarkGray,
-                    ),
-                  ),
-                  hintText: 'Search X',
+              onSubmitted: (value) {},
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(10).copyWith(
+                  left: 20,
                 ),
+                fillColor: AppColors.borderDarkGray,
+                filled: true,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50),
+                  borderSide: const BorderSide(
+                    color: AppColors.borderDarkGray,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50),
+                  borderSide: const BorderSide(
+                    color: AppColors.borderDarkGray,
+                  ),
+                ),
+                hintText: 'Search X',
               ),
             ),
-            bottom: const TabBar(
-              tabs: [
-                Tab(
-                  child: Text(
-                    "Tweets",
-                    style: TextStyle(
-                      color: AppColors.whiteColor,
-                      fontSize: 16,
-                      fontFamily:
-                      'Chirp', // Set your custom font here
-                    ),
+          ),
+          bottom: const TabBar(
+            tabs: [
+              Tab(
+                child: Text(
+                  "Tweets",
+                  style: TextStyle(
+                    color: AppColors.whiteColor,
+                    fontSize: 16,
+                    fontFamily: 'Chirp',
                   ),
                 ),
-                Tab(
-                  child: Text(
-                    "Users",
-                    style: TextStyle(
-                      color: AppColors.whiteColor,
-                      fontSize: 16,
-                      fontFamily:
-                      'Chirp', // Set your custom font here
-                    ),
-                  ),                )
-              ],
-              indicatorColor: Colors.white, // Set your desired color here
-            )),
+              ),
+              Tab(
+                child: Text(
+                  "Users",
+                  style: TextStyle(
+                    color: AppColors.whiteColor,
+                    fontSize: 16,
+                    fontFamily: 'Chirp',
+                  ),
+                ),
+              )
+            ],
+            indicatorColor: Colors.white,
+          ),
+        ),
         body: TabBarView(
           children: [
             Text("tweets"),
