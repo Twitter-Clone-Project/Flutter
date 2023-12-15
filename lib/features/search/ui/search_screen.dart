@@ -60,7 +60,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             height: 40,
             child: TextField(
               onTap: () {
-                Navigator.pushNamed(context, Routes.searchResultsScreen);
+                Navigator.pushNamed(context, Routes.searchResultsScreen, arguments: "");
+
               },              //controller: searchController,
               onSubmitted: (value) {},
               decoration: InputDecoration(
@@ -93,7 +94,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                'Trends',
+                'Trending',
                 style: AppTextStyle.textThemeDark.headlineSmall!
                     .copyWith(fontWeight: FontWeight.bold),
               ),

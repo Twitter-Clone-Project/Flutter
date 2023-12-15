@@ -1158,7 +1158,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 ],
                               ),
                               const SizedBox(
-                                height: 12,
+                                height: 16,
                               )
                             ],
                           ),
@@ -1183,7 +1183,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           builder: (context) {
                             if (ref
                                     .watch(profileNotifierProvider)
-                                    .tweetsloading ==
+                                    .tweetsLoading ==
                                 false) {
                               return Expanded(
                                 child: TabBarView(
@@ -1204,7 +1204,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       footer: const ClassicFooter(
                                         loadingText: 'Load for more',
                                       ),
-                                      onLoading: _onLoading_Tweets,
+                                      onLoading: _onTweetsLoading,
                                       onRefresh: _onRefresh,
                                       child: ref
                                               .watch(profileNotifierProvider)
@@ -1281,7 +1281,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       footer: const ClassicFooter(
                                         loadingText: 'Load for more',
                                       ),
-                                      onLoading: _onLoading_LikedTweets,
+                                      onLoading: _onLikedTweetsLoading,
                                       onRefresh: _onRefresh,
                                       child: ref
                                               .watch(profileNotifierProvider)
@@ -1291,7 +1291,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           ? const Center(
                                               child: Text(
                                                 "No Tweets",
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: AppColors.whiteColor,
                                                   fontSize: 22,
                                                   fontFamily: 'Chirp',
@@ -1377,7 +1377,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     _LikedTweetsController.refreshCompleted();
   }
 
-  void _onLoading_Tweets() async {
+  void _onTweetsLoading() async {
     final provider = ref.read(profileNotifierProvider);
 
     if (provider.profileTweetsResponse.data.length ==
@@ -1393,7 +1393,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     }
   }
 
-  void _onLoading_LikedTweets() async {
+  void _onLikedTweetsLoading() async {
     final provider = ref.read(profileNotifierProvider);
 
     if (provider.profileLikedTweetsResponse.data.length ==
@@ -1412,13 +1412,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     await ref
         .read(profileNotifierProvider.notifier)
         .fetchUserProfile(widget.username!);
+    await ref.read(profileNotifierProvider.notifier).getUserTweets(
+      username: widget.username!,
+      page: tweetsPageIndex,
+    );
     await ref.read(profileNotifierProvider.notifier).getUserLikedTweets(
           username: widget.username!,
           page: likedTweetsPageIndex,
-        );
-    await ref.read(profileNotifierProvider.notifier).getUserTweets(
-          username: widget.username!,
-          page: tweetsPageIndex,
         );
   }
 

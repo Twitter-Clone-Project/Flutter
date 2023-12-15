@@ -128,13 +128,18 @@ class Routes {
       case editProfileScreen:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
       case searchResultsScreen:
-        return MaterialPageRoute(builder: (_) => const SearchResultsScreen());
+        var data = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => SearchResultsScreen(
+              query: data,
+            ));
       case searchAllResultsScreen:
         var data = settings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => SearchAllResultsScreen(
               query: data,
-            ));      default:
+            ));
+        default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
                   body: Center(

@@ -7,8 +7,8 @@ import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
 class SearchResultsScreen extends StatefulHookConsumerWidget {
-  const SearchResultsScreen({super.key});
-
+  const SearchResultsScreen({super.key, required this.query});
+  final String query;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _SearchResultsScreenState();
@@ -21,7 +21,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
   @override
   void initState() {
     super.initState();
-    _searchController = TextEditingController();
+    _searchController = TextEditingController(text: widget.query); // Set the initial text
     _searchFocusNode = FocusNode();
 
     // Request focus on the search field when the screen is first opened
@@ -30,7 +30,9 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
     });
 
     // Reset searched users
-    ref.read(searchNotifierProvider.notifier).resetSearchedUsers();
+    if(widget.query==""){
+      ref.read(searchNotifierProvider.notifier).resetSearchedUsers();
+    }
 
     Future.delayed(
       const Duration(seconds: 0),
@@ -89,7 +91,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                   },
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(10).copyWith(
-                      left: 24,
+                      left: 20,
                     ),
                     fillColor: Colors.transparent,
                     filled: true,
@@ -139,7 +141,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                           },
                           child: CircleAvatar(
                             backgroundColor: AppColors.whiteColor,
-                            backgroundImage: NetworkImage(user.profileImageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                            backgroundImage: NetworkImage(user.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
                             radius: 20,
                           ),
                         ),

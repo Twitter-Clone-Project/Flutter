@@ -304,7 +304,7 @@ mixin _$UserData {
   String? get email => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
-  String? get profileImageUrl => throw _privateConstructorUsedError;
+  String? get profileImageURL => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -322,7 +322,7 @@ abstract class $UserDataCopyWith<$Res> {
       String? email,
       String? name,
       String? username,
-      String? profileImageUrl});
+      String? profileImageURL});
 }
 
 /// @nodoc
@@ -342,7 +342,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? email = freezed,
     Object? name = freezed,
     Object? username = freezed,
-    Object? profileImageUrl = freezed,
+    Object? profileImageURL = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -361,9 +361,9 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageUrl: freezed == profileImageUrl
-          ? _value.profileImageUrl
-          : profileImageUrl // ignore: cast_nullable_to_non_nullable
+      profileImageURL: freezed == profileImageURL
+          ? _value.profileImageURL
+          : profileImageURL // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -382,7 +382,7 @@ abstract class _$$UserDataImplCopyWith<$Res>
       String? email,
       String? name,
       String? username,
-      String? profileImageUrl});
+      String? profileImageURL});
 }
 
 /// @nodoc
@@ -400,7 +400,7 @@ class __$$UserDataImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? name = freezed,
     Object? username = freezed,
-    Object? profileImageUrl = freezed,
+    Object? profileImageURL = freezed,
   }) {
     return _then(_$UserDataImpl(
       id: freezed == id
@@ -419,9 +419,9 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageUrl: freezed == profileImageUrl
-          ? _value.profileImageUrl
-          : profileImageUrl // ignore: cast_nullable_to_non_nullable
+      profileImageURL: freezed == profileImageURL
+          ? _value.profileImageURL
+          : profileImageURL // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -431,7 +431,7 @@ class __$$UserDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserDataImpl implements _UserData {
   const _$UserDataImpl(
-      {this.id, this.email, this.name, this.username, this.profileImageUrl});
+      {this.id, this.email, this.name, this.username, this.profileImageURL});
 
   factory _$UserDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserDataImplFromJson(json);
@@ -445,11 +445,11 @@ class _$UserDataImpl implements _UserData {
   @override
   final String? username;
   @override
-  final String? profileImageUrl;
+  final String? profileImageURL;
 
   @override
   String toString() {
-    return 'UserData(id: $id, email: $email, name: $name, username: $username, profileImageUrl: $profileImageUrl)';
+    return 'UserData(id: $id, email: $email, name: $name, username: $username, profileImageURL: $profileImageURL)';
   }
 
   @override
@@ -462,14 +462,14 @@ class _$UserDataImpl implements _UserData {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.username, username) ||
                 other.username == username) &&
-            (identical(other.profileImageUrl, profileImageUrl) ||
-                other.profileImageUrl == profileImageUrl));
+            (identical(other.profileImageURL, profileImageURL) ||
+                other.profileImageURL == profileImageURL));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, email, name, username, profileImageUrl);
+      Object.hash(runtimeType, id, email, name, username, profileImageURL);
 
   @JsonKey(ignore: true)
   @override
@@ -491,7 +491,7 @@ abstract class _UserData implements UserData {
       final String? email,
       final String? name,
       final String? username,
-      final String? profileImageUrl}) = _$UserDataImpl;
+      final String? profileImageURL}) = _$UserDataImpl;
 
   factory _UserData.fromJson(Map<String, dynamic> json) =
       _$UserDataImpl.fromJson;
@@ -505,7 +505,7 @@ abstract class _UserData implements UserData {
   @override
   String? get username;
   @override
-  String? get profileImageUrl;
+  String? get profileImageURL;
   @override
   @JsonKey(ignore: true)
   _$$UserDataImplCopyWith<_$UserDataImpl> get copyWith =>

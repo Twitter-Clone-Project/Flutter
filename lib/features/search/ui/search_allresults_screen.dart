@@ -8,7 +8,6 @@ import 'package:x_clone/theme/app_text_style.dart';
 
 class SearchAllResultsScreen extends StatefulHookConsumerWidget {
   const SearchAllResultsScreen({super.key, required this.query});
-
   final String query;
 
   @override
@@ -70,7 +69,8 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
               controller: _searchController,
               focusNode: _searchFocusNode,
               onTap: () {
-                Navigator.pushNamed(context, Routes.searchResultsScreen);
+                Navigator.pushNamed(context, Routes.searchResultsScreen, arguments: _searchController.text);
+
               },
               onSubmitted: (value) {},
               decoration: InputDecoration(
@@ -145,7 +145,7 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
                                 },
                                 child: CircleAvatar(
                                   backgroundColor: AppColors.whiteColor,
-                                  backgroundImage: NetworkImage(user.profileImageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                                  backgroundImage: NetworkImage(user.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
                                   radius: 20,
                                 ),
                               ),

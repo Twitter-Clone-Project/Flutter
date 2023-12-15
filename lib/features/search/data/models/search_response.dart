@@ -46,7 +46,7 @@ class UserData with _$UserData {
     String? email,
     String? name,
     String? username,
-    String? profileImageUrl,
+    String? profileImageURL,
   }) = _UserData;
 
   factory UserData.fromJson(Map<String, dynamic> json) =>
