@@ -1,4 +1,3 @@
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
@@ -18,7 +17,8 @@ class User with _$User {
     String? username,
     String? screenName,
     String? email,
-    @Default("https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg") String profileImageURL,
+    @Default("https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg")
+    String profileImageURL,
     bool? isConfirmed,
   }) = _User;
 

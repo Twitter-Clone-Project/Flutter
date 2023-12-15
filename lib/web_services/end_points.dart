@@ -6,7 +6,6 @@ class EndPoints {
   static const confirmEmail = "/auth/verifyEmail";
   static const forgetPassword = "/auth/forgetPassword";
   static const resetPassword = "/auth/resetPassword";
-
   static const addTweet = "/tweets/add";
   static const updateUsername = "/profile/updateUsername";
   static const updateEmail = "/profile/updateEmail";

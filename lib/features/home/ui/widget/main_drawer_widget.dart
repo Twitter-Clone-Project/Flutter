@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 import 'package:x_clone/theme/app_colors.dart';
 
@@ -14,9 +15,10 @@ class MainDrawer extends ConsumerWidget {
     final auth = ref.watch(authNotifierProvider);
     String _userName = auth.user?.name ?? '';
     String _userUserName = '@${auth.user?.username ?? ''}';
-    int _numberOfFollowing = 13; // TODO: Provider to get it when changed
-    int _numberOfFollowers = 0; // TODO: Provider to get it when changed
-
+    String _numberOfFollowing =
+        ref.watch(profileNotifierProvider).userProfile.followingsCount ?? '0';
+    String _numberOfFollowers =
+        ref.watch(profileNotifierProvider).userProfile.followersCount ?? '0';
     return SafeArea(
       child: Drawer(
         backgroundColor: AppColors.pureBlack,
@@ -97,8 +99,10 @@ class MainDrawer extends ConsumerWidget {
                   ),
                   title: InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.profileScreen,
-                          arguments: auth.user?.username);
+                      Navigator.pushNamed(
+                        context,
+                        Routes.profileScreen,
+                      );
                     },
                     child: Text(
                       'Profile',
@@ -107,110 +111,24 @@ class MainDrawer extends ConsumerWidget {
                     ),
                   ),
                 ),
-                ListTile(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.width * 0.01,
-                      horizontal: 0),
-                  leading: Icon(
-                    Icons.close,
-                    size: 30,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                  title: Text(
-                    'Premium',
-                    style: AppTextStyle.textThemeDark.headline5!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.width * 0.01,
-                      horizontal: 0),
-                  leading: Icon(
-                    Icons.bookmark_outline_rounded,
-                    size: 30,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                  title: Text(
-                    'Bookmarks',
-                    style: AppTextStyle.textThemeDark.headline5!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.width * 0.01,
-                      horizontal: 0),
-                  leading: Icon(
-                    Icons.list_alt_sharp,
-                    size: 30,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                  title: Text(
-                    'Lists',
-                    style: AppTextStyle.textThemeDark.headline5!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.width * 0.01,
-                      horizontal: 0),
-                  leading: Icon(
-                    Icons.egg_rounded,
-                    size: 30,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                  title: Text(
-                    'Spaces',
-                    style: AppTextStyle.textThemeDark.headline5!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.width * 0.01,
-                      horizontal: 0),
-                  leading: Icon(
-                    Icons.money,
-                    size: 30,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                  title: Text(
-                    'Monetisation',
-                    style: AppTextStyle.textThemeDark.headline5!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.01,
-                ),
-                const Divider(thickness: 1.5),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                ListTile(
-                  contentPadding: const EdgeInsets.all(0),
-                  leading: Text(
-                    'Professional Tools',
-                    style: AppTextStyle.textThemeDark.bodyText1!
-                        .copyWith(fontWeight: FontWeight.bold, fontSize: 19),
-                  ),
-                  trailing: const Icon(
-                    Icons.keyboard_arrow_down_sharp,
-                    size: 25,
-                  ),
-                ),
-                ListTile(
-                  contentPadding: const EdgeInsets.all(0),
-                  leading: Text(
-                    'Settings & Support',
-                    style: AppTextStyle.textThemeDark.bodyText1!
-                        .copyWith(fontWeight: FontWeight.bold, fontSize: 19),
-                  ),
-                  trailing: const Icon(
-                    Icons.keyboard_arrow_down_sharp,
-                    size: 25,
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.settingsScreen);
+                  },
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.width * 0.01,
+                        horizontal: 0),
+                    leading: Icon(
+                      Icons.settings,
+                      size: 30,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                    title: Text(
+                      'Settings',
+                      style: AppTextStyle.textThemeDark.headline5!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ],

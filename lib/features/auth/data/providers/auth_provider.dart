@@ -108,7 +108,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         screenName: state.user!.screenName,
         username: state.user!.username,
         name: name,
-        profileImageURL: profileImageURL?? "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
+        profileImageURL: profileImageURL ??
+            "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
       );
       state = state.copyWith(user: user);
 
@@ -263,6 +264,27 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       //     personalData: state.personalData.copyWith(deviceToken: fcmToken),
       //     isUpdatingFcmToken: true);
     } catch (_) {}
+  }
+
+  updateUsername({
+    required String newUsername,
+  }) async {
+    try {
+      final result = await _repo.updateUsername(
+        newUsername: newUsername,
+      );
+      User updatedUser = state.user!;
+      updatedUser = updatedUser.copyWith(name: newUsername);
+      if (result == true) {
+        state = state.copyWith(
+          user: updatedUser,
+        );
+      }
+      return true;
+    } catch (e) {
+      state = state.copyWith(errorMessage: e.toString());
+      return false;
+    }
   }
 
   // void resetErrorMessage() {
