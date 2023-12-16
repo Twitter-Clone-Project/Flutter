@@ -266,15 +266,32 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     } catch (_) {}
   }
 
-  updateUsername({
-    required String newUsername,
-  }) async {
+  updateUsername({required String newUsername}) async {
     try {
       final result = await _repo.updateUsername(
         newUsername: newUsername,
       );
       User updatedUser = state.user!;
-      updatedUser = updatedUser.copyWith(name: newUsername);
+      updatedUser = updatedUser.copyWith(username: newUsername);
+      if (result == true) {
+        state = state.copyWith(
+          user: updatedUser,
+        );
+      }
+      return true;
+    } catch (e) {
+      state = state.copyWith(errorMessage: e.toString());
+      return false;
+    }
+  }
+
+  updateEmail({required String newEmail}) async {
+    try {
+      final result = await _repo.updateEmail(
+        newEmail: newEmail,
+      );
+      User updatedUser = state.user!;
+      updatedUser = updatedUser.copyWith(email: newEmail);
       if (result == true) {
         state = state.copyWith(
           user: updatedUser,

@@ -2,7 +2,9 @@ import 'package:x_clone/features/Profile/ui/editprofile_screen.dart';
 import 'package:x_clone/features/Profile/ui/followers_screen.dart';
 import 'package:x_clone/features/Profile/ui/followings_screen.dart';
 import 'package:x_clone/features/Profile/ui/full_screen_image.dart';
+import 'package:x_clone/features/auth/ui/settings_ui/email_update_screen.dart';
 import 'package:x_clone/features/auth/ui/settings_ui/settings_screen.dart';
+import 'package:x_clone/features/auth/ui/settings_ui/username_update_screen.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:flutter/material.dart';
 import 'package:x_clone/features/home/ui/add_tweet_screen.dart';
@@ -41,6 +43,8 @@ class Routes {
   static const String retweetersScreen = "/retweetersScreen";
   static const String likersScreen = "/likersScreen";
   static const String settingsScreen = "/settingsScreen";
+  static const String usernameScreen = "/usernameScreen";
+  static const String emailScreen = "/emailScreen";
 
   static const String followersScreen = "/followersScreen";
   static const String followingsScreen = "/followingsScreen";
@@ -65,6 +69,10 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const reCAPTCHA());
       case settingsScreen:
         return MaterialPageRoute(builder: (_) => const SettingsScreen());
+      case usernameScreen:
+        return MaterialPageRoute(builder: (_) => const UsernameScreen());
+      case emailScreen:
+        return MaterialPageRoute(builder: (_) => const EmailScreen());
       case tweetScreen:
         var data = settings.arguments as Map;
         return MaterialPageRoute(

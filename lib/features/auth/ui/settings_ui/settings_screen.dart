@@ -51,21 +51,32 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
       ),
       body: Column(children: [
-        ListTile(
-          title: Text("Username", style: AppTextStyle.textThemeDark.bodyLarge!),
-          subtitle: Text(
-            "@${ref.watch(authNotifierProvider).user!.username!}",
-            style: AppTextStyle.textThemeDark.bodyLarge!
-                .copyWith(color: AppColors.lightThinTextGray),
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.usernameScreen);
+          },
+          child: ListTile(
+            title:
+                Text("Username", style: AppTextStyle.textThemeDark.bodyLarge!),
+            subtitle: Text(
+              "@${ref.watch(authNotifierProvider).user!.username!}",
+              style: AppTextStyle.textThemeDark.bodyLarge!
+                  .copyWith(color: AppColors.lightThinTextGray),
+            ),
           ),
         ),
-        ListTile(
-          title: Text("Email Address",
-              style: AppTextStyle.textThemeDark.bodyLarge!),
-          subtitle: Text(
-            "@${ref.watch(authNotifierProvider).user!.email}",
-            style: AppTextStyle.textThemeDark.bodyLarge!
-                .copyWith(color: AppColors.lightThinTextGray),
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.emailScreen);
+          },
+          child: ListTile(
+            title: Text("Email Address",
+                style: AppTextStyle.textThemeDark.bodyLarge!),
+            subtitle: Text(
+              "@${ref.watch(authNotifierProvider).user!.email}",
+              style: AppTextStyle.textThemeDark.bodyLarge!
+                  .copyWith(color: AppColors.lightThinTextGray),
+            ),
           ),
         ),
         ListTile(

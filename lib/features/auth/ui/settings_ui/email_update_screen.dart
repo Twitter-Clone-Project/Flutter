@@ -10,26 +10,26 @@ import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
-class UsernameScreen extends StatefulHookConsumerWidget {
-  const UsernameScreen({super.key});
+class EmailScreen extends StatefulHookConsumerWidget {
+  const EmailScreen({super.key});
   @override
-  ConsumerState<UsernameScreen> createState() => _UsernameScreenState();
+  ConsumerState<EmailScreen> createState() => _EmailScreenState();
 }
 
-class _UsernameScreenState extends ConsumerState<UsernameScreen> {
+class _EmailScreenState extends ConsumerState<EmailScreen> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _userNameController = TextEditingController(
-        text: ref.read(authNotifierProvider).user!.username ?? "");
-    _userNameeController = TextEditingController(
-        text: ref.read(authNotifierProvider).user!.username ?? "");
+    _emailController = TextEditingController(
+        text: ref.read(authNotifierProvider).user!.email ?? "");
+    _emaileController = TextEditingController(
+        text: ref.read(authNotifierProvider).user!.email ?? "");
     Future.delayed(const Duration(seconds: 0), () {});
   }
 
-  late TextEditingController _userNameController;
-  late TextEditingController _userNameeController;
+  late TextEditingController _emailController;
+  late TextEditingController _emaileController;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _UsernameScreenState extends ConsumerState<UsernameScreen> {
         toolbarHeight: 65,
         backgroundColor: AppColors.pureBlack,
         title: const Text(
-          'Change username',
+          'Change email',
           style: TextStyle(
             color: AppColors.whiteColor,
             fontSize: 22,
@@ -62,7 +62,7 @@ class _UsernameScreenState extends ConsumerState<UsernameScreen> {
       body: Column(
         children: [
           Form(
-            key: AppKeys.updateUserNameFormKey,
+            key: AppKeys.updateemailFormKey,
             child: Expanded(
               child: Column(
                 children: [
@@ -76,7 +76,7 @@ class _UsernameScreenState extends ConsumerState<UsernameScreen> {
                     ),
                     subtitle: TextFormField(
                       enabled: false,
-                      controller: _userNameeController,
+                      controller: _emaileController,
                       validator: (value) {
                         if (value != null) return null;
                         if (value!.isEmpty) {
@@ -95,7 +95,7 @@ class _UsernameScreenState extends ConsumerState<UsernameScreen> {
                           .copyWith(color: AppColors.lightThinTextGray),
                     ),
                     subtitle: TextFormField(
-                      controller: _userNameController,
+                      controller: _emailController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter a value';
@@ -122,12 +122,10 @@ class _UsernameScreenState extends ConsumerState<UsernameScreen> {
                 Spacer(),
                 TextButton(
                   onPressed: () {
-                    if (AppKeys.updateUserNameFormKey.currentState!
-                        .validate()) {
+                    if (AppKeys.updateemailFormKey.currentState!.validate()) {
                       var result = ref
                           .read(authNotifierProvider.notifier)
-                          .updateUsername(
-                              newUsername: _userNameController.text);
+                          .updateEmail(newEmail: _emailController.text);
                     }
                     Navigator.of(context).pop();
                   },
