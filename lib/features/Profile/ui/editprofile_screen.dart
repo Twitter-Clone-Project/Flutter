@@ -140,14 +140,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
         ),
         actions: [
           Container(
-            child: CustomButton(text: "Save", onPressed: onSubmit, filled: false,
-            horizontalPadding: 25,
-            verticalPadding: 1,),
+            child: CustomButton(
+              text: "Save",
+              onPressed: onSubmit,
+              filled: false,
+              horizontalPadding: 25,
+              verticalPadding: 1,
+            ),
           ),
-
         ],
       ),
-
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : Form(

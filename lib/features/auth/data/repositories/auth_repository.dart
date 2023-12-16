@@ -6,43 +6,37 @@ import '../../../../utils/constants.dart';
 import '../../../../utils/hive_manager.dart';
 import '../model/user.dart';
 
-
 abstract class AuthRepository {
   Future<User?> fetchUserData();
 
-  Future<User?> login({required String email,
+  Future<User?> login({
+    required String email,
     required String password,
   });
-  Future<bool?> forgetPassword(
-      {required String email,
-      }
-      );
-  Future<User?> register(
-      {required String username,
-      required String email,
-      required String name,
-      required String password,
-      required String birthDate,
-        required String reCaptchaText,
-      }
-);
-  Future<User?> confirmEmail(
-      {required String otp,
-      required String email,
-      required bool isSignUp,
-      }
-      );
-  Future<bool?> resetPassword(
-      {required String password,
-        required String passwordConfirm,
-        required String email,
-      }
-      );
-  Future<String?> resendOtp(
-      {
-        required String email,
-      }
-      );
+  Future<bool?> forgetPassword({
+    required String email,
+  });
+  Future<User?> register({
+    required String username,
+    required String email,
+    required String name,
+    required String password,
+    required String birthDate,
+    required String reCaptchaText,
+  });
+  Future<User?> confirmEmail({
+    required String otp,
+    required String email,
+    required bool isSignUp,
+  });
+  Future<bool?> resetPassword({
+    required String password,
+    required String passwordConfirm,
+    required String email,
+  });
+  Future<String?> resendOtp({
+    required String email,
+  });
 //   Future<User?> updateUser({String? phone, String? name});
   Future<void> registerFCMToken({required String token});
 
@@ -57,9 +51,51 @@ abstract class AuthRepository {
   User? getUserData();
 
   String? getToken();
+  Future<bool?> updateUsername({required String newUsername});
+  Future<bool?> updateEmail({required String newEmail});
 }
 
 class AuthRepositoryImpl implements AuthRepository {
+  @override
+  Future<bool?> updateUsername({required String newUsername}) async {
+    try {
+      final data = {
+        "newUsername": newUsername,
+      };
+      var response = await HttpClient.dio.patch(
+        EndPoints.updateUsername,
+        data: data,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      } else {
+        throw (response.data["message"]);
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<bool?> updateEmail({required String newEmail}) async {
+    try {
+      final data = {
+        "newEmail": newEmail,
+      };
+      var response = await HttpClient.dio.patch(
+        EndPoints.updateEmail,
+        data: data,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      } else {
+        throw (response.data["message"]);
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   @override
   Future<User?> fetchUserData() async {
     try {
@@ -73,38 +109,39 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User?> login(
-      {required String email,
-        required String password,
-      }) async {
+  Future<User?> login({
+    required String email,
+    required String password,
+  }) async {
     try {
       final data = {
         "email": email,
         "password": password,
       };
-      var response = await HttpClient.dio.post(EndPoints.login, data: data,);
+      var response = await HttpClient.dio.post(
+        EndPoints.login,
+        data: data,
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         _saveUserLoginResponse(response.data["data"]["token"]);
         _saveUserDataResponse(response.data["data"]["user"]);
         return User.fromJson(response.data["data"]["user"]);
       }
-      throw(response.data["message"]);
+      throw (response.data["message"]);
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<User?> register(
-      {required String username,
-        required String email,
-        required String name,
-        required String password,
-        required String birthDate,
-        required String reCaptchaText,
-
-      }
-      ) async {
+  Future<User?> register({
+    required String username,
+    required String email,
+    required String name,
+    required String password,
+    required String birthDate,
+    required String reCaptchaText,
+  }) async {
     try {
       final data = {
         "name": name,
@@ -115,13 +152,16 @@ class AuthRepositoryImpl implements AuthRepository {
         "dateOfBirth": birthDate,
         "gRecaptchaResponse": reCaptchaText,
       };
-      var response = await HttpClient.dio.post(EndPoints.register, data: data,);
+      var response = await HttpClient.dio.post(
+        EndPoints.register,
+        data: data,
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         // _saveUserLoginResponse(response.data["data"]["token"]);
         _saveUserDataResponse(response.data["data"]["user"]);
         return User.fromJson(response.data["data"]["user"]);
       } else {
-        throw(response.data["message"]);
+        throw (response.data["message"]);
       }
     } catch (e) {
       throw e.toString();
@@ -129,12 +169,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User?> confirmEmail(
-      {required String otp,
-        required String email,
-        required bool isSignUp,
-      }
-      ) async {
+  Future<User?> confirmEmail({
+    required String otp,
+    required String email,
+    required bool isSignUp,
+  }) async {
     print(otp.length);
     print(getToken());
     try {
@@ -142,19 +181,21 @@ class AuthRepositoryImpl implements AuthRepository {
         "email": email,
         "otp": otp,
       };
-      var response = await HttpClient.dio.post(EndPoints.confirmEmail, data: data,);
+      var response = await HttpClient.dio.post(
+        EndPoints.confirmEmail,
+        data: data,
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
-          if(isSignUp) {
-            _saveUserLoginResponse(response.data["data"]["token"]);
-          }
-          else{
-            _saveUserResetPassToken(response.data["data"]["token"]);
-          }
+        if (isSignUp) {
+          _saveUserLoginResponse(response.data["data"]["token"]);
+        } else {
+          _saveUserResetPassToken(response.data["data"]["token"]);
+        }
 
         _saveUserDataResponse(response.data["data"]["user"]);
         return User.fromJson(response.data["data"]["user"]);
       } else {
-        throw(response.data["message"]);
+        throw (response.data["message"]);
       }
     } catch (e) {
       throw e.toString();
@@ -162,48 +203,48 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<String?> resendOtp(
-      {
-        required String email,
-      }
-      ) async {
+  Future<String?> resendOtp({
+    required String email,
+  }) async {
     try {
       final data = {
         "email": email,
       };
-      var response = await HttpClient.dio.post(EndPoints.resendConfirmEmail, data: data,);
+      var response = await HttpClient.dio.post(
+        EndPoints.resendConfirmEmail,
+        data: data,
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.data["message"];
       } else {
-        throw(response.data["message"]);
+        throw (response.data["message"]);
       }
     } catch (e) {
       throw e.toString();
     }
   }
 
-
   @override
-  Future<bool?> resetPassword(
-      {required String password,
-        required String passwordConfirm,
-        required String email,
-      }
-      ) async {
-
+  Future<bool?> resetPassword({
+    required String password,
+    required String passwordConfirm,
+    required String email,
+  }) async {
     try {
       final data = {
         "email": email,
         "newPassword": password,
         "newPasswordConfirm": passwordConfirm,
       };
-      var response = await HttpClient.dio.patch(EndPoints.resetPassword, data: data,);
+      var response = await HttpClient.dio.patch(
+        EndPoints.resetPassword,
+        data: data,
+      );
       deleteResetTokenData();
       if (response.statusCode == 200 || response.statusCode == 201) {
-
         return true;
       } else {
-        throw(response.data["message"]);
+        throw (response.data["message"]);
       }
     } catch (e) {
       throw e.toString();
@@ -211,18 +252,21 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool?> forgetPassword(
-      {required String email,}) async {
+  Future<bool?> forgetPassword({
+    required String email,
+  }) async {
     try {
       final data = {
         "email": email,
       };
-      var response = await HttpClient.dio.post(EndPoints.forgetPassword, data: data,);
+      var response = await HttpClient.dio.post(
+        EndPoints.forgetPassword,
+        data: data,
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
-
         return true;
       } else {
-        throw(response.data["message"]);
+        throw (response.data["message"]);
       }
     } catch (e) {
       throw e.toString();
@@ -233,6 +277,7 @@ class AuthRepositoryImpl implements AuthRepository {
     HiveManager.addData(StorageKeys.tokenKey, token);
     // HiveManager.addData(StorageKeys.userId, response.userId);
   }
+
   void _saveUserResetPassToken(String token) {
     HiveManager.addData("resetToken", token);
   }
@@ -262,6 +307,7 @@ class AuthRepositoryImpl implements AuthRepository {
   void deleteTokenCachedData() {
     HiveManager.remove(StorageKeys.tokenKey);
   }
+
   @override
   void deleteResetTokenData() {
     HiveManager.remove("resetToken");
@@ -278,11 +324,13 @@ class AuthRepositoryImpl implements AuthRepository {
     final tokenData = HiveManager.getData(StorageKeys.tokenKey);
     return tokenData;
   }
+
   @override
   String? getResetToken() {
     final tokenData = HiveManager.getData("resetToken");
     return tokenData;
   }
+
   @override
   User? getUserData() {
     var data = HiveManager.getData(StorageKeys.userKey);
@@ -316,8 +364,6 @@ class AuthRepositoryImpl implements AuthRepository {
   //     rethrow;
   //   }
   // }
-
-
 }
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
