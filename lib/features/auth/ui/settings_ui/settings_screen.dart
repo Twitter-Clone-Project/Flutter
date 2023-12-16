@@ -87,6 +87,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             style: AppTextStyle.textThemeDark.bodyLarge!
                 .copyWith(color: AppColors.lightThinTextGray),
           ),
+        ),
+        ListTile(
+          title:
+              Text("Muted Users", style: AppTextStyle.textThemeDark.bodyLarge!),
+          subtitle: Text(
+            "List of your muted users.",
+            style: AppTextStyle.textThemeDark.bodyLarge!
+                .copyWith(color: AppColors.lightThinTextGray),
+          ),
         )
       ]),
     );

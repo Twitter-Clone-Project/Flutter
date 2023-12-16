@@ -104,7 +104,7 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         errorStyle:
                             TextStyle(color: Colors.red), // Error text color
                       ),

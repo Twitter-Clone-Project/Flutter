@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/app_keys.dart';
-import 'package:x_clone/app/routes.dart';
-import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
-import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
-import 'package:x_clone/features/home/data/providers/home_provider.dart';
-import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
