@@ -1,6 +1,7 @@
 const baseUrl = "https://twitter-clone.onthewifi.com:2023/api/v1/";
 
 class EndPoints {
+  static const getMe = "/auth/me";
   static const login = "/auth/signin";
   static const register = "/auth/signup";
   static const confirmEmail = "/auth/verifyEmail";

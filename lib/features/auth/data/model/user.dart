@@ -17,9 +17,13 @@ class User with _$User {
     String? username,
     String? screenName,
     String? email,
-    @Default("https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg")
-    String profileImageURL,
+    @Default("https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg") String? profileImageURL,
+    String? bannerUrl,
+    String? followingsCount,
+    String? followersCount,
+    String? birthDate,
     bool? isConfirmed,
+    bool? isOnline,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

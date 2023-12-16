@@ -25,8 +25,13 @@ mixin _$User {
   String? get username => throw _privateConstructorUsedError;
   String? get screenName => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  String get profileImageURL => throw _privateConstructorUsedError;
+  String? get profileImageURL => throw _privateConstructorUsedError;
+  String? get bannerUrl => throw _privateConstructorUsedError;
+  String? get followingsCount => throw _privateConstructorUsedError;
+  String? get followersCount => throw _privateConstructorUsedError;
+  String? get birthDate => throw _privateConstructorUsedError;
   bool? get isConfirmed => throw _privateConstructorUsedError;
+  bool? get isOnline => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,8 +49,13 @@ abstract class $UserCopyWith<$Res> {
       String? username,
       String? screenName,
       String? email,
-      String profileImageURL,
-      bool? isConfirmed});
+      String? profileImageURL,
+      String? bannerUrl,
+      String? followingsCount,
+      String? followersCount,
+      String? birthDate,
+      bool? isConfirmed,
+      bool? isOnline});
 }
 
 /// @nodoc
@@ -66,8 +76,13 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? username = freezed,
     Object? screenName = freezed,
     Object? email = freezed,
-    Object? profileImageURL = null,
+    Object? profileImageURL = freezed,
+    Object? bannerUrl = freezed,
+    Object? followingsCount = freezed,
+    Object? followersCount = freezed,
+    Object? birthDate = freezed,
     Object? isConfirmed = freezed,
+    Object? isOnline = freezed,
   }) {
     return _then(_value.copyWith(
       userId: freezed == userId
@@ -90,13 +105,33 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: null == profileImageURL
+      profileImageURL: freezed == profileImageURL
           ? _value.profileImageURL
           : profileImageURL // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      bannerUrl: freezed == bannerUrl
+          ? _value.bannerUrl
+          : bannerUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      followingsCount: freezed == followingsCount
+          ? _value.followingsCount
+          : followingsCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      followersCount: freezed == followersCount
+          ? _value.followersCount
+          : followersCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      birthDate: freezed == birthDate
+          ? _value.birthDate
+          : birthDate // ignore: cast_nullable_to_non_nullable
+              as String?,
       isConfirmed: freezed == isConfirmed
           ? _value.isConfirmed
           : isConfirmed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isOnline: freezed == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
               as bool?,
     ) as $Val);
   }
@@ -115,8 +150,13 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? username,
       String? screenName,
       String? email,
-      String profileImageURL,
-      bool? isConfirmed});
+      String? profileImageURL,
+      String? bannerUrl,
+      String? followingsCount,
+      String? followersCount,
+      String? birthDate,
+      bool? isConfirmed,
+      bool? isOnline});
 }
 
 /// @nodoc
@@ -134,8 +174,13 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? username = freezed,
     Object? screenName = freezed,
     Object? email = freezed,
-    Object? profileImageURL = null,
+    Object? profileImageURL = freezed,
+    Object? bannerUrl = freezed,
+    Object? followingsCount = freezed,
+    Object? followersCount = freezed,
+    Object? birthDate = freezed,
     Object? isConfirmed = freezed,
+    Object? isOnline = freezed,
   }) {
     return _then(_$UserImpl(
       userId: freezed == userId
@@ -158,13 +203,33 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: null == profileImageURL
+      profileImageURL: freezed == profileImageURL
           ? _value.profileImageURL
           : profileImageURL // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      bannerUrl: freezed == bannerUrl
+          ? _value.bannerUrl
+          : bannerUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      followingsCount: freezed == followingsCount
+          ? _value.followingsCount
+          : followingsCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      followersCount: freezed == followersCount
+          ? _value.followersCount
+          : followersCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      birthDate: freezed == birthDate
+          ? _value.birthDate
+          : birthDate // ignore: cast_nullable_to_non_nullable
+              as String?,
       isConfirmed: freezed == isConfirmed
           ? _value.isConfirmed
           : isConfirmed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isOnline: freezed == isOnline
+          ? _value.isOnline
+          : isOnline // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
   }
@@ -181,7 +246,12 @@ class _$UserImpl implements _User {
       this.email,
       this.profileImageURL =
           "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
-      this.isConfirmed});
+      this.bannerUrl,
+      this.followingsCount,
+      this.followersCount,
+      this.birthDate,
+      this.isConfirmed,
+      this.isOnline});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -198,13 +268,23 @@ class _$UserImpl implements _User {
   final String? email;
   @override
   @JsonKey()
-  final String profileImageURL;
+  final String? profileImageURL;
+  @override
+  final String? bannerUrl;
+  @override
+  final String? followingsCount;
+  @override
+  final String? followersCount;
+  @override
+  final String? birthDate;
   @override
   final bool? isConfirmed;
+  @override
+  final bool? isOnline;
 
   @override
   String toString() {
-    return 'User(userId: $userId, name: $name, username: $username, screenName: $screenName, email: $email, profileImageURL: $profileImageURL, isConfirmed: $isConfirmed)';
+    return 'User(userId: $userId, name: $name, username: $username, screenName: $screenName, email: $email, profileImageURL: $profileImageURL, bannerUrl: $bannerUrl, followingsCount: $followingsCount, followersCount: $followersCount, birthDate: $birthDate, isConfirmed: $isConfirmed, isOnline: $isOnline)';
   }
 
   @override
@@ -221,14 +301,36 @@ class _$UserImpl implements _User {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.profileImageURL, profileImageURL) ||
                 other.profileImageURL == profileImageURL) &&
+            (identical(other.bannerUrl, bannerUrl) ||
+                other.bannerUrl == bannerUrl) &&
+            (identical(other.followingsCount, followingsCount) ||
+                other.followingsCount == followingsCount) &&
+            (identical(other.followersCount, followersCount) ||
+                other.followersCount == followersCount) &&
+            (identical(other.birthDate, birthDate) ||
+                other.birthDate == birthDate) &&
             (identical(other.isConfirmed, isConfirmed) ||
-                other.isConfirmed == isConfirmed));
+                other.isConfirmed == isConfirmed) &&
+            (identical(other.isOnline, isOnline) ||
+                other.isOnline == isOnline));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, name, username,
-      screenName, email, profileImageURL, isConfirmed);
+  int get hashCode => Object.hash(
+      runtimeType,
+      userId,
+      name,
+      username,
+      screenName,
+      email,
+      profileImageURL,
+      bannerUrl,
+      followingsCount,
+      followersCount,
+      birthDate,
+      isConfirmed,
+      isOnline);
 
   @JsonKey(ignore: true)
   @override
@@ -251,8 +353,13 @@ abstract class _User implements User {
       final String? username,
       final String? screenName,
       final String? email,
-      final String profileImageURL,
-      final bool? isConfirmed}) = _$UserImpl;
+      final String? profileImageURL,
+      final String? bannerUrl,
+      final String? followingsCount,
+      final String? followersCount,
+      final String? birthDate,
+      final bool? isConfirmed,
+      final bool? isOnline}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -267,9 +374,19 @@ abstract class _User implements User {
   @override
   String? get email;
   @override
-  String get profileImageURL;
+  String? get profileImageURL;
+  @override
+  String? get bannerUrl;
+  @override
+  String? get followingsCount;
+  @override
+  String? get followersCount;
+  @override
+  String? get birthDate;
   @override
   bool? get isConfirmed;
+  @override
+  bool? get isOnline;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

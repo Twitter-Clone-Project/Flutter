@@ -24,17 +24,25 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
   Future<void> checkAuthStatus() async {
     try {
-      final User? user = _repo.getUserData();
+      if(_repo.getToken() != null){
+      User? user = _repo.getUserData();
       // if authenticated, update state accordingly
       if (user != null) {
         state = state.copyWith(
           user: user,
           isLogin: true,
         );
+         user = await _repo.fetchUserData();
+        state = state.copyWith(
+          user: user,
+          isLogin: true,
+        );
+
       } else if (getMobileNumber() != null) {
         state = state.copyWith();
       } else {
         state = state.copyWith();
+      }
       }
     } catch (_) {}
   }
