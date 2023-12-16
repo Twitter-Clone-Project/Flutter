@@ -30,6 +30,9 @@ mixin _$User {
   String? get followingsCount => throw _privateConstructorUsedError;
   String? get followersCount => throw _privateConstructorUsedError;
   String? get birthDate => throw _privateConstructorUsedError;
+  String? get bio => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
+  String? get website => throw _privateConstructorUsedError;
   bool? get isConfirmed => throw _privateConstructorUsedError;
   bool? get isOnline => throw _privateConstructorUsedError;
 
@@ -54,6 +57,9 @@ abstract class $UserCopyWith<$Res> {
       String? followingsCount,
       String? followersCount,
       String? birthDate,
+      String? bio,
+      String? location,
+      String? website,
       bool? isConfirmed,
       bool? isOnline});
 }
@@ -81,6 +87,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? followingsCount = freezed,
     Object? followersCount = freezed,
     Object? birthDate = freezed,
+    Object? bio = freezed,
+    Object? location = freezed,
+    Object? website = freezed,
     Object? isConfirmed = freezed,
     Object? isOnline = freezed,
   }) {
@@ -125,6 +134,18 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.birthDate
           : birthDate // ignore: cast_nullable_to_non_nullable
               as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
+      website: freezed == website
+          ? _value.website
+          : website // ignore: cast_nullable_to_non_nullable
+              as String?,
       isConfirmed: freezed == isConfirmed
           ? _value.isConfirmed
           : isConfirmed // ignore: cast_nullable_to_non_nullable
@@ -155,6 +176,9 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? followingsCount,
       String? followersCount,
       String? birthDate,
+      String? bio,
+      String? location,
+      String? website,
       bool? isConfirmed,
       bool? isOnline});
 }
@@ -179,6 +203,9 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? followingsCount = freezed,
     Object? followersCount = freezed,
     Object? birthDate = freezed,
+    Object? bio = freezed,
+    Object? location = freezed,
+    Object? website = freezed,
     Object? isConfirmed = freezed,
     Object? isOnline = freezed,
   }) {
@@ -223,6 +250,18 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.birthDate
           : birthDate // ignore: cast_nullable_to_non_nullable
               as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
+      website: freezed == website
+          ? _value.website
+          : website // ignore: cast_nullable_to_non_nullable
+              as String?,
       isConfirmed: freezed == isConfirmed
           ? _value.isConfirmed
           : isConfirmed // ignore: cast_nullable_to_non_nullable
@@ -250,6 +289,9 @@ class _$UserImpl implements _User {
       this.followingsCount,
       this.followersCount,
       this.birthDate,
+      this.bio,
+      this.location,
+      this.website,
       this.isConfirmed,
       this.isOnline});
 
@@ -278,13 +320,19 @@ class _$UserImpl implements _User {
   @override
   final String? birthDate;
   @override
+  final String? bio;
+  @override
+  final String? location;
+  @override
+  final String? website;
+  @override
   final bool? isConfirmed;
   @override
   final bool? isOnline;
 
   @override
   String toString() {
-    return 'User(userId: $userId, name: $name, username: $username, screenName: $screenName, email: $email, profileImageURL: $profileImageURL, bannerUrl: $bannerUrl, followingsCount: $followingsCount, followersCount: $followersCount, birthDate: $birthDate, isConfirmed: $isConfirmed, isOnline: $isOnline)';
+    return 'User(userId: $userId, name: $name, username: $username, screenName: $screenName, email: $email, profileImageURL: $profileImageURL, bannerUrl: $bannerUrl, followingsCount: $followingsCount, followersCount: $followersCount, birthDate: $birthDate, bio: $bio, location: $location, website: $website, isConfirmed: $isConfirmed, isOnline: $isOnline)';
   }
 
   @override
@@ -309,6 +357,10 @@ class _$UserImpl implements _User {
                 other.followersCount == followersCount) &&
             (identical(other.birthDate, birthDate) ||
                 other.birthDate == birthDate) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            (identical(other.website, website) || other.website == website) &&
             (identical(other.isConfirmed, isConfirmed) ||
                 other.isConfirmed == isConfirmed) &&
             (identical(other.isOnline, isOnline) ||
@@ -329,6 +381,9 @@ class _$UserImpl implements _User {
       followingsCount,
       followersCount,
       birthDate,
+      bio,
+      location,
+      website,
       isConfirmed,
       isOnline);
 
@@ -358,6 +413,9 @@ abstract class _User implements User {
       final String? followingsCount,
       final String? followersCount,
       final String? birthDate,
+      final String? bio,
+      final String? location,
+      final String? website,
       final bool? isConfirmed,
       final bool? isOnline}) = _$UserImpl;
 
@@ -383,6 +441,12 @@ abstract class _User implements User {
   String? get followersCount;
   @override
   String? get birthDate;
+  @override
+  String? get bio;
+  @override
+  String? get location;
+  @override
+  String? get website;
   @override
   bool? get isConfirmed;
   @override

@@ -22,6 +22,9 @@ class User with _$User {
     String? followingsCount,
     String? followersCount,
     String? birthDate,
+    String? bio,
+    String? location,
+    String? website,
     bool? isConfirmed,
     bool? isOnline,
   }) = _User;

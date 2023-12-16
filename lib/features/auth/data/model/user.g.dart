@@ -18,6 +18,9 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       followingsCount: json['followingsCount'] as String?,
       followersCount: json['followersCount'] as String?,
       birthDate: json['birthDate'] as String?,
+      bio: json['bio'] as String?,
+      location: json['location'] as String?,
+      website: json['website'] as String?,
       isConfirmed: json['isConfirmed'] as bool?,
       isOnline: json['isOnline'] as bool?,
     );
@@ -34,6 +37,9 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'followingsCount': instance.followingsCount,
       'followersCount': instance.followersCount,
       'birthDate': instance.birthDate,
+      'bio': instance.bio,
+      'location': instance.location,
+      'website': instance.website,
       'isConfirmed': instance.isConfirmed,
       'isOnline': instance.isOnline,
     };
