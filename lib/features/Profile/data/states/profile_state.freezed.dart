@@ -26,7 +26,8 @@ mixin _$UserProfileState {
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get profileLoading => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
-  bool get tweetsloading => throw _privateConstructorUsedError;
+  bool get tweetsRefreshing => throw _privateConstructorUsedError;
+  bool get tweetsLoading => throw _privateConstructorUsedError;
   bool get isBlocked => throw _privateConstructorUsedError;
   bool get isMuted => throw _privateConstructorUsedError;
   bool get isFollowed => throw _privateConstructorUsedError;
@@ -56,7 +57,8 @@ abstract class $UserProfileStateCopyWith<$Res> {
       String? errorMessage,
       bool profileLoading,
       bool loading,
-      bool tweetsloading,
+      bool tweetsRefreshing,
+      bool tweetsLoading,
       bool isBlocked,
       bool isMuted,
       bool isFollowed,
@@ -95,7 +97,8 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
     Object? errorMessage = freezed,
     Object? profileLoading = null,
     Object? loading = null,
-    Object? tweetsloading = null,
+    Object? tweetsRefreshing = null,
+    Object? tweetsLoading = null,
     Object? isBlocked = null,
     Object? isMuted = null,
     Object? isFollowed = null,
@@ -138,9 +141,13 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-      tweetsloading: null == tweetsloading
-          ? _value.tweetsloading
-          : tweetsloading // ignore: cast_nullable_to_non_nullable
+      tweetsRefreshing: null == tweetsRefreshing
+          ? _value.tweetsRefreshing
+          : tweetsRefreshing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tweetsLoading: null == tweetsLoading
+          ? _value.tweetsLoading
+          : tweetsLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       isBlocked: null == isBlocked
           ? _value.isBlocked
@@ -245,7 +252,8 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       String? errorMessage,
       bool profileLoading,
       bool loading,
-      bool tweetsloading,
+      bool tweetsRefreshing,
+      bool tweetsLoading,
       bool isBlocked,
       bool isMuted,
       bool isFollowed,
@@ -288,7 +296,8 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? profileLoading = null,
     Object? loading = null,
-    Object? tweetsloading = null,
+    Object? tweetsRefreshing = null,
+    Object? tweetsLoading = null,
     Object? isBlocked = null,
     Object? isMuted = null,
     Object? isFollowed = null,
@@ -331,9 +340,13 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-      tweetsloading: null == tweetsloading
-          ? _value.tweetsloading
-          : tweetsloading // ignore: cast_nullable_to_non_nullable
+      tweetsRefreshing: null == tweetsRefreshing
+          ? _value.tweetsRefreshing
+          : tweetsRefreshing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tweetsLoading: null == tweetsLoading
+          ? _value.tweetsLoading
+          : tweetsLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       isBlocked: null == isBlocked
           ? _value.isBlocked
@@ -385,7 +398,8 @@ class _$UserProfileStateImpl implements _UserProfileState {
       this.errorMessage = null,
       this.profileLoading = true,
       this.loading = true,
-      this.tweetsloading = true,
+      this.tweetsRefreshing = true,
+      this.tweetsLoading = true,
       this.isBlocked = false,
       this.isMuted = false,
       this.isFollowed = false,
@@ -421,7 +435,10 @@ class _$UserProfileStateImpl implements _UserProfileState {
   final bool loading;
   @override
   @JsonKey()
-  final bool tweetsloading;
+  final bool tweetsRefreshing;
+  @override
+  @JsonKey()
+  final bool tweetsLoading;
   @override
   @JsonKey()
   final bool isBlocked;
@@ -447,7 +464,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
 
   @override
   String toString() {
-    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, followersList: $followersList, followingsList: $followingsList, errorMessage: $errorMessage, profileLoading: $profileLoading, loading: $loading, tweetsloading: $tweetsloading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, myPostsIndex: $myPostsIndex, myLikedPostsIndex: $myLikedPostsIndex, userProfile: $userProfile, error: $error)';
+    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, followersList: $followersList, followingsList: $followingsList, errorMessage: $errorMessage, profileLoading: $profileLoading, loading: $loading, tweetsRefreshing: $tweetsRefreshing, tweetsLoading: $tweetsLoading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, myPostsIndex: $myPostsIndex, myLikedPostsIndex: $myLikedPostsIndex, userProfile: $userProfile, error: $error)';
   }
 
   @override
@@ -472,8 +489,10 @@ class _$UserProfileStateImpl implements _UserProfileState {
             (identical(other.profileLoading, profileLoading) ||
                 other.profileLoading == profileLoading) &&
             (identical(other.loading, loading) || other.loading == loading) &&
-            (identical(other.tweetsloading, tweetsloading) ||
-                other.tweetsloading == tweetsloading) &&
+            (identical(other.tweetsRefreshing, tweetsRefreshing) ||
+                other.tweetsRefreshing == tweetsRefreshing) &&
+            (identical(other.tweetsLoading, tweetsLoading) ||
+                other.tweetsLoading == tweetsLoading) &&
             (identical(other.isBlocked, isBlocked) ||
                 other.isBlocked == isBlocked) &&
             (identical(other.isMuted, isMuted) || other.isMuted == isMuted) &&
@@ -501,7 +520,8 @@ class _$UserProfileStateImpl implements _UserProfileState {
       errorMessage,
       profileLoading,
       loading,
-      tweetsloading,
+      tweetsRefreshing,
+      tweetsLoading,
       isBlocked,
       isMuted,
       isFollowed,
@@ -529,7 +549,8 @@ abstract class _UserProfileState implements UserProfileState {
       final String? errorMessage,
       final bool profileLoading,
       final bool loading,
-      final bool tweetsloading,
+      final bool tweetsRefreshing,
+      final bool tweetsLoading,
       final bool isBlocked,
       final bool isMuted,
       final bool isFollowed,
@@ -556,7 +577,9 @@ abstract class _UserProfileState implements UserProfileState {
   @override
   bool get loading;
   @override
-  bool get tweetsloading;
+  bool get tweetsRefreshing;
+  @override
+  bool get tweetsLoading;
   @override
   bool get isBlocked;
   @override

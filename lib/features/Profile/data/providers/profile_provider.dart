@@ -25,7 +25,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }
 
   loadProfile() {
-    state = state.copyWith(profileLoading: true, error: null);
+    state = state.copyWith(profileLoading: true, tweetsLoading: true, error: null);
   }
 
   Future<void> fetchUserProfile(String username) async {
@@ -49,7 +49,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }) async {
     try {
       if (page == 1) {
-        state = state.copyWith(tweetsloading: true, myPostsIndex: 0);
+        state = state.copyWith(tweetsRefreshing: true, myPostsIndex: 0);
       }
       final ProfileTweetsResponse profileTweetsResponse =
           await profileRepository.getUserTweets(username, page);
@@ -65,12 +65,13 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       state = state.copyWith(
         profileTweetsResponse: state.profileTweetsResponse
             .copyWith(data: tweets, total: profileTweetsResponse.total),
-        tweetsloading: false,
+        tweetsRefreshing: false,
+        tweetsLoading: false,
         myPostsIndex: page,
       );
       return profileTweetsResponse;
     } catch (e) {
-      state = state.copyWith(tweetsloading: false, errorMessage: e.toString());
+      state = state.copyWith(tweetsRefreshing: false, errorMessage: e.toString());
       return const ProfileTweetsResponse(data: [], total: 0);
     }
   }
@@ -81,7 +82,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }) async {
     try {
       if (page == 1) {
-        state = state.copyWith(tweetsloading: true, myLikedPostsIndex: 0);
+        state = state.copyWith(tweetsRefreshing: true, myLikedPostsIndex: 0);
       }
       final ProfileLikedTweetsResponse profileLikedTweetsResponse =
           await profileRepository.getUserLikedTweets(username, page);
@@ -97,12 +98,12 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       state = state.copyWith(
         profileLikedTweetsResponse: state.profileLikedTweetsResponse
             .copyWith(data: tweets, total: profileLikedTweetsResponse.total),
-        tweetsloading: false,
+        tweetsRefreshing: false,
         myLikedPostsIndex: page,
       );
       return profileLikedTweetsResponse;
     } catch (e) {
-      state = state.copyWith(tweetsloading: false, errorMessage: e.toString());
+      state = state.copyWith(tweetsRefreshing: false, errorMessage: e.toString());
       return const ProfileLikedTweetsResponse(data: [], total: 0);
     }
   }
@@ -495,6 +496,14 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       return false;
     }
   }
+
+  Future<void> resetSearchedUsers() async {
+    state = state.copyWith(
+      profileTweetsResponse: const ProfileTweetsResponse(data: []), // Assuming UsersList has a factory method for an empty state
+      profileLikedTweetsResponse: const ProfileLikedTweetsResponse(data: []), // Assuming UsersList has a factory method for an empty state
+    );
+  }
+
 }
 
 final profileNotifierProvider =

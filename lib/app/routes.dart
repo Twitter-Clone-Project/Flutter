@@ -8,6 +8,8 @@ import 'package:x_clone/features/auth/ui/settings_ui/username_update_screen.dart
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:flutter/material.dart';
 import 'package:x_clone/features/home/ui/add_tweet_screen.dart';
+import 'package:x_clone/features/search/ui/search_allresults_screen.dart';
+import 'package:x_clone/features/search/ui/search_results_screen.dart';
 
 import 'package:x_clone/features/tweet/ui/likers_screen.dart';
 import 'package:x_clone/features/tweet/ui/retweeters_screen.dart';
@@ -48,6 +50,9 @@ class Routes {
 
   static const String followersScreen = "/followersScreen";
   static const String followingsScreen = "/followingsScreen";
+
+  static const String searchResultsScreen = "/searchResultsScreen";
+  static const String searchAllResultsScreen = "/searchAllResultsScreen";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -134,7 +139,19 @@ class Routes {
                 ));
       case editProfileScreen:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
-      default:
+      case searchResultsScreen:
+        var data = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => SearchResultsScreen(
+              query: data,
+            ));
+      case searchAllResultsScreen:
+        var data = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (_) => SearchAllResultsScreen(
+              query: data,
+            ));
+        default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
                   body: Center(

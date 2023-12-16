@@ -299,7 +299,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           color: AppColors.lightThinTextGray,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 2),
+                                          padding: const EdgeInsets.only(top: 2),
                                           child: CustomText(
                                             "You are blocked from following @${userProfile.username} and viewing @${userProfile.username}'s posts.",
                                             color: AppColors.lightThinTextGray,
@@ -320,11 +320,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         SliverAppBar(
                           flexibleSpace: FlexibleSpaceBar(
                             background: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
-                                  colors: const [
+                                  colors: [
                                     Colors
                                         .transparent, // Start with a transparent color
                                     Colors
@@ -789,6 +789,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             fontSize: 22,
                                             fontFamily: 'Chirp',
                                           ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                         const SizedBox(height: 2),
                                         Text(
@@ -834,10 +836,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               Text(
                                                   " ${userProfile.location}" ??
                                                       "Location",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: AppColors
                                                         .lightThinTextGray,
-                                                  )),
+                                                  ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
                                               const SizedBox(
                                                 width: 16,
                                               )
@@ -847,31 +852,35 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         Visibility(
                                           visible: userProfile.website != "" &&
                                               userProfile.website != null,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const Icon(
-                                                Icons.link_outlined,
-                                                size: 16,
-                                                color:
-                                                    AppColors.lightThinTextGray,
-                                              ),
-                                              const SizedBox(width: 4),
-                                              InkWell(
-                                                onTap: () => _launchUrl(
-                                                    "${userProfile.website!}"),
-                                                child: Text(
-                                                    " ${userProfile.website}" ??
-                                                        "mou.com",
-                                                    style: TextStyle(
-                                                      color:
-                                                          AppColors.TwitterBlue,
-                                                    )),
-                                              ),
-                                              const SizedBox(
-                                                width: 16,
-                                              )
-                                            ],
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Icon(
+                                                  Icons.link_outlined,
+                                                  size: 16,
+                                                  color:
+                                                      AppColors.lightThinTextGray,
+                                                ),
+                                                const SizedBox(width: 4),
+                                                InkWell(
+                                                  onTap: () => _launchUrl("${userProfile.website!}"),
+                                                  child: Expanded(
+                                                    child: Text(
+                                                      " ${userProfile.website}" ?? "mou.com",
+                                                      style: const TextStyle(
+                                                        color: AppColors.TwitterBlue,
+                                                      ),
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 16,
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         Visibility(
@@ -894,10 +903,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                               "2002-03-17",
                                                           true) ??
                                                       "Created At Date",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: AppColors
                                                         .lightThinTextGray,
-                                                  )),
+                                                  ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,),
                                               const SizedBox(
                                                 width: 16,
                                               )
@@ -924,7 +935,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                               "2023-12-10T17:11:45.000Z",
                                                           false) ??
                                                       "Created At Date",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: AppColors
                                                         .lightThinTextGray,
                                                   )),
@@ -1010,7 +1021,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                               "1"
                                                           ? 'Follower'
                                                           : 'Followers',
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                         color: AppColors
                                                             .lightThinTextGray,
                                                       ),
@@ -1104,7 +1115,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                   " Unmute failed, try again later");
                                             }
                                           },
-                                          child: Text(
+                                          child: const Text(
                                             "Unmute",
                                             style: TextStyle(
                                               color: AppColors.TwitterBlue,
@@ -1146,8 +1157,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                height: 12,
+                              const SizedBox(
+                                height: 16,
                               )
                             ],
                           ),
@@ -1157,7 +1168,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         visible: userProfile.isBlocked != true,
                         replacement: Center(
                           child: Padding(
-                            padding: EdgeInsets.only(top: 50),
+                            padding: const EdgeInsets.only(top: 50),
                             child: Text(
                               "@${userProfile.username} is blocked",
                               style: const TextStyle(
@@ -1172,7 +1183,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           builder: (context) {
                             if (ref
                                     .watch(profileNotifierProvider)
-                                    .tweetsloading ==
+                                    .tweetsLoading ==
                                 false) {
                               return Expanded(
                                 child: TabBarView(
@@ -1193,7 +1204,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       footer: const ClassicFooter(
                                         loadingText: 'Load for more',
                                       ),
-                                      onLoading: _onLoading_Tweets,
+                                      onLoading: _onTweetsLoading,
                                       onRefresh: _onRefresh,
                                       child: ref
                                               .watch(profileNotifierProvider)
@@ -1212,7 +1223,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             )
                                           : ListView.separated(
                                               physics:
-                                                  NeverScrollableScrollPhysics(),
+                                                  const NeverScrollableScrollPhysics(),
                                               itemCount: ref
                                                   .watch(
                                                       profileNotifierProvider)
@@ -1270,7 +1281,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       footer: const ClassicFooter(
                                         loadingText: 'Load for more',
                                       ),
-                                      onLoading: _onLoading_LikedTweets,
+                                      onLoading: _onLikedTweetsLoading,
                                       onRefresh: _onRefresh,
                                       child: ref
                                               .watch(profileNotifierProvider)
@@ -1280,7 +1291,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           ? const Center(
                                               child: Text(
                                                 "No Tweets",
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: AppColors.whiteColor,
                                                   fontSize: 22,
                                                   fontFamily: 'Chirp',
@@ -1289,7 +1300,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             )
                                           : ListView.separated(
                                               physics:
-                                                  NeverScrollableScrollPhysics(),
+                                                  const NeverScrollableScrollPhysics(),
                                               itemCount: ref
                                                   .watch(
                                                       profileNotifierProvider)
@@ -1339,7 +1350,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               );
                             } else {
                               // You can replace this with a loading indicator or any other UI while loading
-                              return Center(
+                              return const Center(
                                   child: SizedBox(
                                 width: 70,
                                 height: 70,
@@ -1366,7 +1377,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     _LikedTweetsController.refreshCompleted();
   }
 
-  void _onLoading_Tweets() async {
+  void _onTweetsLoading() async {
     final provider = ref.read(profileNotifierProvider);
 
     if (provider.profileTweetsResponse.data.length ==
@@ -1382,7 +1393,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     }
   }
 
-  void _onLoading_LikedTweets() async {
+  void _onLikedTweetsLoading() async {
     final provider = ref.read(profileNotifierProvider);
 
     if (provider.profileLikedTweetsResponse.data.length ==
@@ -1401,13 +1412,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     await ref
         .read(profileNotifierProvider.notifier)
         .fetchUserProfile(widget.username!);
+    await ref.read(profileNotifierProvider.notifier).getUserTweets(
+      username: widget.username!,
+      page: tweetsPageIndex,
+    );
     await ref.read(profileNotifierProvider.notifier).getUserLikedTweets(
           username: widget.username!,
           page: likedTweetsPageIndex,
-        );
-    await ref.read(profileNotifierProvider.notifier).getUserTweets(
-          username: widget.username!,
-          page: tweetsPageIndex,
         );
   }
 

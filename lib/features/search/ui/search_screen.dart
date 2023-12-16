@@ -59,7 +59,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           title: SizedBox(
             height: 40,
             child: TextField(
-              //controller: searchController,
+              onTap: () {
+                Navigator.pushNamed(context, Routes.searchResultsScreen, arguments: "");
+
+              },              //controller: searchController,
               onSubmitted: (value) {},
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(10).copyWith(
@@ -91,25 +94,37 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                'Trends',
+                'Trending',
                 style: AppTextStyle.textThemeDark.headlineSmall!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
               child: ListView.builder(
-                itemCount:
-                ref.watch(searchNotifierProvider).trendingList.data!.length,
-                itemBuilder: (ctx, index) => ListTile(
-                  title: Text(
-                    '${index + 1}. Trending',
-                    style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.bold, color: AppColors.darkGray),
-                  ),
-                  subtitle: Text(
-                    '#${ref.watch(searchNotifierProvider).trendingList.data![index].name}',
-                    style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
+                itemCount: ref.watch(searchNotifierProvider).trendingList.data!.length,
+                itemBuilder: (ctx, index) => GestureDetector(
+                  onTap: () {
+                    // Navigate to search_allresults_screen with the trend as a query
+                    String trendQuery = ref.watch(searchNotifierProvider).trendingList.data![index].name!;
+                    Navigator.pushNamed(
+                      context,
+                      Routes.searchAllResultsScreen,
+                      arguments: "$trendQuery",
+                    );
+                  },
+                  child: ListTile(
+                    title: Text(
+                      '${index + 1}. Trending',
+                      style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.darkGray,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '#${ref.watch(searchNotifierProvider).trendingList.data![index].name}',
+                      style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

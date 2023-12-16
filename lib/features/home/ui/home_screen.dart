@@ -34,9 +34,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     super.build(context);
     return SafeArea(
       child: Scaffold(
-        body: ref.watch(homeNotifierProvider).loading
-            ? const Center(child: CircularProgressIndicator())
-            : Column(
+        body: Column(
                 children: [
                   Padding(
                     padding:
@@ -80,10 +78,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       height: double.infinity,
                       child: SmartRefresher(
                         controller: _controller,
+                        header: MaterialClassicHeader( backgroundColor: AppColors.pureBlack,
+                        color: AppColors.TwitterBlue,),
                         enablePullDown: true,
                         enablePullUp: true,
                         footer: const ClassicFooter(
-                          loadingText: 'Load for more',
+                          loadingText: 'Loading for more',
                         ),
                         onLoading: _onLoading,
                         onRefresh: _onRefresh,
