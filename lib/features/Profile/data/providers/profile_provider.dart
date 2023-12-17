@@ -25,7 +25,8 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
   }
 
   loadProfile() {
-    state = state.copyWith(profileLoading: true, tweetsLoading: true, error: null);
+    state =
+        state.copyWith(profileLoading: true, tweetsLoading: true, error: null);
   }
 
   Future<void> fetchUserProfile(String username) async {
@@ -71,7 +72,8 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       );
       return profileTweetsResponse;
     } catch (e) {
-      state = state.copyWith(tweetsRefreshing: false, errorMessage: e.toString());
+      state =
+          state.copyWith(tweetsRefreshing: false, errorMessage: e.toString());
       return const ProfileTweetsResponse(data: [], total: 0);
     }
   }
@@ -103,7 +105,8 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       );
       return profileLikedTweetsResponse;
     } catch (e) {
-      state = state.copyWith(tweetsRefreshing: false, errorMessage: e.toString());
+      state =
+          state.copyWith(tweetsRefreshing: false, errorMessage: e.toString());
       return const ProfileLikedTweetsResponse(data: [], total: 0);
     }
   }
@@ -328,39 +331,31 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 
   addLike({required String tweetId, required int whom}) async {
     try {
-      if (whom == 1) {
-        List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
-        int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-
-        if (tweetIndex != -1) {
-          tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-            isLiked: true,
-            likesCount: tweetlist[tweetIndex].likesCount! + 1,
-          );
-          state = state.copyWith(
-            profileTweetsResponse:
-                state.profileTweetsResponse.copyWith(data: tweetlist),
-            loading: false,
-          );
-          return true;
-        }
-      } else if (whom == 2) {
-        List<Tweet> tweetlist =
-            List.from(state.profileLikedTweetsResponse.data);
-        int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-
-        if (tweetIndex != -1) {
-          tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-            isLiked: true,
-            likesCount: tweetlist[tweetIndex].likesCount! + 1,
-          );
-          state = state.copyWith(
-            profileLikedTweetsResponse:
-                state.profileLikedTweetsResponse.copyWith(data: tweetlist),
-            loading: false,
-          );
-          return true;
-        }
+      List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isLiked: true,
+          likesCount: tweetlist[tweetIndex].likesCount! + 1,
+        );
+        state = state.copyWith(
+          profileTweetsResponse:
+              state.profileTweetsResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+      }
+      List<Tweet> tweetLikedlist =
+          List.from(state.profileLikedTweetsResponse.data);
+      int tweetLikedlistIndex =
+          tweetLikedlist.indexWhere((tweet) => tweet.id == tweetId);
+      if (tweetLikedlistIndex == -1) {
+        tweetLikedlist.add(tweetlist[tweetIndex]);
+        state = state.copyWith(
+          profileLikedTweetsResponse:
+              state.profileLikedTweetsResponse.copyWith(data: tweetLikedlist),
+          loading: false,
+        );
+        return true;
       } else {
         return false;
       }
@@ -371,40 +366,31 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 
   deleteLike({required String tweetId, required int whom}) async {
     try {
-      if (whom == 1) {
-        List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
-        int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-        if (tweetIndex != -1) {
-          tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-            isLiked: false,
-            likesCount: tweetlist[tweetIndex].likesCount! - 1,
-          );
-          state = state.copyWith(
-            profileTweetsResponse:
-                state.profileTweetsResponse.copyWith(data: tweetlist),
-            loading: false,
-          );
-          return true;
-        }
-      } else if (whom == 2) {
-        List<Tweet> tweetlist =
-            List.from(state.profileLikedTweetsResponse.data);
-        int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-
-        if (tweetIndex != -1) {
-          tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-            isLiked: false,
-            likesCount: tweetlist[tweetIndex].likesCount! - 1,
-          );
-          state = state.copyWith(
-            profileLikedTweetsResponse:
-                state.profileLikedTweetsResponse.copyWith(data: tweetlist),
-            loading: false,
-          );
-          return true;
-        }
-      } else {
-        return false;
+      List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isLiked: false,
+          likesCount: tweetlist[tweetIndex].likesCount! - 1,
+        );
+        state = state.copyWith(
+          profileTweetsResponse:
+              state.profileTweetsResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+      }
+      List<Tweet> tweetLikedlist =
+          List.from(state.profileLikedTweetsResponse.data);
+      int tweetLikedlistIndex =
+          tweetLikedlist.indexWhere((tweet) => tweet.id == tweetId);
+      if (tweetLikedlistIndex != -1) {
+        tweetLikedlist.removeAt(tweetLikedlistIndex);
+        state = state.copyWith(
+          profileLikedTweetsResponse:
+              state.profileLikedTweetsResponse.copyWith(data: tweetLikedlist),
+          loading: false,
+        );
+        return true;
       }
     } catch (e) {
       return false;
@@ -416,7 +402,6 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       if (whom == 1) {
         List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
         int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-
         if (tweetIndex != -1) {
           tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
             isRetweeted: true,
@@ -499,11 +484,12 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
 
   Future<void> resetSearchedUsers() async {
     state = state.copyWith(
-      profileTweetsResponse: const ProfileTweetsResponse(data: []), // Assuming UsersList has a factory method for an empty state
-      profileLikedTweetsResponse: const ProfileLikedTweetsResponse(data: []), // Assuming UsersList has a factory method for an empty state
+      profileTweetsResponse: const ProfileTweetsResponse(
+          data: []), // Assuming UsersList has a factory method for an empty state
+      profileLikedTweetsResponse: const ProfileLikedTweetsResponse(
+          data: []), // Assuming UsersList has a factory method for an empty state
     );
   }
-
 }
 
 final profileNotifierProvider =
