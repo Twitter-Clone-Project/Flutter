@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 import 'package:x_clone/theme/app_colors.dart';
 
@@ -16,9 +15,9 @@ class MainDrawer extends ConsumerWidget {
     String _userName = auth.user?.name ?? '';
     String _userUserName = '@${auth.user?.username ?? ''}';
     String _numberOfFollowing =
-        ref.watch(profileNotifierProvider).userProfile.followingsCount ?? '0';
+        ref.watch(authNotifierProvider).user!.followingsCount ?? '0';
     String _numberOfFollowers =
-        ref.watch(profileNotifierProvider).userProfile.followersCount ?? '0';
+        ref.watch(authNotifierProvider).user!.followersCount ?? '0';
     return SafeArea(
       child: Drawer(
         backgroundColor: AppColors.pureBlack,
@@ -99,10 +98,8 @@ class MainDrawer extends ConsumerWidget {
                   ),
                   title: InkWell(
                     onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        Routes.profileScreen,
-                      );
+                      Navigator.pushNamed(context, Routes.profileScreen,
+                          arguments: auth.user?.username);
                     },
                     child: Text(
                       'Profile',

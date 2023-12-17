@@ -92,6 +92,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     String userName = widget.tweet.user?.screenName ?? '';
     String handle = widget.tweet.user?.username ?? '';
     int? repliesCount = widget.tweet.repliesCount;
+
     if (widget.whom == 0) {
       isliked =
           ref.watch(homeNotifierProvider).homeResponse.data[index].isLiked ??
