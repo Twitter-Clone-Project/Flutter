@@ -21,10 +21,20 @@ class TweetIconButton extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          SvgPicture.asset(
-            width: 25,
-            pathName,
-            color: color,
+      AnimatedSwitcher(
+      duration: Duration(milliseconds: 500), // Set your desired animation duration
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return ScaleTransition(
+          scale: animation,
+          child: child,
+        );
+      },
+      child: SvgPicture.asset(
+        height: 20,
+        width: 20,
+        pathName,
+              color: color,
+            ),
           ),
           Container(
             margin: const EdgeInsets.all(1),

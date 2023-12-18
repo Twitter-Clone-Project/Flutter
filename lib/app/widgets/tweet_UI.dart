@@ -6,6 +6,7 @@ import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
+import 'package:x_clone/features/search/data/providers/search_provider.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
 import '../../features/home/data/models/home_response.dart';
@@ -134,7 +135,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
               .user!
               .username ??
           '';
-    } else if (widget.whom == 1) {
+    }
+    else if (widget.whom == 1) {
       isliked = ref
               .watch(profileNotifierProvider)
               .profileTweetsResponse
@@ -185,56 +187,109 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
               .user!
               .username ??
           '';
-    } else if (widget.whom == 2) {
+    }
+    else if (widget.whom == 2) {
       isliked = ref
-              .watch(profileNotifierProvider)
-              .profileLikedTweetsResponse
-              .data[index]
-              .isLiked ??
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .isLiked ??
           false;
       isRetweeted = ref
-              .watch(profileNotifierProvider)
-              .profileLikedTweetsResponse
-              .data[index]
-              .isRetweeted ??
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .isRetweeted ??
           false;
       retweetCount = ref
-              .watch(profileNotifierProvider)
-              .profileLikedTweetsResponse
-              .data[index]
-              .retweetsCount ??
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .retweetsCount ??
           0;
       likesCount = ref
-              .watch(profileNotifierProvider)
-              .profileLikedTweetsResponse
-              .data[index]
-              .likesCount ??
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .likesCount ??
           0;
       repliesCount = ref
-              .watch(profileNotifierProvider)
-              .profileLikedTweetsResponse
-              .data[index]
-              .repliesCount ??
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .repliesCount ??
           0;
       text = ref
-              .watch(profileNotifierProvider)
-              .profileLikedTweetsResponse
-              .data[index]
-              .text ??
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .text ??
           '';
       userName = ref
-              .watch(profileNotifierProvider)
-              .profileLikedTweetsResponse
-              .data[index]
-              .user!
-              .screenName ??
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .user!
+          .screenName ??
           '';
       handle = ref
-              .watch(profileNotifierProvider)
-              .profileLikedTweetsResponse
-              .data[index]
-              .user!
-              .username ??
+          .watch(profileNotifierProvider)
+          .profileLikedTweetsResponse
+          .data[index]
+          .user!
+          .username ??
+          '';
+    }
+    else if (widget.whom == 3) {
+      isliked = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .isLiked ??
+          false;
+      isRetweeted = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .isRetweeted ??
+          false;
+      retweetCount = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .retweetsCount ??
+          0;
+      likesCount = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .likesCount ??
+          0;
+      repliesCount = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .repliesCount ??
+          0;
+      text = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .text ??
+          '';
+      userName = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .user!
+          .screenName ??
+          '';
+      handle = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .user!
+          .username ??
           '';
     }
     // Handle Images Of Tweet
@@ -330,40 +385,50 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                 ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TweetIconButton(
-                      color: isRetweeted
-                          ? Colors.green
-                          : AppColors.lightThinTextGray,
-                      pathName: isRetweeted
-                          ? AppAssets.retweetIcon
-                          : AppAssets.retweetIcon,
-                      text: retweetCount == 0 ? '' : retweetCount.toString(),
-                      onTap: () {
-                        isRetweeted = !isRetweeted;
-                        isRetweeted
-                            ? {
-                                ref
-                                    .read(homeNotifierProvider.notifier)
-                                    .addRetweet(tweetId: tweetId!),
-                                ref
-                                    .read(profileNotifierProvider.notifier)
-                                    .addRetweet(
-                                        tweetId: tweetId!, whom: widget.whom),
-                              }
-                            : {
-                                ref
-                                    .read(homeNotifierProvider.notifier)
-                                    .deleteRetweet(tweetId: tweetId!),
-                                ref
-                                    .read(profileNotifierProvider.notifier)
-                                    .deleteRetweet(
-                                        tweetId: tweetId!, whom: widget.whom),
-                              };
+                    AnimatedSwitcher(
+                      duration: Duration(milliseconds: 500), // Set your desired animation duration
+                      transitionBuilder: (Widget child, Animation<double> animation) {
+                        return ScaleTransition(
+                          scale: animation,
+                          child: child,
+                        );
                       },
+                      child: TweetIconButton(
+                        color: isRetweeted ? Colors.greenAccent : AppColors.lightThinTextGray,
+                        pathName: AppAssets.retweetIcon,
+                        text: retweetCount == 0 ? '' : retweetCount.toString(),
+                        onTap: () {
+                          isRetweeted = !isRetweeted;
+                          isRetweeted
+                              ? {
+                            ref
+                                .read(homeNotifierProvider.notifier)
+                                .addRetweet(tweetId: tweetId!),
+                            ref
+                                .read(profileNotifierProvider.notifier)
+                                .addRetweet(tweetId: tweetId!, whom: widget.whom),
+                            ref
+                                .read(searchNotifierProvider.notifier)
+                                .addRetweet(tweetId: tweetId!),
+                          }
+                              : {
+                            ref
+                                .read(homeNotifierProvider.notifier)
+                                .deleteRetweet(tweetId: tweetId!),
+                            ref
+                                .read(profileNotifierProvider.notifier)
+                                .deleteRetweet(tweetId: tweetId!, whom: widget.whom),
+                            ref
+                                .read(searchNotifierProvider.notifier)
+                                .deleteRetweet(tweetId: tweetId!),
+                          };
+                        },
+                        key: ValueKey<bool>(isRetweeted), // Use a key to identify the widget when it changes
+                      ),
                     ),
                     TweetIconButton(
                       pathName: AppAssets.commentIcon,
@@ -380,7 +445,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                           style: TextStyle(
                             fontSize: 12,
                             color: isLiked
-                                ? Colors.red
+                                ? Colors.pinkAccent
                                 : AppColors.lightThinTextGray,
                           ),
                         );
@@ -396,6 +461,10 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                     .read(profileNotifierProvider.notifier)
                                     .addLike(
                                         tweetId: tweetId!, whom: widget.whom),
+                                ref
+                                    .read(searchNotifierProvider.notifier)
+                                    .addLike(
+                                     tweetId: tweetId!),
                               }
                             : {
                                 ref
@@ -405,18 +474,38 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                     .read(profileNotifierProvider.notifier)
                                     .deleteLike(
                                         tweetId: tweetId!, whom: widget.whom),
+                          ref
+                              .read(searchNotifierProvider.notifier)
+                              .deleteLike(
+                              tweetId: tweetId!),
                               };
                       },
                       likeBuilder: (isLiked) {
-                        return isLiked
-                            ? SvgPicture.asset(
-                                AppAssets.likeFilledIcon,
-                                color: Colors.red,
-                              )
-                            : SvgPicture.asset(
-                                AppAssets.likeOutlinedIcon,
-                                color: AppColors.lightThinTextGray,
-                              );
+                        return AnimatedSwitcher(
+                          duration: Duration(milliseconds: 500), // Set your desired animation duration
+                          transitionBuilder: (Widget child, Animation<double> animation) {
+                            return ScaleTransition(
+                              scale: animation,
+                              child: child,
+                            );
+                          },
+                          child: isLiked
+                              ? SvgPicture.asset(
+                            AppAssets.likeFilledIcon,
+                            key: Key('likeFilled'), // Use a key to identify the widget when it changes
+                            height: 20,
+                            width: 20,
+                            colorFilter: const ColorFilter.mode(
+                              Colors.pinkAccent,
+                              BlendMode.srcIn,
+                            ),
+                          )
+                              : SvgPicture.asset(
+                            AppAssets.likeOutlinedIcon,
+                            key: Key('likeOutlined'), // Use a key to identify the widget when it changes
+                            color: AppColors.lightThinTextGray,
+                          ),
+                        );
                       },
                     ),
                   ],

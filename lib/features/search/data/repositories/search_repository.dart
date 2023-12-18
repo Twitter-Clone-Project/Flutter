@@ -8,6 +8,9 @@ abstract class SearchRepository {
   Future<UsersList> searchUsers({
     required String query,
   });
+  Future<TweetList> searchTweets({
+    required String query,
+  });
 }
 
 class SearchRepositoryImpl implements SearchRepository {
@@ -29,7 +32,9 @@ class SearchRepositoryImpl implements SearchRepository {
   Future<UsersList> searchUsers({required String query}) async {
     try {
       var response = await HttpClient.dio.get(EndPoints.searchUsers(query));
-
+      if (response.statusCode == 404 ) {
+        return const UsersList(data: []);
+      }
       if (response.statusCode == 200 || response.statusCode == 201) {
         return UsersList.fromJson(response.data);
       }
@@ -40,14 +45,14 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   @override
-  Future<UsersList> searchTweets({required String query}) async {
+  Future<TweetList> searchTweets({required String query}) async {
     try {
       var response = await HttpClient.dio.get(EndPoints.searchTweets(query));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return UsersList.fromJson(response.data);
+        return TweetList.fromJson(response.data);
       }
-      return const UsersList(data: []);
+      return const TweetList(data: []);
     } catch (e) {
       rethrow;
     }
