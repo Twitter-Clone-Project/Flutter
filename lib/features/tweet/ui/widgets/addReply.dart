@@ -1,9 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
@@ -15,8 +14,10 @@ import 'package:x_clone/theme/app_text_style.dart';
 class AddReply extends StatefulHookConsumerWidget {
   final Tweet tweet;
   final int index;
+  final int whom;
 
-  AddReply({Key? key, required this.tweet, required this.index})
+  AddReply(
+      {Key? key, required this.tweet, required this.index, required this.whom})
       : super(key: key) {}
   @override
   ConsumerState<AddReply> createState() => _AddReplyState();
@@ -42,7 +43,6 @@ class _AddReplyState extends ConsumerState<AddReply> {
                 tweetId: widget.tweet.id!,
                 replyText: replyText,
                 replierUser: userProvider.user!,
-                index: widget.index,
               );
         },
         decoration: InputDecoration(
@@ -147,7 +147,11 @@ class _AddReplyState extends ConsumerState<AddReply> {
                                 tweetId: widget.tweet.id!,
                                 replyText: _replyController.text,
                                 replierUser: userProvider.user!,
-                                index: widget.index,
+                              );
+                          ref.read(profileNotifierProvider.notifier).addReply(
+                                tweetId: widget.tweet.id!,
+                                replyText: _replyController.text,
+                                replierUser: userProvider.user!,
                               );
                           _replyController.text = '';
                           varWidget = 0;

@@ -15,9 +15,14 @@ class TweetComponent extends StatefulHookConsumerWidget {
   final Tweet tweet;
   final int index;
   final int whom;
+  final int inMyProfile;
 
   TweetComponent(
-      {Key? key, required this.tweet, required this.index, required this.whom})
+      {Key? key,
+      required this.tweet,
+      required this.index,
+      required this.whom,
+      required this.inMyProfile})
       : super(key: key) {}
 
   @override
@@ -407,9 +412,10 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                           ref
                               .read(homeNotifierProvider.notifier)
                               .addRetweet(tweetId: tweetId!),
-                          ref
-                              .read(profileNotifierProvider.notifier)
-                              .addRetweet(tweetId: tweetId!, whom: widget.whom),
+                          ref.read(profileNotifierProvider.notifier).addRetweet(
+                              tweetId: tweetId!,
+                              whom: widget.whom,
+                              inMyProfile: widget.inMyProfile),
                         }
                       : {
                           ref
@@ -418,7 +424,9 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                           ref
                               .read(profileNotifierProvider.notifier)
                               .deleteRetweet(
-                                  tweetId: tweetId!, whom: widget.whom),
+                                  tweetId: tweetId!,
+                                  whom: widget.whom,
+                                  inMyProfile: widget.inMyProfile),
                         };
                 },
               ),
@@ -437,17 +445,21 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                           ref
                               .read(homeNotifierProvider.notifier)
                               .addLike(tweetId: tweetId!),
-                          ref
-                              .read(profileNotifierProvider.notifier)
-                              .addLike(tweetId: tweetId!, whom: widget.whom),
+                          ref.read(profileNotifierProvider.notifier).addLike(
+                                tweetId: tweetId!,
+                                whom: widget.whom,
+                                inMyProfile: widget.inMyProfile,
+                              ),
                         }
                       : {
                           ref
                               .read(homeNotifierProvider.notifier)
                               .deleteLike(tweetId: tweetId!),
-                          ref
-                              .read(profileNotifierProvider.notifier)
-                              .deleteLike(tweetId: tweetId!, whom: widget.whom),
+                          ref.read(profileNotifierProvider.notifier).deleteLike(
+                                tweetId: tweetId!,
+                                whom: widget.whom,
+                                inMyProfile: widget.inMyProfile,
+                              ),
                         };
                 },
                 likeBuilder: (isLiked) {

@@ -5,6 +5,7 @@ import 'package:like_button/like_button.dart';
 import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
+import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
@@ -16,12 +17,14 @@ class TweetCompose extends StatefulHookConsumerWidget {
   final Tweet tweet;
   final int index;
   final int whom;
+  final int inMyProfile;
 
   TweetCompose({
     Key? key,
     required this.tweet,
     required this.index,
     required this.whom,
+    required this.inMyProfile,
   }) : super(key: key) {}
 
   @override
@@ -352,16 +355,20 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                 ref
                                     .read(profileNotifierProvider.notifier)
                                     .addRetweet(
-                                        tweetId: tweetId!, whom: widget.whom),
+                                        tweetId: tweetId,
+                                        whom: widget.whom,
+                                        inMyProfile: widget.inMyProfile),
                               }
                             : {
                                 ref
                                     .read(homeNotifierProvider.notifier)
-                                    .deleteRetweet(tweetId: tweetId!),
+                                    .deleteRetweet(tweetId: tweetId),
                                 ref
                                     .read(profileNotifierProvider.notifier)
                                     .deleteRetweet(
-                                        tweetId: tweetId!, whom: widget.whom),
+                                        tweetId: tweetId!,
+                                        whom: widget.whom,
+                                        inMyProfile: widget.inMyProfile),
                               };
                       },
                     ),
@@ -395,7 +402,9 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                 ref
                                     .read(profileNotifierProvider.notifier)
                                     .addLike(
-                                        tweetId: tweetId!, whom: widget.whom),
+                                        tweetId: tweetId!,
+                                        whom: widget.whom,
+                                        inMyProfile: widget.inMyProfile),
                               }
                             : {
                                 ref
@@ -404,7 +413,10 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                 ref
                                     .read(profileNotifierProvider.notifier)
                                     .deleteLike(
-                                        tweetId: tweetId!, whom: widget.whom),
+                                      tweetId: tweetId!,
+                                      whom: widget.whom,
+                                      inMyProfile: widget.inMyProfile,
+                                    ),
                               };
                       },
                       likeBuilder: (isLiked) {

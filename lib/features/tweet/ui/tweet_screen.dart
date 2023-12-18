@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
@@ -87,6 +88,15 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                     tweet: widget.tweet!,
                     index: widget.index!,
                     whom: widget.whom!, // 0 -> Home , 1-> Profile
+                    inMyProfile:
+                        ref.read(authNotifierProvider).user!.username ==
+                                ref
+                                    .read(profileNotifierProvider)
+                                    .userProfile
+                                    .username
+                            ? 1
+                            : 0,
+                    //if i am in myProfile-> 1 , Other profile-> 1
                   ),
                   homeProvider.loading
                       ? const Center(child: CircularProgressIndicator())
@@ -95,6 +105,7 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                               .map<Widget>(
                                 (reply) => Reply(
                                   replier: reply,
+                                  whom: widget.whom,
                                 ),
                               )
                               .toList(),
@@ -103,8 +114,9 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
               ),
             )),
             AddReply(
-              tweet: widget.tweet!,
-              index: widget.index!,
+              tweet: widget.tweet,
+              index: widget.index,
+              whom: widget.whom,
             ),
           ],
         ),
