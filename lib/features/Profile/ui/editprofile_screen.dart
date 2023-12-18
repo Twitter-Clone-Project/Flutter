@@ -327,7 +327,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                           children: [
                             TextFormField(
                               controller: _nameController,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'Name',
                               ),
                               validator: (value) {

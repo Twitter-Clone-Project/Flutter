@@ -8,8 +8,10 @@ class Reply extends StatelessWidget {
   Reply({
     super.key,
     required this.replier,
+    required this.whom,
   });
   final ReplierData replier;
+  final int whom;
 
   @override
   Widget build(BuildContext context) {

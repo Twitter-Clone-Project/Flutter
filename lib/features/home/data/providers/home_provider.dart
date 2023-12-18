@@ -142,40 +142,40 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
-  Future<bool> addReply(
-      {required String tweetId,
-      required String replyText,
-      required User replierUser,
-      required int index}) async {
+  Future<bool> addReply({
+    required String tweetId,
+    required String replyText,
+    required User replierUser,
+  }) async {
     try {
-      if (replyText.isEmpty) {
-        return false;
-      }
+      if (replyText.isEmpty) return false;
       homeRepository.addReply(tweetId: tweetId, replyText: replyText);
-      ReplierData replier = ReplierData(
-        replyUserId: replierUser.userId,
-        username: replierUser.username,
-        profileImageURL: replierUser.profileImageURL,
-        replyText: replyText,
-      );
-      List<ReplierData> updatedRepliersList =
-          List<ReplierData>.from(state.repliersList.data!);
-      updatedRepliersList.add(replier);
-      RepliersList updatedList = RepliersList(data: updatedRepliersList);
-      List<Tweet> tweetlist =
-          List.from(state.homeResponse.data); // Create a new list
-      tweetlist[index] = tweetlist[index].copyWith(
-        repliesCount: state.homeResponse.data[index].repliesCount! + 1,
-      );
-      state = state.copyWith(
-        homeResponse: state.homeResponse.copyWith(data: tweetlist),
-        loading: false,
-        repliersList: updatedList,
-      );
+      List<Tweet> tweetlist = List.from(state.homeResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+      if (tweetIndex != -1) {
+        // Check if Tweet is In homeList Then Add Reply and Increment Reply Count
+        ReplierData replier = ReplierData(
+          replyUserId: replierUser.userId,
+          username: replierUser.username,
+          profileImageURL: replierUser.profileImageURL,
+          replyText: replyText,
+        );
+        List<ReplierData> updatedRepliersList =
+            List<ReplierData>.from(state.repliersList.data!);
+        updatedRepliersList.add(replier);
+        RepliersList updatedList = RepliersList(data: updatedRepliersList);
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          repliesCount: state.homeResponse.data[tweetIndex].repliesCount! + 1,
+        );
+        state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist),
+          loading: false,
+          repliersList: updatedList,
+        );
+      }
       return true;
     } catch (e) {
       return false;
-      // Handle error
     }
   }
 
