@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:x_clone/features/home/ui/widget/main_drawer_widget.dart';
+import 'package:x_clone/features/notifications/ui/notifications_screen.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../Notifications/ui/notifications_screen.dart';
 import '../../chat/ui/chat_screen.dart';
 import '../../search/ui/search_screen.dart';
 import '../data/providers/home_provider.dart';

@@ -1,6 +1,8 @@
-const baseUrl = "https://twitter-clone.onthewifi.com:2023/api/v1/";
+const baseUrl = "https://10.0.2.2:2023/api/v1/";
+const base = "https://10.0.2.2:2023";
 
 class EndPoints {
+  static const socketUrl = base;
   static const login = "/auth/signin";
   static const register = "/auth/signup";
   static const confirmEmail = "/auth/verifyEmail";
@@ -14,6 +16,8 @@ class EndPoints {
   static const updatePicture = "/profile/updatePicture";
   static const deletePicture = "/profile/deletePicture";
   static const updateProfile = "/profile/updateProfile";
+  static const getNotifications = "/notifications";
+
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
