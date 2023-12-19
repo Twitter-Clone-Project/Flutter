@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/app.dart';
 import 'package:x_clone/app/routes.dart';
+import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/notifications/data/providers/notification_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
+import "package:x_clone/features/Stream/Provider.dart";
 
 class NotificationsScreen extends StatefulHookConsumerWidget {
   const NotificationsScreen({super.key});
@@ -24,12 +26,18 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
       ref
           .read(notificationsNotifierProvider.notifier)
           .getNotifications(page: 0);
+      ref
+          .read(notificationsNotifierProvider.notifier)
+          .init();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final notifications = ref.watch(notificationsNotifierProvider);
+    // final socket = ref.watch(socketClientProvider);
+
+    // print(socket.id);
     final notificationsList = notifications.notifications.data
         .map((e) => Notification(
               notificationId: e.notificationId,

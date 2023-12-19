@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/features/notifications/data/model/notifications.dart';
 import 'package:x_clone/features/notifications/data/repositories/notifications_repository.dart';
 import 'package:x_clone/features/notifications/data/state/notifications_state.dart';
+import 'package:x_clone/web_services/socket_services.dart';
 
 class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
   final NotificationsRepository notificationsRepository;
@@ -15,18 +18,24 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
         ) {}
 
   init() {
-    // fetchUserProfile(state.userProfile.username!);
-    // getUserTweets(userId: state.userProfile.username!, page: 0);
-    // getUserLikedTweets(userId: state.userProfile.username!, page: 1);
+    if (!SocketClient.socket.connected) {
+      SocketClient.onNotificationReceive((data) {
+        state.copyWith(loading: true);
+        final oldList = List<NotificationData>.from(state.notifications.data);
+
+        oldList.insert(0, NotificationData.fromJson(data));
+
+        state = state.copyWith(notifications: NotificationsList(data: oldList));
+      });
+      SocketClient.connect();
+    }
   }
 
   getNotifications({
     required int page,
   }) async {
     try {
-      if (state.notifications.data.length > 0) {
-        state = state.copyWith(loading: false);
-      }
+      state = state.copyWith(loading: true);
 
       final NotificationsList NotificationResponse =
           await notificationsRepository.getNotifications(page: page);
