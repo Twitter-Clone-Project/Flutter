@@ -28,8 +28,7 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
   }
 
   removeListener(String userId) {
-    SocketClient.socket.off("notification-receive");
-    // SocketClient.socket.on("notification-receive", (data) {});
+    SocketClient.disconnectNotification();
   }
 
   markNotificationsAsSeen(String userId) {
