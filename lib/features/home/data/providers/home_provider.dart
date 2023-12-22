@@ -51,20 +51,19 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     try {
       homeRepository.addLike(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
-      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-      if (tweetIndex != -1) {
-        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-          isLiked: true,
-          likesCount: tweetlist[tweetIndex].likesCount! + 1,
-        );
-        state = state.copyWith(
-          homeResponse: state.homeResponse.copyWith(data: tweetlist),
-          loading: false,
-        );
-        return true;
-      } else {
-        return false;
+      for (int i = 0; i < tweetlist.length; i++) {
+        if (tweetlist[i].id == tweetId) {
+          tweetlist[i] = tweetlist[i].copyWith(
+            isLiked: true,
+            likesCount: tweetlist[i].likesCount! + 1,
+          );
+        }
       }
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+      );
+      return true;
     } catch (e) {
       return false;
     }
@@ -74,21 +73,19 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     try {
       homeRepository.deleteLike(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
-      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-
-      if (tweetIndex != -1) {
-        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-          isLiked: false,
-          likesCount: tweetlist[tweetIndex].likesCount! - 1,
-        );
-        state = state.copyWith(
-          homeResponse: state.homeResponse.copyWith(data: tweetlist),
-          loading: false,
-        );
-        return true;
-      } else {
-        return false;
+      for (int i = 0; i < tweetlist.length; i++) {
+        if (tweetlist[i].id == tweetId) {
+          tweetlist[i] = tweetlist[i].copyWith(
+            isLiked: false,
+            likesCount: tweetlist[i].likesCount! - 1,
+          );
+        }
       }
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+      );
+      return true;
     } catch (e) {
       return false;
     }
@@ -98,21 +95,19 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     try {
       homeRepository.addRetweet(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
-      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-
-      if (tweetIndex != -1) {
-        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-          isRetweeted: true,
-          retweetsCount: tweetlist[tweetIndex].retweetsCount! + 1,
-        );
-        state = state.copyWith(
-          homeResponse: state.homeResponse.copyWith(data: tweetlist),
-          loading: false,
-        );
-        return true;
-      } else {
-        return false;
+      for (int i = 0; i < tweetlist.length; i++) {
+        if (tweetlist[i].id == tweetId) {
+          tweetlist[i] = tweetlist[i].copyWith(
+            isRetweeted: true,
+            retweetsCount: tweetlist[i].retweetsCount! + 1,
+          );
+        }
       }
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+      );
+      return true;
     } catch (e) {
       return false;
     }
@@ -122,21 +117,19 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     try {
       homeRepository.deleteRetweet(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
-      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-
-      if (tweetIndex != -1) {
-        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-          isRetweeted: false,
-          retweetsCount: tweetlist[tweetIndex].retweetsCount! - 1,
-        );
-        state = state.copyWith(
-          homeResponse: state.homeResponse.copyWith(data: tweetlist),
-          loading: false,
-        );
-        return true;
-      } else {
-        return false;
+      for (int i = 0; i < tweetlist.length; i++) {
+        if (tweetlist[i].id == tweetId) {
+          tweetlist[i] = tweetlist[i].copyWith(
+            isRetweeted: false,
+            retweetsCount: tweetlist[i].retweetsCount! - 1,
+          );
+        }
       }
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+      );
+      return true;
     } catch (e) {
       return false;
     }
@@ -223,29 +216,25 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
       final ReplierData replier =
           await homeRepository.addReply(tweetId: tweetId, replyText: replyText);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
-      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-      if (tweetIndex != -1) {
-        // Check if Tweet is In homeList Then Add Reply and Increment Reply Count
-        // ReplierData replier = ReplierData(
-        //   replyUserId: replierUser.userId,
-        //   username: replierUser.username,
-        //   profileImageURL: replierUser.profileImageURL,
-        //   replyText: replyText,
-        //   replyTweetId: tweetId,
-        // );
-        List<ReplierData> updatedRepliersList =
-            List<ReplierData>.from(state.repliersList.data!);
-        updatedRepliersList.add(replier);
-        RepliersList updatedList = RepliersList(data: updatedRepliersList);
-        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-          repliesCount: state.homeResponse.data[tweetIndex].repliesCount! + 1,
-        );
-        state = state.copyWith(
-          homeResponse: state.homeResponse.copyWith(data: tweetlist),
-          loading: false,
-          repliersList: updatedList,
-        );
+      // int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+      RepliersList updatedList = const RepliersList(data: []);
+      for (int i = 0; i < tweetlist.length; i++) {
+        if (tweetlist[i].id == tweetId) {
+          List<ReplierData> updatedRepliersList =
+              List<ReplierData>.from(state.repliersList.data!);
+          updatedRepliersList.add(replier);
+          updatedList = RepliersList(data: updatedRepliersList);
+          tweetlist[i] = tweetlist[i].copyWith(
+            repliesCount: state.homeResponse.data[i].repliesCount! + 1,
+          );
+        }
       }
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+        repliersList: updatedList,
+      );
+
       return true;
     } catch (e) {
       return false;
@@ -256,29 +245,25 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     try {
       homeRepository.deleteReply(tweetId: tweetId, replyId: replyId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
-      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-      if (tweetIndex != -1) {
-        List<ReplierData> updatedRepliersList =
-            List<ReplierData>.from(state.repliersList.data!);
-        int replyindex =
-            updatedRepliersList.indexWhere((reply) => reply.replyId == replyId);
-        if (replyindex != -1) {
-          updatedRepliersList.removeAt(replyindex);
-          RepliersList updatedList = RepliersList(data: updatedRepliersList);
-          tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-            repliesCount: state.homeResponse.data[tweetIndex].repliesCount! - 1,
-          );
-          state = state.copyWith(
-            homeResponse: state.homeResponse.copyWith(data: tweetlist),
-            loading: false,
-            repliersList: updatedList,
+      // int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+      RepliersList updatedList = const RepliersList(data: []);
+      for (int i = 0; i < tweetlist.length; i++) {
+        if (tweetlist[i].id == tweetId) {
+          List<ReplierData> updatedRepliersList =
+              List<ReplierData>.from(state.repliersList.data!);
+          updatedRepliersList.removeAt(i);
+          updatedList = RepliersList(data: updatedRepliersList);
+          tweetlist[i] = tweetlist[i].copyWith(
+            repliesCount: state.homeResponse.data[i].repliesCount! - 1,
           );
         }
-
-        return true;
-      } else {
-        return false;
       }
+      state = state.copyWith(
+        homeResponse: state.homeResponse.copyWith(data: tweetlist),
+        loading: false,
+        repliersList: updatedList,
+      );
+      return true;
     } catch (e) {
       return false;
     }
