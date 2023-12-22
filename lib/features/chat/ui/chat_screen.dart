@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 
 import '../../../theme/app_assets.dart';
+import '../../../theme/app_colors.dart';
 import '../../../utils/utils.dart';
 import '../../auth/data/providers/auth_provider.dart';
 import '../../home/data/providers/home_provider.dart';
@@ -34,22 +35,34 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         body:
         Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10,),
+              width: MediaQuery.of(context).size.width*0.9,
               child: Row(
                 children: [
                   InkWell(
                     onTap: () {
                       Scaffold.of(context).openDrawer();
                     },
-                    child: CircleAvatar(
-                        backgroundColor: const Color.fromARGB(255, 59, 158, 59),
-                        backgroundImage: NetworkImage(ref
+                    child:
+                    ClipOval(
+                      child: CachedNetworkImage(
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                        imageUrl: ref
                             .watch(authNotifierProvider)
                             .user!
-                            .profileImageURL ??
-                            'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                        child: null),
+                            .profileImageURL ?? '',
+                        placeholder: (context, url) => Image.asset(
+                            AppAssets.whiteLogo,
+                            fit: BoxFit.cover),
+                        errorWidget: (context, url, error) =>
+                            Image.asset(AppAssets.whiteLogo,
+                                fit: BoxFit.cover),
+                      ),
+                    ),
+
                   ),
                   const Spacer(),
                   Text('Messages', style: Theme.of(context).textTheme.headline6),
@@ -63,11 +76,43 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 40,
+              width: MediaQuery.of(context).size.width*0.9,
+              child: TextField(
+                textAlign: TextAlign.center,
+                onTap: () {
+                  // Navigator.pushNamed(context, Routes.searchResultsScreen, arguments: "");
+
+                },              //controller: searchController,
+                onSubmitted: (value) {},
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.all(10).copyWith(
+                    left: 20,
+                  ),
+                  fillColor: AppColors.borderDarkGray,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: const BorderSide(
+                      color: AppColors.borderDarkGray,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: const BorderSide(
+                      color: AppColors.borderDarkGray,
+                    ),
+                  ),
+                  hintText: 'Search Direct Messages',
+                ),
+              ),
+            ),
+            const Divider(),
             chatState.loading? Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.45),
               child: const Center(child: CircularProgressIndicator(),),
             ):
-
             chatState.chatResponse.conversations.isEmpty? const Center(child: Text("No Chats"),):
             Expanded(
               child: ListView.separated(
@@ -129,10 +174,15 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                   const Spacer(),
                                   Text(getFormattedDate(chatState.chatResponse.conversations[index].lastMessage!.timestamp),
                                       style: Theme.of(context).textTheme.bodyText2),
+                                  if(chatState.chatResponse.conversations[index].lastMessage!.isSeen==false)
+                                    const Padding(
+                                      padding: EdgeInsets.only(left : 5.0),
+                                      child: Icon(Icons.circle, color: Colors.blue, size: 10,),
+                                    )
 
                                 ],
                               ),
-                              SizedBox(height: 5,),
+                              const SizedBox(height: 5,),
                               Text(chatState.chatResponse.conversations[index].lastMessage!.text!,
                                   style: Theme.of(context).textTheme.bodyText2),
                             ],
@@ -142,6 +192,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     ],
                   ),
                 ),
+
                 separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10,),
                 itemCount: chatState.chatResponse.conversations.length,
 
