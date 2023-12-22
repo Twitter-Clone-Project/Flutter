@@ -28,6 +28,8 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
   @override
   Widget build(BuildContext context) {
     final tweetprov = ref.watch(tweetNotifierProvider);
+    // print("===============sasa==================");
+    // print(tweetprov.retweetrsList.data);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 65,
@@ -61,56 +63,56 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
               itemBuilder: (context, index) {
                 final retweeter = tweetprov.retweetrsList.data![index];
                 return ListTile(
-                    leading: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.profileScreen,
-                            arguments: ref
-                                .watch(tweetNotifierProvider)
-                                .likersList
-                                .data![index]
-                                .screenName);
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.whiteColor,
-                        backgroundImage: NetworkImage(ref
-                                .watch(tweetNotifierProvider)
-                                .likersList
-                                .data![index]
-                                .profileImageURL ??
-                            'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                        radius: 20,
-                      ),
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.profileScreen,
+                          arguments: ref
+                              .watch(tweetNotifierProvider)
+                              .likersList
+                              .data![index]
+                              .screenName);
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.whiteColor,
+                      backgroundImage: NetworkImage(ref
+                              .watch(tweetNotifierProvider)
+                              .retweetrsList
+                              .data![index]
+                              .profileImageURL ??
+                          'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                      radius: 20,
                     ),
-                    title: Text(
-                      retweeter.name!,
-                      style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ),
+                  title: Text(
+                    retweeter.name!,
+                    style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
-                    subtitle: Text(
-                      '@${retweeter.screenName}',
-                      style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                        color: AppColors.lightGray,
-                      ),
+                  ),
+                  subtitle: Text(
+                    '@${retweeter.screenName}',
+                    style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                      color: AppColors.lightGray,
                     ),
-                    // trailing: retweeter.isFollowed!
-                    //     ? Container(
-                    //         width: 100,
-                    //         height: 40,
-                    //         child: CustomButton(
-                    //           text: 'Following',
-                    //           onPressed: () {},
-                    //           filled: false,
-                    //         ),
-                    //       )
-                    //     : Container(
-                    //         width: 100,
-                    //         height: 40,
-                    //         child: CustomButton(
-                    //           text: 'Follow',
-                    //           onPressed: () {},
-                    //         ),
-                    //       )
+                  ),
+                  // trailing: retweeter.isFollowed!
+                  //     ? Container(
+                  //         width: 100,
+                  //         height: 40,
+                  //         child: CustomButton(
+                  //           text: 'Following',
+                  //           onPressed: () {},
+                  //           filled: false,
+                  //         ),
+                  //       )
+                  //     : Container(
+                  //         width: 100,
+                  //         height: 40,
+                  //         child: CustomButton(
+                  //           text: 'Follow',
+                  //           onPressed: () {},
+                  //         ),
+                  //       )
                 );
               },
             ),
