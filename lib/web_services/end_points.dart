@@ -40,8 +40,10 @@ class EndPoints {
   static getTrendingData() => "/trends";
   static getFollowersData(String username) => "/users/$username/followers";
   static getFollowingData(String username) => "/users/$username/followings";
+  static deleteTweet(String tweetId) => "/tweets/$tweetId/deleteTweet";
+  static deleteReply(String tweetId, String replyId) =>
+      "/tweets/$tweetId/deleteReplies/$replyId";
 
   static searchUsers(String query) => "/users/search?query=$query";
   static searchTweets(String query) => "/tweets/search?query=$query";
-
 }

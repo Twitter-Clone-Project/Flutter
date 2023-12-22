@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:like_button/like_button.dart';
 import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
+import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/theme/app_assets.dart';
@@ -78,6 +80,88 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     );
   }
 
+  void _openBottomSheetForDelete(BuildContext context) {
+    if (widget.tweet.user!.username ==
+        ref.read(authNotifierProvider).user!.username) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: AppColors.pureBlack,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Delete Post'),
+                  onTap: () {
+                    ref
+                        .watch(homeNotifierProvider.notifier)
+                        .deleteTweet(tweetId: widget.tweet.id!);
+                    ref
+                        .watch(profileNotifierProvider.notifier)
+                        .deleteTweet(tweetId: widget.tweet.id!);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    } else {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: AppColors.pureBlack,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Follow'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Mute'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Block'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isliked = widget.tweet.isRetweeted ?? false;
@@ -92,6 +176,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     String userName = widget.tweet.user?.screenName ?? '';
     String handle = widget.tweet.user?.username ?? '';
     int? repliesCount = widget.tweet.repliesCount;
+
     //Handle if Click From Home Or Profile
     if (widget.whom == 0) {
       isliked =
@@ -127,7 +212,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               .user!
               .screenName ??
           '';
-      userName = ref
+      handle = ref
               .watch(homeNotifierProvider)
               .homeResponse
               .data[index]
@@ -179,7 +264,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               .user!
               .screenName ??
           '';
-      userName = ref
+      handle = ref
               .watch(profileNotifierProvider)
               .profileTweetsResponse
               .data[index]
@@ -290,6 +375,13 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                   )
                 ],
               ),
+              const Spacer(),
+              IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed: () {
+                  _openBottomSheetForDelete(context);
+                },
+              ),
             ],
           ),
         ),
@@ -318,26 +410,24 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
             ),
           ),
         if (images.isEmpty == false)
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: 0.005 * MediaQuery.of(context).size.width,
-                vertical: 5),
-            child: GestureDetector(
-              onTap: () {
-                _showImageDialog(context, images);
-              },
-              child: Container(
-                width: double.infinity,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.0),
-                  child: Image(
-                    image: images[0],
-                    fit: BoxFit.fitWidth,
-                  ),
+          if (images.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: CarouselSlider(
+                items: widget.tweet.attachmentsUrl!.map(
+                  (file) {
+                    return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 0),
+                        child: Image.network(file));
+                  },
+                ).toList(),
+                options: CarouselOptions(
+                  enableInfiniteScroll: false,
                 ),
               ),
             ),
-          ),
         const Divider(color: AppColors.lightThinTextGray, thickness: 0.3),
         Padding(
           padding: EdgeInsets.symmetric(

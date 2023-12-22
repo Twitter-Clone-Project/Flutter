@@ -34,10 +34,12 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
   Future<List<File>> pickImages() async {
     List<File> attachments = [];
     final ImagePicker picker = ImagePicker();
-    final imagefiles = await picker.pickMultiImage();
-    if (imagefiles.isNotEmpty) {
-      for (final image in imagefiles) {
-        attachments.add(File(image.path));
+    final imageFiles = await picker.pickMultiImage();
+    if (imageFiles.isNotEmpty) {
+      int currentAttachmentsCount = attachments.length;
+      int remainingSlots = 4 - currentAttachmentsCount;
+      for (int i = 0; i < imageFiles.length && i < remainingSlots; i++) {
+        attachments.add(File(imageFiles[i].path));
       }
     }
     return attachments;
@@ -65,20 +67,24 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
         ),
         actions: [
           RoundedButton(
-              onTap: () async {
-                List<MultipartFile> multipartimgs = [];
-                for (var file in imgs) {
-                  MultipartFile multipartFile = await MultipartFile.fromFile(
-                    file.path,
-                  );
-                  multipartimgs.add(multipartFile);
-                }
+            onTap: () async {
+              List<MultipartFile> multipartimgs = [];
+              for (var file in imgs) {
+                MultipartFile multipartFile = await MultipartFile.fromFile(
+                  file.path,
+                );
+                multipartimgs.add(multipartFile);
+              }
+              String trimmedText = _tweetTextController.text.trim();
+              if (trimmedText.isNotEmpty) {
                 ref.read(homeNotifierProvider.notifier).addTweet(
-                    tweetText: _tweetTextController.text,
-                    attachments: multipartimgs);
-                Navigator.pop(context);
-              },
-              label: 'Post')
+                    tweetText: trimmedText, attachments: multipartimgs);
+              }
+
+              Navigator.pop(context);
+            },
+            label: 'Post',
+          )
         ],
       ),
       body: Container(

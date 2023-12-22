@@ -15,6 +15,8 @@ abstract class HomeRepository {
   fetchRepliersData({required String tweetId});
   Future<void> addTweet(
       {String? tweetText, List<MultipartFile>? media, List<String>? trends});
+  deleteTweet({required String tweetId});
+  deleteReply({required String tweetId, required String replyId});
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -46,6 +48,29 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<void> deleteLike({required String tweetId}) async {
     try {
       var response = await HttpClient.dio.delete(EndPoints.deleteLike(tweetId));
+      if (response.statusCode == 200 || response.statusCode == 201) {}
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteTweet({required String tweetId}) async {
+    try {
+      var response =
+          await HttpClient.dio.delete(EndPoints.deleteTweet(tweetId));
+      if (response.statusCode == 200 || response.statusCode == 201) {}
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteReply(
+      {required String tweetId, required String replyId}) async {
+    try {
+      var response =
+          await HttpClient.dio.delete(EndPoints.deleteReply(tweetId, replyId));
       if (response.statusCode == 200 || response.statusCode == 201) {}
     } catch (e) {
       rethrow;
@@ -88,8 +113,7 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<void> addReply(
-      {required String tweetId, required String replyText}) async {
+  addReply({required String tweetId, required String replyText}) async {
     final data = {"text": replyText};
     try {
       var response = await HttpClient.dio.post(
@@ -97,6 +121,7 @@ class HomeRepositoryImpl implements HomeRepository {
         data: data,
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
+        return ReplierData.fromJson(response.data["data"]);
       } else {
         throw (response.data["message"]);
       }
