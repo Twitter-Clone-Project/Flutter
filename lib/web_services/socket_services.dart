@@ -10,21 +10,28 @@ class SocketClient {
     },
   );
 
-  static connect() {
+  static connect(String userId) {
     socket.onConnect((_) {
-      print("printed from socket.onConnect" + _.toString());
       socket.emit("add-user", {
-        "userId": "66",
+        "userId": userId,
       });
     });
-    
+
+    socket.on("notification-receive", (data) {});
+
     socket.connect();
   }
-  static onNotificationReceive(Function callback){
 
+  static onNotificationReceive(Function callback) {
+    socket.off("notification-receive");
     socket.on("notification-receive", (data) {
-      print(data);
       callback(data);
     });
-  } 
+  }
+
+  static markNotificationsAsSeen(String userId) {
+    socket.emit("mark-notifications-as-seen", {
+      "userId": userId,
+    });
+  }
 }

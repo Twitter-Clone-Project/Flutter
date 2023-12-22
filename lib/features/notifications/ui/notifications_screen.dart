@@ -5,7 +5,6 @@ import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/notifications/data/providers/notification_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
-import "package:x_clone/features/Stream/Provider.dart";
 
 class NotificationsScreen extends StatefulHookConsumerWidget {
   const NotificationsScreen({super.key});
@@ -28,16 +27,15 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
           .getNotifications(page: 0);
       ref
           .read(notificationsNotifierProvider.notifier)
-          .init();
+          .init(ref.read(authNotifierProvider).user!.userId!);
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
     final notifications = ref.watch(notificationsNotifierProvider);
-    // final socket = ref.watch(socketClientProvider);
 
-    // print(socket.id);
     final notificationsList = notifications.notifications.data
         .map((e) => Notification(
               notificationId: e.notificationId,
@@ -54,6 +52,19 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
     return isLoading
         ? const Center(child: CircularProgressIndicator())
         : Scaffold(
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: AppColors.primaryColor,
+              onPressed: () {
+                ref
+                    .read(notificationsNotifierProvider.notifier)
+                    .markNotificationsAsSeen(
+                        ref.read(authNotifierProvider).user!.userId!);
+              },
+              child: const Icon(
+                Icons.check,
+                color: AppColors.whiteColor,
+              ),
+            ),
             body: SafeArea(
               child: ListView.builder(
                 itemCount: ref
@@ -140,70 +151,74 @@ class _NotificationState extends State<Notification> {
         }
         ;
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  Routes.profileScreen,
-                  arguments: senderUsername,
-                );
-              },
-              child: CircleAvatar(
-                radius: 16,
-                backgroundColor: Colors.grey[200],
-                backgroundImage: NetworkImage(senderImgUrl),
+      child: Container(
+        color:
+            isSeen ? Colors.transparent : AppColors.lightGray.withOpacity(0.1),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.profileScreen,
+                    arguments: senderUsername,
+                  );
+                },
+                child: CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Colors.grey[200],
+                  backgroundImage: NetworkImage(senderImgUrl),
+                ),
               ),
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.profileScreen,
-                          arguments: senderUsername,
-                        );
-                      },
-                      child: Text(
-                        "@$senderUsername",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColors.whiteColor,
-                          fontWeight: FontWeight.bold,
+              SizedBox(
+                width: 16,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.profileScreen,
+                            arguments: senderUsername,
+                          );
+                        },
+                        child: Text(
+                          "@$senderUsername",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.whiteColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  child: Text(
-                    content,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      color: AppColors.lightThinTextGray,
-                    ),
-                    softWrap: true,
+                    ],
                   ),
-                ),
-              ],
-            )
-          ],
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    child: Text(
+                      content,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        color: AppColors.lightThinTextGray,
+                      ),
+                      softWrap: true,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

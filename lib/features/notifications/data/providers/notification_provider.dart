@@ -17,25 +17,36 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
           state ?? const NotificationsState(loading: true),
         ) {}
 
-  init() {
-    if (!SocketClient.socket.connected) {
-      SocketClient.onNotificationReceive((data) {
-        state.copyWith(loading: true);
-        final oldList = List<NotificationData>.from(state.notifications.data);
+  init(String userId) {
+    SocketClient.onNotificationReceive((data) {
+      final oldList = List<NotificationData>.from(state.notifications.data);
 
-        oldList.insert(0, NotificationData.fromJson(data));
+      oldList.insert(0, NotificationData.fromJson(data));
 
-        state = state.copyWith(notifications: NotificationsList(data: oldList));
-      });
-      SocketClient.connect();
-    }
+      state = state.copyWith(notifications: NotificationsList(data: oldList));
+    });
+  }
+
+  removeListener(String userId) {
+    SocketClient.socket.off("notification-receive");
+    // SocketClient.socket.on("notification-receive", (data) {});
+  }
+
+  markNotificationsAsSeen(String userId) {
+    SocketClient.markNotificationsAsSeen(userId);
+    state = state.copyWith(
+        notifications: NotificationsList(
+            data: state.notifications.data
+                .map((e) => e.copyWith(isSeen: true))
+                .toList()));
   }
 
   getNotifications({
     required int page,
   }) async {
     try {
-      state = state.copyWith(loading: true);
+      if (!state.notifications.data.isNotEmpty)
+        state = state.copyWith(loading: true);
 
       final NotificationsList NotificationResponse =
           await notificationsRepository.getNotifications(page: page);

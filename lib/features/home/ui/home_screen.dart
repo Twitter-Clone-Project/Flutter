@@ -48,27 +48,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                             Scaffold.of(context).openDrawer();
                           },
                           child: CircleAvatar(
-                            backgroundColor:
-                                const Color.fromARGB(255, 59, 158, 59),
-                            backgroundImage: NetworkImage(ref
-                                    .watch(authNotifierProvider)
-                                    .user!
-                                    .profileImageURL ??
-                                'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                            child: null
-                          ),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 59, 158, 59),
+                              backgroundImage: NetworkImage(ref
+                                      .watch(authNotifierProvider)
+                                      .user!
+                                      .profileImageURL ??
+                                  'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                              child: null),
                         ),
                         const Spacer(),
                         CircleAvatar(
                             backgroundColor:
-                            const Color.fromARGB(255, 59, 158, 59),
-                            backgroundImage: NetworkImage('https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1702425600&semt=ais'),
-                            child: null
-                        ),
+                                const Color.fromARGB(255, 59, 158, 59),
+                            backgroundImage: NetworkImage(
+                                'https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1702425600&semt=ais'),
+                            child: null),
                         const Spacer(),
                         IconButton(
                           icon: const Icon(Icons.settings),
-                          onPressed: ()  {
+                          onPressed: () {
                             //TODO Settings
                           },
                         ),
