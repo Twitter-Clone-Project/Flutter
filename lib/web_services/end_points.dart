@@ -15,6 +15,7 @@ class EndPoints {
   static const updatePicture = "/profile/updatePicture";
   static const deletePicture = "/profile/deletePicture";
   static const updateProfile = "/profile/updateProfile";
+  static const getConversations = "/conversations";
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
@@ -46,4 +47,5 @@ class EndPoints {
 
   static searchUsers(String query) => "/users/search?query=$query";
   static searchTweets(String query) => "/tweets/search?query=$query";
+
 }

@@ -54,3 +54,24 @@ extension ContextExtension on BuildContext {
   }
 }
 
+String getFormattedDate(String? originalDateString) {
+  if(originalDateString == null||originalDateString.isEmpty) return '';
+  DateTime originalDate = DateTime.parse(originalDateString);
+  DateTime now = DateTime.now();
+
+  Duration difference = now.difference(originalDate);
+
+  if (difference.inSeconds < 60) {
+    return 'now';
+  } else if (originalDate.day == now.day &&
+      originalDate.month == now.month &&
+      originalDate.year == now.year) {
+    String formattedTime = DateFormat('h:mm a').format(originalDate);
+    return formattedTime;
+  } else {
+    String formattedDate = DateFormat('MMM dd, yyyy').format(originalDate);
+    return formattedDate;
+  }
+}
+
+
