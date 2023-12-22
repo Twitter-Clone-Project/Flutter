@@ -14,7 +14,15 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       email: json['email'] as String?,
       profileImageURL: json['profileImageURL'] as String? ??
           "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
+      bannerUrl: json['bannerUrl'] as String?,
+      followingsCount: json['followingsCount'] as String?,
+      followersCount: json['followersCount'] as String?,
+      birthDate: json['birthDate'] as String?,
+      bio: json['bio'] as String?,
+      location: json['location'] as String?,
+      website: json['website'] as String?,
       isConfirmed: json['isConfirmed'] as bool?,
+      isOnline: json['isOnline'] as bool?,
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
@@ -25,5 +33,13 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'screenName': instance.screenName,
       'email': instance.email,
       'profileImageURL': instance.profileImageURL,
+      'bannerUrl': instance.bannerUrl,
+      'followingsCount': instance.followingsCount,
+      'followersCount': instance.followersCount,
+      'birthDate': instance.birthDate,
+      'bio': instance.bio,
+      'location': instance.location,
+      'website': instance.website,
       'isConfirmed': instance.isConfirmed,
+      'isOnline': instance.isOnline,
     };

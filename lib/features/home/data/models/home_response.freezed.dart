@@ -187,6 +187,7 @@ mixin _$Tweet {
   String? get createdAt => throw _privateConstructorUsedError;
   bool? get isRetweet => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
+  User? get retweetedUser => throw _privateConstructorUsedError;
   List<String>? get attachmentsUrl => throw _privateConstructorUsedError;
   bool? get isLiked => throw _privateConstructorUsedError;
   bool? get isRetweeted => throw _privateConstructorUsedError;
@@ -211,6 +212,7 @@ abstract class $TweetCopyWith<$Res> {
       String? createdAt,
       bool? isRetweet,
       User? user,
+      User? retweetedUser,
       List<String>? attachmentsUrl,
       bool? isLiked,
       bool? isRetweeted,
@@ -220,6 +222,7 @@ abstract class $TweetCopyWith<$Res> {
       int? repliesCount});
 
   $UserCopyWith<$Res>? get user;
+  $UserCopyWith<$Res>? get retweetedUser;
 }
 
 /// @nodoc
@@ -240,6 +243,7 @@ class _$TweetCopyWithImpl<$Res, $Val extends Tweet>
     Object? createdAt = freezed,
     Object? isRetweet = freezed,
     Object? user = freezed,
+    Object? retweetedUser = freezed,
     Object? attachmentsUrl = freezed,
     Object? isLiked = freezed,
     Object? isRetweeted = freezed,
@@ -268,6 +272,10 @@ class _$TweetCopyWithImpl<$Res, $Val extends Tweet>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
+              as User?,
+      retweetedUser: freezed == retweetedUser
+          ? _value.retweetedUser
+          : retweetedUser // ignore: cast_nullable_to_non_nullable
               as User?,
       attachmentsUrl: freezed == attachmentsUrl
           ? _value.attachmentsUrl
@@ -311,6 +319,18 @@ class _$TweetCopyWithImpl<$Res, $Val extends Tweet>
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res>? get retweetedUser {
+    if (_value.retweetedUser == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.retweetedUser!, (value) {
+      return _then(_value.copyWith(retweetedUser: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -326,6 +346,7 @@ abstract class _$$TweetImplCopyWith<$Res> implements $TweetCopyWith<$Res> {
       String? createdAt,
       bool? isRetweet,
       User? user,
+      User? retweetedUser,
       List<String>? attachmentsUrl,
       bool? isLiked,
       bool? isRetweeted,
@@ -336,6 +357,8 @@ abstract class _$$TweetImplCopyWith<$Res> implements $TweetCopyWith<$Res> {
 
   @override
   $UserCopyWith<$Res>? get user;
+  @override
+  $UserCopyWith<$Res>? get retweetedUser;
 }
 
 /// @nodoc
@@ -354,6 +377,7 @@ class __$$TweetImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? isRetweet = freezed,
     Object? user = freezed,
+    Object? retweetedUser = freezed,
     Object? attachmentsUrl = freezed,
     Object? isLiked = freezed,
     Object? isRetweeted = freezed,
@@ -382,6 +406,10 @@ class __$$TweetImplCopyWithImpl<$Res>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
+              as User?,
+      retweetedUser: freezed == retweetedUser
+          ? _value.retweetedUser
+          : retweetedUser // ignore: cast_nullable_to_non_nullable
               as User?,
       attachmentsUrl: freezed == attachmentsUrl
           ? _value._attachmentsUrl
@@ -424,6 +452,7 @@ class _$TweetImpl implements _Tweet {
       this.createdAt,
       this.isRetweet,
       this.user,
+      this.retweetedUser,
       final List<String>? attachmentsUrl,
       this.isLiked,
       this.isRetweeted,
@@ -446,6 +475,8 @@ class _$TweetImpl implements _Tweet {
   final bool? isRetweet;
   @override
   final User? user;
+  @override
+  final User? retweetedUser;
   final List<String>? _attachmentsUrl;
   @override
   List<String>? get attachmentsUrl {
@@ -471,7 +502,7 @@ class _$TweetImpl implements _Tweet {
 
   @override
   String toString() {
-    return 'Tweet(id: $id, text: $text, createdAt: $createdAt, isRetweet: $isRetweet, user: $user, attachmentsUrl: $attachmentsUrl, isLiked: $isLiked, isRetweeted: $isRetweeted, isReplied: $isReplied, likesCount: $likesCount, retweetsCount: $retweetsCount, repliesCount: $repliesCount)';
+    return 'Tweet(id: $id, text: $text, createdAt: $createdAt, isRetweet: $isRetweet, user: $user, retweetedUser: $retweetedUser, attachmentsUrl: $attachmentsUrl, isLiked: $isLiked, isRetweeted: $isRetweeted, isReplied: $isReplied, likesCount: $likesCount, retweetsCount: $retweetsCount, repliesCount: $repliesCount)';
   }
 
   @override
@@ -486,6 +517,8 @@ class _$TweetImpl implements _Tweet {
             (identical(other.isRetweet, isRetweet) ||
                 other.isRetweet == isRetweet) &&
             (identical(other.user, user) || other.user == user) &&
+            (identical(other.retweetedUser, retweetedUser) ||
+                other.retweetedUser == retweetedUser) &&
             const DeepCollectionEquality()
                 .equals(other._attachmentsUrl, _attachmentsUrl) &&
             (identical(other.isLiked, isLiked) || other.isLiked == isLiked) &&
@@ -510,6 +543,7 @@ class _$TweetImpl implements _Tweet {
       createdAt,
       isRetweet,
       user,
+      retweetedUser,
       const DeepCollectionEquality().hash(_attachmentsUrl),
       isLiked,
       isRetweeted,
@@ -539,6 +573,7 @@ abstract class _Tweet implements Tweet {
       final String? createdAt,
       final bool? isRetweet,
       final User? user,
+      final User? retweetedUser,
       final List<String>? attachmentsUrl,
       final bool? isLiked,
       final bool? isRetweeted,
@@ -559,6 +594,8 @@ abstract class _Tweet implements Tweet {
   bool? get isRetweet;
   @override
   User? get user;
+  @override
+  User? get retweetedUser;
   @override
   List<String>? get attachmentsUrl;
   @override

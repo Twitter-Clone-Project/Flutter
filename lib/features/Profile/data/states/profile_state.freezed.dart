@@ -26,7 +26,8 @@ mixin _$UserProfileState {
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get profileLoading => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
-  bool get tweetsloading => throw _privateConstructorUsedError;
+  bool get tweetsRefreshing => throw _privateConstructorUsedError;
+  bool get tweetsLoading => throw _privateConstructorUsedError;
   bool get isBlocked => throw _privateConstructorUsedError;
   bool get isMuted => throw _privateConstructorUsedError;
   bool get isFollowed => throw _privateConstructorUsedError;
@@ -34,7 +35,12 @@ mixin _$UserProfileState {
   int get myPostsIndex => throw _privateConstructorUsedError;
   int get myLikedPostsIndex => throw _privateConstructorUsedError;
   UserProfile get userProfile => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError;
+  String? get error =>
+      throw _privateConstructorUsedError; // Add an error field for handling errors
+  RepliersList get ProfileTweetsRepliersList =>
+      throw _privateConstructorUsedError;
+  RepliersList get ProfileLikedTweetsRepliersList =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserProfileStateCopyWith<UserProfileState> get copyWith =>
@@ -56,7 +62,8 @@ abstract class $UserProfileStateCopyWith<$Res> {
       String? errorMessage,
       bool profileLoading,
       bool loading,
-      bool tweetsloading,
+      bool tweetsRefreshing,
+      bool tweetsLoading,
       bool isBlocked,
       bool isMuted,
       bool isFollowed,
@@ -64,7 +71,9 @@ abstract class $UserProfileStateCopyWith<$Res> {
       int myPostsIndex,
       int myLikedPostsIndex,
       UserProfile userProfile,
-      String? error});
+      String? error,
+      RepliersList ProfileTweetsRepliersList,
+      RepliersList ProfileLikedTweetsRepliersList});
 
   $ProfileTweetsResponseCopyWith<$Res> get profileTweetsResponse;
   $ProfileLikedTweetsResponseCopyWith<$Res> get profileLikedTweetsResponse;
@@ -72,6 +81,8 @@ abstract class $UserProfileStateCopyWith<$Res> {
   $FollowersListCopyWith<$Res> get followersList;
   $FollowingsListCopyWith<$Res> get followingsList;
   $UserProfileCopyWith<$Res> get userProfile;
+  $RepliersListCopyWith<$Res> get ProfileTweetsRepliersList;
+  $RepliersListCopyWith<$Res> get ProfileLikedTweetsRepliersList;
 }
 
 /// @nodoc
@@ -95,7 +106,8 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
     Object? errorMessage = freezed,
     Object? profileLoading = null,
     Object? loading = null,
-    Object? tweetsloading = null,
+    Object? tweetsRefreshing = null,
+    Object? tweetsLoading = null,
     Object? isBlocked = null,
     Object? isMuted = null,
     Object? isFollowed = null,
@@ -104,6 +116,8 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
     Object? myLikedPostsIndex = null,
     Object? userProfile = null,
     Object? error = freezed,
+    Object? ProfileTweetsRepliersList = null,
+    Object? ProfileLikedTweetsRepliersList = null,
   }) {
     return _then(_value.copyWith(
       profileTweetsResponse: null == profileTweetsResponse
@@ -138,9 +152,13 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-      tweetsloading: null == tweetsloading
-          ? _value.tweetsloading
-          : tweetsloading // ignore: cast_nullable_to_non_nullable
+      tweetsRefreshing: null == tweetsRefreshing
+          ? _value.tweetsRefreshing
+          : tweetsRefreshing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tweetsLoading: null == tweetsLoading
+          ? _value.tweetsLoading
+          : tweetsLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       isBlocked: null == isBlocked
           ? _value.isBlocked
@@ -174,6 +192,14 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      ProfileTweetsRepliersList: null == ProfileTweetsRepliersList
+          ? _value.ProfileTweetsRepliersList
+          : ProfileTweetsRepliersList // ignore: cast_nullable_to_non_nullable
+              as RepliersList,
+      ProfileLikedTweetsRepliersList: null == ProfileLikedTweetsRepliersList
+          ? _value.ProfileLikedTweetsRepliersList
+          : ProfileLikedTweetsRepliersList // ignore: cast_nullable_to_non_nullable
+              as RepliersList,
     ) as $Val);
   }
 
@@ -226,6 +252,25 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
       return _then(_value.copyWith(userProfile: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RepliersListCopyWith<$Res> get ProfileTweetsRepliersList {
+    return $RepliersListCopyWith<$Res>(_value.ProfileTweetsRepliersList,
+        (value) {
+      return _then(_value.copyWith(ProfileTweetsRepliersList: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RepliersListCopyWith<$Res> get ProfileLikedTweetsRepliersList {
+    return $RepliersListCopyWith<$Res>(_value.ProfileLikedTweetsRepliersList,
+        (value) {
+      return _then(
+          _value.copyWith(ProfileLikedTweetsRepliersList: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -245,7 +290,8 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       String? errorMessage,
       bool profileLoading,
       bool loading,
-      bool tweetsloading,
+      bool tweetsRefreshing,
+      bool tweetsLoading,
       bool isBlocked,
       bool isMuted,
       bool isFollowed,
@@ -253,7 +299,9 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       int myPostsIndex,
       int myLikedPostsIndex,
       UserProfile userProfile,
-      String? error});
+      String? error,
+      RepliersList ProfileTweetsRepliersList,
+      RepliersList ProfileLikedTweetsRepliersList});
 
   @override
   $ProfileTweetsResponseCopyWith<$Res> get profileTweetsResponse;
@@ -267,6 +315,10 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
   $FollowingsListCopyWith<$Res> get followingsList;
   @override
   $UserProfileCopyWith<$Res> get userProfile;
+  @override
+  $RepliersListCopyWith<$Res> get ProfileTweetsRepliersList;
+  @override
+  $RepliersListCopyWith<$Res> get ProfileLikedTweetsRepliersList;
 }
 
 /// @nodoc
@@ -288,7 +340,8 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? profileLoading = null,
     Object? loading = null,
-    Object? tweetsloading = null,
+    Object? tweetsRefreshing = null,
+    Object? tweetsLoading = null,
     Object? isBlocked = null,
     Object? isMuted = null,
     Object? isFollowed = null,
@@ -297,6 +350,8 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
     Object? myLikedPostsIndex = null,
     Object? userProfile = null,
     Object? error = freezed,
+    Object? ProfileTweetsRepliersList = null,
+    Object? ProfileLikedTweetsRepliersList = null,
   }) {
     return _then(_$UserProfileStateImpl(
       profileTweetsResponse: null == profileTweetsResponse
@@ -331,9 +386,13 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-      tweetsloading: null == tweetsloading
-          ? _value.tweetsloading
-          : tweetsloading // ignore: cast_nullable_to_non_nullable
+      tweetsRefreshing: null == tweetsRefreshing
+          ? _value.tweetsRefreshing
+          : tweetsRefreshing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tweetsLoading: null == tweetsLoading
+          ? _value.tweetsLoading
+          : tweetsLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       isBlocked: null == isBlocked
           ? _value.isBlocked
@@ -367,6 +426,14 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      ProfileTweetsRepliersList: null == ProfileTweetsRepliersList
+          ? _value.ProfileTweetsRepliersList
+          : ProfileTweetsRepliersList // ignore: cast_nullable_to_non_nullable
+              as RepliersList,
+      ProfileLikedTweetsRepliersList: null == ProfileLikedTweetsRepliersList
+          ? _value.ProfileLikedTweetsRepliersList
+          : ProfileLikedTweetsRepliersList // ignore: cast_nullable_to_non_nullable
+              as RepliersList,
     ));
   }
 }
@@ -385,7 +452,8 @@ class _$UserProfileStateImpl implements _UserProfileState {
       this.errorMessage = null,
       this.profileLoading = true,
       this.loading = true,
-      this.tweetsloading = true,
+      this.tweetsRefreshing = true,
+      this.tweetsLoading = true,
       this.isBlocked = false,
       this.isMuted = false,
       this.isFollowed = false,
@@ -393,7 +461,9 @@ class _$UserProfileStateImpl implements _UserProfileState {
       this.myPostsIndex = 0,
       this.myLikedPostsIndex = 0,
       required this.userProfile,
-      this.error});
+      this.error,
+      this.ProfileTweetsRepliersList = const RepliersList(data: []),
+      this.ProfileLikedTweetsRepliersList = const RepliersList(data: [])});
 
   @override
   @JsonKey()
@@ -421,7 +491,10 @@ class _$UserProfileStateImpl implements _UserProfileState {
   final bool loading;
   @override
   @JsonKey()
-  final bool tweetsloading;
+  final bool tweetsRefreshing;
+  @override
+  @JsonKey()
+  final bool tweetsLoading;
   @override
   @JsonKey()
   final bool isBlocked;
@@ -444,10 +517,17 @@ class _$UserProfileStateImpl implements _UserProfileState {
   final UserProfile userProfile;
   @override
   final String? error;
+// Add an error field for handling errors
+  @override
+  @JsonKey()
+  final RepliersList ProfileTweetsRepliersList;
+  @override
+  @JsonKey()
+  final RepliersList ProfileLikedTweetsRepliersList;
 
   @override
   String toString() {
-    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, followersList: $followersList, followingsList: $followingsList, errorMessage: $errorMessage, profileLoading: $profileLoading, loading: $loading, tweetsloading: $tweetsloading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, myPostsIndex: $myPostsIndex, myLikedPostsIndex: $myLikedPostsIndex, userProfile: $userProfile, error: $error)';
+    return 'UserProfileState(profileTweetsResponse: $profileTweetsResponse, profileLikedTweetsResponse: $profileLikedTweetsResponse, userprofile: $userprofile, followersList: $followersList, followingsList: $followingsList, errorMessage: $errorMessage, profileLoading: $profileLoading, loading: $loading, tweetsRefreshing: $tweetsRefreshing, tweetsLoading: $tweetsLoading, isBlocked: $isBlocked, isMuted: $isMuted, isFollowed: $isFollowed, screenIndex: $screenIndex, myPostsIndex: $myPostsIndex, myLikedPostsIndex: $myLikedPostsIndex, userProfile: $userProfile, error: $error, ProfileTweetsRepliersList: $ProfileTweetsRepliersList, ProfileLikedTweetsRepliersList: $ProfileLikedTweetsRepliersList)';
   }
 
   @override
@@ -472,8 +552,10 @@ class _$UserProfileStateImpl implements _UserProfileState {
             (identical(other.profileLoading, profileLoading) ||
                 other.profileLoading == profileLoading) &&
             (identical(other.loading, loading) || other.loading == loading) &&
-            (identical(other.tweetsloading, tweetsloading) ||
-                other.tweetsloading == tweetsloading) &&
+            (identical(other.tweetsRefreshing, tweetsRefreshing) ||
+                other.tweetsRefreshing == tweetsRefreshing) &&
+            (identical(other.tweetsLoading, tweetsLoading) ||
+                other.tweetsLoading == tweetsLoading) &&
             (identical(other.isBlocked, isBlocked) ||
                 other.isBlocked == isBlocked) &&
             (identical(other.isMuted, isMuted) || other.isMuted == isMuted) &&
@@ -487,29 +569,40 @@ class _$UserProfileStateImpl implements _UserProfileState {
                 other.myLikedPostsIndex == myLikedPostsIndex) &&
             (identical(other.userProfile, userProfile) ||
                 other.userProfile == userProfile) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.ProfileTweetsRepliersList,
+                    ProfileTweetsRepliersList) ||
+                other.ProfileTweetsRepliersList == ProfileTweetsRepliersList) &&
+            (identical(other.ProfileLikedTweetsRepliersList,
+                    ProfileLikedTweetsRepliersList) ||
+                other.ProfileLikedTweetsRepliersList ==
+                    ProfileLikedTweetsRepliersList));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      profileTweetsResponse,
-      profileLikedTweetsResponse,
-      userprofile,
-      followersList,
-      followingsList,
-      errorMessage,
-      profileLoading,
-      loading,
-      tweetsloading,
-      isBlocked,
-      isMuted,
-      isFollowed,
-      screenIndex,
-      myPostsIndex,
-      myLikedPostsIndex,
-      userProfile,
-      error);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        profileTweetsResponse,
+        profileLikedTweetsResponse,
+        userprofile,
+        followersList,
+        followingsList,
+        errorMessage,
+        profileLoading,
+        loading,
+        tweetsRefreshing,
+        tweetsLoading,
+        isBlocked,
+        isMuted,
+        isFollowed,
+        screenIndex,
+        myPostsIndex,
+        myLikedPostsIndex,
+        userProfile,
+        error,
+        ProfileTweetsRepliersList,
+        ProfileLikedTweetsRepliersList
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -521,23 +614,27 @@ class _$UserProfileStateImpl implements _UserProfileState {
 
 abstract class _UserProfileState implements UserProfileState {
   const factory _UserProfileState(
-      {final ProfileTweetsResponse profileTweetsResponse,
-      final ProfileLikedTweetsResponse profileLikedTweetsResponse,
-      final UserProfile userprofile,
-      final FollowersList followersList,
-      final FollowingsList followingsList,
-      final String? errorMessage,
-      final bool profileLoading,
-      final bool loading,
-      final bool tweetsloading,
-      final bool isBlocked,
-      final bool isMuted,
-      final bool isFollowed,
-      final int screenIndex,
-      final int myPostsIndex,
-      final int myLikedPostsIndex,
-      required final UserProfile userProfile,
-      final String? error}) = _$UserProfileStateImpl;
+          {final ProfileTweetsResponse profileTweetsResponse,
+          final ProfileLikedTweetsResponse profileLikedTweetsResponse,
+          final UserProfile userprofile,
+          final FollowersList followersList,
+          final FollowingsList followingsList,
+          final String? errorMessage,
+          final bool profileLoading,
+          final bool loading,
+          final bool tweetsRefreshing,
+          final bool tweetsLoading,
+          final bool isBlocked,
+          final bool isMuted,
+          final bool isFollowed,
+          final int screenIndex,
+          final int myPostsIndex,
+          final int myLikedPostsIndex,
+          required final UserProfile userProfile,
+          final String? error,
+          final RepliersList ProfileTweetsRepliersList,
+          final RepliersList ProfileLikedTweetsRepliersList}) =
+      _$UserProfileStateImpl;
 
   @override
   ProfileTweetsResponse get profileTweetsResponse;
@@ -556,7 +653,9 @@ abstract class _UserProfileState implements UserProfileState {
   @override
   bool get loading;
   @override
-  bool get tweetsloading;
+  bool get tweetsRefreshing;
+  @override
+  bool get tweetsLoading;
   @override
   bool get isBlocked;
   @override
@@ -573,6 +672,10 @@ abstract class _UserProfileState implements UserProfileState {
   UserProfile get userProfile;
   @override
   String? get error;
+  @override // Add an error field for handling errors
+  RepliersList get ProfileTweetsRepliersList;
+  @override
+  RepliersList get ProfileLikedTweetsRepliersList;
   @override
   @JsonKey(ignore: true)
   _$$UserProfileStateImplCopyWith<_$UserProfileStateImpl> get copyWith =>

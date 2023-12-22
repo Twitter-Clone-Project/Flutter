@@ -114,6 +114,8 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
                               style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Text(
                               '@${following.username}',

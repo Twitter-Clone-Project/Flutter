@@ -99,10 +99,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User?> fetchUserData() async {
     try {
-      var response = await HttpClient.dio.get("EndPoints");
-      _saveUserDataResponse(response.data);
+      var response = await HttpClient.dio.get(EndPoints.getMe);
+      _saveUserDataResponse(response.data["data"]["user"]);
 
-      return User.fromJson(response.data["data"]);
+      return User.fromJson(response.data["data"]["user"]);
     } catch (e) {
       rethrow;
     }

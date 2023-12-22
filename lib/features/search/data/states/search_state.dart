@@ -7,6 +7,7 @@ part 'search_state.freezed.dart';
 class SearchState with _$SearchState {
   const factory SearchState({
     @Default(TrendingList(data: [])) TrendingList trendingList,
+    @Default(UsersList(data: [])) UsersList usersList,
     @Default(null) String? errorMessage,
     @Default(true) bool loading,
     @Default(0) int screenIndex,

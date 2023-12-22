@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
@@ -36,9 +37,13 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
     Future.delayed(
       const Duration(seconds: 0),
       () {
-        ref
-            .read(homeNotifierProvider.notifier)
-            .getRepliers(tweetId: widget.tweet!.id ?? '');
+        widget.whom == 0
+            ? ref
+                .read(homeNotifierProvider.notifier)
+                .getRepliers(tweetId: widget.tweet.id ?? '')
+            : ref
+                .read(profileNotifierProvider.notifier)
+                .getRepliers(tweetId: widget.tweet.id ?? '');
       },
     );
   }
@@ -84,27 +89,73 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
               child: Column(
                 children: [
                   TweetComponent(
-                    tweet: widget.tweet!,
-                    index: widget.index!,
-                    whom: widget.whom!, // 0 -> Home , 1-> Profile
+                    tweet: widget.tweet,
+                    index: widget.index,
+                    whom: widget.whom, // 0 -> Home , 1-> Profile
+                    inMyProfile:
+                        ref.read(authNotifierProvider).user!.username ==
+                                ref
+                                    .read(profileNotifierProvider)
+                                    .userProfile
+                                    .username
+                            ? 1
+                            : 0,
+                    //if i am in myProfile-> 1 , Other profile-> 1
                   ),
-                  homeProvider.loading
-                      ? const Center(child: CircularProgressIndicator())
-                      : Column(
-                          children: homeProvider.repliersList.data!
-                              .map<Widget>(
-                                (reply) => Reply(
-                                  replier: reply,
+                  widget.whom == 0
+                      ? homeProvider.loading
+                          ? const Center(child: CircularProgressIndicator())
+                          : Column(
+                              children: ref
+                                  .watch(homeNotifierProvider)
+                                  .repliersList
+                                  .data!
+                                  .map<Widget>(
+                                    (reply) => Reply(
+                                      replier: reply,
+                                      whom: widget.whom,
+                                    ),
+                                  )
+                                  .toList(),
+                            )
+                      : widget.whom == 1
+                          ? ref.watch(profileNotifierProvider).loading
+                              ? const Center(child: CircularProgressIndicator())
+                              : Column(
+                                  children: ref
+                                      .watch(profileNotifierProvider)
+                                      .ProfileTweetsRepliersList
+                                      .data!
+                                      .map<Widget>(
+                                        (reply) => Reply(
+                                          replier: reply,
+                                          whom: widget.whom,
+                                        ),
+                                      )
+                                      .toList(),
+                                )
+                          : ref.watch(profileNotifierProvider).loading
+                              ? const Center(child: CircularProgressIndicator())
+                              : Column(
+                                  children: ref
+                                      .watch(profileNotifierProvider)
+                                      .ProfileLikedTweetsRepliersList
+                                      .data!
+                                      .map<Widget>(
+                                        (reply) => Reply(
+                                          replier: reply,
+                                          whom: widget.whom,
+                                        ),
+                                      )
+                                      .toList(),
                                 ),
-                              )
-                              .toList(),
-                        ),
                 ],
               ),
             )),
             AddReply(
-              tweet: widget.tweet!,
-              index: widget.index!,
+              tweet: widget.tweet,
+              index: widget.index,
+              whom: widget.whom,
             ),
           ],
         ),

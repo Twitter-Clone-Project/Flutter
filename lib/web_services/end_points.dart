@@ -3,6 +3,7 @@ const base = "https://10.0.2.2:2023";
 
 class EndPoints {
   static const socketUrl = base;
+  static const getMe = "/auth/me";
   static const login = "/auth/signin";
   static const register = "/auth/signup";
   static const confirmEmail = "/auth/verifyEmail";
@@ -17,7 +18,7 @@ class EndPoints {
   static const deletePicture = "/profile/deletePicture";
   static const updateProfile = "/profile/updateProfile";
   static const getNotifications = "/notifications";
-
+  static const getConversations = "/conversations";
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
@@ -43,4 +44,11 @@ class EndPoints {
   static getTrendingData() => "/trends";
   static getFollowersData(String username) => "/users/$username/followers";
   static getFollowingData(String username) => "/users/$username/followings";
+  static deleteTweet(String tweetId) => "/tweets/$tweetId/deleteTweet";
+  static deleteReply(String tweetId, String replyId) =>
+      "/tweets/$tweetId/deleteReplies/$replyId";
+
+  static searchUsers(String query) => "/users/search?query=$query";
+  static searchTweets(String query) => "/tweets/search?query=$query";
+
 }

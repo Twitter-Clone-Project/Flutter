@@ -5,6 +5,9 @@ import '../../../../web_services/end_points.dart';
 
 abstract class SearchRepository {
   Future<TrendingList> fetchTrendingData();
+  Future<UsersList> searchUsers({
+    required String query,
+  });
 }
 
 class SearchRepositoryImpl implements SearchRepository {
@@ -17,6 +20,34 @@ class SearchRepositoryImpl implements SearchRepository {
         return TrendingList.fromJson(response.data);
       }
       return const TrendingList(data: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UsersList> searchUsers({required String query}) async {
+    try {
+      var response = await HttpClient.dio.get(EndPoints.searchUsers(query));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return UsersList.fromJson(response.data);
+      }
+      return const UsersList(data: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UsersList> searchTweets({required String query}) async {
+    try {
+      var response = await HttpClient.dio.get(EndPoints.searchTweets(query));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return UsersList.fromJson(response.data);
+      }
+      return const UsersList(data: []);
     } catch (e) {
       rethrow;
     }

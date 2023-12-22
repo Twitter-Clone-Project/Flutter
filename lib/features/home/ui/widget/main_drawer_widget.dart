@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 import 'package:x_clone/theme/app_colors.dart';
 
 import '../../../../app/routes.dart';
 import '../../../auth/data/providers/auth_provider.dart';
+import '../../data/providers/home_provider.dart';
 
 class MainDrawer extends ConsumerWidget {
   const MainDrawer({super.key});
@@ -16,9 +16,9 @@ class MainDrawer extends ConsumerWidget {
     String _userName = auth.user?.name ?? '';
     String _userUserName = '@${auth.user?.username ?? ''}';
     String _numberOfFollowing =
-        ref.watch(profileNotifierProvider).userProfile.followingsCount ?? '0';
+        ref.watch(authNotifierProvider).user!.followingsCount ?? '0';
     String _numberOfFollowers =
-        ref.watch(profileNotifierProvider).userProfile.followersCount ?? '0';
+        ref.watch(authNotifierProvider).user!.followersCount ?? '0';
     return SafeArea(
       child: Drawer(
         backgroundColor: AppColors.pureBlack,
@@ -99,10 +99,8 @@ class MainDrawer extends ConsumerWidget {
                   ),
                   title: InkWell(
                     onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        Routes.profileScreen,
-                      );
+                      Navigator.pushNamed(context, Routes.profileScreen,
+                          arguments: auth.user?.username);
                     },
                     child: Text(
                       'Profile',
@@ -131,6 +129,28 @@ class MainDrawer extends ConsumerWidget {
                     ),
                   ),
                 ),
+                ListTile(
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.width * 0.01,
+                      horizontal: 0),
+                  leading: Icon(
+                    Icons.logout,
+                    size: 30,
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                  title: InkWell(
+                    onTap: () {
+                      ref.read(homeNotifierProvider.notifier).changePageIndex(0);
+                      ref.read(authNotifierProvider.notifier).logout();
+                    },
+                    child: Text(
+                      'Logout',
+                      style: AppTextStyle.textThemeDark.headline5!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+
               ],
             ),
           ),
