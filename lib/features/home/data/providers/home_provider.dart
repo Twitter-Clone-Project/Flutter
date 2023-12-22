@@ -142,6 +142,77 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
+  Future<void> getRepliers({required String tweetId}) async {
+    try {
+      state = state.copyWith(
+        loading: true,
+      );
+      final RepliersList repliers =
+          await homeRepository.fetchRepliersData(tweetId: tweetId);
+      List<Tweet> tweetlist = List.from(state.homeResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+      if (tweetIndex != -1) {
+        if (repliers.data != null) {
+          state = state.copyWith(
+            repliersList: repliers,
+            loading: false,
+          );
+        } else {
+          state = state.copyWith(
+            errorMessage: 'Failed to fetch likers',
+            loading: false,
+          );
+        }
+      }
+    } catch (e) {
+      state = state.copyWith(
+        loading: false,
+        //errorMessage: e.toString(),
+        repliersList: const RepliersList(data: []),
+      );
+    }
+  }
+
+  addTweet({String? tweetText, List<MultipartFile>? attachments}) async {
+    List<String> trends = [];
+    if (tweetText != null) {
+      List<String> words = tweetText.split(' ');
+      for (String word in words) {
+        if (word.startsWith('#')) {
+          trends.add(word.substring(1));
+        }
+      }
+    }
+    try {
+      homeRepository.addTweet(
+          tweetText: tweetText, media: attachments, trends: trends);
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
+    }
+  }
+
+  deleteTweet({required String tweetId}) async {
+    try {
+      homeRepository.deleteTweet(tweetId: tweetId);
+      List<Tweet> tweetlist = List.from(state.homeResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+      if (tweetIndex != -1) {
+        tweetlist.removeAt(tweetIndex);
+        state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> addReply({
     required String tweetId,
     required String replyText,
@@ -149,17 +220,19 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
   }) async {
     try {
       if (replyText.isEmpty) return false;
-      homeRepository.addReply(tweetId: tweetId, replyText: replyText);
+      final ReplierData replier =
+          await homeRepository.addReply(tweetId: tweetId, replyText: replyText);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
       int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
       if (tweetIndex != -1) {
         // Check if Tweet is In homeList Then Add Reply and Increment Reply Count
-        ReplierData replier = ReplierData(
-          replyUserId: replierUser.userId,
-          username: replierUser.username,
-          profileImageURL: replierUser.profileImageURL,
-          replyText: replyText,
-        );
+        // ReplierData replier = ReplierData(
+        //   replyUserId: replierUser.userId,
+        //   username: replierUser.username,
+        //   profileImageURL: replierUser.profileImageURL,
+        //   replyText: replyText,
+        //   replyTweetId: tweetId,
+        // );
         List<ReplierData> updatedRepliersList =
             List<ReplierData>.from(state.repliersList.data!);
         updatedRepliersList.add(replier);
@@ -179,51 +252,35 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
-  Future<void> getRepliers({required String tweetId}) async {
+  deleteReply({required String tweetId, required String replyId}) async {
     try {
-      state = state.copyWith(
-        loading: true,
-      );
-      final RepliersList repliers =
-          await homeRepository.fetchRepliersData(tweetId: tweetId);
-
-      if (repliers.data != null) {
-        state = state.copyWith(
-          repliersList: repliers,
-          loading: false,
-        );
-      } else {
-        state = state.copyWith(
-          errorMessage: 'Failed to fetch likers',
-          loading: false,
-        );
-      }
-    } catch (e) {
-      state = state.copyWith(
-        loading: false,
-        //errorMessage: e.toString(),
-        repliersList: const RepliersList(data: []),
-      );
-    }
-  }
-
-  addTweet({String? tweetText, List<MultipartFile>? attachments}) async {
-    List<String> trends = [];
-    if (tweetText != null) {
-      List<String> words = tweetText.split(' ');
-      for (String word in words) {
-        if (word.startsWith('#')) {
-          trends.add(word);
+      homeRepository.deleteReply(tweetId: tweetId, replyId: replyId);
+      List<Tweet> tweetlist = List.from(state.homeResponse.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+      if (tweetIndex != -1) {
+        List<ReplierData> updatedRepliersList =
+            List<ReplierData>.from(state.repliersList.data!);
+        int replyindex =
+            updatedRepliersList.indexWhere((reply) => reply.replyId == replyId);
+        if (replyindex != -1) {
+          updatedRepliersList.removeAt(replyindex);
+          RepliersList updatedList = RepliersList(data: updatedRepliersList);
+          tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+            repliesCount: state.homeResponse.data[tweetIndex].repliesCount! - 1,
+          );
+          state = state.copyWith(
+            homeResponse: state.homeResponse.copyWith(data: tweetlist),
+            loading: false,
+            repliersList: updatedList,
+          );
         }
+
+        return true;
+      } else {
+        return false;
       }
-    }
-    try {
-      homeRepository.addTweet(
-          tweetText: tweetText, media: attachments, trends: trends);
-      return true;
     } catch (e) {
       return false;
-      // Handle error
     }
   }
 

@@ -37,9 +37,13 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
     Future.delayed(
       const Duration(seconds: 0),
       () {
-        ref
-            .read(homeNotifierProvider.notifier)
-            .getRepliers(tweetId: widget.tweet!.id ?? '');
+        widget.whom == 0
+            ? ref
+                .read(homeNotifierProvider.notifier)
+                .getRepliers(tweetId: widget.tweet.id ?? '')
+            : ref
+                .read(profileNotifierProvider.notifier)
+                .getRepliers(tweetId: widget.tweet.id ?? '');
       },
     );
   }
@@ -85,9 +89,9 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
               child: Column(
                 children: [
                   TweetComponent(
-                    tweet: widget.tweet!,
-                    index: widget.index!,
-                    whom: widget.whom!, // 0 -> Home , 1-> Profile
+                    tweet: widget.tweet,
+                    index: widget.index,
+                    whom: widget.whom, // 0 -> Home , 1-> Profile
                     inMyProfile:
                         ref.read(authNotifierProvider).user!.username ==
                                 ref
@@ -101,14 +105,41 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                   homeProvider.loading
                       ? const Center(child: CircularProgressIndicator())
                       : Column(
-                          children: homeProvider.repliersList.data!
-                              .map<Widget>(
-                                (reply) => Reply(
-                                  replier: reply,
-                                  whom: widget.whom,
-                                ),
-                              )
-                              .toList(),
+                          children: widget.whom == 0
+                              ? ref
+                                  .watch(homeNotifierProvider)
+                                  .repliersList
+                                  .data!
+                                  .map<Widget>(
+                                    (reply) => Reply(
+                                      replier: reply,
+                                      whom: widget.whom,
+                                    ),
+                                  )
+                                  .toList()
+                              : widget.whom == 1
+                                  ? ref
+                                      .watch(profileNotifierProvider)
+                                      .ProfileTweetsRepliersList
+                                      .data!
+                                      .map<Widget>(
+                                        (reply) => Reply(
+                                          replier: reply,
+                                          whom: widget.whom,
+                                        ),
+                                      )
+                                      .toList()
+                                  : ref
+                                      .watch(profileNotifierProvider)
+                                      .ProfileLikedTweetsRepliersList
+                                      .data!
+                                      .map<Widget>(
+                                        (reply) => Reply(
+                                          replier: reply,
+                                          whom: widget.whom,
+                                        ),
+                                      )
+                                      .toList(),
                         ),
                 ],
               ),

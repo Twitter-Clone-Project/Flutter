@@ -76,7 +76,7 @@ class _AddReplyState extends ConsumerState<AddReply> {
           controller: _replyController,
           onChanged: (text) {
             setState(() {
-              isButtonEnabled = text.isNotEmpty;
+              isButtonEnabled = text.trim().isNotEmpty;
             });
           },
           decoration: InputDecoration(
@@ -143,14 +143,15 @@ class _AddReplyState extends ConsumerState<AddReply> {
                 child: TextButton(
                   onPressed: isButtonEnabled
                       ? () {
+                          String trimmedText = _replyController.text.trim();
                           ref.read(homeNotifierProvider.notifier).addReply(
                                 tweetId: widget.tweet.id!,
-                                replyText: _replyController.text,
+                                replyText: trimmedText,
                                 replierUser: userProvider.user!,
                               );
                           ref.read(profileNotifierProvider.notifier).addReply(
                                 tweetId: widget.tweet.id!,
-                                replyText: _replyController.text,
+                                replyText: trimmedText,
                                 replierUser: userProvider.user!,
                               );
                           _replyController.text = '';

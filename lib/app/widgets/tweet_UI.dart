@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -79,6 +80,87 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
         );
       },
     );
+  }
+
+  void _openBottomSheetForDelete(BuildContext context) {
+    if (widget.tweet.user!.username ==
+        ref.read(authNotifierProvider).user!.username) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: AppColors.pureBlack,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Delete Post'),
+                  onTap: () {
+                    ref
+                        .watch(homeNotifierProvider.notifier)
+                        .deleteTweet(tweetId: widget.tweet.id!);
+                    ref
+                        .watch(profileNotifierProvider.notifier)
+                        .deleteTweet(tweetId: widget.tweet.id!);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    } else {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: AppColors.pureBlack,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Follow'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Mute'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Block'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -250,198 +332,238 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
         images = [];
       }
     }
-    return (Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return (Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 5),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, Routes.profileScreen,
-                  arguments: widget.tweet.user!.username);
-            },
-            child: CircleAvatar(
-              backgroundImage:
-                  NetworkImage(widget.tweet.user!.profileImageURL ?? ''),
-              backgroundColor: AppColors.whiteColor,
-              radius: 20,
+        if (widget.tweet.isRetweet!)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.06),
+                SvgPicture.asset(
+                  AppAssets.retweetIcon,
+                  width: 17,
+                  color: AppColors.lightThinTextGray,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                Text(
+                  "You reposted",
+                  style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
+                      color: AppColors.lightThinTextGray,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
           ),
-        ),
-        SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    userName,
-                    style: AppTextStyle.textThemeDark.bodyLarge!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                  Text(
-                    '@$handle',
-                    style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                      color: AppColors.lightThinTextGray,
-                    ),
-                  ),
-                  SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                  //Date
-                  Text(
-                    "",
-                    style: const TextStyle(color: AppColors.lightGray),
-                  )
-                ],
-              ),
-              if (text != null)
-                RichText(
-                  text: TextSpan(
-                    style: AppTextStyle.textThemeDark.bodyLarge!,
-                    children: text.split(' ').map((word) {
-                      if (word.startsWith('#')) {
-                        return TextSpan(
-                            text: '$word ',
-                            style: AppTextStyle.textThemeDark.bodyLarge!
-                                .copyWith(color: AppColors.primaryColor));
-                      } else {
-                        return TextSpan(text: '$word ');
-                      }
-                    }).toList(),
-                  ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.profileScreen,
+                      arguments: widget.tweet.user!.username);
+                },
+                child: CircleAvatar(
+                  backgroundImage:
+                      NetworkImage(widget.tweet.user!.profileImageURL ?? ''),
+                  backgroundColor: AppColors.whiteColor,
+                  radius: 20,
                 ),
-              if (images.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: GestureDetector(
-                    onTap: () {
-                      _showImageDialog(context, images);
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
-                        child: Image(
-                          image: images[0],
-                          fit: BoxFit.fitWidth,
+              ),
+            ),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userName,
+                        style: AppTextStyle.textThemeDark.bodyLarge!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
+                      Text(
+                        '@$handle',
+                        style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                          color: AppColors.lightThinTextGray,
+                        ),
+                      ),
+                      SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
+                      //Date
+                      const Text(
+                        "",
+                        style: TextStyle(color: AppColors.lightGray),
+                      ),
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          _openBottomSheetForDelete(context);
+                        },
+                        child: const Icon(
+                          Icons.more_vert,
+                          size: 17,
+                          color: AppColors.lightThinTextGray,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (text != null)
+                    RichText(
+                      text: TextSpan(
+                        style: AppTextStyle.textThemeDark.bodyLarge!,
+                        children: text.split(' ').map((word) {
+                          if (word.startsWith('#')) {
+                            return TextSpan(
+                                text: '$word ',
+                                style: AppTextStyle.textThemeDark.bodyLarge!
+                                    .copyWith(color: AppColors.primaryColor));
+                          } else {
+                            return TextSpan(text: '$word ');
+                          }
+                        }).toList(),
+                      ),
+                    ),
+                  if (images.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: CarouselSlider(
+                        items: widget.tweet.attachmentsUrl!.map(
+                          (file) {
+                            return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 0),
+                                child: Image.network(file));
+                          },
+                        ).toList(),
+                        options: CarouselOptions(
+                          enableInfiniteScroll: false,
                         ),
                       ),
                     ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10, right: 10, left: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TweetIconButton(
+                          color: isRetweeted
+                              ? Colors.green
+                              : AppColors.lightThinTextGray,
+                          pathName: isRetweeted
+                              ? AppAssets.retweetIcon
+                              : AppAssets.retweetIcon,
+                          text:
+                              retweetCount == 0 ? '' : retweetCount.toString(),
+                          onTap: () {
+                            isRetweeted = !isRetweeted;
+                            isRetweeted
+                                ? {
+                                    ref
+                                        .read(homeNotifierProvider.notifier)
+                                        .addRetweet(tweetId: tweetId!),
+                                    ref
+                                        .read(profileNotifierProvider.notifier)
+                                        .addRetweet(
+                                            tweetId: tweetId,
+                                            whom: widget.whom,
+                                            inMyProfile: widget.inMyProfile),
+                                  }
+                                : {
+                                    ref
+                                        .read(homeNotifierProvider.notifier)
+                                        .deleteRetweet(tweetId: tweetId),
+                                    ref
+                                        .read(profileNotifierProvider.notifier)
+                                        .deleteRetweet(
+                                            tweetId: tweetId!,
+                                            whom: widget.whom,
+                                            inMyProfile: widget.inMyProfile),
+                                  };
+                          },
+                        ),
+                        TweetIconButton(
+                          pathName: AppAssets.commentIcon,
+                          text:
+                              repliesCount == 0 ? '' : repliesCount.toString(),
+                          onTap: () {},
+                        ),
+                        LikeButton(
+                          isLiked: isliked,
+                          size: 20,
+                          likeCount: likesCount,
+                          countBuilder: (likecount, isLiked, text) {
+                            return Text(
+                              likecount == 0 ? '' : text,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: isLiked
+                                    ? Colors.red
+                                    : AppColors.lightThinTextGray,
+                              ),
+                            );
+                          },
+                          onTap: (isLiked) async {
+                            isLiked = !isLiked;
+                            isLiked
+                                ? {
+                                    ref
+                                        .read(homeNotifierProvider.notifier)
+                                        .addLike(tweetId: tweetId!),
+                                    ref
+                                        .read(profileNotifierProvider.notifier)
+                                        .addLike(
+                                            tweetId: tweetId!,
+                                            whom: widget.whom,
+                                            inMyProfile: widget.inMyProfile),
+                                  }
+                                : {
+                                    ref
+                                        .read(homeNotifierProvider.notifier)
+                                        .deleteLike(tweetId: tweetId!),
+                                    ref
+                                        .read(profileNotifierProvider.notifier)
+                                        .deleteLike(
+                                          tweetId: tweetId!,
+                                          whom: widget.whom,
+                                          inMyProfile: widget.inMyProfile,
+                                        ),
+                                  };
+                          },
+                          likeBuilder: (isLiked) {
+                            return isLiked
+                                ? SvgPicture.asset(
+                                    AppAssets.likeFilledIcon,
+                                    color: Colors.red,
+                                  )
+                                : SvgPicture.asset(
+                                    AppAssets.likeOutlinedIcon,
+                                    color: AppColors.lightThinTextGray,
+                                  );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TweetIconButton(
-                      color: isRetweeted
-                          ? Colors.green
-                          : AppColors.lightThinTextGray,
-                      pathName: isRetweeted
-                          ? AppAssets.retweetIcon
-                          : AppAssets.retweetIcon,
-                      text: retweetCount == 0 ? '' : retweetCount.toString(),
-                      onTap: () {
-                        isRetweeted = !isRetweeted;
-                        isRetweeted
-                            ? {
-                                ref
-                                    .read(homeNotifierProvider.notifier)
-                                    .addRetweet(tweetId: tweetId!),
-                                ref
-                                    .read(profileNotifierProvider.notifier)
-                                    .addRetweet(
-                                        tweetId: tweetId,
-                                        whom: widget.whom,
-                                        inMyProfile: widget.inMyProfile),
-                              }
-                            : {
-                                ref
-                                    .read(homeNotifierProvider.notifier)
-                                    .deleteRetweet(tweetId: tweetId),
-                                ref
-                                    .read(profileNotifierProvider.notifier)
-                                    .deleteRetweet(
-                                        tweetId: tweetId!,
-                                        whom: widget.whom,
-                                        inMyProfile: widget.inMyProfile),
-                              };
-                      },
-                    ),
-                    TweetIconButton(
-                      pathName: AppAssets.commentIcon,
-                      text: repliesCount == 0 ? '' : repliesCount.toString(),
-                      onTap: () {},
-                    ),
-                    LikeButton(
-                      isLiked: isliked,
-                      size: 23,
-                      likeCount: likesCount,
-                      countBuilder: (likecount, isLiked, text) {
-                        return Text(
-                          likecount == 0 ? '' : text,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: isLiked
-                                ? Colors.red
-                                : AppColors.lightThinTextGray,
-                          ),
-                        );
-                      },
-                      onTap: (isLiked) async {
-                        isLiked = !isLiked;
-                        isLiked
-                            ? {
-                                ref
-                                    .read(homeNotifierProvider.notifier)
-                                    .addLike(tweetId: tweetId!),
-                                ref
-                                    .read(profileNotifierProvider.notifier)
-                                    .addLike(
-                                        tweetId: tweetId!,
-                                        whom: widget.whom,
-                                        inMyProfile: widget.inMyProfile),
-                              }
-                            : {
-                                ref
-                                    .read(homeNotifierProvider.notifier)
-                                    .deleteLike(tweetId: tweetId!),
-                                ref
-                                    .read(profileNotifierProvider.notifier)
-                                    .deleteLike(
-                                      tweetId: tweetId!,
-                                      whom: widget.whom,
-                                      inMyProfile: widget.inMyProfile,
-                                    ),
-                              };
-                      },
-                      likeBuilder: (isLiked) {
-                        return isLiked
-                            ? SvgPicture.asset(
-                                AppAssets.likeFilledIcon,
-                                color: Colors.red,
-                              )
-                            : SvgPicture.asset(
-                                AppAssets.likeOutlinedIcon,
-                                color: AppColors.lightThinTextGray,
-                              );
-                      },
-                    ),
-                  ],
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+            SizedBox(width: 0.018 * MediaQuery.of(context).size.width),
+            const Divider(
+              height: 1.0,
+              color: AppColors.blackColor,
+            )
+          ],
         ),
-        SizedBox(width: 0.018 * MediaQuery.of(context).size.width),
-        const Divider(
-          height: 1.0,
-          color: AppColors.blackColor,
-        )
       ],
     ));
   }

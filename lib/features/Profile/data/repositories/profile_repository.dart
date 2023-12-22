@@ -1,4 +1,5 @@
 import 'package:x_clone/features/Profile/data/model/user_profile.dart';
+import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/web_services/web_services.dart';
 import 'package:dio/dio.dart';
 import 'package:path/path.dart' as path;
@@ -46,6 +47,7 @@ abstract class ProfileRepository {
 
   Future<FollowersList> fetchFollowersData({required String username});
   Future<FollowingsList> fetchFollowingsData({required String username});
+  fetchRepliersData({required String tweetId});
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -273,6 +275,20 @@ class ProfileRepositoryImpl implements ProfileRepository {
         return FollowingsList(data: followings);
       }
       return const FollowingsList(data: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<RepliersList> fetchRepliersData({required String tweetId}) async {
+    try {
+      var response =
+          await HttpClient.dio.get(EndPoints.getRepliersData(tweetId));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return RepliersList.fromJson(response.data);
+      }
+      return const RepliersList(data: []);
     } catch (e) {
       rethrow;
     }
