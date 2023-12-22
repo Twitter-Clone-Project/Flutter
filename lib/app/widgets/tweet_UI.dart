@@ -347,7 +347,10 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                 Text(
-                  "You reposted",
+                  widget.tweet.retweetedUser!.screenName !=
+                      ref.watch(authNotifierProvider).user!.screenName
+                      ? "${widget.tweet.retweetedUser!.screenName} reposted"
+                      : "You reposted",
                   style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
                       color: AppColors.lightThinTextGray,
                       fontWeight: FontWeight.bold),
