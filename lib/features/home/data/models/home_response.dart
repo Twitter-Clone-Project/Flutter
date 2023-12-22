@@ -30,6 +30,7 @@ class Tweet with _$Tweet {
     String? createdAt,
     bool? isRetweet,
     User? user,
+    User? retweetedUser,
     List<String>? attachmentsUrl,
     bool? isLiked,
     bool? isRetweeted,

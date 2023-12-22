@@ -29,6 +29,9 @@ _$TweetImpl _$$TweetImplFromJson(Map<String, dynamic> json) => _$TweetImpl(
       user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
+      retweetedUser: json['retweetedUser'] == null
+          ? null
+          : User.fromJson(json['retweetedUser'] as Map<String, dynamic>),
       attachmentsUrl: (json['attachmentsUrl'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -47,6 +50,7 @@ Map<String, dynamic> _$$TweetImplToJson(_$TweetImpl instance) =>
       'createdAt': instance.createdAt,
       'isRetweet': instance.isRetweet,
       'user': instance.user,
+      'retweetedUser': instance.retweetedUser,
       'attachmentsUrl': instance.attachmentsUrl,
       'isLiked': instance.isLiked,
       'isRetweeted': instance.isRetweeted,
