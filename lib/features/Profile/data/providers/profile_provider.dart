@@ -339,22 +339,25 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       //ProfileTweetList
       List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
       int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-      if (tweetIndex != -1) {
-        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-          isLiked: true,
-          likesCount: tweetlist[tweetIndex].likesCount! + 1,
-        );
-        state = state.copyWith(
-          profileTweetsResponse:
-              state.profileTweetsResponse.copyWith(data: tweetlist),
-          loading: false,
-        );
+      for (int i = 0; i < tweetlist.length; i++) {
+        if (tweetlist[i].id == tweetId) {
+          tweetlist[i] = tweetlist[i].copyWith(
+            isLiked: true,
+            likesCount: tweetlist[i].likesCount! - 1,
+          );
+        }
       }
+      state = state.copyWith(
+        profileTweetsResponse:
+            state.profileTweetsResponse.copyWith(data: tweetlist),
+        loading: false,
+      );
       //ProfileLikedTweetList
       List<Tweet> tweetLikedlist =
           List.from(state.profileLikedTweetsResponse.data);
       int tweetLikedlistIndex =
           tweetLikedlist.indexWhere((tweet) => tweet.id == tweetId);
+
       //Check if i am in MyProfile
       if (tweetLikedlistIndex == -1 && inMyProfile == 1) {
         tweetLikedlist.add(tweetlist[tweetIndex]);
@@ -365,8 +368,9 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         );
         return true;
       }
+
       //If i am in user profile
-      else if (tweetLikedlistIndex != -1 && inMyProfile == 0) {
+      if (tweetLikedlistIndex != -1 && inMyProfile == 0) {
         tweetLikedlist[tweetLikedlistIndex] =
             tweetLikedlist[tweetLikedlistIndex].copyWith(
           isLiked: true,

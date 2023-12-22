@@ -102,11 +102,11 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                             : 0,
                     //if i am in myProfile-> 1 , Other profile-> 1
                   ),
-                  homeProvider.loading
-                      ? const Center(child: CircularProgressIndicator())
-                      : Column(
-                          children: widget.whom == 0
-                              ? ref
+                  widget.whom == 0
+                      ? homeProvider.loading
+                          ? const Center(child: CircularProgressIndicator())
+                          : Column(
+                              children: ref
                                   .watch(homeNotifierProvider)
                                   .repliersList
                                   .data!
@@ -116,9 +116,13 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                                       whom: widget.whom,
                                     ),
                                   )
-                                  .toList()
-                              : widget.whom == 1
-                                  ? ref
+                                  .toList(),
+                            )
+                      : widget.whom == 1
+                          ? ref.watch(profileNotifierProvider).loading
+                              ? const Center(child: CircularProgressIndicator())
+                              : Column(
+                                  children: ref
                                       .watch(profileNotifierProvider)
                                       .ProfileTweetsRepliersList
                                       .data!
@@ -128,8 +132,12 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                                           whom: widget.whom,
                                         ),
                                       )
-                                      .toList()
-                                  : ref
+                                      .toList(),
+                                )
+                          : ref.watch(profileNotifierProvider).loading
+                              ? const Center(child: CircularProgressIndicator())
+                              : Column(
+                                  children: ref
                                       .watch(profileNotifierProvider)
                                       .ProfileLikedTweetsRepliersList
                                       .data!
@@ -140,7 +148,7 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                                         ),
                                       )
                                       .toList(),
-                        ),
+                                ),
                 ],
               ),
             )),

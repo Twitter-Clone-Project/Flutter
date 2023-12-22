@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:x_clone/features/home/data/models/home_response.dart';
 
 import '../app/app_keys.dart';
 
@@ -26,13 +27,27 @@ String getTimeDifference(DateTime notificationDate) {
   }
 }
 
+List<int> findIndexesOfTweetsWithId(List<Tweet> tweets, int id) {
+  List<int> indexesWithId = [];
+
+  for (int i = 0; i < tweets.length; i++) {
+    if (tweets[i].id == id) {
+      indexesWithId.add(i);
+    }
+  }
+
+  return indexesWithId;
+}
+
 bool isEmailValid(String email) {
-  RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+  RegExp emailRegExp =
+      RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
   return emailRegExp.hasMatch(email);
 }
 
 bool isValidUsername(String username) {
-  RegExp usernameRegex = RegExp(r"^(?![_-])(?!.*[_-]{2})[a-zA-Z0-9_-]+(?<![_-])$");
+  RegExp usernameRegex =
+      RegExp(r"^(?![_-])(?!.*[_-]{2})[a-zA-Z0-9_-]+(?<![_-])$");
   return usernameRegex.hasMatch(username);
 }
 
@@ -53,4 +68,3 @@ extension ContextExtension on BuildContext {
     }
   }
 }
-
