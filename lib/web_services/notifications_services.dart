@@ -1,7 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import 'package:timezone/timezone.dart' as tz;
-
 class NotificationServices {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -10,6 +8,7 @@ class NotificationServices {
     var androidInitialize =
         new AndroidInitializationSettings('@mipmap/ic_launcher');
     // var iOSInitialize = new IOSInitializationSettings();
+
     var initializationSettings =
         new InitializationSettings(android: androidInitialize);
 
@@ -18,13 +17,18 @@ class NotificationServices {
             AndroidFlutterLocalNotificationsPlugin>()!
         .requestNotificationsPermission();
 
+    // flutterLocalNotificationsPlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         AndroidFlutterLocalNotificationsPlugin>()!
+    //     .requestExactAlarmsPermission();
+
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-    scheduleNotification();
   }
 
   static Future showNotification({
     required String title,
     required String body,
+    required String id,
   }) async {
     AndroidNotificationDetails androidNotificationDetails =
         const AndroidNotificationDetails(
@@ -40,40 +44,40 @@ class NotificationServices {
         new NotificationDetails(android: androidNotificationDetails);
 
     await flutterLocalNotificationsPlugin.show(
-      0,
+      int.parse(id),
       title,
       body,
       notificationDetails,
     );
   }
 
-  static void scheduleNotification() async {
-    AndroidNotificationDetails androidNotificationDetails =
-        const AndroidNotificationDetails(
-      'notification',
-      'channelName',
-      // playSound: true,
-      // sound: RawResourceAndroidNotificationSound('notification'),
-      importance: Importance.max,
-      priority: Priority.high,
-    );
+  // static void scheduleNotification() async {
+  //   AndroidNotificationDetails androidNotificationDetails =
+  //       const AndroidNotificationDetails(
+  //     'notification',
+  //     'channelName',
+  //     // playSound: true,
+  //     // sound: RawResourceAndroidNotificationSound('notification'),
+  //     importance: Importance.max,
+  //     priority: Priority.high,
+  //   );
 
-    var generalNotificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
+  //   var generalNotificationDetails =
+  //       NotificationDetails(android: androidNotificationDetails);
 
-    var scheduledTime =
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5));
+  //   var scheduledTime =
+  //       tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5));
 
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        "Scheduled Task",
-        "You scheduled a Local Notification",
-        scheduledTime,
-        generalNotificationDetails,
-        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
-  }
+  //   await flutterLocalNotificationsPlugin.zonedSchedule(
+  //       0,
+  //       "Scheduled Task",
+  //       "You scheduled a Local Notification",
+  //       scheduledTime,
+  //       generalNotificationDetails,
+  //       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+  //       uiLocalNotificationDateInterpretation:
+  //           UILocalNotificationDateInterpretation.absoluteTime);
+  // }
 
 //   Future showNotification({
 //   required FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
