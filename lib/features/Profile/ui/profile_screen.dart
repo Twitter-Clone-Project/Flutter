@@ -110,7 +110,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   },
                                   child: CachedNetworkImage(
                                     fit: BoxFit.cover,
-                                    imageUrl: userProfile.bannerUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+
+                                    imageUrl: userProfile.bannerUrl ??
+                                        'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
                                     placeholder: (context, url) => Container(
                                       color: Color(AppColors.blackColor.value),
                                     ),
@@ -156,11 +158,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             width: profileImageDiameter * 0.8,
                                             height: profileImageDiameter * 0.8,
                                             fit: BoxFit.cover,
-                                            imageUrl: userProfile.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
-                                            placeholder: (context, url) => Container(
-                                              color: Color(AppColors.blackColor.value),
+
+                                            imageUrl: userProfile.imageUrl ??
+                                                'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                            placeholder: (context, url) =>
+                                                Container(
+                                              color: Color(
+                                                  AppColors.blackColor.value),
                                             ),
-                                            errorWidget: (context, url, error) =>
+                                            errorWidget: (context, url,
+                                                    error) =>
                                                 Image.asset(AppAssets.whiteLogo,
                                                     fit: BoxFit.cover),
                                           ),
@@ -361,9 +368,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       },
                                       child: CachedNetworkImage(
                                         fit: BoxFit.cover,
-                                        imageUrl: userProfile.bannerUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
-                                        placeholder: (context, url) => Container(
-                                          color: Color(AppColors.blackColor.value),
+
+                                        imageUrl: userProfile.bannerUrl ??
+                                            'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                        placeholder: (context, url) =>
+                                            Container(
+                                          color:
+                                              Color(AppColors.blackColor.value),
                                         ),
                                         errorWidget: (context, url, error) =>
                                             Image.asset(AppAssets.whiteLogo,
@@ -407,15 +418,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               },
                                               child: ClipOval(
                                                 child: CachedNetworkImage(
-                                                  width: profileImageDiameter * 0.8,
-                                                  height: profileImageDiameter * 0.8,
+
+                                                  width: profileImageDiameter *
+                                                      0.8,
+                                                  height: profileImageDiameter *
+                                                      0.8,
                                                   fit: BoxFit.cover,
-                                                  imageUrl: userProfile.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
-                                                  placeholder: (context, url) => Container(
-                                                    color: Color(AppColors.blackColor.value),
+                                                  imageUrl: userProfile
+                                                          .imageUrl ??
+                                                      'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                                  placeholder: (context, url) =>
+                                                      Container(
+                                                    color: Color(AppColors
+                                                        .blackColor.value),
                                                   ),
-                                                  errorWidget: (context, url, error) =>
-                                                      Image.asset(AppAssets.whiteLogo,
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      Image.asset(
+                                                          AppAssets.whiteLogo,
                                                           fit: BoxFit.cover),
                                                 ),
                                               ),
@@ -856,15 +876,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                     AppColors.lightThinTextGray,
                                               ),
                                               SizedBox(
-                                                width: mediaQuery.size.width * 0.8,
+                                                width:
+                                                    mediaQuery.size.width * 0.8,
                                                 child: Text(
-                                                  " ${userProfile.location}" ,
+                                                  " ${userProfile.location}",
                                                   style: const TextStyle(
                                                     color: AppColors
                                                         .lightThinTextGray,
                                                   ),
                                                   maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                               const SizedBox(
@@ -980,14 +1002,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             children: [
                                               InkWell(
                                                 onTap: () {
-                                                  Navigator.pushNamed(
-                                                    context,
-                                                    Routes.followingsScreen,
-                                                    arguments: {
-                                                      "username":
-                                                          userProfile.username
-                                                    },
-                                                  );
+                                                  if (userProfile
+                                                          .followersCount !=
+                                                      "0") {
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      Routes.followingsScreen,
+                                                      arguments: {
+                                                        "username":
+                                                            userProfile.username
+                                                      },
+                                                    );
+                                                  }
                                                 },
                                                 child: Row(
                                                   children: [
@@ -1019,14 +1045,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             children: [
                                               InkWell(
                                                 onTap: () {
-                                                  Navigator.pushNamed(
-                                                    context,
-                                                    Routes.followersScreen,
-                                                    arguments: {
-                                                      "username":
-                                                          userProfile.username
-                                                    },
-                                                  );
+                                                  if (userProfile
+                                                          .followersCount !=
+                                                      "0") {
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      Routes.followersScreen,
+                                                      arguments: {
+                                                        "username":
+                                                            userProfile.username
+                                                      },
+                                                    );
+                                                  }
                                                 },
                                                 child: Row(
                                                   children: [
@@ -1357,8 +1387,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                           .profileLikedTweetsResponse
                                                           .data[index],
                                                       index: index,
-                                                      whom:
-                                                          2, //0->Home,1->Profile,2->ProfileLikedTweets
+                                                      whom: 2,
+                                                      //0->Home,1->Profile,2->ProfileLikedTweets
                                                       inMyProfile:
                                                           myUser!.username ==
                                                                   userProfile
