@@ -1295,7 +1295,6 @@ mixin _$Message {
   String? get text => throw _privateConstructorUsedError;
   String? get time => throw _privateConstructorUsedError;
   bool? get isSeen => throw _privateConstructorUsedError;
-  String? get senderUsername => throw _privateConstructorUsedError;
   bool? get isFromMe => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1314,7 +1313,6 @@ abstract class $MessageCopyWith<$Res> {
       String? text,
       String? time,
       bool? isSeen,
-      String? senderUsername,
       bool? isFromMe});
 }
 
@@ -1336,7 +1334,6 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? text = freezed,
     Object? time = freezed,
     Object? isSeen = freezed,
-    Object? senderUsername = freezed,
     Object? isFromMe = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1360,10 +1357,6 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.isSeen
           : isSeen // ignore: cast_nullable_to_non_nullable
               as bool?,
-      senderUsername: freezed == senderUsername
-          ? _value.senderUsername
-          : senderUsername // ignore: cast_nullable_to_non_nullable
-              as String?,
       isFromMe: freezed == isFromMe
           ? _value.isFromMe
           : isFromMe // ignore: cast_nullable_to_non_nullable
@@ -1385,7 +1378,6 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
       String? text,
       String? time,
       bool? isSeen,
-      String? senderUsername,
       bool? isFromMe});
 }
 
@@ -1405,7 +1397,6 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? text = freezed,
     Object? time = freezed,
     Object? isSeen = freezed,
-    Object? senderUsername = freezed,
     Object? isFromMe = freezed,
   }) {
     return _then(_$MessageImpl(
@@ -1429,10 +1420,6 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value.isSeen
           : isSeen // ignore: cast_nullable_to_non_nullable
               as bool?,
-      senderUsername: freezed == senderUsername
-          ? _value.senderUsername
-          : senderUsername // ignore: cast_nullable_to_non_nullable
-              as String?,
       isFromMe: freezed == isFromMe
           ? _value.isFromMe
           : isFromMe // ignore: cast_nullable_to_non_nullable
@@ -1450,7 +1437,6 @@ class _$MessageImpl implements _Message {
       this.text,
       this.time,
       this.isSeen,
-      this.senderUsername,
       this.isFromMe});
 
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -1467,13 +1453,11 @@ class _$MessageImpl implements _Message {
   @override
   final bool? isSeen;
   @override
-  final String? senderUsername;
-  @override
   final bool? isFromMe;
 
   @override
   String toString() {
-    return 'Message(senderId: $senderId, messageId: $messageId, text: $text, time: $time, isSeen: $isSeen, senderUsername: $senderUsername, isFromMe: $isFromMe)';
+    return 'Message(senderId: $senderId, messageId: $messageId, text: $text, time: $time, isSeen: $isSeen, isFromMe: $isFromMe)';
   }
 
   @override
@@ -1488,16 +1472,14 @@ class _$MessageImpl implements _Message {
             (identical(other.text, text) || other.text == text) &&
             (identical(other.time, time) || other.time == time) &&
             (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
-            (identical(other.senderUsername, senderUsername) ||
-                other.senderUsername == senderUsername) &&
             (identical(other.isFromMe, isFromMe) ||
                 other.isFromMe == isFromMe));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, senderId, messageId, text, time,
-      isSeen, senderUsername, isFromMe);
+  int get hashCode => Object.hash(
+      runtimeType, senderId, messageId, text, time, isSeen, isFromMe);
 
   @JsonKey(ignore: true)
   @override
@@ -1520,7 +1502,6 @@ abstract class _Message implements Message {
       final String? text,
       final String? time,
       final bool? isSeen,
-      final String? senderUsername,
       final bool? isFromMe}) = _$MessageImpl;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
@@ -1535,8 +1516,6 @@ abstract class _Message implements Message {
   String? get time;
   @override
   bool? get isSeen;
-  @override
-  String? get senderUsername;
   @override
   bool? get isFromMe;
   @override

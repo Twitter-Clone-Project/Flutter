@@ -97,7 +97,6 @@ class Message with _$Message {
     String? text,
     String? time,
     bool? isSeen,
-    String? senderUsername,
     bool? isFromMe,
   }) = _Message;
   factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
