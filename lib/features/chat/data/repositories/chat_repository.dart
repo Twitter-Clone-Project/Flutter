@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../web_services/socket_services.dart';
 import '../../../../web_services/web_services.dart';
 import '../model/chats_response.dart';
 
@@ -7,6 +8,7 @@ import '../model/chats_response.dart';
 abstract class ChatRepository {
   getConversations();
   getMessagesHistory(String conversationId);
+  sendMessage(String conversationId, String text ,String receiverId,String senderId);
 
 }
 
@@ -34,6 +36,22 @@ class ChatRepositoryImpl implements ChatRepository {
         return ChatResponse.fromJson(response.data["data"]);
       }
       return const ChatResponse(messages : []);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
+  @override
+  sendMessage(String conversationId, String text ,String receiverId,String senderId) async {
+    try {
+
+      SocketClient.sendMessage(
+          conversationId: conversationId,
+          text: text,
+          receiverId: receiverId,
+          senderId: senderId,
+      );
     } catch (e) {
       rethrow;
     }

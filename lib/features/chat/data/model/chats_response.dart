@@ -80,6 +80,14 @@ class ChatResponse with _$ChatResponse {
   factory ChatResponse.fromJson(Map<String, dynamic> json) =>
       _$ChatResponseFromJson(json);
 }
+
+
+Message messageResponseFromJson(String str) =>
+    Message.fromJson(json.decode(str));
+
+String messageResponseToJson(Message data) => json.encode(data.toJson());
+
+
 @freezed
 class Message with _$Message {
   const factory Message({

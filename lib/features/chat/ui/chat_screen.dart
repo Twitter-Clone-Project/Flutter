@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/chat/data/model/chats_response.dart';
 import '../../../theme/app_assets.dart';
 import '../../../theme/app_colors.dart';
+import '../../../web_services/socket_services.dart';
 import '../data/providers/chat_provider.dart';
 
 class ChatScreen extends StatefulHookConsumerWidget {
@@ -21,9 +23,15 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {
       ref.read(chatNotifierProvider.notifier).getMessagesHistory(widget.conversation.conversationId??'');
+      SocketClient.chatOpen(conversationId: widget.conversation.conversationId??'', senderId: ref.read(authNotifierProvider).user?.userId??'', contactId: widget.conversation.contact?.id??'');
     });
 
     super.initState();
+  }
+  @override
+  void dispose() {
+    SocketClient.chatClose(conversationId: widget.conversation.conversationId??'', contactId: widget.conversation.contact?.id??'');
+    super.dispose();
   }
 
   @override
@@ -193,6 +201,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   ? null
                   : () {
                 if (textController.text.isNotEmpty) {
+                  ref.read(chatNotifierProvider.notifier).sendMessage(
+                      widget.conversation.conversationId??'',
+                      textController.text,
+                      widget.conversation.contact?.id??'',
+                      ref.read(authNotifierProvider).user?.userId??'');
                   textController.clear();
                 }
               },
