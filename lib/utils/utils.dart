@@ -56,6 +56,42 @@ extension ContextExtension on BuildContext {
   }
 }
 
+String getFullDateTime(String? originalDateString) {
+  if (originalDateString == null || originalDateString.isEmpty) return '';
+
+  DateTime originalDate = DateTime.parse(originalDateString);
+
+  String formattedDateTime = DateFormat('HH:mm • dd MMM yy').format(originalDate);
+  return formattedDateTime;
+}
+
+
+
+String getFormattedDateDifference(String? originalDateString) {
+  if (originalDateString == null || originalDateString.isEmpty) return '';
+
+  DateTime originalDate = DateTime.parse(originalDateString);
+  DateTime now = DateTime.now();
+
+  Duration difference = now.difference(originalDate);
+
+  if (difference.inSeconds < 60) {
+    return 'now';
+  } else if (difference.inMinutes < 60) {
+    return '${difference.inMinutes}m';
+  } else if (difference.inHours < 24) {
+    return '${difference.inHours}h';
+  } else if (difference.inDays == 1) {
+    return '1d';
+  } else if (difference.inDays <= 6) {
+    return '${difference.inDays}d';
+  } else if (originalDate.year == now.year) {
+    return DateFormat('dd MMM').format(originalDate);
+  } else {
+    return DateFormat('dd MMM yy').format(originalDate);
+  }
+}
+
 String getFormattedDate(String? originalDateString) {
   if(originalDateString == null||originalDateString.isEmpty) return '';
   DateTime originalDate = DateTime.parse(originalDateString);

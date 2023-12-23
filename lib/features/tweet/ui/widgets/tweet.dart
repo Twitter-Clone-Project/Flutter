@@ -13,6 +13,7 @@ import 'package:x_clone/features/search/data/providers/search_provider.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
+import 'package:x_clone/utils/utils.dart';
 
 class TweetComponent extends StatefulHookConsumerWidget {
   final Tweet tweet;
@@ -485,6 +486,16 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                 ),
               ),
             ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: 0.005 * MediaQuery.of(context).size.width,
+              vertical: 0),
+          child: Text(
+            "${getFullDateTime(widget.tweet.createdAt)}",
+            style: TextStyle(color: AppColors.lightThinTextGray),
+          ),
+        ),
+
         const Divider(color: AppColors.lightThinTextGray, thickness: 0.3),
         Padding(
           padding: EdgeInsets.symmetric(

@@ -9,6 +9,7 @@ import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/theme/app_text_style.dart';
+import 'package:x_clone/utils/utils.dart';
 
 import '../../features/home/data/models/home_response.dart';
 import '../../features/search/data/providers/search_provider.dart';
@@ -456,9 +457,9 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                       ),
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                       //Date
-                      const Text(
-                        "",
-                        style: TextStyle(color: AppColors.lightGray),
+                      Text(
+                        "• ${getFormattedDateDifference(date)}",
+                        style: TextStyle(color: AppColors.lightThinTextGray),
                       ),
                       const Spacer(),
                       InkWell(
