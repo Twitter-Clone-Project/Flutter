@@ -6,11 +6,13 @@ import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:x_clone/theme/app_text_style.dart';
-import '../../../theme/app_assets.dart';
-import '../data/models/home_response.dart';
+import 'package:x_clone/web_services/socket_services.dart';
 import '../data/providers/home_provider.dart';
 import 'package:x_clone/app/widgets/tweet_UI.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({super.key});
@@ -26,6 +28,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {});
+    if (SocketClient.socket.disconnected) {
+      SocketClient.connect(ref.read(authNotifierProvider).user!.userId!);
+    }
+
     super.initState();
   }
 

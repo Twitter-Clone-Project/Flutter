@@ -221,7 +221,9 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
       for (int i = 0; i < tweetlist.length; i++) {
         if (tweetlist[i].id == tweetId) {
           List<ReplierData> updatedRepliersList =
+
           List<ReplierData>.from(state.repliersList.data!);
+
           updatedRepliersList.add(replier);
           updatedList = RepliersList(data: updatedRepliersList);
           tweetlist[i] = tweetlist[i].copyWith(
@@ -254,6 +256,7 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
           int replyIndex = updatedRepliersList
               .indexWhere((reply) => reply.replyId == replyId);
           updatedRepliersList.removeAt(replyIndex);
+
           updatedList = RepliersList(data: updatedRepliersList);
           tweetlist[i] = tweetlist[i].copyWith(
             repliesCount: state.homeResponse.data[i].repliesCount! - 1,

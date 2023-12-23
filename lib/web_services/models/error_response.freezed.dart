@@ -191,7 +191,7 @@ class _$ErrorResponseImpl implements _ErrorResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorResponseImpl &&
@@ -304,7 +304,7 @@ class _$DetailsImpl implements _Details {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$DetailsImpl);
   }

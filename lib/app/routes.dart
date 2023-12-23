@@ -7,6 +7,8 @@ import 'package:x_clone/features/auth/ui/settings_ui/email_update_screen.dart';
 import 'package:x_clone/features/auth/ui/settings_ui/muted_list.dart';
 import 'package:x_clone/features/auth/ui/settings_ui/settings_screen.dart';
 import 'package:x_clone/features/auth/ui/settings_ui/username_update_screen.dart';
+import 'package:x_clone/features/chat/data/model/chats_response.dart';
+import 'package:x_clone/features/chat/ui/chat_screen.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:flutter/material.dart';
 import 'package:x_clone/features/home/ui/add_tweet_screen.dart';
@@ -49,8 +51,12 @@ class Routes {
   static const String settingsScreen = "/settingsScreen";
   static const String usernameScreen = "/usernameScreen";
   static const String emailScreen = "/emailScreen";
+
   static const String mutersScreen = "/mutersScreen";
   static const String blockersScreen = "/blockersScreen";
+
+
+  static const String chatScreen = "/chatScreen";
 
   static const String followersScreen = "/followersScreen";
   static const String followingsScreen = "/followingsScreen";
@@ -72,6 +78,9 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
+      case chatScreen:
+        Conversation data = settings.arguments as Conversation;
+        return MaterialPageRoute(builder: (_) => ChatScreen(conversation: data,));
       case registerScreen:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
       case reCAPTCHAscreen:

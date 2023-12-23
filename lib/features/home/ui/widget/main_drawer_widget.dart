@@ -5,6 +5,7 @@ import 'package:x_clone/theme/app_colors.dart';
 
 import '../../../../app/routes.dart';
 import '../../../auth/data/providers/auth_provider.dart';
+import '../../data/providers/home_provider.dart';
 
 class MainDrawer extends ConsumerWidget {
   const MainDrawer({super.key});
@@ -128,6 +129,28 @@ class MainDrawer extends ConsumerWidget {
                     ),
                   ),
                 ),
+                ListTile(
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.width * 0.01,
+                      horizontal: 0),
+                  leading: Icon(
+                    Icons.logout,
+                    size: 30,
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                  title: InkWell(
+                    onTap: () {
+                      ref.read(homeNotifierProvider.notifier).changePageIndex(0);
+                      ref.read(authNotifierProvider.notifier).logout();
+                    },
+                    child: Text(
+                      'Logout',
+                      style: AppTextStyle.textThemeDark.headline5!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+
               ],
             ),
           ),

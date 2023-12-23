@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 
 import 'package:x_clone/features/auth/data/model/user.dart';
