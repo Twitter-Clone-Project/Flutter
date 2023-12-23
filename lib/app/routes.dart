@@ -2,9 +2,13 @@ import 'package:x_clone/features/Profile/ui/editprofile_screen.dart';
 import 'package:x_clone/features/Profile/ui/followers_screen.dart';
 import 'package:x_clone/features/Profile/ui/followings_screen.dart';
 import 'package:x_clone/features/Profile/ui/full_screen_image.dart';
+import 'package:x_clone/features/auth/ui/settings_ui/blocked_list.dart';
 import 'package:x_clone/features/auth/ui/settings_ui/email_update_screen.dart';
+import 'package:x_clone/features/auth/ui/settings_ui/muted_list.dart';
 import 'package:x_clone/features/auth/ui/settings_ui/settings_screen.dart';
 import 'package:x_clone/features/auth/ui/settings_ui/username_update_screen.dart';
+import 'package:x_clone/features/chat/data/model/chats_response.dart';
+import 'package:x_clone/features/chat/ui/chat_screen.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:flutter/material.dart';
 import 'package:x_clone/features/home/ui/add_tweet_screen.dart';
@@ -48,6 +52,12 @@ class Routes {
   static const String usernameScreen = "/usernameScreen";
   static const String emailScreen = "/emailScreen";
 
+  static const String mutersScreen = "/mutersScreen";
+  static const String blockersScreen = "/blockersScreen";
+
+
+  static const String chatScreen = "/chatScreen";
+
   static const String followersScreen = "/followersScreen";
   static const String followingsScreen = "/followingsScreen";
 
@@ -68,6 +78,9 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
+      case chatScreen:
+        Conversation data = settings.arguments as Conversation;
+        return MaterialPageRoute(builder: (_) => ChatScreen(conversation: data,));
       case registerScreen:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
       case reCAPTCHAscreen:
@@ -78,65 +91,69 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const UsernameScreen());
       case emailScreen:
         return MaterialPageRoute(builder: (_) => const EmailScreen());
+      case mutersScreen:
+        return MaterialPageRoute(builder: (_) => const MutersScreen());
+      case blockersScreen:
+        return MaterialPageRoute(builder: (_) => const BlockersScreen());
       case tweetScreen:
         var data = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (_) => TweetScreen(
-                  tweet: data["tweet"],
-                  index: data["index"],
-                  whom: data["whom"],
-                ));
+              tweet: data["tweet"],
+              index: data["index"],
+              whom: data["whom"],
+            ));
       case retweetersScreen:
         var data = settings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => RetweetersScreen(
-                  tweetId: data,
-                ));
+              tweetId: data,
+            ));
       case likersScreen:
         var data = settings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => LikersScreen(
-                  tweetId: data,
-                ));
+              tweetId: data,
+            ));
       case resetPasswordScreen:
         var data = settings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => ResetPasswordScreen(
-                  email: data,
-                ));
+              email: data,
+            ));
       case navigationScreen:
         return MaterialPageRoute(builder: (_) => const NavigationScreen());
       case verifyOtpScreen:
         var data = settings.arguments as Map;
         return MaterialPageRoute(
             builder: (_) => VerifyOtpScreen(
-                  isSignUp: data["isSignUp"],
-                  email: data["email"],
-                ));
+              isSignUp: data["isSignUp"],
+              email: data["email"],
+            ));
       case profileScreen:
         var data = settings.arguments as String;
         return MaterialPageRoute(
             builder: (_) => ProfileScreen(
-                  username: data,
-                ));
+              username: data,
+            ));
       case followersScreen:
         var data = settings.arguments as Map<String, String?>;
         return MaterialPageRoute(
             builder: (_) => FollowersScreen(
-                  username: data["username"]!,
-                ));
+              username: data["username"]!,
+            ));
       case followingsScreen:
         var data = settings.arguments as Map<String, String?>;
         return MaterialPageRoute(
             builder: (_) => FollowingsScreen(
-                  username: data["username"]!,
-                ));
+              username: data["username"]!,
+            ));
       case fullScreenImage:
         var data = settings.arguments as Map<String, String>; // Correct type
         return MaterialPageRoute(
             builder: (_) => FullScreenImage(
-                  imageUrl: data["imageUrl"]!, // Accessing the correct key
-                ));
+              imageUrl: data["imageUrl"]!, // Accessing the correct key
+            ));
       case editProfileScreen:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
       case searchResultsScreen:
@@ -151,13 +168,13 @@ class Routes {
             builder: (_) => SearchAllResultsScreen(
               query: data,
             ));
-        default:
+      default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
-                  body: Center(
-                    child: Text('No route defined for ${settings.name}'),
-                  ),
-                ));
+              body: Center(
+                child: Text('No route defined for ${settings.name}'),
+              ),
+            ));
     }
   }
 

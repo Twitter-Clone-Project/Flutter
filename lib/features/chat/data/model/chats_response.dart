@@ -4,18 +4,18 @@ import 'dart:convert';
 part 'chats_response.freezed.dart';
 part 'chats_response.g.dart';
 
-ChatResponse chatResponseFromJson(String str) =>
-    ChatResponse.fromJson(json.decode(str));
+ConversationsResponse conversationsResponseFromJson(String str) =>
+    ConversationsResponse.fromJson(json.decode(str));
 
-String chatResponseToJson(ChatResponse data) => json.encode(data.toJson());
+String conversationsResponseToJson(ConversationsResponse data) => json.encode(data.toJson());
 
 @freezed
-class ChatResponse with _$ChatResponse {
-  const factory ChatResponse({
+class ConversationsResponse with _$ConversationsResponse {
+  const factory ConversationsResponse({
     @Default([]) List<Conversation> conversations,
-  }) = _ChatResponse;
-  factory ChatResponse.fromJson(Map<String, dynamic> json) =>
-      _$ChatResponseFromJson(json);
+  }) = _ConversationsResponse;
+  factory ConversationsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ConversationsResponseFromJson(json);
 }
 
 @freezed
@@ -64,4 +64,39 @@ class LastMessage with _$LastMessage {
     bool? isSeen,
   }) = _LastMessage;
   factory LastMessage.fromJson(Map<String, dynamic> json) => _$LastMessageFromJson(json);
+}
+
+
+ChatResponse chatResponseFromJson(String str) =>
+    ChatResponse.fromJson(json.decode(str));
+
+String chatResponseToJson(ChatResponse data) => json.encode(data.toJson());
+
+@freezed
+class ChatResponse with _$ChatResponse {
+  const factory ChatResponse({
+    @Default([]) List<Message> messages,
+  }) = _ChatResponse;
+  factory ChatResponse.fromJson(Map<String, dynamic> json) =>
+      _$ChatResponseFromJson(json);
+}
+
+
+Message messageResponseFromJson(String str) =>
+    Message.fromJson(json.decode(str));
+
+String messageResponseToJson(Message data) => json.encode(data.toJson());
+
+
+@freezed
+class Message with _$Message {
+  const factory Message({
+    String? senderId,
+    String? messageId,
+    String? text,
+    String? time,
+    bool? isSeen,
+    bool? isFromMe,
+  }) = _Message;
+  factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
 }

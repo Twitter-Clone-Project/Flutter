@@ -531,7 +531,7 @@ class _$UserProfileStateImpl implements _UserProfileState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserProfileStateImpl &&

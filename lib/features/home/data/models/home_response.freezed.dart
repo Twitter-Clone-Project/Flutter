@@ -132,7 +132,7 @@ class _$HomeResponseImpl implements _HomeResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeResponseImpl &&
@@ -506,7 +506,7 @@ class _$TweetImpl implements _Tweet {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TweetImpl &&

@@ -16,8 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ChatState {
+  ConversationsResponse get conversationsResponse =>
+      throw _privateConstructorUsedError;
   ChatResponse get chatResponse => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
+  bool get chatLoading => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,8 +33,14 @@ abstract class $ChatStateCopyWith<$Res> {
   factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) then) =
       _$ChatStateCopyWithImpl<$Res, ChatState>;
   @useResult
-  $Res call({ChatResponse chatResponse, bool loading, String? errorMessage});
+  $Res call(
+      {ConversationsResponse conversationsResponse,
+      ChatResponse chatResponse,
+      bool loading,
+      bool chatLoading,
+      String? errorMessage});
 
+  $ConversationsResponseCopyWith<$Res> get conversationsResponse;
   $ChatResponseCopyWith<$Res> get chatResponse;
 }
 
@@ -48,11 +57,17 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? conversationsResponse = null,
     Object? chatResponse = null,
     Object? loading = null,
+    Object? chatLoading = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
+      conversationsResponse: null == conversationsResponse
+          ? _value.conversationsResponse
+          : conversationsResponse // ignore: cast_nullable_to_non_nullable
+              as ConversationsResponse,
       chatResponse: null == chatResponse
           ? _value.chatResponse
           : chatResponse // ignore: cast_nullable_to_non_nullable
@@ -61,11 +76,24 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
+      chatLoading: null == chatLoading
+          ? _value.chatLoading
+          : chatLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ConversationsResponseCopyWith<$Res> get conversationsResponse {
+    return $ConversationsResponseCopyWith<$Res>(_value.conversationsResponse,
+        (value) {
+      return _then(_value.copyWith(conversationsResponse: value) as $Val);
+    });
   }
 
   @override
@@ -85,8 +113,15 @@ abstract class _$$ChatStateImplCopyWith<$Res>
       __$$ChatStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ChatResponse chatResponse, bool loading, String? errorMessage});
+  $Res call(
+      {ConversationsResponse conversationsResponse,
+      ChatResponse chatResponse,
+      bool loading,
+      bool chatLoading,
+      String? errorMessage});
 
+  @override
+  $ConversationsResponseCopyWith<$Res> get conversationsResponse;
   @override
   $ChatResponseCopyWith<$Res> get chatResponse;
 }
@@ -102,11 +137,17 @@ class __$$ChatStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? conversationsResponse = null,
     Object? chatResponse = null,
     Object? loading = null,
+    Object? chatLoading = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_$ChatStateImpl(
+      conversationsResponse: null == conversationsResponse
+          ? _value.conversationsResponse
+          : conversationsResponse // ignore: cast_nullable_to_non_nullable
+              as ConversationsResponse,
       chatResponse: null == chatResponse
           ? _value.chatResponse
           : chatResponse // ignore: cast_nullable_to_non_nullable
@@ -114,6 +155,10 @@ class __$$ChatStateImplCopyWithImpl<$Res>
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      chatLoading: null == chatLoading
+          ? _value.chatLoading
+          : chatLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
@@ -127,10 +172,16 @@ class __$$ChatStateImplCopyWithImpl<$Res>
 
 class _$ChatStateImpl implements _ChatState {
   const _$ChatStateImpl(
-      {this.chatResponse = const ChatResponse(conversations: []),
+      {this.conversationsResponse =
+          const ConversationsResponse(conversations: []),
+      this.chatResponse = const ChatResponse(messages: []),
       this.loading = false,
+      this.chatLoading = false,
       this.errorMessage});
 
+  @override
+  @JsonKey()
+  final ConversationsResponse conversationsResponse;
   @override
   @JsonKey()
   final ChatResponse chatResponse;
@@ -138,28 +189,35 @@ class _$ChatStateImpl implements _ChatState {
   @JsonKey()
   final bool loading;
   @override
+  @JsonKey()
+  final bool chatLoading;
+  @override
   final String? errorMessage;
 
   @override
   String toString() {
-    return 'ChatState(chatResponse: $chatResponse, loading: $loading, errorMessage: $errorMessage)';
+    return 'ChatState(conversationsResponse: $conversationsResponse, chatResponse: $chatResponse, loading: $loading, chatLoading: $chatLoading, errorMessage: $errorMessage)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatStateImpl &&
+            (identical(other.conversationsResponse, conversationsResponse) ||
+                other.conversationsResponse == conversationsResponse) &&
             (identical(other.chatResponse, chatResponse) ||
                 other.chatResponse == chatResponse) &&
             (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.chatLoading, chatLoading) ||
+                other.chatLoading == chatLoading) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, chatResponse, loading, errorMessage);
+  int get hashCode => Object.hash(runtimeType, conversationsResponse,
+      chatResponse, loading, chatLoading, errorMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -170,14 +228,20 @@ class _$ChatStateImpl implements _ChatState {
 
 abstract class _ChatState implements ChatState {
   const factory _ChatState(
-      {final ChatResponse chatResponse,
+      {final ConversationsResponse conversationsResponse,
+      final ChatResponse chatResponse,
       final bool loading,
+      final bool chatLoading,
       final String? errorMessage}) = _$ChatStateImpl;
 
+  @override
+  ConversationsResponse get conversationsResponse;
   @override
   ChatResponse get chatResponse;
   @override
   bool get loading;
+  @override
+  bool get chatLoading;
   @override
   String? get errorMessage;
   @override

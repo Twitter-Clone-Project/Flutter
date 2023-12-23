@@ -390,7 +390,7 @@ class _$UserProfileImpl implements _UserProfile {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserProfileImpl &&
@@ -653,7 +653,7 @@ class _$ProfileTweetsResponseImpl implements _ProfileTweetsResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProfileTweetsResponseImpl &&
@@ -824,7 +824,7 @@ class _$ProfileLikedTweetsResponseImpl implements _ProfileLikedTweetsResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProfileLikedTweetsResponseImpl &&
@@ -1099,7 +1099,7 @@ class _$FollowerDataImpl implements _FollowerData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FollowerDataImpl &&
@@ -1282,7 +1282,7 @@ class _$FollowersListImpl implements _FollowersList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FollowersListImpl &&
@@ -1551,7 +1551,7 @@ class _$FollowingDataImpl implements _FollowingData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FollowingDataImpl &&
@@ -1734,7 +1734,7 @@ class _$FollowingsListImpl implements _FollowingsList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FollowingsListImpl &&

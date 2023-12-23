@@ -1,7 +1,10 @@
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:x_clone/features/notifications/data/model/notifications.dart';
 import 'package:x_clone/web_services/notifications_services.dart';
 import 'package:x_clone/web_services/web_services.dart';
+
+import '../features/chat/data/model/chats_response.dart' as chats;
 
 class SocketClient {
   static handleNotificationReceiveWithNotification(dynamic data) async {
@@ -24,10 +27,13 @@ class SocketClient {
 
   static connect(String userId) {
     socket.onConnect((_) {
+      print("socccccccccccccccccccccccket connected");
       socket.emit("add-user", {
         "userId": userId,
       });
     });
+    socket.onConnectError((data) => print('Connect Error: $data'));
+    socket.onDisconnect((data) => print('Socket.I0 server disconnected')) ;
     socket.on("notification-receive", (data) async {
       handleNotificationReceiveWithNotification(data);
     });
@@ -52,6 +58,38 @@ class SocketClient {
   static markNotificationsAsSeen(String userId) {
     socket.emit("mark-notifications-as-seen", {
       "userId": userId,
+    });
+  }
+
+  static sendMessage({required String conversationId, required String text ,required String receiverId,required String senderId}) {
+    socket.emit("msg-send", {
+      "conversationId": conversationId,
+      "text": text,
+      "receiverId": receiverId,
+      "senderId": senderId,
+      "isSeen": false,
+    });
+  }
+  static chatOpen({required String conversationId, required String senderId, required String contactId}) {
+    print("oooooooooooooooooooooooooooooooopen");
+
+    socket.emit("chat-opened", {
+      "conversationId": conversationId,
+      "userId": senderId,
+      "contactId":contactId,
+    });
+  }
+  static chatClose({required String conversationId,required String contactId}) {
+    print("cloooooooooooooooooooooooooooooooose");
+    socket.emit("chat-closed", {
+      "conversationId": conversationId,
+      "contactId":contactId,
+    });
+  }
+  static onMessageReceive(Function callback) {
+    socket.off("msg-receive");
+    socket.on("msg-receive", (data) {
+      callback(data);
     });
   }
 }

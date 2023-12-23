@@ -1,5 +1,5 @@
-const baseUrl = "https://10.0.2.2:2023/api/v1/";
-const base = "https://10.0.2.2:2023";
+const baseUrl = "https://twitter-clone.onthewifi.com:2023/api/v1/";
+const base = "https://twitter-clone.onthewifi.com:2023";
 
 class EndPoints {
   static const socketUrl = base;
@@ -19,6 +19,7 @@ class EndPoints {
   static const updateProfile = "/profile/updateProfile";
   static const getNotifications = "/notifications";
   static const getConversations = "/conversations";
+  static getMessagesHistory(String conversationId) => "/conversations/$conversationId/history";
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
@@ -47,8 +48,11 @@ class EndPoints {
   static deleteTweet(String tweetId) => "/tweets/$tweetId/deleteTweet";
   static deleteReply(String tweetId, String replyId) =>
       "/tweets/$tweetId/deleteReplies/$replyId";
+  static getMutersData() => "/users/mutedUsers";
+  static getBlockersData() => "/users/blockedUsers";
 
   static searchUsers(String query) => "/users/search?query=$query";
   static searchTweets(String query) => "/tweets/search?query=$query";
 
 }
+
