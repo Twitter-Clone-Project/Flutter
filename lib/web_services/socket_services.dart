@@ -1,6 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:x_clone/features/Profile/data/repositories/profile_repository.dart';
 import 'package:x_clone/features/notifications/data/model/notifications.dart';
 import 'package:x_clone/web_services/notifications_services.dart';
 import 'package:x_clone/web_services/web_services.dart';
@@ -19,19 +18,6 @@ class SocketClient {
     );
   }
 
-  static handleMessageReceiveWithNotification(Map<String, dynamic> data) async {
-    print(data);
-
-    chats.Message message = chats.Message.fromJson(data);
-    if (message.isFromMe != null && message.isFromMe == true) return;
-
-    await NotificationServices.showNotification(
-      title: "Message from ${message.senderUsername}",
-      body: message.text ?? "",
-      id: message.messageId ?? "",
-    );
-  }
-
   static final IO.Socket socket = IO.io(
     EndPoints.socketUrl,
     <String, dynamic>{
@@ -46,12 +32,10 @@ class SocketClient {
         "userId": userId,
       });
     });
-
     socket.onConnectError((data) => print('Connect Error: $data'));
-    socket.onDisconnect((data) => print('Socket.I0 server disconnected'));
-
+    socket.onDisconnect((data) => print('Socket.I0 server disconnected')) ;
     socket.on("notification-receive", (data) async {
-      await handleNotificationReceiveWithNotification(data);
+      handleNotificationReceiveWithNotification(data);
     });
 
     socket.connect();
@@ -77,11 +61,7 @@ class SocketClient {
     });
   }
 
-  static sendMessage(
-      {required String conversationId,
-      required String text,
-      required String receiverId,
-      required String senderId}) {
+  static sendMessage({required String conversationId, required String text ,required String receiverId,required String senderId}) {
     socket.emit("msg-send", {
       "conversationId": conversationId,
       "text": text,
@@ -90,48 +70,39 @@ class SocketClient {
       "isSeen": false,
     });
   }
-
-  static chatOpen(
-      {required String conversationId,
-      required String senderId,
-      required String contactId}) {
+  static chatOpen({required String conversationId, required String senderId, required String contactId}) {
     socket.emit("chat-opened", {
       "conversationId": conversationId,
       "userId": senderId,
-      "contactId": contactId,
+      "contactId":contactId,
     });
   }
-
-  static chatClose(
-      {required String conversationId, required String contactId}) {
+  static chatClose({required String conversationId,required String contactId}) {
     socket.emit("chat-closed", {
       "conversationId": conversationId,
-      "contactId": contactId,
-    });
-    socket.off("msg-receive");
-    socket.on("msg-receive", (data) async {
-      await handleMessageReceiveWithNotification(data);
+      "contactId":contactId,
     });
   }
-
   static onMessageReceive(Function callback) {
     socket.off("msg-receive");
-    socket.on("msg-receive", (data) async {
-      await handleMessageReceiveWithNotification(data);
+    socket.on("msg-receive", (data) {
+      print(data);
       callback(data);
     });
   }
-
   static statusOfContact(Function callback) {
     socket.off("status-of-contact");
-    socket.on("status-of-contact", (data) async {
+    socket.on("status-of-contact", (data) {
       print(data);
-      if (data["inConversation"] == true) {
-        openConversationIds.add(data["conversationId"]);
-        callback(data);
-      } else if (data["inConversation"] == false) {
-        openConversationIds.remove(data["conversationId"]);
-      }
+      if(data["inConversation"]==true)
+        {
+          openConversationIds.add(data["conversationId"]);
+          callback(data);
+        }
+      else if(data["inConversation"]==false)
+        {
+          openConversationIds.remove(data["conversationId"]);
+        }
     });
   }
 }
