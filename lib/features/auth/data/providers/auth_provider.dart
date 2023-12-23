@@ -8,7 +8,7 @@ import '../repositories/auth_repository.dart';
 import '../states/auth_state.dart';
 
 final authNotifierProvider =
-    StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
+StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
   final repo = ref.watch(authRepositoryProvider);
   return AuthStateNotifier(repo, null);
 });
@@ -24,25 +24,24 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
   Future<void> checkAuthStatus() async {
     try {
-      if(_repo.getToken() != null){
-      User? user = _repo.getUserData();
-      // if authenticated, update state accordingly
-      if (user != null) {
-        state = state.copyWith(
-          user: user,
-          isLogin: true,
-        );
-         user = await _repo.fetchUserData();
-        state = state.copyWith(
-          user: user,
-          isLogin: true,
-        );
-
-      } else if (getMobileNumber() != null) {
-        state = state.copyWith();
-      } else {
-        state = state.copyWith();
-      }
+      if (_repo.getToken() != null) {
+        User? user = _repo.getUserData();
+        // if authenticated, update state accordingly
+        if (user != null) {
+          state = state.copyWith(
+            user: user,
+            isLogin: true,
+          );
+          user = await _repo.fetchUserData();
+          state = state.copyWith(
+            user: user,
+            isLogin: true,
+          );
+        } else if (getMobileNumber() != null) {
+          state = state.copyWith();
+        } else {
+          state = state.copyWith();
+        }
       }
     } catch (_) {}
   }
@@ -149,8 +148,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
   confirmEmail(
       {required String otp,
-      required String email,
-      required bool isSignup}) async {
+        required String email,
+        required bool isSignup}) async {
     try {
       state = state.copyWith(otpLoading: true, errorMessage: '');
 
@@ -312,7 +311,42 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  // void resetErrorMessage() {
-  //   state = state.copyWith(loading: false, errorMessage: "");
-  // }
+  Future<void> getMutedUsers() async {
+    state = state.copyWith(
+      loading: true,
+    );
+    final MutersList muters = await _repo.fetchMutersData();
+    if (muters.users != null) {
+      state = state.copyWith(
+        mutersList: muters,
+        loading: false,
+      );
+    } else {
+      state = state.copyWith(
+        errorMessage: 'Failed to fetch likers',
+        loading: false,
+      );
+    }
+  }
+
+  Future<void> getBlockedUsers() async {
+    state = state.copyWith(
+      loading: true,
+    );
+    final BlockersList blockers = await _repo.fetchBlockersData();
+    if (blockers.users != null) {
+      state = state.copyWith(
+        blockedList: blockers,
+        loading: false,
+      );
+    } else {
+      state = state.copyWith(
+        errorMessage: 'Failed to fetch likers',
+        loading: false,
+      );
+    }
+  }
+// void resetErrorMessage() {
+//   state = state.copyWith(loading: false, errorMessage: "");
+// }
 }

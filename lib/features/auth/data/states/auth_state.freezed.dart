@@ -26,6 +26,9 @@ mixin _$AuthState {
   bool get resetPasswordLoading => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get registerLoading => throw _privateConstructorUsedError;
+  bool? get loading => throw _privateConstructorUsedError;
+  MutersList get mutersList => throw _privateConstructorUsedError;
+  BlockersList get blockedList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -47,9 +50,14 @@ abstract class $AuthStateCopyWith<$Res> {
       bool forgetPasswordLoading,
       bool resetPasswordLoading,
       String? errorMessage,
-      bool registerLoading});
+      bool registerLoading,
+      bool? loading,
+      MutersList mutersList,
+      BlockersList blockedList});
 
   $UserCopyWith<$Res>? get user;
+  $MutersListCopyWith<$Res> get mutersList;
+  $BlockersListCopyWith<$Res> get blockedList;
 }
 
 /// @nodoc
@@ -75,6 +83,9 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? resetPasswordLoading = null,
     Object? errorMessage = freezed,
     Object? registerLoading = null,
+    Object? loading = freezed,
+    Object? mutersList = null,
+    Object? blockedList = null,
   }) {
     return _then(_value.copyWith(
       user: freezed == user
@@ -117,6 +128,18 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.registerLoading
           : registerLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      loading: freezed == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      mutersList: null == mutersList
+          ? _value.mutersList
+          : mutersList // ignore: cast_nullable_to_non_nullable
+              as MutersList,
+      blockedList: null == blockedList
+          ? _value.blockedList
+          : blockedList // ignore: cast_nullable_to_non_nullable
+              as BlockersList,
     ) as $Val);
   }
 
@@ -129,6 +152,22 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
 
     return $UserCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MutersListCopyWith<$Res> get mutersList {
+    return $MutersListCopyWith<$Res>(_value.mutersList, (value) {
+      return _then(_value.copyWith(mutersList: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BlockersListCopyWith<$Res> get blockedList {
+    return $BlockersListCopyWith<$Res>(_value.blockedList, (value) {
+      return _then(_value.copyWith(blockedList: value) as $Val);
     });
   }
 }
@@ -151,10 +190,17 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       bool forgetPasswordLoading,
       bool resetPasswordLoading,
       String? errorMessage,
-      bool registerLoading});
+      bool registerLoading,
+      bool? loading,
+      MutersList mutersList,
+      BlockersList blockedList});
 
   @override
   $UserCopyWith<$Res>? get user;
+  @override
+  $MutersListCopyWith<$Res> get mutersList;
+  @override
+  $BlockersListCopyWith<$Res> get blockedList;
 }
 
 /// @nodoc
@@ -178,6 +224,9 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? resetPasswordLoading = null,
     Object? errorMessage = freezed,
     Object? registerLoading = null,
+    Object? loading = freezed,
+    Object? mutersList = null,
+    Object? blockedList = null,
   }) {
     return _then(_$AuthStateImpl(
       user: freezed == user
@@ -220,6 +269,18 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.registerLoading
           : registerLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      loading: freezed == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      mutersList: null == mutersList
+          ? _value.mutersList
+          : mutersList // ignore: cast_nullable_to_non_nullable
+              as MutersList,
+      blockedList: null == blockedList
+          ? _value.blockedList
+          : blockedList // ignore: cast_nullable_to_non_nullable
+              as BlockersList,
     ));
   }
 }
@@ -237,7 +298,10 @@ class _$AuthStateImpl implements _AuthState {
       this.forgetPasswordLoading = false,
       this.resetPasswordLoading = false,
       this.errorMessage = null,
-      this.registerLoading = false});
+      this.registerLoading = false,
+      this.loading = false,
+      this.mutersList = const MutersList(users: []),
+      this.blockedList = const BlockersList(users: [])});
 
   @override
   @JsonKey()
@@ -269,10 +333,19 @@ class _$AuthStateImpl implements _AuthState {
   @override
   @JsonKey()
   final bool registerLoading;
+  @override
+  @JsonKey()
+  final bool? loading;
+  @override
+  @JsonKey()
+  final MutersList mutersList;
+  @override
+  @JsonKey()
+  final BlockersList blockedList;
 
   @override
   String toString() {
-    return 'AuthState(user: $user, token: $token, isLogin: $isLogin, loginLoading: $loginLoading, otpLoading: $otpLoading, googleLoading: $googleLoading, forgetPasswordLoading: $forgetPasswordLoading, resetPasswordLoading: $resetPasswordLoading, errorMessage: $errorMessage, registerLoading: $registerLoading)';
+    return 'AuthState(user: $user, token: $token, isLogin: $isLogin, loginLoading: $loginLoading, otpLoading: $otpLoading, googleLoading: $googleLoading, forgetPasswordLoading: $forgetPasswordLoading, resetPasswordLoading: $resetPasswordLoading, errorMessage: $errorMessage, registerLoading: $registerLoading, loading: $loading, mutersList: $mutersList, blockedList: $blockedList)';
   }
 
   @override
@@ -296,7 +369,12 @@ class _$AuthStateImpl implements _AuthState {
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.registerLoading, registerLoading) ||
-                other.registerLoading == registerLoading));
+                other.registerLoading == registerLoading) &&
+            (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.mutersList, mutersList) ||
+                other.mutersList == mutersList) &&
+            (identical(other.blockedList, blockedList) ||
+                other.blockedList == blockedList));
   }
 
   @override
@@ -311,7 +389,10 @@ class _$AuthStateImpl implements _AuthState {
       forgetPasswordLoading,
       resetPasswordLoading,
       errorMessage,
-      registerLoading);
+      registerLoading,
+      loading,
+      mutersList,
+      blockedList);
 
   @JsonKey(ignore: true)
   @override
@@ -331,7 +412,10 @@ abstract class _AuthState implements AuthState {
       final bool forgetPasswordLoading,
       final bool resetPasswordLoading,
       final String? errorMessage,
-      final bool registerLoading}) = _$AuthStateImpl;
+      final bool registerLoading,
+      final bool? loading,
+      final MutersList mutersList,
+      final BlockersList blockedList}) = _$AuthStateImpl;
 
   @override
   User? get user;
@@ -353,6 +437,12 @@ abstract class _AuthState implements AuthState {
   String? get errorMessage;
   @override
   bool get registerLoading;
+  @override
+  bool? get loading;
+  @override
+  MutersList get mutersList;
+  @override
+  BlockersList get blockedList;
   @override
   @JsonKey(ignore: true)
   _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>
