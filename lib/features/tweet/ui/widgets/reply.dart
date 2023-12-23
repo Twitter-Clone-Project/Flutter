@@ -8,6 +8,7 @@ import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
+import 'package:x_clone/utils/utils.dart';
 
 import '../../../../theme/app_assets.dart';
 
@@ -84,15 +85,14 @@ class _ReplyState extends ConsumerState<Reply> {
                     width: 40,
                     height: 40,
                     fit: BoxFit.cover,
-                    imageUrl: widget.replier.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                    imageUrl: widget.replier.imageUrl ??
+                        'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
                     placeholder: (context, url) => Container(
                       color: Color(0xFF333639),
                     ),
                     errorWidget: (context, url, error) =>
-                        Image.asset(AppAssets.whiteLogo,
-                            fit: BoxFit.cover),
+                        Image.asset(AppAssets.whiteLogo, fit: BoxFit.cover),
                   ),
-
                 ),
               ),
             ),
@@ -123,12 +123,13 @@ class _ReplyState extends ConsumerState<Reply> {
                           color: AppColors.lightThinTextGray,
                         ),
                       ),
-                      // SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
+
+                      SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                       //Date
-                      // Text(
-                      //   'date',
-                      //   style: const TextStyle(color: AppColors.lightGray),
-                      // )
+                      Text(
+                        "• ${getFormattedDateDifference(widget.replier.createdAt)}",
+                        style: TextStyle(color: AppColors.lightThinTextGray),
+                      ),
                     ],
                   ),
                   Padding(

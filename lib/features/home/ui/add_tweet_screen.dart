@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/home/ui/widget/rounded_button.dart';
@@ -78,10 +79,9 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
               }
               String trimmedText = _tweetTextController.text.trim();
               if (trimmedText.isNotEmpty) {
-                ref.read(homeNotifierProvider.notifier).addTweet(
+                ref.read(profileNotifierProvider.notifier).addTweet(
                     tweetText: trimmedText, attachments: multipartimgs);
               }
-
               Navigator.pop(context);
             },
             label: 'Post',
@@ -106,16 +106,15 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
                           width: 40,
                           height: 40,
                           fit: BoxFit.cover,
-                          imageUrl: ref
-                              .watch(authNotifierProvider)
-                              .user!
-                              .imageUrl ?? '',
+                          imageUrl:
+                              ref.watch(authNotifierProvider).user!.imageUrl ??
+                                  '',
                           placeholder: (context, url) => Image.asset(
                               AppAssets.whiteLogo,
                               fit: BoxFit.cover),
-                          errorWidget: (context, url, error) =>
-                              Image.asset(AppAssets.whiteLogo,
-                                  fit: BoxFit.cover),
+                          errorWidget: (context, url, error) => Image.asset(
+                              AppAssets.whiteLogo,
+                              fit: BoxFit.cover),
                         ),
                       ),
                     ),

@@ -1,4 +1,5 @@
 import 'package:x_clone/features/Profile/data/model/user_profile.dart';
+import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/web_services/web_services.dart';
 import 'package:dio/dio.dart';
@@ -10,6 +11,8 @@ abstract class ProfileRepository {
 
   getUserTweets(String username, int page);
 
+  Future<Tweet> addTweet(
+      {String? tweetText, List<MultipartFile>? media, List<String>? trends});
   Future<UserProfile?> updateProfile(
       {String? profilePhoto,
       String? bannerPhoto,
@@ -293,6 +296,46 @@ class ProfileRepositoryImpl implements ProfileRepository {
         return RepliersList.fromJson(response.data);
       }
       return const RepliersList(data: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Tweet> addTweet(
+      {String? tweetText,
+      List<MultipartFile>? media,
+      List<String>? trends}) async {
+    FormData formData = FormData();
+    if (tweetText != null) {
+      formData.fields.add(MapEntry('tweetText', tweetText));
+    }
+    if (trends != null) {
+      for (var trend in trends) {
+        formData.fields.add(MapEntry(
+          'trends',
+          trend,
+        ));
+      }
+    }
+    if (media != null) {
+      for (var attachment in media) {
+        formData.files.add(MapEntry(
+          'media',
+          attachment,
+        ));
+      }
+    }
+    try {
+      var response = await HttpClient.dio.post(
+        EndPoints.addTweet,
+        data: formData,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return Tweet.fromJson(response.data["data"]);
+      } else {
+        throw (response.data["message"]);
+      }
     } catch (e) {
       rethrow;
     }

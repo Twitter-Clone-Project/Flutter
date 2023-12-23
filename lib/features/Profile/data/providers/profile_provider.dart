@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:x_clone/features/Profile/data/model/user_profile.dart';
 import 'package:x_clone/features/Profile/data/repositories/profile_repository.dart';
@@ -791,6 +792,32 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         //errorMessage: e.toString(),
         ProfileTweetsRepliersList: const RepliersList(data: []),
       );
+    }
+  }
+
+  Future<bool> addTweet(
+      {String? tweetText, List<MultipartFile>? attachments}) async {
+    List<String> trends = [];
+    if (tweetText != null) {
+      List<String> words = tweetText.split(' ');
+      for (String word in words) {
+        if (word.startsWith('#')) {
+          trends.add(word.substring(1));
+        }
+      }
+    }
+    try {
+      final Tweet result = await profileRepository.addTweet(
+          tweetText: tweetText, media: attachments, trends: trends);
+      List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
+      tweetlist.add(result);
+      state = state.copyWith(
+          profileTweetsResponse:
+              state.profileTweetsResponse.copyWith(data: tweetlist));
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
     }
   }
 
