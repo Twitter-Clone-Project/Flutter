@@ -48,8 +48,11 @@ class EndPoints {
   static deleteTweet(String tweetId) => "/tweets/$tweetId/deleteTweet";
   static deleteReply(String tweetId, String replyId) =>
       "/tweets/$tweetId/deleteReplies/$replyId";
+  static getMutersData() => "/users/mutedUsers";
+  static getBlockersData() => "/users/blockedUsers";
 
   static searchUsers(String query) => "/users/search?query=$query";
   static searchTweets(String query) => "/tweets/search?query=$query";
 
 }
+
