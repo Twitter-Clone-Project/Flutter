@@ -29,6 +29,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
       FocusScope.of(context).requestFocus(_searchFocusNode);
     });
 
+
     // Reset searched users
     if(widget.query==""){
       ref.read(searchNotifierProvider.notifier).resetSearchedUsers();

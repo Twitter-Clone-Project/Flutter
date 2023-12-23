@@ -40,8 +40,7 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
     Future.delayed(
       const Duration(seconds: 0),
           () {
-        reset();
-
+        loadData();
       },
     );
   }
@@ -51,253 +50,262 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
     _searchController.dispose();
     _searchFocusNode.dispose();
     _tabController.dispose();
-    reset();
     super.dispose();
   }
   void reset() async {
-    await ref.read(searchNotifierProvider.notifier).resetSearchedTweets();
-    await ref.read(searchNotifierProvider.notifier).resetSearchedUsers();
+    await ref.read(searchNotifierProvider.notifier).loading();
   }
   @override
   Widget build(BuildContext context) {
     final searchProvider = ref.watch(searchNotifierProvider);
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.pureBlack,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              Navigator.pop(context);
-            },
-          ),
-          title: SizedBox(
-            height: 40,
-            child: TextField(
-              controller: _searchController,
-              focusNode: _searchFocusNode,
-              onTap: () {
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppColors.pureBlack,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                FocusScope.of(context).unfocus();
                 reset();
-                Navigator.pushNamed(context, Routes.searchResultsScreen, arguments: _searchController.text);
-
+                Navigator.pop(context);
               },
-              onSubmitted: (value) {},
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(10).copyWith(
-                  left: 20,
-                ),
-                fillColor: AppColors.borderDarkGray,
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  borderSide: const BorderSide(
-                    color: AppColors.borderDarkGray,
+            ),
+            title: SizedBox(
+              height: 40,
+              child: TextField(
+                controller: _searchController,
+                focusNode: _searchFocusNode,
+                readOnly: true,
+                onTap: () {
+                  if (widget.query[0] != '#') {
+                    reset();
+                    Navigator.pop(context);
+                  }
+                },
+                onSubmitted: (value) {},
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.all(10).copyWith(
+                    left: 20,
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  borderSide: const BorderSide(
-                    color: AppColors.borderDarkGray,
+                  fillColor: AppColors.borderDarkGray,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: const BorderSide(
+                      color: AppColors.borderDarkGray,
+                    ),
                   ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: const BorderSide(
+                      color: AppColors.borderDarkGray,
+                    ),
+                  ),
+                  hintText: 'Search X',
                 ),
-                hintText: 'Search X',
               ),
             ),
-          ),
-          bottom: const TabBar(
-            tabs: [
+            bottom: const TabBar(
+              tabs: [
 
-              Tab(
-                child: Text(
-                  "Tweets",
-                  style: TextStyle(
-                    color: AppColors.whiteColor,
-                    fontSize: 16,
-                    fontFamily: 'Chirp',
-                  ),
-                ),
-              ),
-              Tab(
-                child: Text(
-                  "Users",
-                  style: TextStyle(
-                    color: AppColors.whiteColor,
-                    fontSize: 16,
-                    fontFamily: 'Chirp',
-                  ),
-                ),
-              )
-            ],
-            indicatorColor: Colors.white,
-          ),
-        ),
-        body: TabBarView(
-              children: [
-                      ref
-                      .watch(searchNotifierProvider)
-                      .tweetList.data.isEmpty
-                      ? SmartRefresher(
-                        controller: _tweetsController,
-                        header: const ClassicHeader(
-                          releaseText: 'Release to refresh',
-                          refreshingText: 'Refreshing...',
-                          completeText: 'Refresh completed',
-                          failedText: 'Refresh failed',
-                          idleText: 'Pull down to refresh',
-                        ),
-                        enablePullDown: true,
-                        enablePullUp: true,
-                        footer: const ClassicFooter(
-                          loadingText: 'Load for more',
-                        ),
-                        onLoading: _onTweetsLoading,
-                        onRefresh: _onRefresh,
-                        child:  const Center(
-                    child: Text(
-                        "No Tweets :(",
-                        style: const TextStyle(
-                          color: AppColors.whiteColor,
-                          fontSize: 22,
-                          fontFamily: 'Chirp',
-                        ),
+                Tab(
+                  child: Text(
+                    "Tweets",
+                    style: TextStyle(
+                      color: AppColors.whiteColor,
+                      fontSize: 16,
+                      fontFamily: 'Chirp',
                     ),
                   ),
-                      )
-                      : SmartRefresher(
-                        controller: _tweetsController,
-                        header: const ClassicHeader(
-                          releaseText: 'Release to refresh',
-                          refreshingText: 'Refreshing...',
-                          completeText: 'Refresh completed',
-                          failedText: 'Refresh failed',
-                          idleText: 'Pull down to refresh',
-                        ),
-                        enablePullDown: true,
-                        enablePullUp: true,
-                        footer: const ClassicFooter(
-                          loadingText: 'Load for more',
-                        ),
-                        onLoading: _onTweetsLoading,
-                        onRefresh: _onRefresh,
-                        child: ListView.builder(
-                          itemCount: ref.watch(searchNotifierProvider).tweetList.data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final tweet = ref.watch(searchNotifierProvider).tweetList.data[index];
-
-                            return Column(
-                              children: [
-                                if (index == 0) SizedBox(height: 16.0), // Add space for the first item
-                                InkWell(
-                                  child: TweetCompose(
-                                    tweet: tweet,
-                                    index: index,
-                                    whom: 3, // 0->Home, 1->Profile
-                                  ),
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      Routes.tweetScreen,
-                                      arguments: {
-                                        "tweet": tweet,
-                                        "index": index,
-                                        "whom": 3, // 0->Home, 1->Profile
-                                      },
-                                    );
-                                  },
-                                ),
-                                if (index < ref.watch(searchNotifierProvider).tweetList.data.length - 1)
-                                  const Divider(), // Add divider for all items except the last one
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                searchProvider.loading
-                    ? const Center(child: CircularProgressIndicator(color: AppColors.whiteColor,
-                  strokeWidth: 1,))
-                    : SmartRefresher(
-                  controller: _usersController,
-                  header: const ClassicHeader(
-                    releaseText: 'Release to refresh',
-                    refreshingText: 'Refreshing...',
-                    completeText: 'Refresh completed',
-                    failedText: 'Refresh failed',
-                    idleText: 'Pull down to refresh',
-                  ),
-                  enablePullDown: true,
-                  enablePullUp: true,
-                  footer: const ClassicFooter(
-                    loadingText: 'Load for more',
-                  ),
-                  onLoading: _onUsersLoading,
-                  onRefresh: _onRefresh,
-                  child: ListView.builder(
-                  itemCount: searchProvider.usersList.data!.length,
-                  itemBuilder: (context, index) {
-                        final user = ref.watch(searchNotifierProvider).usersList.data![index];
-                        return Column(
-                          children: [
-                            ListTile(
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, Routes.profileScreen, arguments: user.username);
-                                        },
-                                        child: CircleAvatar(
-                                          backgroundColor: AppColors.whiteColor,
-                                          backgroundImage: NetworkImage(user.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                                          radius: 20,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              user.screenName!,
-                                              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            Text(
-                                              '@${user.username}',
-                                              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                                                color: AppColors.lightGray,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              // trailing: buildTrailingWidget(follower, context),
-                            ),
-                            const SizedBox(height: 4,),
-                            // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
-                            // const SizedBox(height: 4,),
-                          ],
-                        );
-                  },
                 ),
+                Tab(
+                  child: Text(
+                    "Users",
+                    style: TextStyle(
+                      color: AppColors.whiteColor,
+                      fontSize: 16,
+                      fontFamily: 'Chirp',
                     ),
+                  ),
+                )
               ],
+              indicatorColor: Colors.white,
             ),
-        ),
+          ),
+          body: searchProvider.loading
+              ? const Center(child: CircularProgressIndicator(color: AppColors.whiteColor,
+            strokeWidth: 1,))
+              : TabBarView(
+                children: [
+                        ref
+                        .watch(searchNotifierProvider)
+                        .tweetList.data.isEmpty
+                        ? SmartRefresher(
+                          controller: _tweetsController,
+                          header: const ClassicHeader(
+                            releaseText: 'Release to refresh',
+                            refreshingText: 'Refreshing...',
+                            completeText: 'Refresh completed',
+                            failedText: 'Refresh failed',
+                            idleText: 'Pull down to refresh',
+                          ),
+                          enablePullDown: true,
+                          enablePullUp: true,
+                          footer: const ClassicFooter(
+                            loadingText: 'Load for more',
+                          ),
+                          onLoading: _onTweetsLoading,
+                          onRefresh: _onRefresh,
+                          child:  const Center(
+                      child: Text(
+                          "No Tweets :(",
+                          style: const TextStyle(
+                            color: AppColors.whiteColor,
+                            fontSize: 22,
+                            fontFamily: 'Chirp',
+                          ),
+                      ),
+                    ),
+                        )
+                        : SmartRefresher(
+                          controller: _tweetsController,
+                          header: const ClassicHeader(
+                            releaseText: 'Release to refresh',
+                            refreshingText: 'Refreshing...',
+                            completeText: 'Refresh completed',
+                            failedText: 'Refresh failed',
+                            idleText: 'Pull down to refresh',
+                          ),
+                          enablePullDown: true,
+                          enablePullUp: true,
+                          footer: const ClassicFooter(
+                            loadingText: 'Load for more',
+                          ),
+                          onLoading: _onTweetsLoading,
+                          onRefresh: _onRefresh,
+                          child: ListView.builder(
+                            itemCount: ref.watch(searchNotifierProvider).tweetList.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final tweet = ref.watch(searchNotifierProvider).tweetList.data[index];
+
+                              return Column(
+                                children: [
+                                  if (index == 0) SizedBox(height: 16.0), // Add space for the first item
+                                  InkWell(
+                                    child: TweetCompose(
+                                      tweet: tweet,
+                                      index: index,
+                                      whom: 3, // 0->Home, 1->Profile
+                                    ),
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        Routes.tweetScreen,
+                                        arguments: {
+                                          "tweet": tweet,
+                                          "index": index,
+                                          "whom": 3, // 0->Home, 1->Profile
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  if (index < ref.watch(searchNotifierProvider).tweetList.data.length - 1)
+                                    const Divider(), // Add divider for all items except the last one
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                  searchProvider.loading
+                      ? const Center(child: CircularProgressIndicator(color: AppColors.whiteColor,
+                    strokeWidth: 1,))
+                      : SmartRefresher(
+                    controller: _usersController,
+                    header: const ClassicHeader(
+                      releaseText: 'Release to refresh',
+                      refreshingText: 'Refreshing...',
+                      completeText: 'Refresh completed',
+                      failedText: 'Refresh failed',
+                      idleText: 'Pull down to refresh',
+                    ),
+                    enablePullDown: true,
+                    enablePullUp: true,
+                    footer: const ClassicFooter(
+                      loadingText: 'Load for more',
+                    ),
+                    onLoading: _onUsersLoading,
+                    onRefresh: _onRefresh,
+                    child: ListView.builder(
+                    itemCount: searchProvider.usersList.data!.length,
+                    itemBuilder: (context, index) {
+                          final user = ref.watch(searchNotifierProvider).usersList.data![index];
+                          return Column(
+                            children: [
+                              ListTile(
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(context, Routes.profileScreen, arguments: user.username);
+                                          },
+                                          child: CircleAvatar(
+                                            backgroundColor: AppColors.whiteColor,
+                                            backgroundImage: NetworkImage(user.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                                            radius: 20,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                user.screenName!,
+                                                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Text(
+                                                '@${user.username}',
+                                                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                                                  color: AppColors.lightGray,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                // trailing: buildTrailingWidget(follower, context),
+                              ),
+                              const SizedBox(height: 4,),
+                              // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
+                              // const SizedBox(height: 4,),
+                            ],
+                          );
+                    },
+                  ),
+                      ),
+                ],
+              ),
+          ),
+      ),
     );
   }
 

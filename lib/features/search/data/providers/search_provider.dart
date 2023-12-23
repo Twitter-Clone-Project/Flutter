@@ -105,6 +105,12 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
       return const TweetList(data: [], total: 0);
     }
   }
+  Future<void> loading() async {
+    state = state.copyWith(
+      loading: true,
+      errorMessage: null,
+    );
+  }
 
   Future<void> resetSearchedUsers() async {
     state = state.copyWith(
