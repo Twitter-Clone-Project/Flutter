@@ -122,6 +122,7 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
       messageId: json['messageId'] as String?,
       text: json['text'] as String?,
       time: json['time'] as String?,
+      senderUsername: json['senderUsername'] as String?,
       isSeen: json['isSeen'] as bool?,
       isFromMe: json['isFromMe'] as bool?,
     );
@@ -132,6 +133,7 @@ Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
       'messageId': instance.messageId,
       'text': instance.text,
       'time': instance.time,
+      'senderUsername': instance.senderUsername,
       'isSeen': instance.isSeen,
       'isFromMe': instance.isFromMe,
     };

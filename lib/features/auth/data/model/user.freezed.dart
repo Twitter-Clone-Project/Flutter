@@ -616,7 +616,7 @@ class _$MuterDataImpl implements _MuterData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MuterDataImpl &&
@@ -779,7 +779,7 @@ class _$MutersListImpl implements _MutersList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MutersListImpl &&
@@ -979,7 +979,7 @@ class _$BlockerDataImpl implements _BlockerData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BlockerDataImpl &&
@@ -1142,7 +1142,7 @@ class _$BlockersListImpl implements _BlockersList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BlockersListImpl &&
