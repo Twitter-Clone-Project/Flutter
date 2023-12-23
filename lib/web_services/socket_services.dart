@@ -17,6 +17,16 @@ class SocketClient {
     );
   }
 
+  static handleMessageReceiveWithNotification(Map<String, dynamic> data) async {
+    print(data);
+    // chats.Message message = chats.Message.fromJson(data);
+    await NotificationServices.showNotification(
+      title: "Message from ${data["senderId"]}",
+      body: data["text"] ?? "",
+      id: data["conversationId"] ?? "",
+    );
+  }
+
   static final IO.Socket socket = IO.io(
     EndPoints.socketUrl,
     <String, dynamic>{
@@ -32,10 +42,15 @@ class SocketClient {
         "userId": userId,
       });
     });
+
     socket.onConnectError((data) => print('Connect Error: $data'));
-    socket.onDisconnect((data) => print('Socket.I0 server disconnected')) ;
+    socket.onDisconnect((data) => print('Socket.I0 server disconnected'));
+
     socket.on("notification-receive", (data) async {
-      handleNotificationReceiveWithNotification(data);
+      await handleNotificationReceiveWithNotification(data);
+    });
+    socket.on("msg-receive", (data) async {
+      await handleMessageReceiveWithNotification(data);
     });
 
     socket.connect();
@@ -61,7 +76,11 @@ class SocketClient {
     });
   }
 
-  static sendMessage({required String conversationId, required String text ,required String receiverId,required String senderId}) {
+  static sendMessage(
+      {required String conversationId,
+      required String text,
+      required String receiverId,
+      required String senderId}) {
     socket.emit("msg-send", {
       "conversationId": conversationId,
       "text": text,
@@ -70,22 +89,32 @@ class SocketClient {
       "isSeen": false,
     });
   }
-  static chatOpen({required String conversationId, required String senderId, required String contactId}) {
+
+  static chatOpen(
+      {required String conversationId,
+      required String senderId,
+      required String contactId}) {
     print("oooooooooooooooooooooooooooooooopen");
 
     socket.emit("chat-opened", {
       "conversationId": conversationId,
       "userId": senderId,
-      "contactId":contactId,
+      "contactId": contactId,
     });
   }
-  static chatClose({required String conversationId,required String contactId}) {
-    print("cloooooooooooooooooooooooooooooooose");
+
+  static chatClose(
+      {required String conversationId, required String contactId}) {
     socket.emit("chat-closed", {
       "conversationId": conversationId,
-      "contactId":contactId,
+      "contactId": contactId,
+    });
+    socket.off("msg-receive");
+    socket.on("msg-receive", (data) async {
+      await handleMessageReceiveWithNotification(data);
     });
   }
+
   static onMessageReceive(Function callback) {
     socket.off("msg-receive");
     socket.on("msg-receive", (data) {

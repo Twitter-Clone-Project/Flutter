@@ -24,6 +24,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     Future.delayed(const Duration(seconds: 0), () {
       ref.read(chatNotifierProvider.notifier).getMessagesHistory(widget.conversation.conversationId??'');
       SocketClient.chatOpen(conversationId: widget.conversation.conversationId??'', senderId: ref.read(authNotifierProvider).user?.userId??'', contactId: widget.conversation.contact?.id??'');
+
+      SocketClient.onMessageReceive(
+          (data) => ref.read(chatNotifierProvider.notifier).onMessageReceive(data));
     });
 
     super.initState();
