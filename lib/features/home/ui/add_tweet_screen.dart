@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -100,14 +101,22 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.whiteColor,
-                        backgroundImage: NetworkImage(ref
-                                .watch(authNotifierProvider)
-                                .user!
-                                .profileImageURL ??
-                            ''),
-                        radius: 20,
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.cover,
+                          imageUrl: ref
+                              .watch(authNotifierProvider)
+                              .user!
+                              .profileImageURL ?? '',
+                          placeholder: (context, url) => Image.asset(
+                              AppAssets.whiteLogo,
+                              fit: BoxFit.cover),
+                          errorWidget: (context, url, error) =>
+                              Image.asset(AppAssets.whiteLogo,
+                                  fit: BoxFit.cover),
+                        ),
                       ),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),

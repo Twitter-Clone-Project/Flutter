@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/routes.dart';
@@ -5,6 +6,8 @@ import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
+
+import '../../../theme/app_assets.dart';
 
 class LikersScreen extends StatefulHookConsumerWidget {
   const LikersScreen({super.key, required this.tweetId});
@@ -72,15 +75,23 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
                               .data![index]
                               .screenName);
                     },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.whiteColor,
-                      backgroundImage: NetworkImage(ref
-                              .watch(tweetNotifierProvider)
-                              .likersList
-                              .data![index]
-                              .profileImageURL ??
-                          'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                      radius: 20,
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                        imageUrl: ref
+                            .watch(tweetNotifierProvider)
+                            .likersList
+                            .data![index]
+                            .profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                        placeholder: (context, url) => Container(
+                          color: Color(0xFF333639),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            Image.asset(AppAssets.whiteLogo,
+                                fit: BoxFit.cover),
+                      ),
                     ),
                   ),
                   title: Text(

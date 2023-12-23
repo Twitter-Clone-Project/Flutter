@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide RefreshIndicator;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -10,6 +11,7 @@ import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import '../../../app/routes.dart';
 import '../../../app/widgets/tweet_UI.dart';
+import '../../../theme/app_assets.dart';
 
 class ProfileScreen extends StatefulHookConsumerWidget {
   const ProfileScreen({super.key, required this.username});
@@ -106,10 +108,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       },
                                     );
                                   },
-                                  child: Image(
+                                  child: CachedNetworkImage(
                                     fit: BoxFit.cover,
-                                    image: NetworkImage(userProfile.bannerUrl ??
-                                        "https://kady-twitter-images.s3.amazonaws.com/DefaultBanner.png"),
+                                    imageUrl: userProfile.bannerUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                    placeholder: (context, url) => Container(
+                                      color: Color(AppColors.blackColor.value),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(AppAssets.whiteLogo,
+                                            fit: BoxFit.cover),
                                   ),
                                 ),
                               ),
@@ -145,12 +152,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               },
                                             );
                                           },
-                                          child: CircleAvatar(
-                                            radius: profileImageDiameter / 2.5,
-                                            backgroundImage: NetworkImage(
-                                              userProfile.imageUrl ??
-                                                  "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
+                                          child: CachedNetworkImage(
+                                            width: profileImageDiameter * 0.8,
+                                            height: profileImageDiameter * 0.8,
+                                            fit: BoxFit.cover,
+                                            imageUrl: userProfile.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                            placeholder: (context, url) => Container(
+                                              color: Color(AppColors.blackColor.value),
                                             ),
+                                            errorWidget: (context, url, error) =>
+                                                Image.asset(AppAssets.whiteLogo,
+                                                    fit: BoxFit.cover),
                                           ),
                                         ),
                                       ),
@@ -347,10 +359,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                           },
                                         );
                                       },
-                                      child: Image(
+                                      child: CachedNetworkImage(
                                         fit: BoxFit.cover,
-                                        image:
-                                            NetworkImage(userProfile.bannerUrl),
+                                        imageUrl: userProfile.bannerUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                        placeholder: (context, url) => Container(
+                                          color: Color(AppColors.blackColor.value),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(AppAssets.whiteLogo,
+                                                fit: BoxFit.cover),
                                       ),
                                     ),
                                   ),
@@ -388,11 +405,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                   },
                                                 );
                                               },
-                                              child: CircleAvatar(
-                                                radius:
-                                                    profileImageDiameter / 2.5,
-                                                backgroundImage: NetworkImage(
-                                                  userProfile.imageUrl,
+                                              child: ClipOval(
+                                                child: CachedNetworkImage(
+                                                  width: profileImageDiameter * 0.8,
+                                                  height: profileImageDiameter * 0.8,
+                                                  fit: BoxFit.cover,
+                                                  imageUrl: userProfile.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                                  placeholder: (context, url) => Container(
+                                                    color: Color(AppColors.blackColor.value),
+                                                  ),
+                                                  errorWidget: (context, url, error) =>
+                                                      Image.asset(AppAssets.whiteLogo,
+                                                          fit: BoxFit.cover),
                                                 ),
                                               ),
                                             ),
