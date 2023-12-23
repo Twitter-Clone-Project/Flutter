@@ -121,7 +121,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       ),
                     ),
                     subtitle: Text(
-                      '#${ref.watch(searchNotifierProvider).trendingList.data![index].name}',
+                      '${ref.watch(searchNotifierProvider).trendingList.data![index].name}',
                       style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

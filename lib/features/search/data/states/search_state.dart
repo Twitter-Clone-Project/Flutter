@@ -8,8 +8,11 @@ class SearchState with _$SearchState {
   const factory SearchState({
     @Default(TrendingList(data: [])) TrendingList trendingList,
     @Default(UsersList(data: [])) UsersList usersList,
+    @Default(TweetList(data: [])) TweetList tweetList,
     @Default(null) String? errorMessage,
     @Default(true) bool loading,
+    @Default(0) int tweetsIndex,
+    @Default(0) int usersIndex,
     @Default(0) int screenIndex,
   }) = _SearchState;
 }

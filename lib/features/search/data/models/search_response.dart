@@ -44,9 +44,13 @@ class UserData with _$UserData {
   const factory UserData({
     String? id,
     String? email,
-    String? name,
+    String? screenName,
     String? username,
     String? profileImageURL,
+    String? bio,
+    bool? isFollowed,
+    bool? isFollowing,
+
   }) = _UserData;
 
   factory UserData.fromJson(Map<String, dynamic> json) =>
@@ -56,7 +60,9 @@ class UserData with _$UserData {
 @freezed
 class UsersList with _$UsersList {
   const factory UsersList({
-    List<UserData>? data,
+    @Default([]) List<UserData> data,
+    int? total,
+
   }) = _UsersList;
 
   factory UsersList.fromJson(Map<String, dynamic> json) =>

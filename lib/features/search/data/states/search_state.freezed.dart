@@ -18,8 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SearchState {
   TrendingList get trendingList => throw _privateConstructorUsedError;
   UsersList get usersList => throw _privateConstructorUsedError;
+  TweetList get tweetList => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
+  int get tweetsIndex => throw _privateConstructorUsedError;
+  int get usersIndex => throw _privateConstructorUsedError;
   int get screenIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -36,12 +39,16 @@ abstract class $SearchStateCopyWith<$Res> {
   $Res call(
       {TrendingList trendingList,
       UsersList usersList,
+      TweetList tweetList,
       String? errorMessage,
       bool loading,
+      int tweetsIndex,
+      int usersIndex,
       int screenIndex});
 
   $TrendingListCopyWith<$Res> get trendingList;
   $UsersListCopyWith<$Res> get usersList;
+  $TweetListCopyWith<$Res> get tweetList;
 }
 
 /// @nodoc
@@ -59,8 +66,11 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   $Res call({
     Object? trendingList = null,
     Object? usersList = null,
+    Object? tweetList = null,
     Object? errorMessage = freezed,
     Object? loading = null,
+    Object? tweetsIndex = null,
+    Object? usersIndex = null,
     Object? screenIndex = null,
   }) {
     return _then(_value.copyWith(
@@ -72,6 +82,10 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
           ? _value.usersList
           : usersList // ignore: cast_nullable_to_non_nullable
               as UsersList,
+      tweetList: null == tweetList
+          ? _value.tweetList
+          : tweetList // ignore: cast_nullable_to_non_nullable
+              as TweetList,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -80,6 +94,14 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
+      tweetsIndex: null == tweetsIndex
+          ? _value.tweetsIndex
+          : tweetsIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      usersIndex: null == usersIndex
+          ? _value.usersIndex
+          : usersIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       screenIndex: null == screenIndex
           ? _value.screenIndex
           : screenIndex // ignore: cast_nullable_to_non_nullable
@@ -102,6 +124,14 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
       return _then(_value.copyWith(usersList: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TweetListCopyWith<$Res> get tweetList {
+    return $TweetListCopyWith<$Res>(_value.tweetList, (value) {
+      return _then(_value.copyWith(tweetList: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -115,14 +145,19 @@ abstract class _$$SearchStateImplCopyWith<$Res>
   $Res call(
       {TrendingList trendingList,
       UsersList usersList,
+      TweetList tweetList,
       String? errorMessage,
       bool loading,
+      int tweetsIndex,
+      int usersIndex,
       int screenIndex});
 
   @override
   $TrendingListCopyWith<$Res> get trendingList;
   @override
   $UsersListCopyWith<$Res> get usersList;
+  @override
+  $TweetListCopyWith<$Res> get tweetList;
 }
 
 /// @nodoc
@@ -138,8 +173,11 @@ class __$$SearchStateImplCopyWithImpl<$Res>
   $Res call({
     Object? trendingList = null,
     Object? usersList = null,
+    Object? tweetList = null,
     Object? errorMessage = freezed,
     Object? loading = null,
+    Object? tweetsIndex = null,
+    Object? usersIndex = null,
     Object? screenIndex = null,
   }) {
     return _then(_$SearchStateImpl(
@@ -151,6 +189,10 @@ class __$$SearchStateImplCopyWithImpl<$Res>
           ? _value.usersList
           : usersList // ignore: cast_nullable_to_non_nullable
               as UsersList,
+      tweetList: null == tweetList
+          ? _value.tweetList
+          : tweetList // ignore: cast_nullable_to_non_nullable
+              as TweetList,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -159,6 +201,14 @@ class __$$SearchStateImplCopyWithImpl<$Res>
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
+      tweetsIndex: null == tweetsIndex
+          ? _value.tweetsIndex
+          : tweetsIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      usersIndex: null == usersIndex
+          ? _value.usersIndex
+          : usersIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       screenIndex: null == screenIndex
           ? _value.screenIndex
           : screenIndex // ignore: cast_nullable_to_non_nullable
@@ -173,8 +223,11 @@ class _$SearchStateImpl implements _SearchState {
   const _$SearchStateImpl(
       {this.trendingList = const TrendingList(data: []),
       this.usersList = const UsersList(data: []),
+      this.tweetList = const TweetList(data: []),
       this.errorMessage = null,
       this.loading = true,
+      this.tweetsIndex = 0,
+      this.usersIndex = 0,
       this.screenIndex = 0});
 
   @override
@@ -185,17 +238,26 @@ class _$SearchStateImpl implements _SearchState {
   final UsersList usersList;
   @override
   @JsonKey()
+  final TweetList tweetList;
+  @override
+  @JsonKey()
   final String? errorMessage;
   @override
   @JsonKey()
   final bool loading;
   @override
   @JsonKey()
+  final int tweetsIndex;
+  @override
+  @JsonKey()
+  final int usersIndex;
+  @override
+  @JsonKey()
   final int screenIndex;
 
   @override
   String toString() {
-    return 'SearchState(trendingList: $trendingList, usersList: $usersList, errorMessage: $errorMessage, loading: $loading, screenIndex: $screenIndex)';
+    return 'SearchState(trendingList: $trendingList, usersList: $usersList, tweetList: $tweetList, errorMessage: $errorMessage, loading: $loading, tweetsIndex: $tweetsIndex, usersIndex: $usersIndex, screenIndex: $screenIndex)';
   }
 
   @override
@@ -207,16 +269,22 @@ class _$SearchStateImpl implements _SearchState {
                 other.trendingList == trendingList) &&
             (identical(other.usersList, usersList) ||
                 other.usersList == usersList) &&
+            (identical(other.tweetList, tweetList) ||
+                other.tweetList == tweetList) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.tweetsIndex, tweetsIndex) ||
+                other.tweetsIndex == tweetsIndex) &&
+            (identical(other.usersIndex, usersIndex) ||
+                other.usersIndex == usersIndex) &&
             (identical(other.screenIndex, screenIndex) ||
                 other.screenIndex == screenIndex));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, trendingList, usersList, errorMessage, loading, screenIndex);
+  int get hashCode => Object.hash(runtimeType, trendingList, usersList,
+      tweetList, errorMessage, loading, tweetsIndex, usersIndex, screenIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -229,8 +297,11 @@ abstract class _SearchState implements SearchState {
   const factory _SearchState(
       {final TrendingList trendingList,
       final UsersList usersList,
+      final TweetList tweetList,
       final String? errorMessage,
       final bool loading,
+      final int tweetsIndex,
+      final int usersIndex,
       final int screenIndex}) = _$SearchStateImpl;
 
   @override
@@ -238,9 +309,15 @@ abstract class _SearchState implements SearchState {
   @override
   UsersList get usersList;
   @override
+  TweetList get tweetList;
+  @override
   String? get errorMessage;
   @override
   bool get loading;
+  @override
+  int get tweetsIndex;
+  @override
+  int get usersIndex;
   @override
   int get screenIndex;
   @override

@@ -92,6 +92,7 @@ class _ReplyState extends ConsumerState<Reply> {
                         Image.asset(AppAssets.whiteLogo,
                             fit: BoxFit.cover),
                   ),
+
                 ),
               ),
             ),
