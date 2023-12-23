@@ -136,18 +136,23 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Row(
                   children: [
-                    ClipOval(
-                      child: CachedNetworkImage(
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                        imageUrl: conversations[index].contact!.imageUrl!,
-                        placeholder: (context, url) => Image.asset(
-                            AppAssets.whiteLogo,
-                            fit: BoxFit.cover),
-                        errorWidget: (context, url, error) =>
-                            Image.asset(AppAssets.whiteLogo,
-                                fit: BoxFit.cover),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.profileScreen, arguments: conversations[index].contact!.username);
+                      },
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                          imageUrl: conversations[index].contact!.imageUrl!,
+                          placeholder: (context, url) => Image.asset(
+                              AppAssets.whiteLogo,
+                              fit: BoxFit.cover),
+                          errorWidget: (context, url, error) =>
+                              Image.asset(AppAssets.whiteLogo,
+                                  fit: BoxFit.cover),
+                        ),
                       ),
                     ),
                     Expanded(
@@ -159,7 +164,7 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width*0.55,
+                                    width: MediaQuery.of(context).size.width*0.5,
                                     child: RichText(
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -198,7 +203,13 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
                               ),
                               const SizedBox(height: 5,),
                               Text(conversations[index].lastMessage!.text!,
-                                  style: Theme.of(context).textTheme.bodyText2),
+                                  style: TextStyle(
+                                    fontWeight: conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false?FontWeight.bold:FontWeight.normal,
+                                    fontSize: 16,
+                                    color: conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false?Colors.white:Colors.grey,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,),
                             ],
                           ),
                         )

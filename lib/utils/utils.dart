@@ -76,3 +76,4 @@ String getFormattedDate(String? originalDateString) {
   }
 }
 
+List<String> openConversationIds = [];

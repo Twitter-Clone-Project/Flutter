@@ -103,7 +103,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                           itemCount: ref
                               .watch(homeNotifierProvider)
                               .homeResponse
-                              .data!
+                              .data
                               .length,
                           itemBuilder: (BuildContext context, int index) =>
                               InkWell(
@@ -111,7 +111,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                               tweet: ref
                                   .watch(homeNotifierProvider)
                                   .homeResponse
-                                  .data![index],
+                                  .data[index],
                               index: index,
                               whom: 0, //0->Home , 1->Profile
                               inMyProfile:
