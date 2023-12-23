@@ -1,8 +1,10 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/app_keys.dart';
 import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
+import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
@@ -69,6 +71,7 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                         .copyWith(color: AppColors.lightThinTextGray),
                   ),
                   subtitle: TextFormField(
+                    obscureText: true,
                     controller: _currentPasswordController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -85,6 +88,7 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 16),
               Form(
                 key: AppKeys.newPasswordFormKey,
                 child: ListTile(
@@ -97,6 +101,7 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                   ),
                   subtitle: TextFormField(
                     controller: _newPasswordController,
+                    obscureText: true, // Set this to true to hide the entered text
                     // validator: (value) {
                     //   if (value == null || value.isEmpty) {
                     //     return 'Please enter a value';
@@ -112,6 +117,7 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 16),
               Form(
                 key: AppKeys.confirmPasswordFormKey,
                 child: ListTile(
@@ -123,6 +129,7 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                         .copyWith(color: AppColors.lightThinTextGray),
                   ),
                   subtitle: TextFormField(
+                    obscureText: true,
                     controller: _confirmPasswordController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -139,42 +146,75 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 16),
+
+
             ],
           ),
-          TextButton(
-            onPressed: () {
-              if (AppKeys.newPasswordFormKey.currentState!.validate() &&
-                  AppKeys.confirmPasswordFormKey.currentState!.validate()) {
-                if (_newPasswordController.text ==
-                    _confirmPasswordController.text) {
-                  final result =
-                      ref.read(authNotifierProvider.notifier).updatePassword(
-                            currentPassword: _currentPasswordController.text,
-                            newPassword: _newPasswordController.text,
-                            newPasswordConfirm: _confirmPasswordController.text,
-                          );
-                  print("==========testProvider============");
-                  print(result);
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.0),
+            child: CustomButton(
+              horizontalPadding: 10,
+              onPressed: () async { // Mark the function as async
+                final currentPassword = _currentPasswordController.text;
+                final newPassword = _newPasswordController.text;
+                final confirmPassword = _confirmPasswordController.text;
+
+                // Validate individual form fields
+                if (AppKeys.currentPasswordFormKey.currentState!.validate() &&
+                    AppKeys.newPasswordFormKey.currentState!.validate() &&
+                    AppKeys.confirmPasswordFormKey.currentState!.validate()) {
+                  // Additional checks
+                  if (newPassword != confirmPassword) {
+                    // Display an error if the "New password" and "Confirm password" do not match
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('New password and Confirm password must match.'),
+                      ),
+                    );
+                    return;
+                  }
+
+                  // Perform the update password logic if all checks pass
+                  final result = await ref.read(authNotifierProvider.notifier).updatePassword(
+                    currentPassword: currentPassword,
+                    newPassword: newPassword,
+                    newPasswordConfirm: confirmPassword,
+                  );
+
                   if (result == true) {
                     Navigator.of(context).pop();
+                    showFlushbar(
+                      context,
+                      result,
+                      "Password updated successfully",
+                      "Updating password failed, please try again",);
                   }
+                  else {
+                    showFlushbar(
+                      context,
+                      result,
+                      "Password updated successfully",
+                      "Updating password failed",);
+                  }
+
+
                 }
-              }
-            },
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(AppColors.primaryColor),
-              foregroundColor:
-                  MaterialStateProperty.all<Color>(AppColors.whiteColor),
+              },
+              text: "Update Password",
             ),
-            child: Text(
-              '  Update password  ',
-              style: AppTextStyle.textThemeDark.bodyLarge!
-                  .copyWith(fontWeight: FontWeight.bold),
-            ),
+
           ),
         ],
       ),
     );
+  }
+  void showFlushbar(
+      BuildContext context, bool success, String successful, String failed) {
+    Flushbar(
+      message: success ? successful : failed,
+      duration: const Duration(seconds: 3),
+      backgroundColor: success ? AppColors.TwitterBlue : AppColors.warningColor,
+    ).show(context);
   }
 }
