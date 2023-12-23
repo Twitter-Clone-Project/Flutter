@@ -34,12 +34,12 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 0), () {});
-    SocketClient.onMessageReceive((data) =>
-        ref.read(chatNotifierProvider.notifier).onMessageReceive(data));
-    SocketClient.statusOfContact((data) {});
-    ref.read(chatNotifierProvider.notifier).getUnseenConversationsCnt();
-
+    Future.delayed(const Duration(seconds: 0), () {
+      SocketClient.onMessageReceive(
+          (data) => ref.read(chatNotifierProvider.notifier).onMessageReceive(data));
+      SocketClient.statusOfContact((data){});
+      ref.read(chatNotifierProvider.notifier).getUnseenConversationsCnt();
+    });
     super.initState();
   }
 
