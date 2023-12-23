@@ -57,7 +57,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           },
           child: ListTile(
             title:
-                Text("Username", style: AppTextStyle.textThemeDark.bodyLarge!),
+            Text("Username", style: AppTextStyle.textThemeDark.bodyLarge!),
             subtitle: Text(
               "@${ref.watch(authNotifierProvider).user!.username!}",
               style: AppTextStyle.textThemeDark.bodyLarge!
@@ -88,24 +88,34 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 .copyWith(color: AppColors.lightThinTextGray),
           ),
         ),
-        ListTile(
-          title:
-              Text("Muted Users", style: AppTextStyle.textThemeDark.bodyLarge!),
-          subtitle: Text(
-            "List of your muted users.",
-            style: AppTextStyle.textThemeDark.bodyLarge!
-                .copyWith(color: AppColors.lightThinTextGray),
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.mutersScreen);
+          },
+          child: ListTile(
+            title: Text("Muted Users",
+                style: AppTextStyle.textThemeDark.bodyLarge!),
+            subtitle: Text(
+              "List of your muted users.",
+              style: AppTextStyle.textThemeDark.bodyLarge!
+                  .copyWith(color: AppColors.lightThinTextGray),
+            ),
           ),
         ),
-        ListTile(
-          title: Text(
-            "Blocked Users",
-            style: AppTextStyle.textThemeDark.bodyLarge!,
-          ),
-          subtitle: Text(
-            "List of your blocked users.",
-            style: AppTextStyle.textThemeDark.bodyLarge!
-                .copyWith(color: AppColors.lightThinTextGray),
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.blockersScreen);
+          },
+          child: ListTile(
+            title: Text(
+              "Blocked Users",
+              style: AppTextStyle.textThemeDark.bodyLarge!,
+            ),
+            subtitle: Text(
+              "List of your blocked users.",
+              style: AppTextStyle.textThemeDark.bodyLarge!
+                  .copyWith(color: AppColors.lightThinTextGray),
+            ),
           ),
         )
       ]),

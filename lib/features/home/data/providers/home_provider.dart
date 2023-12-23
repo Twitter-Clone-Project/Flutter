@@ -141,7 +141,7 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
         loading: true,
       );
       final RepliersList repliers =
-          await homeRepository.fetchRepliersData(tweetId: tweetId);
+      await homeRepository.fetchRepliersData(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
       int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
       if (tweetIndex != -1) {
@@ -214,14 +214,16 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     try {
       if (replyText.isEmpty) return false;
       final ReplierData replier =
-          await homeRepository.addReply(tweetId: tweetId, replyText: replyText);
+      await homeRepository.addReply(tweetId: tweetId, replyText: replyText);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
       // int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
       RepliersList updatedList = const RepliersList(data: []);
       for (int i = 0; i < tweetlist.length; i++) {
         if (tweetlist[i].id == tweetId) {
           List<ReplierData> updatedRepliersList =
-              List<ReplierData>.from(state.repliersList.data!);
+
+          List<ReplierData>.from(state.repliersList.data!);
+
           updatedRepliersList.add(replier);
           updatedList = RepliersList(data: updatedRepliersList);
           tweetlist[i] = tweetlist[i].copyWith(
@@ -250,8 +252,11 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
       for (int i = 0; i < tweetlist.length; i++) {
         if (tweetlist[i].id == tweetId) {
           List<ReplierData> updatedRepliersList =
-              List<ReplierData>.from(state.repliersList.data!);
-          updatedRepliersList.removeAt(i);
+          List<ReplierData>.from(state.repliersList.data!);
+          int replyIndex = updatedRepliersList
+              .indexWhere((reply) => reply.replyId == replyId);
+          updatedRepliersList.removeAt(replyIndex);
+
           updatedList = RepliersList(data: updatedRepliersList);
           tweetlist[i] = tweetlist[i].copyWith(
             repliesCount: state.homeResponse.data[i].repliesCount! - 1,
@@ -275,7 +280,7 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
 }
 
 final homeNotifierProvider =
-    StateNotifierProvider<HomeNotifierProvider, HomeState>((ref) {
+StateNotifierProvider<HomeNotifierProvider, HomeState>((ref) {
   final homeRepository = ref.watch(homeRepositoryProvider);
 
   return HomeNotifierProvider(homeRepository);

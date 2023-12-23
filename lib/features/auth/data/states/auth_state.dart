@@ -16,6 +16,9 @@ class AuthState with _$AuthState {
     @Default(false) bool forgetPasswordLoading,
     @Default(false) bool resetPasswordLoading,
     @Default(null) String? errorMessage,
-    @Default(false) bool registerLoading
+    @Default(false) bool registerLoading,
+    @Default(false) bool? loading,
+    @Default(MutersList(users: [])) MutersList mutersList,
+    @Default(BlockersList(users: [])) BlockersList blockedList,
   }) = _AuthState;
 }
