@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/ui/widget/main_drawer_widget.dart';
+import 'package:x_clone/features/notifications/ui/notifications_screen.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:x_clone/web_services/socket_services.dart';
 
-import '../../Notifications/ui/notifications_screen.dart';
-import '../../chat/ui/chat_screen.dart';
+import '../../chat/data/providers/chat_provider.dart';
+import '../../chat/ui/chats_screen.dart';
 import '../../search/ui/search_screen.dart';
 import '../data/providers/home_provider.dart';
 import 'home_screen.dart';
@@ -25,12 +28,17 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
     const HomeScreen(),
     const SearchScreen(),
     const NotificationsScreen(),
-    const ChatScreen(),
+    const ChatsScreen(),
   ];
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 0), () {});
+    Future.delayed(const Duration(seconds: 0), () {
+      SocketClient.onMessageReceive(
+          (data) => ref.read(chatNotifierProvider.notifier).onMessageReceive(data));
+      SocketClient.statusOfContact(
+          (data) => (){});
+    });
     super.initState();
   }
 

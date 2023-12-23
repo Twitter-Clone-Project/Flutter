@@ -43,3 +43,63 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'isConfirmed': instance.isConfirmed,
       'isOnline': instance.isOnline,
     };
+
+_$MuterDataImpl _$$MuterDataImplFromJson(Map<String, dynamic> json) =>
+    _$MuterDataImpl(
+      userId: json['userId'] as String?,
+      username: json['username'] as String?,
+      name: json['name'] as String?,
+      bio: json['bio'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+    );
+
+Map<String, dynamic> _$$MuterDataImplToJson(_$MuterDataImpl instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'username': instance.username,
+      'name': instance.name,
+      'bio': instance.bio,
+      'imageUrl': instance.imageUrl,
+    };
+
+_$MutersListImpl _$$MutersListImplFromJson(Map<String, dynamic> json) =>
+    _$MutersListImpl(
+      users: (json['users'] as List<dynamic>?)
+          ?.map((e) => MuterData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$MutersListImplToJson(_$MutersListImpl instance) =>
+    <String, dynamic>{
+      'users': instance.users,
+    };
+
+_$BlockerDataImpl _$$BlockerDataImplFromJson(Map<String, dynamic> json) =>
+    _$BlockerDataImpl(
+      userId: json['userId'] as String?,
+      username: json['username'] as String?,
+      name: json['name'] as String?,
+      bio: json['bio'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+    );
+
+Map<String, dynamic> _$$BlockerDataImplToJson(_$BlockerDataImpl instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'username': instance.username,
+      'name': instance.name,
+      'bio': instance.bio,
+      'imageUrl': instance.imageUrl,
+    };
+
+_$BlockersListImpl _$$BlockersListImplFromJson(Map<String, dynamic> json) =>
+    _$BlockersListImpl(
+      users: (json['users'] as List<dynamic>?)
+          ?.map((e) => BlockerData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$BlockersListImplToJson(_$BlockersListImpl instance) =>
+    <String, dynamic>{
+      'users': instance.users,
+    };

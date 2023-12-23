@@ -110,7 +110,7 @@ class _$TrendDataImpl implements _TrendData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TrendDataImpl &&
@@ -253,7 +253,7 @@ class _$TrendingListImpl implements _TrendingList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TrendingListImpl &&
@@ -505,7 +505,7 @@ class _$UserDataImpl implements _UserData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserDataImpl &&
@@ -696,7 +696,7 @@ class _$UsersListImpl implements _UsersList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UsersListImpl &&
@@ -857,7 +857,7 @@ class _$TweetListImpl implements _TweetList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TweetListImpl &&

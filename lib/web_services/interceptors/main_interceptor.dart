@@ -12,6 +12,7 @@ class MainInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (getToken().isNotEmpty) {
       options.headers["Authorization"] = "Bearer $token";
+      print("Bearer $token");
     }else if(getResetToken().isNotEmpty){
       options.headers["Authorization"] = "Bearer $token";
       token = "";

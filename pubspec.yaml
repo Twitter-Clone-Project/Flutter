@@ -39,6 +39,9 @@ dependencies:
   like_button: ^2.0.5
   community_material_icon: ^5.9.55
   carousel_slider: ^4.2.1
+  socket_io_client: ^2.0.3+1
+  flutter_local_notifications: ^16.2.0
+  workmanager: ^0.5.2
 
 
 #flutter_native_splash:

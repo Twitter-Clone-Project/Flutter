@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:like_button/like_button.dart';
 import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
+import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/search/data/providers/search_provider.dart';
 import 'package:x_clone/theme/app_text_style.dart';
@@ -17,12 +19,14 @@ class TweetCompose extends StatefulHookConsumerWidget {
   final Tweet tweet;
   final int index;
   final int whom;
+  final int inMyProfile;
 
   TweetCompose({
     Key? key,
     required this.tweet,
     required this.index,
     required this.whom,
+    required this.inMyProfile,
   }) : super(key: key) {}
 
   @override
@@ -44,12 +48,12 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     } else if (count < 1000000) {
       double kValue = count / 1000.0;
       return kValue
-              .toStringAsFixed(kValue.truncateToDouble() == kValue ? 0 : 1) +
+          .toStringAsFixed(kValue.truncateToDouble() == kValue ? 0 : 1) +
           'k';
     } else {
       double millionValue = count / 1000000.0;
       return millionValue.toStringAsFixed(
-              millionValue.truncateToDouble() == millionValue ? 0 : 1) +
+          millionValue.truncateToDouble() == millionValue ? 0 : 1) +
           'M';
     }
   }
@@ -79,6 +83,87 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     );
   }
 
+  void _openBottomSheetForDelete(BuildContext context) {
+    if (widget.tweet.user!.username ==
+        ref.read(authNotifierProvider).user!.username) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: AppColors.pureBlack,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Delete Post'),
+                  onTap: () {
+                    ref
+                        .watch(homeNotifierProvider.notifier)
+                        .deleteTweet(tweetId: widget.tweet.id!);
+                    ref
+                        .watch(profileNotifierProvider.notifier)
+                        .deleteTweet(tweetId: widget.tweet.id!);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    } else {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: AppColors.pureBlack,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Follow'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Mute'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_outlined,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                  title: const Text('Block'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final int index = widget.index;
@@ -99,93 +184,93 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
           ref.watch(homeNotifierProvider).homeResponse.data[index].isLiked ??
               false;
       isRetweeted = ref
-              .watch(homeNotifierProvider)
-              .homeResponse
-              .data[index]
-              .isRetweeted ??
+          .watch(homeNotifierProvider)
+          .homeResponse
+          .data[index]
+          .isRetweeted ??
           false;
       retweetCount = ref
-              .watch(homeNotifierProvider)
-              .homeResponse
-              .data[index]
-              .retweetsCount ??
+          .watch(homeNotifierProvider)
+          .homeResponse
+          .data[index]
+          .retweetsCount ??
           0;
       likesCount =
           ref.watch(homeNotifierProvider).homeResponse.data[index].likesCount ??
               0;
       repliesCount = ref
-              .watch(homeNotifierProvider)
-              .homeResponse
-              .data[index]
-              .repliesCount ??
+          .watch(homeNotifierProvider)
+          .homeResponse
+          .data[index]
+          .repliesCount ??
           0;
       text =
           ref.watch(homeNotifierProvider).homeResponse.data[index].text ?? '';
       userName = ref
-              .watch(homeNotifierProvider)
-              .homeResponse
-              .data[index]
-              .user!
-              .screenName ??
+          .watch(homeNotifierProvider)
+          .homeResponse
+          .data[index]
+          .user!
+          .screenName ??
           '';
       handle = ref
-              .watch(homeNotifierProvider)
-              .homeResponse
-              .data[index]
-              .user!
-              .username ??
+          .watch(homeNotifierProvider)
+          .homeResponse
+          .data[index]
+          .user!
+          .username ??
           '';
     }
     else if (widget.whom == 1) {
       isliked = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .isLiked ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .isLiked ??
           false;
       isRetweeted = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .isRetweeted ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .isRetweeted ??
           false;
       retweetCount = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .retweetsCount ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .retweetsCount ??
           0;
       likesCount = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .likesCount ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .likesCount ??
           0;
       repliesCount = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .repliesCount ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .repliesCount ??
           0;
       text = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .text ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .text ??
           '';
       userName = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .user!
-              .screenName ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .user!
+          .screenName ??
           '';
       handle = ref
-              .watch(profileNotifierProvider)
-              .profileTweetsResponse
-              .data[index]
-              .user!
-              .username ??
+          .watch(profileNotifierProvider)
+          .profileTweetsResponse
+          .data[index]
+          .user!
+          .username ??
           '';
     }
     else if (widget.whom == 2) {
@@ -238,8 +323,6 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
           .data[index]
           .user!
           .username ??
-          '';
-    }
     else if (widget.whom == 3) {
       isliked = ref
           .watch(searchNotifierProvider)
@@ -302,86 +385,93 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
         images = [];
       }
     }
-    return (Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return (Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 5),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, Routes.profileScreen,
-                  arguments: widget.tweet.user!.username);
-            },
-            child: CircleAvatar(
-              backgroundImage:
-                  NetworkImage(widget.tweet.user!.profileImageURL ?? ''),
-              backgroundColor: AppColors.whiteColor,
-              radius: 20,
+        if (widget.tweet.isRetweet!)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.06),
+                SvgPicture.asset(
+                  AppAssets.retweetIcon,
+                  width: 17,
+                  color: AppColors.lightThinTextGray,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                Text(
+                  widget.tweet.retweetedUser!.username !=
+                      ref.watch(authNotifierProvider).user!.username
+                      ? "${widget.tweet.retweetedUser!.screenName} reposted"
+                      : "You reposted",
+                  style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
+                      color: AppColors.lightThinTextGray,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
           ),
-        ),
-        SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    userName,
-                    style: AppTextStyle.textThemeDark.bodyLarge!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                  Text(
-                    '@$handle',
-                    style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                      color: AppColors.lightThinTextGray,
-                    ),
-                  ),
-                  SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                  //Date
-                  Text(
-                    "",
-                    style: const TextStyle(color: AppColors.lightGray),
-                  )
-                ],
-              ),
-              if (text != null)
-                RichText(
-                  text: TextSpan(
-                    style: AppTextStyle.textThemeDark.bodyLarge!,
-                    children: text.split(' ').map((word) {
-                      if (word.startsWith('#')) {
-                        return TextSpan(
-                            text: '$word ',
-                            style: AppTextStyle.textThemeDark.bodyLarge!
-                                .copyWith(color: AppColors.primaryColor));
-                      } else {
-                        return TextSpan(text: '$word ');
-                      }
-                    }).toList(),
-                  ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.profileScreen,
+                      arguments: widget.tweet.user!.username);
+                },
+                child: CircleAvatar(
+                  backgroundImage:
+                  NetworkImage(widget.tweet.user!.profileImageURL ?? ''),
+                  backgroundColor: AppColors.whiteColor,
+                  radius: 20,
                 ),
-              if (images.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: GestureDetector(
-                    onTap: () {
-                      _showImageDialog(context, images);
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
-                        child: Image(
-                          image: images[0],
-                          fit: BoxFit.fitWidth,
+              ),
+            ),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userName,
+                        style: AppTextStyle.textThemeDark.bodyLarge!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
+                      Text(
+                        '@$handle',
+                        style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                          color: AppColors.lightThinTextGray,
                         ),
                       ),
-                    ),
+                      SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
+                      //Date
+                      const Text(
+                        "",
+                        style: TextStyle(color: AppColors.lightGray),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          _openBottomSheetForDelete(context);
+                        },
+                        child: const Icon(
+                          Icons.more_vert,
+                          size: 17,
+                          color: AppColors.lightThinTextGray,
+                        ),
+                      ),
+                    ],
                   ),
+
                 ),
               Padding(
                 padding:
@@ -428,12 +518,39 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                           };
                         },
                         key: ValueKey<bool>(isRetweeted), // Use a key to identify the widget when it changes
+                  if (text != null)
+                    RichText(
+                      text: TextSpan(
+                        style: AppTextStyle.textThemeDark.bodyLarge!,
+                        children: text.split(' ').map((word) {
+                          if (word.startsWith('#')) {
+                            return TextSpan(
+                                text: '$word ',
+                                style: AppTextStyle.textThemeDark.bodyLarge!
+                                    .copyWith(color: AppColors.primaryColor));
+                          } else {
+                            return TextSpan(text: '$word ');
+                          }
+                        }).toList(),
                       ),
                     ),
-                    TweetIconButton(
-                      pathName: AppAssets.commentIcon,
-                      text: repliesCount == 0 ? '' : repliesCount.toString(),
-                      onTap: () {},
+                  if (images.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: CarouselSlider(
+                        items: widget.tweet.attachmentsUrl!.map(
+                              (file) {
+                            return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 0),
+                                child: Image.network(file));
+                          },
+                        ).toList(),
+                        options: CarouselOptions(
+                          enableInfiniteScroll: false,
+                        ),
+                      ),
                     ),
                     LikeButton(
                       isLiked: isliked,
@@ -507,18 +624,19 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                           ),
                         );
                       },
+
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            SizedBox(width: 0.018 * MediaQuery.of(context).size.width),
+            const Divider(
+              height: 1.0,
+              color: AppColors.blackColor,
+            )
+          ],
         ),
-        SizedBox(width: 0.018 * MediaQuery.of(context).size.width),
-        const Divider(
-          height: 1.0,
-          color: AppColors.blackColor,
-        )
       ],
     ));
   }

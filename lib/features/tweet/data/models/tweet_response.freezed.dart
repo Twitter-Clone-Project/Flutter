@@ -177,7 +177,7 @@ class _$LikerDataImpl implements _LikerData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LikerDataImpl &&
@@ -341,7 +341,7 @@ class _$LikersListImpl implements _LikersList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LikersListImpl &&
@@ -545,7 +545,7 @@ class _$RetweeterDataImpl implements _RetweeterData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RetweeterDataImpl &&
@@ -709,7 +709,7 @@ class _$RetweetersListImpl implements _RetweetersList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RetweetersListImpl &&
@@ -757,14 +757,18 @@ ReplierData _$ReplierDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ReplierData {
-  String? get replyText => throw _privateConstructorUsedError;
-  String? get username => throw _privateConstructorUsedError;
-  String? get bio => throw _privateConstructorUsedError;
-  String? get profileImageURL => throw _privateConstructorUsedError;
-  String? get createdAt => throw _privateConstructorUsedError;
   String? get replyId => throw _privateConstructorUsedError;
   String? get replyTweetId => throw _privateConstructorUsedError;
   String? get replyUserId => throw _privateConstructorUsedError;
+  String? get replyText => throw _privateConstructorUsedError;
+  String? get createdAt => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
+  String? get screenName => throw _privateConstructorUsedError;
+  String? get bio => throw _privateConstructorUsedError;
+  String? get profileImageURL => throw _privateConstructorUsedError;
+  String? get followersCount => throw _privateConstructorUsedError;
+  String? get followingCount => throw _privateConstructorUsedError;
+  bool? get isFollowed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -779,14 +783,18 @@ abstract class $ReplierDataCopyWith<$Res> {
       _$ReplierDataCopyWithImpl<$Res, ReplierData>;
   @useResult
   $Res call(
-      {String? replyText,
+      {String? replyId,
+      String? replyTweetId,
+      String? replyUserId,
+      String? replyText,
+      String? createdAt,
       String? username,
+      String? screenName,
       String? bio,
       String? profileImageURL,
-      String? createdAt,
-      String? replyId,
-      String? replyTweetId,
-      String? replyUserId});
+      String? followersCount,
+      String? followingCount,
+      bool? isFollowed});
 }
 
 /// @nodoc
@@ -802,36 +810,20 @@ class _$ReplierDataCopyWithImpl<$Res, $Val extends ReplierData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? replyText = freezed,
-    Object? username = freezed,
-    Object? bio = freezed,
-    Object? profileImageURL = freezed,
-    Object? createdAt = freezed,
     Object? replyId = freezed,
     Object? replyTweetId = freezed,
     Object? replyUserId = freezed,
+    Object? replyText = freezed,
+    Object? createdAt = freezed,
+    Object? username = freezed,
+    Object? screenName = freezed,
+    Object? bio = freezed,
+    Object? profileImageURL = freezed,
+    Object? followersCount = freezed,
+    Object? followingCount = freezed,
+    Object? isFollowed = freezed,
   }) {
     return _then(_value.copyWith(
-      replyText: freezed == replyText
-          ? _value.replyText
-          : replyText // ignore: cast_nullable_to_non_nullable
-              as String?,
-      username: freezed == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String?,
-      bio: freezed == bio
-          ? _value.bio
-          : bio // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
       replyId: freezed == replyId
           ? _value.replyId
           : replyId // ignore: cast_nullable_to_non_nullable
@@ -844,6 +836,42 @@ class _$ReplierDataCopyWithImpl<$Res, $Val extends ReplierData>
           ? _value.replyUserId
           : replyUserId // ignore: cast_nullable_to_non_nullable
               as String?,
+      replyText: freezed == replyText
+          ? _value.replyText
+          : replyText // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      screenName: freezed == screenName
+          ? _value.screenName
+          : screenName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profileImageURL: freezed == profileImageURL
+          ? _value.profileImageURL
+          : profileImageURL // ignore: cast_nullable_to_non_nullable
+              as String?,
+      followersCount: freezed == followersCount
+          ? _value.followersCount
+          : followersCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      followingCount: freezed == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFollowed: freezed == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -857,14 +885,18 @@ abstract class _$$ReplierDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? replyText,
+      {String? replyId,
+      String? replyTweetId,
+      String? replyUserId,
+      String? replyText,
+      String? createdAt,
       String? username,
+      String? screenName,
       String? bio,
       String? profileImageURL,
-      String? createdAt,
-      String? replyId,
-      String? replyTweetId,
-      String? replyUserId});
+      String? followersCount,
+      String? followingCount,
+      bool? isFollowed});
 }
 
 /// @nodoc
@@ -878,36 +910,20 @@ class __$$ReplierDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? replyText = freezed,
-    Object? username = freezed,
-    Object? bio = freezed,
-    Object? profileImageURL = freezed,
-    Object? createdAt = freezed,
     Object? replyId = freezed,
     Object? replyTweetId = freezed,
     Object? replyUserId = freezed,
+    Object? replyText = freezed,
+    Object? createdAt = freezed,
+    Object? username = freezed,
+    Object? screenName = freezed,
+    Object? bio = freezed,
+    Object? profileImageURL = freezed,
+    Object? followersCount = freezed,
+    Object? followingCount = freezed,
+    Object? isFollowed = freezed,
   }) {
     return _then(_$ReplierDataImpl(
-      replyText: freezed == replyText
-          ? _value.replyText
-          : replyText // ignore: cast_nullable_to_non_nullable
-              as String?,
-      username: freezed == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String?,
-      bio: freezed == bio
-          ? _value.bio
-          : bio // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
       replyId: freezed == replyId
           ? _value.replyId
           : replyId // ignore: cast_nullable_to_non_nullable
@@ -920,6 +936,42 @@ class __$$ReplierDataImplCopyWithImpl<$Res>
           ? _value.replyUserId
           : replyUserId // ignore: cast_nullable_to_non_nullable
               as String?,
+      replyText: freezed == replyText
+          ? _value.replyText
+          : replyText // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      screenName: freezed == screenName
+          ? _value.screenName
+          : screenName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profileImageURL: freezed == profileImageURL
+          ? _value.profileImageURL
+          : profileImageURL // ignore: cast_nullable_to_non_nullable
+              as String?,
+      followersCount: freezed == followersCount
+          ? _value.followersCount
+          : followersCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      followingCount: freezed == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFollowed: freezed == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -928,65 +980,97 @@ class __$$ReplierDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ReplierDataImpl implements _ReplierData {
   const _$ReplierDataImpl(
-      {this.replyText,
+      {this.replyId,
+      this.replyTweetId,
+      this.replyUserId,
+      this.replyText,
+      this.createdAt,
       this.username,
+      this.screenName,
       this.bio,
       this.profileImageURL,
-      this.createdAt,
-      this.replyId,
-      this.replyTweetId,
-      this.replyUserId});
+      this.followersCount,
+      this.followingCount,
+      this.isFollowed});
 
   factory _$ReplierDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReplierDataImplFromJson(json);
 
-  @override
-  final String? replyText;
-  @override
-  final String? username;
-  @override
-  final String? bio;
-  @override
-  final String? profileImageURL;
-  @override
-  final String? createdAt;
   @override
   final String? replyId;
   @override
   final String? replyTweetId;
   @override
   final String? replyUserId;
+  @override
+  final String? replyText;
+  @override
+  final String? createdAt;
+  @override
+  final String? username;
+  @override
+  final String? screenName;
+  @override
+  final String? bio;
+  @override
+  final String? profileImageURL;
+  @override
+  final String? followersCount;
+  @override
+  final String? followingCount;
+  @override
+  final bool? isFollowed;
 
   @override
   String toString() {
-    return 'ReplierData(replyText: $replyText, username: $username, bio: $bio, profileImageURL: $profileImageURL, createdAt: $createdAt, replyId: $replyId, replyTweetId: $replyTweetId, replyUserId: $replyUserId)';
+    return 'ReplierData(replyId: $replyId, replyTweetId: $replyTweetId, replyUserId: $replyUserId, replyText: $replyText, createdAt: $createdAt, username: $username, screenName: $screenName, bio: $bio, profileImageURL: $profileImageURL, followersCount: $followersCount, followingCount: $followingCount, isFollowed: $isFollowed)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReplierDataImpl &&
-            (identical(other.replyText, replyText) ||
-                other.replyText == replyText) &&
-            (identical(other.username, username) ||
-                other.username == username) &&
-            (identical(other.bio, bio) || other.bio == bio) &&
-            (identical(other.profileImageURL, profileImageURL) ||
-                other.profileImageURL == profileImageURL) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
             (identical(other.replyId, replyId) || other.replyId == replyId) &&
             (identical(other.replyTweetId, replyTweetId) ||
                 other.replyTweetId == replyTweetId) &&
             (identical(other.replyUserId, replyUserId) ||
-                other.replyUserId == replyUserId));
+                other.replyUserId == replyUserId) &&
+            (identical(other.replyText, replyText) ||
+                other.replyText == replyText) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.screenName, screenName) ||
+                other.screenName == screenName) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.profileImageURL, profileImageURL) ||
+                other.profileImageURL == profileImageURL) &&
+            (identical(other.followersCount, followersCount) ||
+                other.followersCount == followersCount) &&
+            (identical(other.followingCount, followingCount) ||
+                other.followingCount == followingCount) &&
+            (identical(other.isFollowed, isFollowed) ||
+                other.isFollowed == isFollowed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, replyText, username, bio,
-      profileImageURL, createdAt, replyId, replyTweetId, replyUserId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      replyId,
+      replyTweetId,
+      replyUserId,
+      replyText,
+      createdAt,
+      username,
+      screenName,
+      bio,
+      profileImageURL,
+      followersCount,
+      followingCount,
+      isFollowed);
 
   @JsonKey(ignore: true)
   @override
@@ -1004,34 +1088,46 @@ class _$ReplierDataImpl implements _ReplierData {
 
 abstract class _ReplierData implements ReplierData {
   const factory _ReplierData(
-      {final String? replyText,
+      {final String? replyId,
+      final String? replyTweetId,
+      final String? replyUserId,
+      final String? replyText,
+      final String? createdAt,
       final String? username,
+      final String? screenName,
       final String? bio,
       final String? profileImageURL,
-      final String? createdAt,
-      final String? replyId,
-      final String? replyTweetId,
-      final String? replyUserId}) = _$ReplierDataImpl;
+      final String? followersCount,
+      final String? followingCount,
+      final bool? isFollowed}) = _$ReplierDataImpl;
 
   factory _ReplierData.fromJson(Map<String, dynamic> json) =
       _$ReplierDataImpl.fromJson;
 
-  @override
-  String? get replyText;
-  @override
-  String? get username;
-  @override
-  String? get bio;
-  @override
-  String? get profileImageURL;
-  @override
-  String? get createdAt;
   @override
   String? get replyId;
   @override
   String? get replyTweetId;
   @override
   String? get replyUserId;
+  @override
+  String? get replyText;
+  @override
+  String? get createdAt;
+  @override
+  String? get username;
+  @override
+  String? get screenName;
+  @override
+  String? get bio;
+  @override
+  String? get profileImageURL;
+  @override
+  String? get followersCount;
+  @override
+  String? get followingCount;
+  @override
+  bool? get isFollowed;
   @override
   @JsonKey(ignore: true)
   _$$ReplierDataImplCopyWith<_$ReplierDataImpl> get copyWith =>
@@ -1142,7 +1238,7 @@ class _$RepliersListImpl implements _RepliersList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RepliersListImpl &&

@@ -22,4 +22,5 @@ class AppAssets {
   static String bookmarkIcon = 'res/assets/bookmark_icon.svg';
   static String greyRetweetIcon = 'res/assets/greyRetweetIcon.svg';
   static String greenRetweetedIcon = 'res/assets/greenRetweetedIcon.svg';
+  static String whiteLogo = 'res/assets/X_logo.png';
 }

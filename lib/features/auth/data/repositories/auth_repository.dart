@@ -53,6 +53,8 @@ abstract class AuthRepository {
   String? getToken();
   Future<bool?> updateUsername({required String newUsername});
   Future<bool?> updateEmail({required String newEmail});
+  Future<MutersList> fetchMutersData();
+  Future<BlockersList> fetchBlockersData();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -339,32 +341,57 @@ class AuthRepositoryImpl implements AuthRepository {
     return null;
   }
 
-  //
-  // @override
-  // Future<User?> updateUser({String? phone, String? name}) async {
-  //   try {
-  //
-  //     final data ={
-  //       if(phone != null)
-  //       "phone": phone,
-  //       if(name != null)
-  //         "name": name,
-  //     };
-  //     var response = await HttpClient.dio.post(EndPoints.updateUser, data: data
-  //       , options: Options(headers: {
-  //         "Accept": "application/json",
-  //       }),);
-  //     if (response.statusCode == 200 || response.statusCode == 201) {
-  //       _saveUserDataResponse(response.data["user"]);
-  //
-  //       return User.fromJson(response.data["user"]);
-  //     }
-  //     return null;
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+  @override
+  Future<MutersList> fetchMutersData() async {
+    try {
+      var response = await HttpClient.dio.get(EndPoints.getMutersData());
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return MutersList.fromJson(response.data["data"]);
+      }
+      return const MutersList(users: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BlockersList> fetchBlockersData() async {
+    try {
+      var response = await HttpClient.dio.get(EndPoints.getBlockersData());
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return BlockersList.fromJson(response.data["data"]);
+      }
+      return const BlockersList(users: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
+//
+// @override
+// Future<User?> updateUser({String? phone, String? name}) async {
+//   try {
+//
+//     final data ={
+//       if(phone != null)
+//       "phone": phone,
+//       if(name != null)
+//         "name": name,
+//     };
+//     var response = await HttpClient.dio.post(EndPoints.updateUser, data: data
+//       , options: Options(headers: {
+//         "Accept": "application/json",
+//       }),);
+//     if (response.statusCode == 200 || response.statusCode == 201) {
+//       _saveUserDataResponse(response.data["user"]);
+//
+//       return User.fromJson(response.data["user"]);
+//     }
+//     return null;
+//   } catch (e) {
+//     rethrow;
+//   }
+// }
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl();

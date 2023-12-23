@@ -1,6 +1,8 @@
 const baseUrl = "https://twitter-clone.onthewifi.com:2023/api/v1/";
+const base = "https://twitter-clone.onthewifi.com:2023";
 
 class EndPoints {
+  static const socketUrl = base;
   static const getMe = "/auth/me";
   static const login = "/auth/signin";
   static const register = "/auth/signup";
@@ -15,6 +17,9 @@ class EndPoints {
   static const updatePicture = "/profile/updatePicture";
   static const deletePicture = "/profile/deletePicture";
   static const updateProfile = "/profile/updateProfile";
+  static const getNotifications = "/notifications";
+  static const getConversations = "/conversations";
+  static getMessagesHistory(String conversationId) => "/conversations/$conversationId/history";
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";
@@ -40,8 +45,14 @@ class EndPoints {
   static getTrendingData() => "/trends";
   static getFollowersData(String username) => "/users/$username/followers";
   static getFollowingData(String username) => "/users/$username/followings";
+  static deleteTweet(String tweetId) => "/tweets/$tweetId/deleteTweet";
+  static deleteReply(String tweetId, String replyId) =>
+      "/tweets/$tweetId/deleteReplies/$replyId";
+  static getMutersData() => "/users/mutedUsers";
+  static getBlockersData() => "/users/blockedUsers";
 
   static searchUsers(int page, String query) => "/users/search/$page?query=$query";
   static searchTweets(int page, String query) => "/tweets/search/$page?query=$query";
 
 }
+

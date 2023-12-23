@@ -69,26 +69,34 @@ Map<String, dynamic> _$$RetweetersListImplToJson(
 
 _$ReplierDataImpl _$$ReplierDataImplFromJson(Map<String, dynamic> json) =>
     _$ReplierDataImpl(
-      replyText: json['replyText'] as String?,
-      username: json['username'] as String?,
-      bio: json['bio'] as String?,
-      profileImageURL: json['profileImageURL'] as String?,
-      createdAt: json['createdAt'] as String?,
       replyId: json['replyId'] as String?,
       replyTweetId: json['replyTweetId'] as String?,
       replyUserId: json['replyUserId'] as String?,
+      replyText: json['replyText'] as String?,
+      createdAt: json['createdAt'] as String?,
+      username: json['username'] as String?,
+      screenName: json['screenName'] as String?,
+      bio: json['bio'] as String?,
+      profileImageURL: json['profileImageURL'] as String?,
+      followersCount: json['followersCount'] as String?,
+      followingCount: json['followingCount'] as String?,
+      isFollowed: json['isFollowed'] as bool?,
     );
 
 Map<String, dynamic> _$$ReplierDataImplToJson(_$ReplierDataImpl instance) =>
     <String, dynamic>{
-      'replyText': instance.replyText,
-      'username': instance.username,
-      'bio': instance.bio,
-      'profileImageURL': instance.profileImageURL,
-      'createdAt': instance.createdAt,
       'replyId': instance.replyId,
       'replyTweetId': instance.replyTweetId,
       'replyUserId': instance.replyUserId,
+      'replyText': instance.replyText,
+      'createdAt': instance.createdAt,
+      'username': instance.username,
+      'screenName': instance.screenName,
+      'bio': instance.bio,
+      'profileImageURL': instance.profileImageURL,
+      'followersCount': instance.followersCount,
+      'followingCount': instance.followingCount,
+      'isFollowed': instance.isFollowed,
     };
 
 _$RepliersListImpl _$$RepliersListImplFromJson(Map<String, dynamic> json) =>
