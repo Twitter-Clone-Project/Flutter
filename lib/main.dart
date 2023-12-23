@@ -44,8 +44,10 @@ void callbackDispatcher() {
     var lastNotification = notifications.data.first;
     if (lastNotification.isSeen) return Future.value(true);
     await NotificationServices.showNotification(
-        title: "from @${lastNotification.senderUsername}",
-        body: lastNotification.content);
+      title: "from @${lastNotification.senderUsername}",
+      body: lastNotification.content,
+      id: lastNotification.notificationId,
+    );
 
     return Future.value(true);
   });

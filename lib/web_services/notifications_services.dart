@@ -28,6 +28,7 @@ class NotificationServices {
   static Future showNotification({
     required String title,
     required String body,
+    required String id,
   }) async {
     AndroidNotificationDetails androidNotificationDetails =
         const AndroidNotificationDetails(
@@ -43,7 +44,7 @@ class NotificationServices {
         new NotificationDetails(android: androidNotificationDetails);
 
     await flutterLocalNotificationsPlugin.show(
-      0,
+      int.parse(id),
       title,
       body,
       notificationDetails,

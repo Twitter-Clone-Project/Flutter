@@ -10,6 +10,7 @@ class SocketClient {
     await NotificationServices.showNotification(
       title: "Notification from ${notificationData.senderUsername}",
       body: notificationData.content,
+      id: notificationData.notificationId,
     );
   }
 
