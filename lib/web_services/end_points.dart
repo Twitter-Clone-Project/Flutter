@@ -57,4 +57,3 @@ class EndPoints {
   static searchTweets(int page, String query) => "/tweets/search/$page?query=$query";
 
 }
-

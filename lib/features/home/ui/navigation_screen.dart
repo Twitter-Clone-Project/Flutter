@@ -40,6 +40,7 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
       SocketClient.statusOfContact((data){});
       ref.read(chatNotifierProvider.notifier).getUnseenConversationsCnt();
     });
+
     super.initState();
   }
 
