@@ -138,22 +138,28 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   }
 
   Widget buildMessageList(List<Message> messages) {
-    messages = messages.reversed.toList();
-    if (messages.isEmpty) {
-      return const Center(
-        child: Text('No Messages'),
-      );
-    } else {
-      return Expanded(
-        child: ListView.builder(
-          reverse: true,
-          itemCount: messages.length,
-          itemBuilder: (context, index) {
-            return buildMessageItem(messages[index]);
-          },
-        ),
-      );
-    }
+    messages=messages.reversed.toList();
+    if(messages.isEmpty)
+      {
+        return const Expanded(
+          child: Center(
+            child: Text('No Messages'),
+          ),
+        );
+      }
+      else
+      {
+        return Expanded(
+          child: ListView.builder(
+            reverse: true,
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
+              return buildMessageItem(messages[index]);
+            },
+          ),
+        );
+      }
+
   }
 
   //

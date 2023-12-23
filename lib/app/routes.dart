@@ -26,6 +26,7 @@ import '../features/auth/ui/reCAPTCHA.dart';
 import '../features/auth/ui/reset_password.dart';
 import '../features/auth/ui/signup_screen.dart';
 import '../features/auth/ui/verify_otp_screen.dart';
+import '../features/chat/ui/chat_search_screen.dart';
 import '../features/home/ui/home_screen.dart';
 import '../features/home/ui/navigation_screen.dart';
 import '../features/Profile/ui/profile_screen.dart';
@@ -57,6 +58,7 @@ class Routes {
 
 
   static const String chatScreen = "/chatScreen";
+  static const String chatSearchScreen = "/chatSearchScreen";
 
   static const String followersScreen = "/followersScreen";
   static const String followingsScreen = "/followingsScreen";
@@ -81,6 +83,8 @@ class Routes {
       case chatScreen:
         Conversation data = settings.arguments as Conversation;
         return MaterialPageRoute(builder: (_) => ChatScreen(conversation: data,));
+      case chatSearchScreen:
+        return MaterialPageRoute(builder: (_) => ChatSearchScreen());
       case registerScreen:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
       case reCAPTCHAscreen:

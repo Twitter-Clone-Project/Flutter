@@ -346,6 +346,53 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       );
     }
   }
+
+  Future<void> unblockUser(String username) async {
+    state = state.copyWith(
+      loading: true,
+    );
+
+    final bool? success = await _repo.unblockUser(username: username);
+
+    if (success!) {
+      // If unblocking is successful, update the state accordingly
+      final BlockersList updatedBlockedList = await _repo.fetchBlockersData();
+      state = state.copyWith(
+        blockedList: updatedBlockedList,
+        loading: false,
+      );
+    } else {
+      // If unblocking fails, update the state with an error message
+      state = state.copyWith(
+        errorMessage: 'Failed to unblock user $username',
+        loading: false,
+      );
+    }
+  }
+
+  Future<void> unmuteUser(String username) async {
+    state = state.copyWith(
+      loading: true,
+    );
+
+    final bool? success = await _repo.unmuteUser(username: username);
+
+    if (success!) {
+      // If unblocking is successful, update the state accordingly
+      final MutersList updatedMutersList = await _repo.fetchMutersData();
+      state = state.copyWith(
+        mutersList: updatedMutersList,
+        loading: false,
+      );
+    } else {
+      // If unblocking fails, update the state with an error message
+      state = state.copyWith(
+        errorMessage: 'Failed to unmute user $username',
+        loading: false,
+      );
+    }
+  }
+
 // void resetErrorMessage() {
 //   state = state.copyWith(loading: false, errorMessage: "");
 // }
