@@ -7,6 +7,11 @@ abstract class SearchRepository {
   Future<TrendingList> fetchTrendingData();
   Future<UsersList> searchUsers({
     required String query,
+    required int page,
+  });
+  Future<TweetList> searchTweets({
+    required String query,
+    required int page,
   });
 }
 
@@ -26,10 +31,9 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   @override
-  Future<UsersList> searchUsers({required String query}) async {
+  Future<UsersList> searchUsers({required String query, required int page}) async {
     try {
-      var response = await HttpClient.dio.get(EndPoints.searchUsers(query));
-
+      var response = await HttpClient.dio.get(EndPoints.searchUsers(page,query));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return UsersList.fromJson(response.data);
       }
@@ -40,14 +44,14 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   @override
-  Future<UsersList> searchTweets({required String query}) async {
+  Future<TweetList> searchTweets({required String query, required int page}) async {
     try {
-      var response = await HttpClient.dio.get(EndPoints.searchTweets(query));
+      var response = await HttpClient.dio.get(EndPoints.searchTweets(page,query));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return UsersList.fromJson(response.data);
+        return TweetList.fromJson(response.data);
       }
-      return const UsersList(data: []);
+      return const TweetList(data: []);
     } catch (e) {
       rethrow;
     }

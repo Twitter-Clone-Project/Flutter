@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../utils/utils.dart';
 import '../model/chats_response.dart';
 import '../repositories/chat_repository.dart';
 import '../states/chats_state.dart';
@@ -53,7 +54,7 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
               text: text,
               senderId: senderId,
               time: DateTime.now().toString(),
-              isSeen: false,
+              isSeen: openConversationIds.contains(conversationId),
               isFromMe: true,
               messageId: DateTime.now().toString()+text,
             ),
@@ -83,7 +84,6 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
   onMessageReceive(data) {
     String conversationId='';
     final Message message = Message.fromJson(data);
-    print(message);
     state = state.copyWith(
         chatResponse: state.chatResponse.copyWith(messages: [...state.chatResponse.messages,message]),
         conversationsResponse: state.conversationsResponse.copyWith(conversations: state.conversationsResponse.conversations.map((e) {
@@ -112,6 +112,17 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
         conversationsResponse: state.conversationsResponse.copyWith(conversations: temp)
     );
 
+  }
+
+  updateMessageStatus() {
+    state = state.copyWith(
+        chatResponse: state.chatResponse.copyWith(messages: state.chatResponse.messages.map((e) {
+          if(e.isFromMe==true){
+            return e.copyWith(isSeen: true);
+          }
+          return e;
+        }).toList())
+    );
   }
 
 }

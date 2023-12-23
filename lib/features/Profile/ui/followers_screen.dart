@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -7,6 +8,7 @@ import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
+import '../../../theme/app_assets.dart';
 import '../../auth/data/providers/auth_provider.dart';
 import '../data/model/user_profile.dart';
 
@@ -100,10 +102,19 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
                           onTap: () {
                             Navigator.pushNamed(context, Routes.profileScreen, arguments: follower.username);
                           },
-                          child: CircleAvatar(
-                            backgroundColor: AppColors.whiteColor,
-                            backgroundImage: NetworkImage(follower.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                            radius: 20,
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                              width: 32,
+                              height: 32,
+                              fit: BoxFit.cover,
+                              imageUrl: follower.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                              placeholder: (context, url) => Container(
+                                color: Color(0xFF333639),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Image.asset(AppAssets.whiteLogo,
+                                      fit: BoxFit.cover),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
