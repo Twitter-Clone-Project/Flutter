@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/app.dart';
@@ -5,6 +6,8 @@ import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/notifications/data/providers/notification_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
+
+import '../../../theme/app_assets.dart';
 
 class NotificationsScreen extends StatefulHookConsumerWidget {
   const NotificationsScreen({super.key});
@@ -167,10 +170,19 @@ class _NotificationState extends State<Notification> {
                     arguments: senderUsername,
                   );
                 },
-                child: CircleAvatar(
-                  radius: 16,
-                  backgroundColor: Colors.grey[200],
-                  backgroundImage: NetworkImage(senderImgUrl),
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    width: 32,
+                    height: 32,
+                    fit: BoxFit.cover,
+                    imageUrl: senderImgUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                    placeholder: (context, url) => Image.asset(
+                        AppAssets.whiteLogo,
+                        fit: BoxFit.cover),
+                    errorWidget: (context, url, error) =>
+                        Image.asset(AppAssets.whiteLogo,
+                            fit: BoxFit.cover),
+                  ),
                 ),
               ),
               SizedBox(

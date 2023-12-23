@@ -7,6 +7,7 @@ import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:x_clone/web_services/socket_services.dart';
+import '../../../theme/app_assets.dart';
 import '../data/providers/home_provider.dart';
 import 'package:x_clone/app/widgets/tweet_UI.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -50,21 +51,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     onTap: () {
                       Scaffold.of(context).openDrawer();
                     },
-                    child: CircleAvatar(
-                        backgroundColor: const Color.fromARGB(255, 59, 158, 59),
-                        backgroundImage: NetworkImage(ref
-                                .watch(authNotifierProvider)
-                                .user!
-                                .profileImageURL ??
-                            'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                        child: null),
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                        imageUrl: ref
+                            .watch(authNotifierProvider)
+                            .user!
+                            .profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                        placeholder: (context, url) => Image.asset(
+                            AppAssets.whiteLogo,
+                            fit: BoxFit.cover),
+                        errorWidget: (context, url, error) =>
+                            Image.asset(AppAssets.whiteLogo,
+                                fit: BoxFit.cover),
+                      ),
+                    ),
                   ),
                   const Spacer(),
-                  CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 59, 158, 59),
-                      backgroundImage: NetworkImage(
-                          'https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1702425600&semt=ais'),
-                      child: null),
+                  ClipOval(
+                    child: CachedNetworkImage(
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                      imageUrl: 'https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1702425600&semt=ais',
+                    placeholder: (context, url) => Image.asset(
+                          AppAssets.whiteLogo,
+                          fit: BoxFit.cover),
+                      errorWidget: (context, url, error) =>
+                          Image.asset(AppAssets.whiteLogo,
+                              fit: BoxFit.cover),
+                    ),
+                  ),
                   const Spacer(),
                   IconButton(
                     icon: const Icon(Icons.settings),
@@ -103,7 +122,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                           itemCount: ref
                               .watch(homeNotifierProvider)
                               .homeResponse
-                              .data!
+                              .data
                               .length,
                           itemBuilder: (BuildContext context, int index) =>
                               InkWell(
@@ -111,7 +130,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                               tweet: ref
                                   .watch(homeNotifierProvider)
                                   .homeResponse
-                                  .data![index],
+                                  .data[index],
                               index: index,
                               whom: 0, //0->Home , 1->Profile
                               inMyProfile:

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../utils/utils.dart';
 import '../model/chats_response.dart';
 import '../repositories/chat_repository.dart';
 import '../states/chats_state.dart';
@@ -46,34 +47,83 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
     try {
       chatRepository.sendMessage(conversationId, text, receiverId, senderId);
       state = state.copyWith(
-          chatResponse: state.chatResponse.copyWith(messages: [...state.chatResponse.messages,Message(text: text,senderId: senderId,time: DateTime.now().toString(),isSeen: false,isFromMe: true)]),
-        conversationsResponse: state.conversationsResponse.copyWith(conversations: state.conversationsResponse.conversations.map((e) {
-          if(e.conversationId == conversationId){
-            return e.copyWith(lastMessage: LastMessage(text: text,timestamp: DateTime.now().toString(),isSeen: false));
-          }
-          return e;
-        }).toList())
+        chatResponse: state.chatResponse.copyWith(
+          messages: [
+            ...state.chatResponse.messages,
+            Message(
+              text: text,
+              senderId: senderId,
+              time: DateTime.now().toString(),
+              isSeen: openConversationIds.contains(conversationId),
+              isFromMe: true,
+              messageId: DateTime.now().toString()+text,
+            ),
+          ],
+        ),
+        conversationsResponse: state.conversationsResponse.copyWith(
+          conversations: state.conversationsResponse.conversations.map((e) {
+            if (e.conversationId == conversationId) {
+              return e.copyWith(
+                lastMessage: LastMessage(
+                  text: text,
+                  timestamp: DateTime.now().toString(),
+                  isSeen: false,
+                ),
+              );
+            }
+            return e;
+          }).toList(),
+        ),
       );
+      sortChats(conversationId);
     } catch (e) {
       state = state.copyWith(chatLoading: false, errorMessage: e.toString());
     }
   }
 
   onMessageReceive(data) {
-    print("onMessageReceive");
+    String conversationId='';
     final Message message = Message.fromJson(data);
-    print(message);
     state = state.copyWith(
         chatResponse: state.chatResponse.copyWith(messages: [...state.chatResponse.messages,message]),
         conversationsResponse: state.conversationsResponse.copyWith(conversations: state.conversationsResponse.conversations.map((e) {
           if(e.contact?.id == message.senderId){
-            return e.copyWith(lastMessage: LastMessage(text: message.text,timestamp: message.time,isSeen: false));
+            conversationId=e.conversationId??'';
+            return e.copyWith(lastMessage: LastMessage(text: message.text,timestamp: message.time,isSeen: message.isSeen,isFromMe: false,));
+          }
+          return e;
+        }).toList())
+    );
+    sortChats(conversationId);
+  }
+
+  sortChats(String conversationId){
+    List<Conversation> temp = List<Conversation>.from(state.conversationsResponse.conversations);
+
+    for(int i=0;i<temp.length;i++){
+      if(temp[i].conversationId==conversationId){
+        final Conversation conversation = temp[i];
+        temp.removeAt(i);
+        temp.insert(0, conversation);
+        break;
+      }
+    }
+    state = state.copyWith(
+        conversationsResponse: state.conversationsResponse.copyWith(conversations: temp)
+    );
+
+  }
+
+  updateMessageStatus() {
+    state = state.copyWith(
+        chatResponse: state.chatResponse.copyWith(messages: state.chatResponse.messages.map((e) {
+          if(e.isFromMe==true){
+            return e.copyWith(isSeen: true);
           }
           return e;
         }).toList())
     );
   }
-
 
 }
 

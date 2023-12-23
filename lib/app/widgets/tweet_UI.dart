@@ -11,6 +11,7 @@ import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
 import '../../features/home/data/models/home_response.dart';
+import '../../features/search/data/providers/search_provider.dart';
 import '../../theme/app_assets.dart';
 import '../../theme/app_colors.dart';
 
@@ -219,7 +220,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
           .user!
           .username ??
           '';
-    } else if (widget.whom == 1) {
+    }
+    else if (widget.whom == 1) {
       isliked = ref
           .watch(profileNotifierProvider)
           .profileTweetsResponse
@@ -270,7 +272,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
           .user!
           .username ??
           '';
-    } else if (widget.whom == 2) {
+    }
+    else if (widget.whom == 2) {
       isliked = ref
           .watch(profileNotifierProvider)
           .profileLikedTweetsResponse
@@ -317,6 +320,58 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
       handle = ref
           .watch(profileNotifierProvider)
           .profileLikedTweetsResponse
+          .data[index]
+          .user!
+          .username ??
+          '';
+    }
+    else if (widget.whom == 3) {
+      isliked = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .isLiked ??
+          false;
+      isRetweeted = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .isRetweeted ??
+          false;
+      retweetCount = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .retweetsCount ??
+          0;
+      likesCount = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .likesCount ??
+          0;
+      repliesCount = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .repliesCount ??
+          0;
+      text = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .text ??
+          '';
+      userName = ref
+          .watch(searchNotifierProvider)
+          .tweetList
+          .data[index]
+          .user!
+          .screenName ??
+          '';
+      handle = ref
+          .watch(searchNotifierProvider)
+          .tweetList
           .data[index]
           .user!
           .username ??
@@ -480,6 +535,9 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                   tweetId: tweetId,
                                   whom: widget.whom,
                                   inMyProfile: widget.inMyProfile),
+                              ref
+                                  .read(searchNotifierProvider.notifier)
+                                  .addRetweet(tweetId: tweetId),
                             }
                                 : {
                               ref
@@ -491,6 +549,9 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                   tweetId: tweetId!,
                                   whom: widget.whom,
                                   inMyProfile: widget.inMyProfile),
+                              ref
+                                  .read(searchNotifierProvider.notifier)
+                                  .deleteRetweet(tweetId: tweetId!),
                             };
                           },
                         ),
@@ -528,6 +589,10 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                   tweetId: tweetId!,
                                   whom: widget.whom,
                                   inMyProfile: widget.inMyProfile),
+                              ref
+                                  .read(searchNotifierProvider.notifier)
+                                  .addLike(
+                                  tweetId: tweetId),
                             }
                                 : {
                               ref
@@ -540,6 +605,10 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                 whom: widget.whom,
                                 inMyProfile: widget.inMyProfile,
                               ),
+                              ref
+                                  .read(searchNotifierProvider.notifier)
+                                  .deleteLike(
+                                  tweetId: tweetId!),
                             };
                           },
                           likeBuilder: (isLiked) {

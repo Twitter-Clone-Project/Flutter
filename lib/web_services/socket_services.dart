@@ -6,6 +6,7 @@ import 'package:x_clone/web_services/notifications_services.dart';
 import 'package:x_clone/web_services/web_services.dart';
 
 import '../features/chat/data/model/chats_response.dart' as chats;
+import '../utils/utils.dart';
 
 class SocketClient {
   static handleNotificationReceiveWithNotification(dynamic data) async {
@@ -41,7 +42,6 @@ class SocketClient {
 
   static connect(String userId) {
     socket.onConnect((_) {
-      print("socccccccccccccccccccccccket connected");
       socket.emit("add-user", {
         "userId": userId,
       });
@@ -93,22 +93,14 @@ class SocketClient {
       "isSeen": false,
     });
   }
-
-  static chatOpen(
-      {required String conversationId,
-      required String senderId,
-      required String contactId}) {
-    print("oooooooooooooooooooooooooooooooopen");
-
+  static chatOpen({required String conversationId, required String senderId, required String contactId}) {
     socket.emit("chat-opened", {
       "conversationId": conversationId,
       "userId": senderId,
       "contactId": contactId,
     });
   }
-
-  static chatClose(
-      {required String conversationId, required String contactId}) {
+  static chatClose({required String conversationId,required String contactId}) {
     socket.emit("chat-closed", {
       "conversationId": conversationId,
       "contactId": contactId,
@@ -122,7 +114,23 @@ class SocketClient {
   static onMessageReceive(Function callback) {
     socket.off("msg-receive");
     socket.on("msg-receive", (data) {
+      print(data);
       callback(data);
+    });
+  }
+  static statusOfContact(Function callback) {
+    socket.off("status-of-contact");
+    socket.on("status-of-contact", (data) {
+      print(data);
+      if(data["inConversation"]==true)
+        {
+          openConversationIds.add(data["conversationId"]);
+          callback(data);
+        }
+      else if(data["inConversation"]==false)
+        {
+          openConversationIds.remove(data["conversationId"]);
+        }
     });
   }
 }

@@ -930,6 +930,7 @@ mixin _$LastMessage {
   String? get text => throw _privateConstructorUsedError;
   String? get timestamp => throw _privateConstructorUsedError;
   bool? get isSeen => throw _privateConstructorUsedError;
+  bool? get isFromMe => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -943,7 +944,12 @@ abstract class $LastMessageCopyWith<$Res> {
           LastMessage value, $Res Function(LastMessage) then) =
       _$LastMessageCopyWithImpl<$Res, LastMessage>;
   @useResult
-  $Res call({String? id, String? text, String? timestamp, bool? isSeen});
+  $Res call(
+      {String? id,
+      String? text,
+      String? timestamp,
+      bool? isSeen,
+      bool? isFromMe});
 }
 
 /// @nodoc
@@ -963,6 +969,7 @@ class _$LastMessageCopyWithImpl<$Res, $Val extends LastMessage>
     Object? text = freezed,
     Object? timestamp = freezed,
     Object? isSeen = freezed,
+    Object? isFromMe = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -981,6 +988,10 @@ class _$LastMessageCopyWithImpl<$Res, $Val extends LastMessage>
           ? _value.isSeen
           : isSeen // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isFromMe: freezed == isFromMe
+          ? _value.isFromMe
+          : isFromMe // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -993,7 +1004,12 @@ abstract class _$$LastMessageImplCopyWith<$Res>
       __$$LastMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? id, String? text, String? timestamp, bool? isSeen});
+  $Res call(
+      {String? id,
+      String? text,
+      String? timestamp,
+      bool? isSeen,
+      bool? isFromMe});
 }
 
 /// @nodoc
@@ -1011,6 +1027,7 @@ class __$$LastMessageImplCopyWithImpl<$Res>
     Object? text = freezed,
     Object? timestamp = freezed,
     Object? isSeen = freezed,
+    Object? isFromMe = freezed,
   }) {
     return _then(_$LastMessageImpl(
       id: freezed == id
@@ -1029,6 +1046,10 @@ class __$$LastMessageImplCopyWithImpl<$Res>
           ? _value.isSeen
           : isSeen // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isFromMe: freezed == isFromMe
+          ? _value.isFromMe
+          : isFromMe // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -1036,7 +1057,8 @@ class __$$LastMessageImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LastMessageImpl implements _LastMessage {
-  const _$LastMessageImpl({this.id, this.text, this.timestamp, this.isSeen});
+  const _$LastMessageImpl(
+      {this.id, this.text, this.timestamp, this.isSeen, this.isFromMe});
 
   factory _$LastMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$LastMessageImplFromJson(json);
@@ -1049,10 +1071,12 @@ class _$LastMessageImpl implements _LastMessage {
   final String? timestamp;
   @override
   final bool? isSeen;
+  @override
+  final bool? isFromMe;
 
   @override
   String toString() {
-    return 'LastMessage(id: $id, text: $text, timestamp: $timestamp, isSeen: $isSeen)';
+    return 'LastMessage(id: $id, text: $text, timestamp: $timestamp, isSeen: $isSeen, isFromMe: $isFromMe)';
   }
 
   @override
@@ -1064,12 +1088,15 @@ class _$LastMessageImpl implements _LastMessage {
             (identical(other.text, text) || other.text == text) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
-            (identical(other.isSeen, isSeen) || other.isSeen == isSeen));
+            (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
+            (identical(other.isFromMe, isFromMe) ||
+                other.isFromMe == isFromMe));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, text, timestamp, isSeen);
+  int get hashCode =>
+      Object.hash(runtimeType, id, text, timestamp, isSeen, isFromMe);
 
   @JsonKey(ignore: true)
   @override
@@ -1090,7 +1117,8 @@ abstract class _LastMessage implements LastMessage {
       {final String? id,
       final String? text,
       final String? timestamp,
-      final bool? isSeen}) = _$LastMessageImpl;
+      final bool? isSeen,
+      final bool? isFromMe}) = _$LastMessageImpl;
 
   factory _LastMessage.fromJson(Map<String, dynamic> json) =
       _$LastMessageImpl.fromJson;
@@ -1103,6 +1131,8 @@ abstract class _LastMessage implements LastMessage {
   String? get timestamp;
   @override
   bool? get isSeen;
+  @override
+  bool? get isFromMe;
   @override
   @JsonKey(ignore: true)
   _$$LastMessageImplCopyWith<_$LastMessageImpl> get copyWith =>

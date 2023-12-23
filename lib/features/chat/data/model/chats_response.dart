@@ -67,6 +67,7 @@ class LastMessage with _$LastMessage {
     String? text,
     String? timestamp,
     bool? isSeen,
+    bool? isFromMe,
   }) = _LastMessage;
   factory LastMessage.fromJson(Map<String, dynamic> json) =>
       _$LastMessageFromJson(json);

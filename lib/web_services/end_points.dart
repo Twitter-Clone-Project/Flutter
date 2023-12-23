@@ -52,6 +52,7 @@ class EndPoints {
   static getMutersData() => "/users/mutedUsers";
   static getBlockersData() => "/users/blockedUsers";
 
-  static searchUsers(String query) => "/users/search?query=$query";
-  static searchTweets(String query) => "/tweets/search?query=$query";
+  static searchUsers(int page, String query) => "/users/search/$page?query=$query";
+  static searchTweets(int page, String query) => "/tweets/search/$page?query=$query";
+
 }

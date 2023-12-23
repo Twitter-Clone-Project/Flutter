@@ -9,6 +9,7 @@ import '../../../theme/app_colors.dart';
 import '../../../utils/utils.dart';
 import '../../auth/data/providers/auth_provider.dart';
 import '../../home/data/providers/home_provider.dart';
+import '../data/model/chats_response.dart';
 import '../data/providers/chat_provider.dart';
 
 class ChatsScreen extends StatefulHookConsumerWidget {
@@ -115,97 +116,112 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
               child: const Center(child: CircularProgressIndicator(),),
             ):
             chatState.conversationsResponse.conversations.isEmpty? const Center(child: Text("No Chats"),):
-            Expanded(
-              child: ListView.separated(
-                itemBuilder: (BuildContext context, int index) =>
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.chatScreen, arguments: chatState.conversationsResponse.conversations[index]);
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Row(
-                      children: [
-                        ClipOval(
-                          child: CachedNetworkImage(
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                            imageUrl: chatState.conversationsResponse.conversations[index].contact!.imageUrl!,
-                            placeholder: (context, url) => Image.asset(
-                                AppAssets.whiteLogo,
-                                fit: BoxFit.cover),
-                            errorWidget: (context, url, error) =>
-                                Image.asset(AppAssets.whiteLogo,
-                                    fit: BoxFit.cover),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width*0.55,
-                                      child: RichText(
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: chatState.conversationsResponse.conversations[index].contact!.name!,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: ' @${chatState.conversationsResponse.conversations[index].contact!.username}',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w300,
-                                                fontSize: 16,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    Text(getFormattedDate(chatState.conversationsResponse.conversations[index].lastMessage!.timestamp),
-                                        style: Theme.of(context).textTheme.bodyText2),
-                                    if(chatState.conversationsResponse.conversations[index].lastMessage!.isSeen==false)
-                                      const Padding(
-                                        padding: EdgeInsets.only(left : 5.0),
-                                        child: Icon(Icons.circle, color: Colors.blue, size: 10,),
-                                      )
-
-                                  ],
-                                ),
-                                const SizedBox(height: 5,),
-                                Text(chatState.conversationsResponse.conversations[index].lastMessage!.text!,
-                                    style: Theme.of(context).textTheme.bodyText2),
-                              ],
-                            ),
-                          )
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10,),
-                itemCount: chatState.conversationsResponse.conversations.length,
-
-              ),
-            ),
+            buildChatsList(chatState.conversationsResponse.conversations),
           ],
         ),
+      ),
+    );
+  }
+
+  buildChatsList(List<Conversation> conversations) {
+    return Expanded(
+      child: ListView.separated(
+        itemBuilder: (BuildContext context, int index) =>
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, Routes.chatScreen, arguments: conversations[index]);
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.profileScreen, arguments: conversations[index].contact!.username);
+                      },
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                          imageUrl: conversations[index].contact!.imageUrl!,
+                          placeholder: (context, url) => Image.asset(
+                              AppAssets.whiteLogo,
+                              fit: BoxFit.cover),
+                          errorWidget: (context, url, error) =>
+                              Image.asset(AppAssets.whiteLogo,
+                                  fit: BoxFit.cover),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width*0.5,
+                                    child: RichText(
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: conversations[index].contact!.name!,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: ' @${conversations[index].contact!.username}',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w300,
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(getFormattedDate(conversations[index].lastMessage!.timestamp),
+                                      style: Theme.of(context).textTheme.bodyText2),
+                                  if(conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false)
+                                    const Padding(
+                                      padding: EdgeInsets.only(left : 5.0),
+                                      child: Icon(Icons.circle, color: Colors.blue, size: 10,),
+                                    )
+
+                                ],
+                              ),
+                              const SizedBox(height: 5,),
+                              Text(conversations[index].lastMessage!.text!,
+                                  style: TextStyle(
+                                    fontWeight: conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false?FontWeight.bold:FontWeight.normal,
+                                    fontSize: 16,
+                                    color: conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false?Colors.white:Colors.grey,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,),
+                            ],
+                          ),
+                        )
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10,),
+        itemCount: conversations.length,
+
       ),
     );
   }

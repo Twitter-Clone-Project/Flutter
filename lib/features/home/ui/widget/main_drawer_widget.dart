@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 import 'package:x_clone/theme/app_colors.dart';
 
 import '../../../../app/routes.dart';
+import '../../../../theme/app_assets.dart';
 import '../../../auth/data/providers/auth_provider.dart';
 import '../../data/providers/home_provider.dart';
 
@@ -36,13 +38,23 @@ class MainDrawer extends ConsumerWidget {
                         Navigator.pushNamed(context, Routes.profileScreen,
                             arguments: auth.user?.username);
                       },
-                      child: CircleAvatar(
-                          backgroundColor:
-                              const Color.fromARGB(255, 59, 158, 59),
-                          backgroundImage: NetworkImage(auth
-                                  .user!.profileImageURL ??
-                              'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                          child: null),
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.cover,
+                          imageUrl: ref
+                              .watch(authNotifierProvider)
+                              .user!
+                              .profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                          placeholder: (context, url) => Image.asset(
+                              AppAssets.whiteLogo,
+                              fit: BoxFit.cover),
+                          errorWidget: (context, url, error) =>
+                              Image.asset(AppAssets.whiteLogo,
+                                  fit: BoxFit.cover),
+                        ),
+                      ),
                     ),
                     const Spacer(),
                     IconButton(
