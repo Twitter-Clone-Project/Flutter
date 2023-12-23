@@ -7,21 +7,18 @@ import '../model/chats_response.dart';
 import '../repositories/chat_repository.dart';
 import '../states/chats_state.dart';
 
-
-
 class ChatNotifierProvider extends StateNotifier<ChatState> {
   ChatNotifierProvider(this.chatRepository) : super(const ChatState()) {}
 
   final ChatRepository chatRepository;
 
-
   getChatsData() async {
     try {
       state = state.copyWith(loading: true);
-      final ConversationsResponse conversationsResponse = await chatRepository.getConversations();
+      final ConversationsResponse conversationsResponse =
+          await chatRepository.getConversations();
       state = state.copyWith(
-          conversationsResponse: conversationsResponse,
-          loading: false);
+          conversationsResponse: conversationsResponse, loading: false);
       return conversationsResponse;
     } catch (e) {
       state = state.copyWith(loading: false, errorMessage: e.toString());
@@ -32,10 +29,9 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
   getMessagesHistory(String conversationId) async {
     try {
       state = state.copyWith(chatLoading: true);
-      final ChatResponse chatResponse = await chatRepository.getMessagesHistory(conversationId);
-      state = state.copyWith(
-          chatResponse: chatResponse,
-          chatLoading: false);
+      final ChatResponse chatResponse =
+          await chatRepository.getMessagesHistory(conversationId);
+      state = state.copyWith(chatResponse: chatResponse, chatLoading: false);
       return chatResponse;
     } catch (e) {
       state = state.copyWith(chatLoading: false, errorMessage: e.toString());
@@ -43,7 +39,8 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
     }
   }
 
-  sendMessage(String conversationId, String text ,String receiverId,String senderId) async {
+  sendMessage(String conversationId, String text, String receiverId,
+      String senderId) async {
     try {
       chatRepository.sendMessage(conversationId, text, receiverId, senderId);
       state = state.copyWith(
@@ -56,7 +53,7 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
               time: DateTime.now().toString(),
               isSeen: openConversationIds.contains(conversationId),
               isFromMe: true,
-              messageId: DateTime.now().toString()+text,
+              messageId: DateTime.now().toString() + text,
             ),
           ],
         ),
@@ -82,27 +79,36 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
   }
 
   onMessageReceive(data) {
-    String conversationId='';
+    print("from on Message receive $data");
+    String conversationId = '';
     final Message message = Message.fromJson(data);
     state = state.copyWith(
-        chatResponse: state.chatResponse.copyWith(messages: [...state.chatResponse.messages,message]),
-        conversationsResponse: state.conversationsResponse.copyWith(conversations: state.conversationsResponse.conversations.map((e) {
-          if(e.contact?.id == message.senderId){
-            conversationId=e.conversationId??'';
-            return e.copyWith(lastMessage: LastMessage(text: message.text,timestamp: DateTime.now().toString(),isSeen: message.isSeen,isFromMe: false,));
+        chatResponse: state.chatResponse
+            .copyWith(messages: [...state.chatResponse.messages, message]),
+        conversationsResponse: state.conversationsResponse.copyWith(
+            conversations: state.conversationsResponse.conversations.map((e) {
+          if (e.contact?.id == message.senderId) {
+            conversationId = e.conversationId ?? '';
+            return e.copyWith(
+                lastMessage: LastMessage(
+              text: message.text,
+              timestamp: DateTime.now().toString(),
+              isSeen: message.isSeen,
+              isFromMe: false,
+            ));
           }
           return e;
-        }).toList())
-    );
+        }).toList()));
     getUnseenConversationsCnt();
     sortChats(conversationId);
   }
 
-  sortChats(String conversationId){
-    List<Conversation> temp = List<Conversation>.from(state.conversationsResponse.conversations);
+  sortChats(String conversationId) {
+    List<Conversation> temp =
+        List<Conversation>.from(state.conversationsResponse.conversations);
 
-    for(int i=0;i<temp.length;i++){
-      if(temp[i].conversationId==conversationId){
+    for (int i = 0; i < temp.length; i++) {
+      if (temp[i].conversationId == conversationId) {
         final Conversation conversation = temp[i];
         temp.removeAt(i);
         temp.insert(0, conversation);
@@ -110,22 +116,20 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
       }
     }
     state = state.copyWith(
-        conversationsResponse: state.conversationsResponse.copyWith(conversations: temp)
-    );
-
+        conversationsResponse:
+            state.conversationsResponse.copyWith(conversations: temp));
   }
 
   updateMessageStatus() {
     state = state.copyWith(
-        chatResponse: state.chatResponse.copyWith(messages: state.chatResponse.messages.map((e) {
-          if(e.isFromMe==true){
-            return e.copyWith(isSeen: true);
-          }
-          return e;
-        }).toList())
-    );
+        chatResponse: state.chatResponse.copyWith(
+            messages: state.chatResponse.messages.map((e) {
+      if (e.isFromMe == true) {
+        return e.copyWith(isSeen: true);
+      }
+      return e;
+    }).toList()));
   }
-
 
   startConversation(String id) async {
     try {
@@ -137,12 +141,15 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
       // return const ConversationsResponse(conversations: []);
     }
   }
+
   markAsSeen(int index) async {
     try {
-      state =state.copyWith(
+      state = state.copyWith(
         conversationsResponse: state.conversationsResponse.copyWith(
           conversations: state.conversationsResponse.conversations.map((e) {
-            if(e.conversationId==state.conversationsResponse.conversations[index].conversationId){
+            if (e.conversationId ==
+                state.conversationsResponse.conversations[index]
+                    .conversationId) {
               return e.copyWith(
                 lastMessage: e.lastMessage?.copyWith(
                   isSeen: true,
@@ -158,6 +165,7 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
       state = state.copyWith(loading: false, errorMessage: e.toString());
     }
   }
+
   getUnseenConversationsCnt() async {
     try {
       final response = await chatRepository.getUnseenConversationsCnt();
@@ -166,7 +174,6 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
       rethrow;
     }
   }
-
 }
 
 final chatNotifierProvider =
