@@ -114,6 +114,7 @@ class _ReplyState extends ConsumerState<Reply> {
                         ),
                         overflow: TextOverflow.ellipsis,
                         maxLines:
+                            1, // Set the maximum number of lines before truncating
                         1, // Set the maximum number of lines before truncating
                       ),
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),

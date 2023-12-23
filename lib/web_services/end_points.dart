@@ -12,6 +12,8 @@ class EndPoints {
   static const addTweet = "/tweets/add";
   static const updateUsername = "/profile/updateUsername";
   static const updateEmail = "/profile/updateEmail";
+  static const updatePassword = "/auth/updatePassword";
+
   static const updateBanner = "/profile/updateBanner";
   static const deleteBanner = "/profile/deleteBanner";
   static const updatePicture = "/profile/updatePicture";
@@ -52,7 +54,6 @@ class EndPoints {
       "/tweets/$tweetId/deleteReplies/$replyId";
   static getMutersData() => "/users/mutedUsers";
   static getBlockersData() => "/users/blockedUsers";
-
   static searchUsers(int page, String query) => "/users/search/$page?query=$query";
   static searchTweets(int page, String query) => "/tweets/search/$page?query=$query";
 

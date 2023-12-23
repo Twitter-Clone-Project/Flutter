@@ -15,6 +15,9 @@ class AppKeys {
   static final updateProfileFormKey = GlobalKey<FormState>();
   static final updateUserNameFormKey = GlobalKey<FormState>();
   static final updateemailFormKey = GlobalKey<FormState>();
+  static final currentPasswordFormKey = GlobalKey<FormState>();
+  static final newPasswordFormKey = GlobalKey<FormState>();
+  static final confirmPasswordFormKey = GlobalKey<FormState>();
 
   static final GlobalKey<ScaffoldState> registerScaffoldKey =
       GlobalKey<ScaffoldState>();
