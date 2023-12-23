@@ -57,7 +57,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           },
           child: ListTile(
             title:
-            Text("Username", style: AppTextStyle.textThemeDark.bodyLarge!),
+                Text("Username", style: AppTextStyle.textThemeDark.bodyLarge!),
             subtitle: Text(
               "@${ref.watch(authNotifierProvider).user!.username!}",
               style: AppTextStyle.textThemeDark.bodyLarge!
@@ -79,13 +79,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
           ),
         ),
-        ListTile(
-          title: Text("Change your password",
-              style: AppTextStyle.textThemeDark.bodyLarge!),
-          subtitle: Text(
-            "Change your password at any time.",
-            style: AppTextStyle.textThemeDark.bodyLarge!
-                .copyWith(color: AppColors.lightThinTextGray),
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.passwordScreen);
+          },
+          child: ListTile(
+            title: Text("Change your password",
+                style: AppTextStyle.textThemeDark.bodyLarge!),
+            subtitle: Text(
+              "Change your password at any time.",
+              style: AppTextStyle.textThemeDark.bodyLarge!
+                  .copyWith(color: AppColors.lightThinTextGray),
+            ),
           ),
         ),
         InkWell(

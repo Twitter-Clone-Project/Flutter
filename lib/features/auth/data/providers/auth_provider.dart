@@ -8,7 +8,7 @@ import '../repositories/auth_repository.dart';
 import '../states/auth_state.dart';
 
 final authNotifierProvider =
-StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
+    StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
   final repo = ref.watch(authRepositoryProvider);
   return AuthStateNotifier(repo, null);
 });
@@ -148,8 +148,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
   confirmEmail(
       {required String otp,
-        required String email,
-        required bool isSignup}) async {
+      required String email,
+      required bool isSignup}) async {
     try {
       state = state.copyWith(otpLoading: true, errorMessage: '');
 
@@ -305,6 +305,32 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         );
       }
       return true;
+    } catch (e) {
+      state = state.copyWith(errorMessage: e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> updatePassword(
+      {required String currentPassword,
+      required String newPassword,
+      required String newPasswordConfirm}) async {
+    try {
+      final result = await _repo.updatePassword(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        newPasswordConfirm: newPasswordConfirm,
+      );
+      // User updatedUser = state.user!;
+      // updatedUser = updatedUser.copyWith(email: newEmail);
+      if (result == true) {
+        // state = state.copyWith(
+        //   user: updatedUser,
+        // );
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       state = state.copyWith(errorMessage: e.toString());
       return false;

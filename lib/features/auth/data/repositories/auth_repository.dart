@@ -53,6 +53,11 @@ abstract class AuthRepository {
   String? getToken();
   Future<bool?> updateUsername({required String newUsername});
   Future<bool?> updateEmail({required String newEmail});
+  Future<bool?> updatePassword(
+      {required String currentPassword,
+      required String newPassword,
+      required String newPasswordConfirm});
+
   Future<MutersList> fetchMutersData();
   Future<BlockersList> fetchBlockersData();
 }
@@ -90,6 +95,31 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
+      } else {
+        throw (response.data["message"]);
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<bool?> updatePassword(
+      {required String currentPassword,
+      required String newPassword,
+      required String newPasswordConfirm}) async {
+    try {
+      final data = {
+        "currentPassword": currentPassword,
+        "newPassword": newPassword,
+        "newPasswordConfirm": newPasswordConfirm,
+      };
+      var response = await HttpClient.dio.patch(
+        EndPoints.updatePassword,
+        data: data,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data["status"];
       } else {
         throw (response.data["message"]);
       }
