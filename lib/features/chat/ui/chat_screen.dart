@@ -128,8 +128,10 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     messages=messages.reversed.toList();
     if(messages.isEmpty)
       {
-        return const Center(
-          child: Text('No Messages'),
+        return const Expanded(
+          child: Center(
+            child: Text('No Messages'),
+          ),
         );
       }
       else

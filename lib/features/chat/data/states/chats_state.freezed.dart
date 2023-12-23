@@ -21,6 +21,7 @@ mixin _$ChatState {
   ChatResponse get chatResponse => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   bool get chatLoading => throw _privateConstructorUsedError;
+  String get unseenCnt => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -38,6 +39,7 @@ abstract class $ChatStateCopyWith<$Res> {
       ChatResponse chatResponse,
       bool loading,
       bool chatLoading,
+      String unseenCnt,
       String? errorMessage});
 
   $ConversationsResponseCopyWith<$Res> get conversationsResponse;
@@ -61,6 +63,7 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
     Object? chatResponse = null,
     Object? loading = null,
     Object? chatLoading = null,
+    Object? unseenCnt = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
@@ -80,6 +83,10 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
           ? _value.chatLoading
           : chatLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      unseenCnt: null == unseenCnt
+          ? _value.unseenCnt
+          : unseenCnt // ignore: cast_nullable_to_non_nullable
+              as String,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -118,6 +125,7 @@ abstract class _$$ChatStateImplCopyWith<$Res>
       ChatResponse chatResponse,
       bool loading,
       bool chatLoading,
+      String unseenCnt,
       String? errorMessage});
 
   @override
@@ -141,6 +149,7 @@ class __$$ChatStateImplCopyWithImpl<$Res>
     Object? chatResponse = null,
     Object? loading = null,
     Object? chatLoading = null,
+    Object? unseenCnt = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_$ChatStateImpl(
@@ -160,6 +169,10 @@ class __$$ChatStateImplCopyWithImpl<$Res>
           ? _value.chatLoading
           : chatLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      unseenCnt: null == unseenCnt
+          ? _value.unseenCnt
+          : unseenCnt // ignore: cast_nullable_to_non_nullable
+              as String,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -177,6 +190,7 @@ class _$ChatStateImpl implements _ChatState {
       this.chatResponse = const ChatResponse(messages: []),
       this.loading = false,
       this.chatLoading = false,
+      this.unseenCnt = '0',
       this.errorMessage});
 
   @override
@@ -192,11 +206,14 @@ class _$ChatStateImpl implements _ChatState {
   @JsonKey()
   final bool chatLoading;
   @override
+  @JsonKey()
+  final String unseenCnt;
+  @override
   final String? errorMessage;
 
   @override
   String toString() {
-    return 'ChatState(conversationsResponse: $conversationsResponse, chatResponse: $chatResponse, loading: $loading, chatLoading: $chatLoading, errorMessage: $errorMessage)';
+    return 'ChatState(conversationsResponse: $conversationsResponse, chatResponse: $chatResponse, loading: $loading, chatLoading: $chatLoading, unseenCnt: $unseenCnt, errorMessage: $errorMessage)';
   }
 
   @override
@@ -211,13 +228,15 @@ class _$ChatStateImpl implements _ChatState {
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.chatLoading, chatLoading) ||
                 other.chatLoading == chatLoading) &&
+            (identical(other.unseenCnt, unseenCnt) ||
+                other.unseenCnt == unseenCnt) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, conversationsResponse,
-      chatResponse, loading, chatLoading, errorMessage);
+      chatResponse, loading, chatLoading, unseenCnt, errorMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -232,6 +251,7 @@ abstract class _ChatState implements ChatState {
       final ChatResponse chatResponse,
       final bool loading,
       final bool chatLoading,
+      final String unseenCnt,
       final String? errorMessage}) = _$ChatStateImpl;
 
   @override
@@ -242,6 +262,8 @@ abstract class _ChatState implements ChatState {
   bool get loading;
   @override
   bool get chatLoading;
+  @override
+  String get unseenCnt;
   @override
   String? get errorMessage;
   @override

@@ -19,6 +19,8 @@ class EndPoints {
   static const updateProfile = "/profile/updateProfile";
   static const getNotifications = "/notifications";
   static const getConversations = "/conversations";
+  static const startConversation = "/conversations/startConversation";
+  static const unseenConversationsCnt = "/conversations/unseenConversationsCnt";
   static getMessagesHistory(String conversationId) => "/conversations/$conversationId/history";
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
