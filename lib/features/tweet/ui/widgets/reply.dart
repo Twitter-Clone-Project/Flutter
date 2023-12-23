@@ -54,56 +54,15 @@ class _ReplyState extends ConsumerState<Reply> {
           );
         },
       );
-    } else {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            color: AppColors.pureBlack,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline_outlined,
-                    color: AppColors.lightThinTextGray,
-                  ),
-                  title: const Text('Follow'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline_outlined,
-                    color: AppColors.lightThinTextGray,
-                  ),
-                  title: const Text('Mute'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline_outlined,
-                    color: AppColors.lightThinTextGray,
-                  ),
-                  title: const Text('Block'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    String screenName = widget.replier.username!;
+    String truncatedText = (screenName.length > 20)
+        ? '${screenName.substring(0, 20)}' // Truncate if it exceeds maxLength
+        : screenName; // Use full text if it's within the limit
     return Column(
       children: [
         Row(
@@ -141,14 +100,17 @@ class _ReplyState extends ConsumerState<Reply> {
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.bold,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines:
+                            1, // Set the maximum number of lines before truncating
                       ),
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                      // Text(
-                      //   '@${widget.replier.username}',
-                      //   style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                      //     color: AppColors.lightThinTextGray,
-                      //   ),
-                      // ),
+                      Text(
+                        '@${truncatedText}',
+                        style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                          color: AppColors.lightThinTextGray,
+                        ),
+                      ),
                       // SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                       //Date
                       // Text(
@@ -172,17 +134,15 @@ class _ReplyState extends ConsumerState<Reply> {
                 ],
               ),
             ),
-            SizedBox(width: 0.018 * MediaQuery.of(context).size.width),
-            const Divider(
-              height: 1.0,
-              color: AppColors.blackColor,
-            ),
-            const Spacer(),
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {
+            InkWell(
+              onTap: () {
                 _openBottomSheetForDeleteReply(context);
               },
+              child: const Icon(
+                Icons.more_vert,
+                size: 17,
+                color: AppColors.lightThinTextGray,
+              ),
             ),
           ],
         ),
