@@ -25,9 +25,10 @@ class ChatRepositoryImpl implements ChatRepository {
     }
   }
 
+  @override
   getMessagesHistory(String conversationId) async {
     try {
-      var response = await HttpClient.dio.post(EndPoints.getMessagesHistory(conversationId));
+      var response = await HttpClient.dio.get(EndPoints.getMessagesHistory(conversationId));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ChatResponse.fromJson(response.data["data"]);

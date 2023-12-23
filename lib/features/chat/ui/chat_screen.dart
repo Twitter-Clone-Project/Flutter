@@ -43,7 +43,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child:Icon(Icons.arrow_back_ios_rounded,size: 30,),
+                    child:const Icon(Icons.arrow_back_ios_rounded,size: 30,),
 
                   ),
                   const Spacer(),
@@ -81,8 +81,15 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 ],
               ),
             ),
-            Spacer(),
-            Divider(),
+            chatState.chatLoading
+                ? const Expanded(
+                  child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                )
+                :
+            buildMessageList(chatState.chatResponse.messages),
+            const Divider(),
             buildMessageInput(),
           ],
         ),
@@ -94,169 +101,56 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
 
 
-  // buildMessageList() {
-  //   return StreamBuilder(stream: ref.watch(chatNotifierProvider.notifier).getMessages(
-  //     ref.read(authNotifierProvider).user!.id??0,
-  //     widget.proposal.provider?.id??0,
-  //     widget.proposal.id??0,
-  //   ), builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-  //     if(snapshot.hasError)
-  //     {
-  //       return const Center(
-  //         child: Text('حدث خطأ ما'),
-  //       );
-  //     }
-  //     else if(snapshot.connectionState==ConnectionState.waiting)
-  //     {
-  //       return const Center(
-  //         child: CircularProgressIndicator(),
-  //       );
-  //     }
-  //     else if(snapshot.data!.docs.isEmpty)
-  //     {
-  //       return const Center(
-  //         child: Text('No Messages'),
-  //       );
-  //     }
-  //     else
-  //     {
-  //       return ListView.builder(
-  //         reverse: true,
-  //         itemCount: snapshot.data!.docs.length,
-  //         itemBuilder: (context, index) {
-  //           return buildMessageItem(snapshot.data!.docs[index]);
-  //         },
-  //       );
-  //     }
+  Widget buildMessageList(List<Message> messages) {
+    messages=messages.reversed.toList();
+    if(messages.isEmpty)
+      {
+        return const Center(
+          child: Text('No Messages'),
+        );
+      }
+      else
+      {
+        return Expanded(
+          child: ListView.builder(
+            reverse: true,
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
+              return buildMessageItem(messages[index]);
+            },
+          ),
+        );
+      }
+
+  }
   //
-  //   });
-  // }
-  //
-  // Widget buildMessageItem(DocumentSnapshot document) {
-  //   Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-  //
-  //   var alignment =
-  //   data['sender'] == "user" ? Alignment.centerRight : Alignment.centerLeft;
-  //   return
-  //     data['type']=="text"?
-  //     Container(
-  //       alignment: alignment,
-  //       child: Column(
-  //         crossAxisAlignment: data['sender']=="user"?CrossAxisAlignment.start:CrossAxisAlignment.end,
-  //         children: [
-  //           Padding(
-  //             padding: const EdgeInsets.symmetric(horizontal: 15),
-  //             child: Text(data['sender']=="user"?'أنت':widget.proposal.provider?.name??""),
-  //           ),
-  //           Container(
-  //             padding: const EdgeInsets.all(10),
-  //             margin: const EdgeInsets.all(10),
-  //             constraints: BoxConstraints(
-  //               maxWidth: MediaQuery.of(context).size.width * 0.7,
-  //             ),
-  //             decoration: BoxDecoration(
-  //               color: data['sender'] == "user"
-  //                   ? AppColors.primaryColor
-  //                   : Colors.grey[300],
-  //               borderRadius: BorderRadius.circular(10),
-  //             ),
-  //             child: Text(
-  //               data['message'],
-  //               style: TextStyle(
-  //                 color: data['sender'] == "user"
-  //                     ? Colors.white
-  //                     : Colors.black,
-  //               ),
-  //             ),
-  //           )
-  //         ],
-  //       ), // Column
-  //     ) :
-  //     data['type']=="location"?
-  //     Container(
-  //       alignment: alignment,
-  //       child: Column(
-  //         crossAxisAlignment: data['sender']=="user"?CrossAxisAlignment.start:CrossAxisAlignment.end,
-  //         children: [
-  //           Padding(
-  //             padding: const EdgeInsets.symmetric(horizontal: 15),
-  //             child: Text(data['sender']=="user"?'أنت':widget.proposal.provider?.name??""),
-  //           ),
-  //           Container(
-  //             padding: const EdgeInsets.all(10),
-  //             margin: const EdgeInsets.all(10),
-  //             width: MediaQuery.of(context).size.width * 0.7,
-  //             height: MediaQuery.of(context).size.width * 0.7,
-  //             decoration: BoxDecoration(
-  //               color: data['sender'] == "user"
-  //                   ? AppColors.primaryColor
-  //                   : Colors.grey[300],
-  //               borderRadius: BorderRadius.circular(10),
-  //             ),
-  //             child:
-  //             GoogleMap(
-  //               scrollGesturesEnabled: false,
-  //               onTap: (latLng) {
-  //                 launch('https://maps.google.com/?q=${data['message']}');
-  //               },
-  //               markers: {
-  //                 Marker(
-  //                   markerId: MarkerId("1"),
-  //                   position: LatLng(double.parse(data['message'].split(",")[0]),
-  //                       double.parse(data['message'].split(",")[1])),
-  //                 )
-  //               },
-  //               mapType: MapType.normal,
-  //               initialCameraPosition: CameraPosition(
-  //                 target: LatLng(double.parse(data['message'].split(",")[0]),
-  //                     double.parse(data['message'].split(",")[1])),
-  //                 zoom: 15,
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ), // Column
-  //     )
-  //         : Container(
-  //       alignment: alignment,
-  //       child: Column(
-  //         crossAxisAlignment: data['sender']=="user"?CrossAxisAlignment.start:CrossAxisAlignment.end,
-  //         children: [
-  //           Padding(
-  //             padding: const EdgeInsets.symmetric(horizontal: 15),
-  //             child: Text(data['sender']=="user"?'أنت':widget.proposal.provider?.name??""),
-  //           ),
-  //           Container(
-  //             padding: const EdgeInsets.all(10),
-  //             margin: const EdgeInsets.all(10),
-  //             width: MediaQuery.of(context).size.width * 0.7,
-  //             height: MediaQuery.of(context).size.width * 0.7,
-  //             decoration: BoxDecoration(
-  //               color: data['sender'] == "user"
-  //                   ? AppColors.primaryColor
-  //                   : Colors.grey[300],
-  //               borderRadius: BorderRadius.circular(10),
-  //             ),
-  //             child:CachedNetworkImage(
-  //               imageUrl:data['message']??"" ,
-  //               imageBuilder: (context, imageProvider) => Container(
-  //                 decoration: BoxDecoration(
-  //                   shape: BoxShape.rectangle,
-  //                   image: DecorationImage(
-  //                     image: imageProvider,
-  //                   ),
-  //                 ),
-  //               ),
-  //               placeholder: (context, url) =>
-  //                   Image.asset(AppAssets.recLogo, fit: BoxFit.fitWidth),
-  //               errorWidget: (context, url, error) =>
-  //                   Image.asset(AppAssets.recLogo, fit: BoxFit.fitWidth),
-  //             ),
-  //           ),
-  //         ],
-  //       ), // Column
-  //     );
-  // }
+  Widget buildMessageItem(Message message) {
+
+    var alignment =
+    message.isFromMe==true ? Alignment.centerRight : Alignment.centerLeft;
+    return
+      Container(
+        alignment: alignment,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.7,
+          ),
+          decoration: BoxDecoration(
+            color: message.isFromMe==true
+                ? AppColors.primaryColor
+                : AppColors.borderDarkGray,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            message.text??'',
+            style: const TextStyle(
+              color: Colors.white),
+          ),
+        ), // Column
+      ) ;
+  }
 
 
   buildMessageInput() {
