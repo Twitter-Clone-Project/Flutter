@@ -48,6 +48,15 @@ abstract class AuthRepository {
 
   getMobileNumber();
 
+  Future<bool?> unmuteUser({
+    required String username,
+  });
+
+
+  Future<bool?> unblockUser({
+    required String username,
+  });
+
   User? getUserData();
 
   String? getToken();
@@ -366,7 +375,39 @@ class AuthRepositoryImpl implements AuthRepository {
       rethrow;
     }
   }
+  @override
+  Future<bool?> unblockUser({required String username}) async {
+    try {
+      var response =
+      await HttpClient.dio.delete(EndPoints.unblockUser(username));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw (response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool?> unmuteUser({required String username}) async {
+    try {
+      var response =
+      await HttpClient.dio.delete(EndPoints.unmuteUser(username));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw (response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
+
+
+
+
+
 //
 // @override
 // Future<User?> updateUser({String? phone, String? name}) async {
