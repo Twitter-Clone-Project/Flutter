@@ -70,8 +70,6 @@ class SocketClient {
     });
   }
   static chatOpen({required String conversationId, required String senderId, required String contactId}) {
-    print("oooooooooooooooooooooooooooooooopen");
-
     socket.emit("chat-opened", {
       "conversationId": conversationId,
       "userId": senderId,
@@ -79,7 +77,6 @@ class SocketClient {
     });
   }
   static chatClose({required String conversationId,required String contactId}) {
-    print("cloooooooooooooooooooooooooooooooose");
     socket.emit("chat-closed", {
       "conversationId": conversationId,
       "contactId":contactId,
@@ -88,6 +85,13 @@ class SocketClient {
   static onMessageReceive(Function callback) {
     socket.off("msg-receive");
     socket.on("msg-receive", (data) {
+      callback(data);
+    });
+  }
+  static statusOfContact(Function callback) {
+    socket.off("status-of-contact");
+    socket.on("status-of-contact", (data) {
+      print(data);
       callback(data);
     });
   }

@@ -5,6 +5,7 @@ import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/chat/data/model/chats_response.dart';
 import '../../../theme/app_assets.dart';
 import '../../../theme/app_colors.dart';
+import '../../../utils/utils.dart';
 import '../../../web_services/socket_services.dart';
 import '../data/providers/chat_provider.dart';
 
@@ -18,6 +19,7 @@ class ChatScreen extends StatefulHookConsumerWidget {
 
 class _ChatScreenState extends ConsumerState<ChatScreen> {
   TextEditingController textController =TextEditingController();
+  String? clickedMessageId;
 
   @override
   void initState() {
@@ -139,22 +141,51 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     return
       Container(
         alignment: alignment,
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.all(10),
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.7,
-          ),
-          decoration: BoxDecoration(
-            color: message.isFromMe==true
-                ? AppColors.primaryColor
-                : AppColors.borderDarkGray,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            message.text??'',
-            style: const TextStyle(
-              color: Colors.white),
+        child: InkWell(
+          onTap: () {
+            if(clickedMessageId==message.messageId)
+            {
+              clickedMessageId=null;
+            }
+            else
+            {
+              clickedMessageId=message.messageId;
+            }
+            setState(() {});
+          },
+          child: Column(
+            crossAxisAlignment: message.isFromMe==true?CrossAxisAlignment.end:CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.7,
+                ),
+                decoration: BoxDecoration(
+                  color: message.isFromMe==true
+                      ? AppColors.primaryColor
+                      : AppColors.borderDarkGray,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  message.text??'',
+                  style: const TextStyle(
+                    color: Colors.white),
+                ),
+              ),
+              if(clickedMessageId==message.messageId)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                  "${getFormattedDate(message.time)} ${message.isFromMe==false?'':message.isSeen==true?'Seen':'Sent'}",
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                )
+            ],
           ),
         ), // Column
       ) ;

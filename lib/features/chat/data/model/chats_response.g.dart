@@ -93,6 +93,7 @@ _$LastMessageImpl _$$LastMessageImplFromJson(Map<String, dynamic> json) =>
       text: json['text'] as String?,
       timestamp: json['timestamp'] as String?,
       isSeen: json['isSeen'] as bool?,
+      isFromMe: json['isFromMe'] as bool?,
     );
 
 Map<String, dynamic> _$$LastMessageImplToJson(_$LastMessageImpl instance) =>
@@ -101,6 +102,7 @@ Map<String, dynamic> _$$LastMessageImplToJson(_$LastMessageImpl instance) =>
       'text': instance.text,
       'timestamp': instance.timestamp,
       'isSeen': instance.isSeen,
+      'isFromMe': instance.isFromMe,
     };
 
 _$ChatResponseImpl _$$ChatResponseImplFromJson(Map<String, dynamic> json) =>
