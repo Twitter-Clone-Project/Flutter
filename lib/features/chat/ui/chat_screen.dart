@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/chat/data/model/chats_response.dart';
+import '../../../app/routes.dart';
 import '../../../theme/app_assets.dart';
 import '../../../theme/app_colors.dart';
 import '../../../utils/utils.dart';
@@ -26,6 +27,13 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     Future.delayed(const Duration(seconds: 0), () {
       ref.read(chatNotifierProvider.notifier).getMessagesHistory(widget.conversation.conversationId??'');
       SocketClient.chatOpen(conversationId: widget.conversation.conversationId??'', senderId: ref.read(authNotifierProvider).user?.userId??'', contactId: widget.conversation.contact?.id??'');
+      SocketClient.statusOfContact((data){
+        if(data["conversationId"]==widget.conversation.conversationId)
+          {
+            ref.read(chatNotifierProvider.notifier).updateMessageStatus();
+          }
+      });
+
     });
 
     super.initState();
@@ -57,29 +65,34 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
                   ),
                   const Spacer(),
-                  Column(
-                    children: [
-                      ClipOval(
-                        child: CachedNetworkImage(
-                          width: 40,
-                          height: 40,
-                          fit: BoxFit.cover,
-                          imageUrl: widget.conversation.contact?.imageUrl ?? '',
-                          placeholder: (context, url) => Image.asset(
-                              AppAssets.whiteLogo,
-                              fit: BoxFit.cover),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.profileScreen, arguments: widget.conversation.contact!.username);
+                    },
+                    child: Column(
+                      children: [
+                        ClipOval(
+                          child: CachedNetworkImage(
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.cover,
+                            imageUrl: widget.conversation.contact?.imageUrl ?? '',
+                            placeholder: (context, url) => Image.asset(
+                                AppAssets.whiteLogo,
+                                fit: BoxFit.cover),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 5,),
-                      Text(
-                        widget.conversation.contact?.name??'',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                        const SizedBox(height: 5,),
+                        Text(
+                          widget.conversation.contact?.name??'',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const Spacer(),
                   IconButton(

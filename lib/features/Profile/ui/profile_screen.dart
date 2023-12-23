@@ -831,15 +831,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                 color:
                                                     AppColors.lightThinTextGray,
                                               ),
-                                              Text(
-                                                " ${userProfile.location}" ??
-                                                    "Location",
-                                                style: const TextStyle(
-                                                  color: AppColors
-                                                      .lightThinTextGray,
+                                              SizedBox(
+                                                width: mediaQuery.size.width * 0.8,
+                                                child: Text(
+                                                  " ${userProfile.location}" ,
+                                                  style: const TextStyle(
+                                                    color: AppColors
+                                                        .lightThinTextGray,
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
                                               ),
                                               const SizedBox(
                                                 width: 16,
