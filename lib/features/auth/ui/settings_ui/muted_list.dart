@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/routes.dart';
@@ -6,8 +7,8 @@ import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
-
 import '../widgets/custom_text.dart';
+import '../../../../theme/app_assets.dart';
 
 class MutersScreen extends StatefulHookConsumerWidget {
   const MutersScreen({super.key});
@@ -72,6 +73,7 @@ class _MutersScreenState extends ConsumerState<MutersScreen> {
         itemBuilder: (context, index) {
           final muter =
           ref.watch(authNotifierProvider).mutersList.users![index];
+
           return GestureDetector(
             onTap: () async {
               bool confirmUnblock = await showDialog(

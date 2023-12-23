@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/routes.dart';
@@ -7,6 +8,8 @@ import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
+
+import '../../../../theme/app_assets.dart';
 
 class Reply extends StatefulHookConsumerWidget {
   Reply({
@@ -54,56 +57,15 @@ class _ReplyState extends ConsumerState<Reply> {
           );
         },
       );
-    } else {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            color: AppColors.pureBlack,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline_outlined,
-                    color: AppColors.lightThinTextGray,
-                  ),
-                  title: const Text('Follow'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline_outlined,
-                    color: AppColors.lightThinTextGray,
-                  ),
-                  title: const Text('Mute'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline_outlined,
-                    color: AppColors.lightThinTextGray,
-                  ),
-                  title: const Text('Block'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    String screenName = widget.replier.username!;
+    String truncatedText = (screenName.length > 20)
+        ? '${screenName.substring(0, 20)}' // Truncate if it exceeds maxLength
+        : screenName; // Use full text if it's within the limit
     return Column(
       children: [
         Row(
@@ -117,11 +79,20 @@ class _ReplyState extends ConsumerState<Reply> {
                   Navigator.pushNamed(context, Routes.profileScreen,
                       arguments: widget.replier.username);
                 },
-                child: CircleAvatar(
-                  backgroundColor: AppColors.whiteColor,
-                  backgroundImage:
-                      NetworkImage(widget.replier.profileImageURL ?? ''),
-                  radius: 20,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                    imageUrl: widget.replier.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                    placeholder: (context, url) => Container(
+                      color: Color(0xFF333639),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        Image.asset(AppAssets.whiteLogo,
+                            fit: BoxFit.cover),
+                  ),
+
                 ),
               ),
             ),
@@ -141,14 +112,17 @@ class _ReplyState extends ConsumerState<Reply> {
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.bold,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines:
+                        1, // Set the maximum number of lines before truncating
                       ),
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                      // Text(
-                      //   '@${widget.replier.username}',
-                      //   style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                      //     color: AppColors.lightThinTextGray,
-                      //   ),
-                      // ),
+                      Text(
+                        '@${truncatedText}',
+                        style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                          color: AppColors.lightThinTextGray,
+                        ),
+                      ),
                       // SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                       //Date
                       // Text(
@@ -172,17 +146,15 @@ class _ReplyState extends ConsumerState<Reply> {
                 ],
               ),
             ),
-            SizedBox(width: 0.018 * MediaQuery.of(context).size.width),
-            const Divider(
-              height: 1.0,
-              color: AppColors.blackColor,
-            ),
-            const Spacer(),
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {
+            InkWell(
+              onTap: () {
                 _openBottomSheetForDeleteReply(context);
               },
+              child: const Icon(
+                Icons.more_vert,
+                size: 17,
+                color: AppColors.lightThinTextGray,
+              ),
             ),
           ],
         ),
