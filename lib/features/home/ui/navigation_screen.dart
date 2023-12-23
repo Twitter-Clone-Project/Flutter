@@ -97,29 +97,30 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
                   ),
                   label: 'Notifications',
                 ),
-        BottomNavigationBarItem(
-          icon: ref.watch(chatNotifierProvider).unseenCnt != '0' // Checking if the value is not '0'
-              ? Badge(
-            backgroundColor: AppColors.primaryColor,
-            textColor: Colors.white,
-            label: AnimatedFadeOutIn<String>(
-              initialData: '0',
-              data: ref.watch(chatNotifierProvider).unseenCnt,
-              builder: (value) => Text(value),
-            ),
-            child: Icon(
-              ref.read(homeNotifierProvider).screenIndex == 3
-                  ? Icons.mail
-                  : Icons.mail_outlined,
-            ),
-          )
-              : Icon(
-            ref.read(homeNotifierProvider).screenIndex == 3
-                ? Icons.mail
-                : Icons.mail_outlined,
-          ),
-          label: 'Messages',
-        ),
+                BottomNavigationBarItem(
+                  icon: ref.watch(chatNotifierProvider).unseenCnt !=
+                          '0' // Checking if the value is not '0'
+                      ? Badge(
+                          backgroundColor: AppColors.primaryColor,
+                          textColor: Colors.white,
+                          label: AnimatedFadeOutIn<String>(
+                            initialData: '0',
+                            data: ref.watch(chatNotifierProvider).unseenCnt,
+                            builder: (value) => Text(value),
+                          ),
+                          child: Icon(
+                            ref.read(homeNotifierProvider).screenIndex == 3
+                                ? Icons.mail
+                                : Icons.mail_outlined,
+                          ),
+                        )
+                      : Icon(
+                          ref.read(homeNotifierProvider).screenIndex == 3
+                              ? Icons.mail
+                              : Icons.mail_outlined,
+                        ),
+                  label: 'Messages',
+                ),
               ]),
         ),
         body: _children[homeProvider.screenIndex],
