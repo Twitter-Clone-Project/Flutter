@@ -9,6 +9,7 @@ import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
+import 'package:x_clone/features/search/data/providers/search_provider.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
@@ -219,7 +220,9 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               .user!
               .username ??
           '';
-    } else if (widget.whom == 1) {
+    }
+    else if (widget.whom == 1)
+    {
       isliked = ref
               .watch(profileNotifierProvider)
               .profileTweetsResponse
@@ -271,7 +274,8 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               .user!
               .username ??
           '';
-    } else if (widget.whom == 2) {
+    }
+    else if (widget.whom == 2) {
       isliked = ref
               .watch(profileNotifierProvider)
               .profileLikedTweetsResponse
@@ -323,6 +327,59 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               .username ??
           '';
     }
+    // else if (widget.whom == 3) {
+    //   isliked = ref
+    //       .watch(searchNotifierProvider)
+    //       .profileLikedTweetsResponse
+    //       .data[index]
+    //       .isLiked ??
+    //       false;
+    //   isRetweeted = ref
+    //       .watch(profileNotifierProvider)
+    //       .profileLikedTweetsResponse
+    //       .data[index]
+    //       .isRetweeted ??
+    //       false;
+    //   retweetCount = ref
+    //       .watch(profileNotifierProvider)
+    //       .profileLikedTweetsResponse
+    //       .data[index]
+    //       .retweetsCount ??
+    //       0;
+    //   likesCount = ref
+    //       .watch(profileNotifierProvider)
+    //       .profileLikedTweetsResponse
+    //       .data[index]
+    //       .likesCount ??
+    //       0;
+    //   repliesCount = ref
+    //       .watch(profileNotifierProvider)
+    //       .profileLikedTweetsResponse
+    //       .data[index]
+    //       .repliesCount ??
+    //       0;
+    //   text = ref
+    //       .watch(profileNotifierProvider)
+    //       .profileLikedTweetsResponse
+    //       .data[index]
+    //       .text ??
+    //       '';
+    //   userName = ref
+    //       .watch(profileNotifierProvider)
+    //       .profileLikedTweetsResponse
+    //       .data[index]
+    //       .user!
+    //       .screenName ??
+    //       '';
+    //   handle = ref
+    //       .watch(profileNotifierProvider)
+    //       .profileLikedTweetsResponse
+    //       .data[index]
+    //       .user!
+    //       .username ??
+    //       '';
+    // }
+
     // Handle Images Of Tweet
     List<NetworkImage> images = (widget.tweet.attachmentsUrl ?? [])
         .map((url) => NetworkImage(url))

@@ -120,7 +120,7 @@ class _ReplyState extends ConsumerState<Reply> {
                 child: CircleAvatar(
                   backgroundColor: AppColors.whiteColor,
                   backgroundImage:
-                      NetworkImage(widget.replier.profileImageURL ?? ''),
+                  NetworkImage(widget.replier.profileImageURL ?? ''),
                   radius: 20,
                 ),
               ),

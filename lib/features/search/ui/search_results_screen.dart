@@ -29,6 +29,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
       FocusScope.of(context).requestFocus(_searchFocusNode);
     });
 
+
     // Reset searched users
     if(widget.query==""){
       ref.read(searchNotifierProvider.notifier).resetSearchedUsers();
@@ -79,13 +80,19 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                     if(value!=""){
                       await ref
                           .read(searchNotifierProvider.notifier)
-                          .getSearchedUsers(query: value);
+                          .getSearchedUsers(page: 1, query: value);
                     }
 
                   },
                   controller: _searchController,
                   focusNode: _searchFocusNode,
                   onSubmitted: (value) {
+                    ref
+                        .read(searchNotifierProvider.notifier)
+                        .getSearchedTweets(page: 1, query: value.replaceAll("#", ""));
+                    ref
+                        .read(searchNotifierProvider.notifier)
+                        .getSearchedUsers(page: 1, query: value.replaceAll("#", ""));
                     Navigator.pushNamed(context, Routes.searchAllResultsScreen, arguments: value);
 
                   },
@@ -151,7 +158,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                user.name!,
+                                user.screenName!,
                                 style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
