@@ -41,7 +41,7 @@ class EndPoints {
   static getFollowersData(String username) => "/users/$username/followers";
   static getFollowingData(String username) => "/users/$username/followings";
 
-  static searchUsers(String query) => "/users/search?query=$query";
-  static searchTweets(String query) => "/tweets/search?query=$query";
+  static searchUsers(int page, String query) => "/users/search/$page?query=$query";
+  static searchTweets(int page, String query) => "/tweets/search/$page?query=$query";
 
 }

@@ -25,7 +25,8 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
   late TabController _tabController;
   late RefreshController _tweetsController;
   late RefreshController _usersController;
-
+  int tweetsPageIndex = 1;
+  int usersPageIndex = 1;
 
   @override
   void initState() {
@@ -39,12 +40,8 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
     Future.delayed(
       const Duration(seconds: 0),
           () {
-            ref
-                .read(searchNotifierProvider.notifier)
-                .getSearchedTweets(query: widget.query.replaceAll("#", ""));
-            ref
-                .read(searchNotifierProvider.notifier)
-                .getSearchedUsers(query: widget.query.replaceAll("#", ""));
+        reset();
+
       },
     );
   }
@@ -54,9 +51,13 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
     _searchController.dispose();
     _searchFocusNode.dispose();
     _tabController.dispose();
+    reset();
     super.dispose();
   }
-
+  void reset() async {
+    await ref.read(searchNotifierProvider.notifier).resetSearchedTweets();
+    await ref.read(searchNotifierProvider.notifier).resetSearchedUsers();
+  }
   @override
   Widget build(BuildContext context) {
     final searchProvider = ref.watch(searchNotifierProvider);
@@ -67,7 +68,7 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
         appBar: AppBar(
           backgroundColor: AppColors.pureBlack,
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: Colors.white,
             ),
@@ -82,6 +83,7 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
               controller: _searchController,
               focusNode: _searchFocusNode,
               onTap: () {
+                reset();
                 Navigator.pushNamed(context, Routes.searchResultsScreen, arguments: _searchController.text);
 
               },
@@ -110,6 +112,7 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
           ),
           bottom: const TabBar(
             tabs: [
+
               Tab(
                 child: Text(
                   "Tweets",
@@ -134,148 +137,167 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
             indicatorColor: Colors.white,
           ),
         ),
-        body: SmartRefresher(
-            controller: _tweetsController,
-            header: const ClassicHeader(
-              releaseText: 'Release to refresh',
-              refreshingText: 'Refreshing...',
-              completeText: 'Refresh completed',
-              failedText: 'Refresh failed',
-              idleText: 'Pull down to refresh',
-            ),
-            enablePullDown: true,
-            enablePullUp: true,
-            footer: const ClassicFooter(
-              loadingText: 'Load for more',
-            ),
-            // onLoading: _onTweetsLoading,
-            onRefresh: _onRefresh,
-            child: TabBarView(
-            children: [
-                    ref
-                    .watch(searchNotifierProvider)
-                    .tweetList
-                    .data
-                    .isEmpty
-                    ? const Center(
-                  child: Text(
-                    "No Tweets",
-                    style: const TextStyle(
-                      color: AppColors.whiteColor,
-                      fontSize: 22,
-                      fontFamily: 'Chirp',
+        body: TabBarView(
+              children: [
+                      ref
+                      .watch(searchNotifierProvider)
+                      .tweetList.data.isEmpty
+                      ? SmartRefresher(
+                        controller: _tweetsController,
+                        header: const ClassicHeader(
+                          releaseText: 'Release to refresh',
+                          refreshingText: 'Refreshing...',
+                          completeText: 'Refresh completed',
+                          failedText: 'Refresh failed',
+                          idleText: 'Pull down to refresh',
+                        ),
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        footer: const ClassicFooter(
+                          loadingText: 'Load for more',
+                        ),
+                        onLoading: _onTweetsLoading,
+                        onRefresh: _onRefresh,
+                        child:  const Center(
+                    child: Text(
+                        "No Tweets :(",
+                        style: const TextStyle(
+                          color: AppColors.whiteColor,
+                          fontSize: 22,
+                          fontFamily: 'Chirp',
+                        ),
                     ),
                   ),
-                )
-                    : ListView.separated(
-                  physics:
-                  const NeverScrollableScrollPhysics(),
-                  itemCount: ref
-                      .watch(
-                      searchNotifierProvider)
-                      .tweetList
-                      .data
-                      .length,
-                  itemBuilder:
-                      (BuildContext context,
-                      int index) =>
-                      InkWell(
-                        child: TweetCompose(
-                          tweet: ref
-                              .watch(
-                              searchNotifierProvider)
-                              .tweetList
-                              .data[index],
-                          index: index,
-                          whom:
-                          3, //0->Home , 1->Profile
+                      )
+                      : SmartRefresher(
+                        controller: _tweetsController,
+                        header: const ClassicHeader(
+                          releaseText: 'Release to refresh',
+                          refreshingText: 'Refreshing...',
+                          completeText: 'Refresh completed',
+                          failedText: 'Refresh failed',
+                          idleText: 'Pull down to refresh',
                         ),
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.tweetScreen,
-                            arguments: {
-                              "tweet": ref
-                                  .watch(
-                                  searchNotifierProvider)
-                                  .tweetList
-                                  .data[index],
-                              "index": index,
-                              "whom":
-                              3, //0->Home , 1->Profile
-                            },
-                          );
-                        },
-                      ),
-                  separatorBuilder:
-                      (BuildContext context,
-                      int index) =>
-                  const Divider(),
-                ),
-              searchProvider.loading
-                  ? const Center(child: CircularProgressIndicator(color: AppColors.whiteColor,
-                strokeWidth: 1,))
-                  : ListView.builder(
-                itemCount: searchProvider.usersList.data!.length,
-                itemBuilder: (context, index) {
-                    final user = ref.watch(searchNotifierProvider).usersList.data![index];
-                    return Column(
-                      children: [
-                        ListTile(
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context, Routes.profileScreen, arguments: user.username);
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: AppColors.whiteColor,
-                                      backgroundImage: NetworkImage(user.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                                      radius: 20,
-                                    ),
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        footer: const ClassicFooter(
+                          loadingText: 'Load for more',
+                        ),
+                        onLoading: _onTweetsLoading,
+                        onRefresh: _onRefresh,
+                        child: ListView.builder(
+                          itemCount: ref.watch(searchNotifierProvider).tweetList.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final tweet = ref.watch(searchNotifierProvider).tweetList.data[index];
+
+                            return Column(
+                              children: [
+                                if (index == 0) SizedBox(height: 16.0), // Add space for the first item
+                                InkWell(
+                                  child: TweetCompose(
+                                    tweet: tweet,
+                                    index: index,
+                                    whom: 3, // 0->Home, 1->Profile
                                   ),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          user.name!,
-                                          style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      Routes.tweetScreen,
+                                      arguments: {
+                                        "tweet": tweet,
+                                        "index": index,
+                                        "whom": 3, // 0->Home, 1->Profile
+                                      },
+                                    );
+                                  },
+                                ),
+                                if (index < ref.watch(searchNotifierProvider).tweetList.data.length - 1)
+                                  const Divider(), // Add divider for all items except the last one
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                searchProvider.loading
+                    ? const Center(child: CircularProgressIndicator(color: AppColors.whiteColor,
+                  strokeWidth: 1,))
+                    : SmartRefresher(
+                  controller: _usersController,
+                  header: const ClassicHeader(
+                    releaseText: 'Release to refresh',
+                    refreshingText: 'Refreshing...',
+                    completeText: 'Refresh completed',
+                    failedText: 'Refresh failed',
+                    idleText: 'Pull down to refresh',
+                  ),
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  footer: const ClassicFooter(
+                    loadingText: 'Load for more',
+                  ),
+                  onLoading: _onUsersLoading,
+                  onRefresh: _onRefresh,
+                  child: ListView.builder(
+                  itemCount: searchProvider.usersList.data!.length,
+                  itemBuilder: (context, index) {
+                        final user = ref.watch(searchNotifierProvider).usersList.data![index];
+                        return Column(
+                          children: [
+                            ListTile(
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(context, Routes.profileScreen, arguments: user.username);
+                                        },
+                                        child: CircleAvatar(
+                                          backgroundColor: AppColors.whiteColor,
+                                          backgroundImage: NetworkImage(user.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                                          radius: 20,
                                         ),
-                                        Text(
-                                          '@${user.username}',
-                                          style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                                            color: AppColors.lightGray,
-                                          ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              user.screenName!,
+                                              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              '@${user.username}',
+                                              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                                                color: AppColors.lightGray,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                          // trailing: buildTrailingWidget(follower, context),
-                        ),
-                        const SizedBox(height: 4,),
-                        // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
-                        // const SizedBox(height: 4,),
-                      ],
-                    );
-                },
-              ),
-            ],
-          ),
+                              // trailing: buildTrailingWidget(follower, context),
+                            ),
+                            const SizedBox(height: 4,),
+                            // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
+                            // const SizedBox(height: 4,),
+                          ],
+                        );
+                  },
+                ),
+                    ),
+              ],
+            ),
         ),
-      ),
     );
   }
 
@@ -287,9 +309,46 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
   loadData() async {
     await ref
         .read(searchNotifierProvider.notifier)
-        .getSearchedTweets(query: widget.query.replaceAll("#", ""));
+        .getSearchedTweets(page: tweetsPageIndex,query: widget.query.replaceAll("#", ""));
     await ref
         .read(searchNotifierProvider.notifier)
-        .getSearchedUsers(query: widget.query.replaceAll("#", ""));
+        .getSearchedUsers(page: usersPageIndex, query: widget.query.replaceAll("#", ""));
+  }
+
+  void _onUsersLoading() async {
+    final provider = ref.read(searchNotifierProvider);
+
+    if (provider.usersList.data.length ==
+        provider.usersList.total) {
+      _usersController.loadNoData();
+    } else {
+      if (usersPageIndex == 0) usersPageIndex++;
+      usersPageIndex++;
+      await ref
+          .read(searchNotifierProvider.notifier)
+          .getSearchedUsers(query: widget.query, page: usersPageIndex);
+      _usersController.loadComplete();
+    }
+  }
+
+  void _onTweetsLoading() async {
+    final provider = ref.read(searchNotifierProvider);
+
+    if (provider.tweetList.data.length ==
+        provider.tweetList.total) {
+      _tweetsController.loadNoData();
+    } else {
+      if (tweetsPageIndex == 0) tweetsPageIndex++;
+      tweetsPageIndex++;
+      await ref
+          .read(searchNotifierProvider.notifier)
+          .getSearchedTweets(query: widget.query, page: tweetsPageIndex);
+      _tweetsController.loadComplete();
+    }
+  }
+
+  void _onLoading() async {
+    _onTweetsLoading();
+    _onUsersLoading();
   }
 }

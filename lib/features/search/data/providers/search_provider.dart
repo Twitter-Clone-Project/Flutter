@@ -38,54 +38,86 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
     }
   }
 
-  Future<void> getSearchedUsers({required String query}) async {
+
+  getSearchedUsers({
+    required String query,
+    required int page,
+  }) async {
     try {
-      state = state.copyWith(
-        loading: true,
-      );
-      final UsersList users =
-      await searchRepository.searchUsers(query: query);
-      if (users.data != null) {
-        state = state.copyWith(
-          usersList: users,
-          loading: false,
-        );
-      } else {
-        state = state.copyWith(
-          errorMessage: 'Failed to fetch users',
-          loading: false,
-        );
+      if (page == 1) {
+        state = state.copyWith(loading: true, usersIndex: 0);
       }
+      final UsersList usersList =
+      await searchRepository.searchUsers(query: query, page: page);
+      final List<UserData> users;
+
+      if (page == 1) {
+        users = usersList.data;
+      } else {
+        final oldList = List<UserData>.from(state.usersList.data);
+        oldList.addAll(usersList.data);
+        users = oldList;
+      }
+      state = state.copyWith(
+        usersList: state.usersList
+            .copyWith(data: users, total: usersList.total),
+        loading: false,
+        usersIndex: page,
+      );
+      return usersList;
     } catch (e) {
-        state = state.copyWith(
-          usersList: UsersList(data: []),
-          loading: false,
-        );
+      state =
+          state.copyWith(loading: false, errorMessage: e.toString());
+      return const UsersList(data: [], total: 0);
     }
   }
 
-  Future<void> getSearchedTweets({required String query}) async {
-    state = state.copyWith(
-      loading: true,
-    );
-    final TweetList tweets =
-    await searchRepository.searchTweets(query: query);
-    if (tweets.data != null) {
+
+  getSearchedTweets({
+    required String query,
+    required int page,
+  }) async {
+    try {
+      if (page == 1) {
+        state = state.copyWith(loading: true, tweetsIndex: 0);
+      }
+      final TweetList tweetList =
+      await searchRepository.searchTweets(query: query, page: page);
+      final List<Tweet> tweets;
+
+      if (page == 1) {
+        tweets = tweetList.data;
+      } else {
+        final oldList = List<Tweet>.from(state.tweetList.data);
+        oldList.addAll(tweetList.data);
+        tweets = oldList;
+      }
       state = state.copyWith(
-        tweetList: tweets,
+        tweetList: state.tweetList
+            .copyWith(data: tweets, total: tweetList.total),
         loading: false,
+        tweetsIndex: page,
       );
-    } else {
-      state = state.copyWith(
-        errorMessage: 'Failed to fetch users',
-        loading: false,
-      );
+      return tweetList;
+    } catch (e) {
+      state =
+          state.copyWith(loading: false, errorMessage: e.toString());
+      return const TweetList(data: [], total: 0);
     }
   }
 
   Future<void> resetSearchedUsers() async {
     state = state.copyWith(
       usersList: const UsersList(data: []),
+      // Assuming UsersList has a factory method for an empty state
+      loading: false,
+      errorMessage: null,
+    );
+  }
+
+  Future<void> resetSearchedTweets() async {
+    state = state.copyWith(
+      tweetList: const TweetList(data: []),
       // Assuming UsersList has a factory method for an empty state
       loading: false,
       errorMessage: null,

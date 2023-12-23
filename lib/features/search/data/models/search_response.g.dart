@@ -32,30 +32,39 @@ _$UserDataImpl _$$UserDataImplFromJson(Map<String, dynamic> json) =>
     _$UserDataImpl(
       id: json['id'] as String?,
       email: json['email'] as String?,
-      name: json['name'] as String?,
+      screenName: json['screenName'] as String?,
       username: json['username'] as String?,
       profileImageURL: json['profileImageURL'] as String?,
+      bio: json['bio'] as String?,
+      isFollowed: json['isFollowed'] as bool?,
+      isFollowing: json['isFollowing'] as bool?,
     );
 
 Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'email': instance.email,
-      'name': instance.name,
+      'screenName': instance.screenName,
       'username': instance.username,
       'profileImageURL': instance.profileImageURL,
+      'bio': instance.bio,
+      'isFollowed': instance.isFollowed,
+      'isFollowing': instance.isFollowing,
     };
 
 _$UsersListImpl _$$UsersListImplFromJson(Map<String, dynamic> json) =>
     _$UsersListImpl(
       data: (json['data'] as List<dynamic>?)
-          ?.map((e) => UserData.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              ?.map((e) => UserData.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      total: json['total'] as int?,
     );
 
 Map<String, dynamic> _$$UsersListImplToJson(_$UsersListImpl instance) =>
     <String, dynamic>{
       'data': instance.data,
+      'total': instance.total,
     };
 
 _$TweetListImpl _$$TweetListImplFromJson(Map<String, dynamic> json) =>

@@ -302,9 +302,12 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
 mixin _$UserData {
   String? get id => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
+  String? get screenName => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
   String? get profileImageURL => throw _privateConstructorUsedError;
+  String? get bio => throw _privateConstructorUsedError;
+  bool? get isFollowed => throw _privateConstructorUsedError;
+  bool? get isFollowing => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -320,9 +323,12 @@ abstract class $UserDataCopyWith<$Res> {
   $Res call(
       {String? id,
       String? email,
-      String? name,
+      String? screenName,
       String? username,
-      String? profileImageURL});
+      String? profileImageURL,
+      String? bio,
+      bool? isFollowed,
+      bool? isFollowing});
 }
 
 /// @nodoc
@@ -340,9 +346,12 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
   $Res call({
     Object? id = freezed,
     Object? email = freezed,
-    Object? name = freezed,
+    Object? screenName = freezed,
     Object? username = freezed,
     Object? profileImageURL = freezed,
+    Object? bio = freezed,
+    Object? isFollowed = freezed,
+    Object? isFollowing = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -353,9 +362,9 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      screenName: freezed == screenName
+          ? _value.screenName
+          : screenName // ignore: cast_nullable_to_non_nullable
               as String?,
       username: freezed == username
           ? _value.username
@@ -365,6 +374,18 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.profileImageURL
           : profileImageURL // ignore: cast_nullable_to_non_nullable
               as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFollowed: freezed == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -380,9 +401,12 @@ abstract class _$$UserDataImplCopyWith<$Res>
   $Res call(
       {String? id,
       String? email,
-      String? name,
+      String? screenName,
       String? username,
-      String? profileImageURL});
+      String? profileImageURL,
+      String? bio,
+      bool? isFollowed,
+      bool? isFollowing});
 }
 
 /// @nodoc
@@ -398,9 +422,12 @@ class __$$UserDataImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? email = freezed,
-    Object? name = freezed,
+    Object? screenName = freezed,
     Object? username = freezed,
     Object? profileImageURL = freezed,
+    Object? bio = freezed,
+    Object? isFollowed = freezed,
+    Object? isFollowing = freezed,
   }) {
     return _then(_$UserDataImpl(
       id: freezed == id
@@ -411,9 +438,9 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      screenName: freezed == screenName
+          ? _value.screenName
+          : screenName // ignore: cast_nullable_to_non_nullable
               as String?,
       username: freezed == username
           ? _value.username
@@ -423,6 +450,18 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.profileImageURL
           : profileImageURL // ignore: cast_nullable_to_non_nullable
               as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFollowed: freezed == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -431,7 +470,14 @@ class __$$UserDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserDataImpl implements _UserData {
   const _$UserDataImpl(
-      {this.id, this.email, this.name, this.username, this.profileImageURL});
+      {this.id,
+      this.email,
+      this.screenName,
+      this.username,
+      this.profileImageURL,
+      this.bio,
+      this.isFollowed,
+      this.isFollowing});
 
   factory _$UserDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserDataImplFromJson(json);
@@ -441,15 +487,21 @@ class _$UserDataImpl implements _UserData {
   @override
   final String? email;
   @override
-  final String? name;
+  final String? screenName;
   @override
   final String? username;
   @override
   final String? profileImageURL;
+  @override
+  final String? bio;
+  @override
+  final bool? isFollowed;
+  @override
+  final bool? isFollowing;
 
   @override
   String toString() {
-    return 'UserData(id: $id, email: $email, name: $name, username: $username, profileImageURL: $profileImageURL)';
+    return 'UserData(id: $id, email: $email, screenName: $screenName, username: $username, profileImageURL: $profileImageURL, bio: $bio, isFollowed: $isFollowed, isFollowing: $isFollowing)';
   }
 
   @override
@@ -459,17 +511,23 @@ class _$UserDataImpl implements _UserData {
             other is _$UserDataImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.screenName, screenName) ||
+                other.screenName == screenName) &&
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.profileImageURL, profileImageURL) ||
-                other.profileImageURL == profileImageURL));
+                other.profileImageURL == profileImageURL) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.isFollowed, isFollowed) ||
+                other.isFollowed == isFollowed) &&
+            (identical(other.isFollowing, isFollowing) ||
+                other.isFollowing == isFollowing));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, email, name, username, profileImageURL);
+  int get hashCode => Object.hash(runtimeType, id, email, screenName, username,
+      profileImageURL, bio, isFollowed, isFollowing);
 
   @JsonKey(ignore: true)
   @override
@@ -489,9 +547,12 @@ abstract class _UserData implements UserData {
   const factory _UserData(
       {final String? id,
       final String? email,
-      final String? name,
+      final String? screenName,
       final String? username,
-      final String? profileImageURL}) = _$UserDataImpl;
+      final String? profileImageURL,
+      final String? bio,
+      final bool? isFollowed,
+      final bool? isFollowing}) = _$UserDataImpl;
 
   factory _UserData.fromJson(Map<String, dynamic> json) =
       _$UserDataImpl.fromJson;
@@ -501,11 +562,17 @@ abstract class _UserData implements UserData {
   @override
   String? get email;
   @override
-  String? get name;
+  String? get screenName;
   @override
   String? get username;
   @override
   String? get profileImageURL;
+  @override
+  String? get bio;
+  @override
+  bool? get isFollowed;
+  @override
+  bool? get isFollowing;
   @override
   @JsonKey(ignore: true)
   _$$UserDataImplCopyWith<_$UserDataImpl> get copyWith =>
@@ -518,7 +585,8 @@ UsersList _$UsersListFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UsersList {
-  List<UserData>? get data => throw _privateConstructorUsedError;
+  List<UserData> get data => throw _privateConstructorUsedError;
+  int? get total => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -531,7 +599,7 @@ abstract class $UsersListCopyWith<$Res> {
   factory $UsersListCopyWith(UsersList value, $Res Function(UsersList) then) =
       _$UsersListCopyWithImpl<$Res, UsersList>;
   @useResult
-  $Res call({List<UserData>? data});
+  $Res call({List<UserData> data, int? total});
 }
 
 /// @nodoc
@@ -547,13 +615,18 @@ class _$UsersListCopyWithImpl<$Res, $Val extends UsersList>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? data = null,
+    Object? total = freezed,
   }) {
     return _then(_value.copyWith(
-      data: freezed == data
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<UserData>?,
+              as List<UserData>,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -566,7 +639,7 @@ abstract class _$$UsersListImplCopyWith<$Res>
       __$$UsersListImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<UserData>? data});
+  $Res call({List<UserData> data, int? total});
 }
 
 /// @nodoc
@@ -580,13 +653,18 @@ class __$$UsersListImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? data = null,
+    Object? total = freezed,
   }) {
     return _then(_$UsersListImpl(
-      data: freezed == data
+      data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<UserData>?,
+              as List<UserData>,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -594,24 +672,27 @@ class __$$UsersListImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UsersListImpl implements _UsersList {
-  const _$UsersListImpl({final List<UserData>? data}) : _data = data;
+  const _$UsersListImpl({final List<UserData> data = const [], this.total})
+      : _data = data;
 
   factory _$UsersListImpl.fromJson(Map<String, dynamic> json) =>
       _$$UsersListImplFromJson(json);
 
-  final List<UserData>? _data;
+  final List<UserData> _data;
   @override
-  List<UserData>? get data {
-    final value = _data;
-    if (value == null) return null;
+  @JsonKey()
+  List<UserData> get data {
     if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_data);
   }
 
   @override
+  final int? total;
+
+  @override
   String toString() {
-    return 'UsersList(data: $data)';
+    return 'UsersList(data: $data, total: $total)';
   }
 
   @override
@@ -619,13 +700,14 @@ class _$UsersListImpl implements _UsersList {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UsersListImpl &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.total, total) || other.total == total));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_data), total);
 
   @JsonKey(ignore: true)
   @override
@@ -642,13 +724,16 @@ class _$UsersListImpl implements _UsersList {
 }
 
 abstract class _UsersList implements UsersList {
-  const factory _UsersList({final List<UserData>? data}) = _$UsersListImpl;
+  const factory _UsersList({final List<UserData> data, final int? total}) =
+      _$UsersListImpl;
 
   factory _UsersList.fromJson(Map<String, dynamic> json) =
       _$UsersListImpl.fromJson;
 
   @override
-  List<UserData>? get data;
+  List<UserData> get data;
+  @override
+  int? get total;
   @override
   @JsonKey(ignore: true)
   _$$UsersListImplCopyWith<_$UsersListImpl> get copyWith =>
