@@ -55,7 +55,7 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
                         imageUrl: ref
                             .watch(authNotifierProvider)
                             .user!
-                            .profileImageURL ?? '',
+                            .imageUrl ?? '',
                         placeholder: (context, url) => Image.asset(
                             AppAssets.whiteLogo,
                             fit: BoxFit.cover),

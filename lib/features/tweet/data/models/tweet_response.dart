@@ -16,7 +16,7 @@ class LikerData with _$LikerData {
     String? id,
     String? name,
     String? screenName,
-    String? profileImageURL,
+    String? imageUrl,
     bool? isFollowed,
   }) = _LikerData;
 
@@ -46,7 +46,7 @@ class RetweeterData with _$RetweeterData {
     String? id,
     String? name,
     String? screenName,
-    String? profileImageURL,
+    String? imageUrl,
     bool? isFollowed,
   }) = _RetweeterData;
 
@@ -80,7 +80,7 @@ class ReplierData with _$ReplierData {
     String? username,
     String? screenName,
     String? bio,
-    String? profileImageURL,
+    String? imageUrl,
     String? followersCount,
     String? followingCount,
     bool? isFollowed,

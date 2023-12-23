@@ -46,7 +46,7 @@ class MainDrawer extends ConsumerWidget {
                           imageUrl: ref
                               .watch(authNotifierProvider)
                               .user!
-                              .profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                              .imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
                           placeholder: (context, url) => Image.asset(
                               AppAssets.whiteLogo,
                               fit: BoxFit.cover),

@@ -601,7 +601,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         ReplierData replier = ReplierData(
           replyUserId: replierUser.userId,
           username: replierUser.username,
-          profileImageURL: replierUser.profileImageURL,
+          imageUrl: replierUser.imageUrl,
           replyText: replyText,
           replyTweetId: tweetId,
         );
@@ -629,7 +629,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         ReplierData replier = ReplierData(
           replyUserId: replierUser.userId,
           username: replierUser.username,
-          profileImageURL: replierUser.profileImageURL,
+          imageUrl: replierUser.imageUrl,
           replyText: replyText,
         );
         List<ReplierData> updatedRepliersList =

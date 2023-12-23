@@ -105,17 +105,16 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
   Future<bool> updateUser({
     String? name,
-    String? profileImageURL,
+    String? imageUrl,
   }) async {
     try {
       User user = User(
         isConfirmed: state.user!.isConfirmed,
         email: state.user!.email!,
         userId: state.user!.userId,
-        screenName: state.user!.screenName,
         username: state.user!.username,
         name: name,
-        profileImageURL: profileImageURL ??
+        imageUrl: imageUrl ??
             "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
       );
       state = state.copyWith(user: user);
@@ -149,7 +148,10 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   confirmEmail(
       {required String otp,
       required String email,
-      required bool isSignup}) async {
+      required bool isSignup,
+        String? newEmail ,
+
+      }) async {
     try {
       state = state.copyWith(otpLoading: true, errorMessage: '');
 
@@ -157,6 +159,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         otp: otp,
         email: email,
         isSignUp: isSignup,
+          newEmail : newEmail,
       );
       if (isSignup) {
         _onUserLoggedIn(user);
@@ -294,19 +297,23 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
   updateEmail({required String newEmail}) async {
     try {
-      final result = await _repo.updateEmail(
-        newEmail: newEmail,
-      );
-      User updatedUser = state.user!;
-      updatedUser = updatedUser.copyWith(email: newEmail);
-      if (result == true) {
-        state = state.copyWith(
-          user: updatedUser,
-        );
-      }
-      return true;
+       var result= await _repo.updateEmail(newEmail: newEmail,);
+
+      return result;
     } catch (e) {
       state = state.copyWith(errorMessage: e.toString());
+      return false;
+    }
+  }
+
+  isEmailFound({required String email}) async {
+    try {
+      print("555555555555555555555555");
+      final result = await _repo.isEmailFound( newEmail: email);
+      print(result);
+      return result;
+    } catch (e) {
+      print("6666666666666666666666666");
       return false;
     }
   }

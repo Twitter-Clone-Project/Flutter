@@ -148,7 +148,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                           },
                           child: CircleAvatar(
                             backgroundColor: AppColors.whiteColor,
-                            backgroundImage: NetworkImage(user.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                            backgroundImage: NetworkImage(user.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
                             radius: 20,
                           ),
                         ),

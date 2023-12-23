@@ -43,10 +43,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   radius: 17,
                   backgroundColor: const Color.fromARGB(255, 59, 158, 59),
                   backgroundImage: NetworkImage(
-                      ref.watch(authNotifierProvider).user!.profileImageURL ??
+                      ref.watch(authNotifierProvider).user!.imageUrl ??
                           ''),
                   child: Text(
-                    ref.watch(authNotifierProvider).user!.name![0],
+                    "${ref.watch(authNotifierProvider).user!.name?[0]}",
                     style: AppTextStyle.textThemeDark.headline6!.copyWith(
                       color: Colors.white,
                       fontSize: 17,

@@ -23,7 +23,7 @@ mixin _$LikerData {
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get screenName => throw _privateConstructorUsedError;
-  String? get profileImageURL => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   bool? get isFollowed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +41,7 @@ abstract class $LikerDataCopyWith<$Res> {
       {String? id,
       String? name,
       String? screenName,
-      String? profileImageURL,
+      String? imageUrl,
       bool? isFollowed});
 }
 
@@ -61,7 +61,7 @@ class _$LikerDataCopyWithImpl<$Res, $Val extends LikerData>
     Object? id = freezed,
     Object? name = freezed,
     Object? screenName = freezed,
-    Object? profileImageURL = freezed,
+    Object? imageUrl = freezed,
     Object? isFollowed = freezed,
   }) {
     return _then(_value.copyWith(
@@ -77,9 +77,9 @@ class _$LikerDataCopyWithImpl<$Res, $Val extends LikerData>
           ? _value.screenName
           : screenName // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       isFollowed: freezed == isFollowed
           ? _value.isFollowed
@@ -101,7 +101,7 @@ abstract class _$$LikerDataImplCopyWith<$Res>
       {String? id,
       String? name,
       String? screenName,
-      String? profileImageURL,
+      String? imageUrl,
       bool? isFollowed});
 }
 
@@ -119,7 +119,7 @@ class __$$LikerDataImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? screenName = freezed,
-    Object? profileImageURL = freezed,
+    Object? imageUrl = freezed,
     Object? isFollowed = freezed,
   }) {
     return _then(_$LikerDataImpl(
@@ -135,9 +135,9 @@ class __$$LikerDataImplCopyWithImpl<$Res>
           ? _value.screenName
           : screenName // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       isFollowed: freezed == isFollowed
           ? _value.isFollowed
@@ -151,11 +151,7 @@ class __$$LikerDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$LikerDataImpl implements _LikerData {
   const _$LikerDataImpl(
-      {this.id,
-      this.name,
-      this.screenName,
-      this.profileImageURL,
-      this.isFollowed});
+      {this.id, this.name, this.screenName, this.imageUrl, this.isFollowed});
 
   factory _$LikerDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$LikerDataImplFromJson(json);
@@ -167,13 +163,13 @@ class _$LikerDataImpl implements _LikerData {
   @override
   final String? screenName;
   @override
-  final String? profileImageURL;
+  final String? imageUrl;
   @override
   final bool? isFollowed;
 
   @override
   String toString() {
-    return 'LikerData(id: $id, name: $name, screenName: $screenName, profileImageURL: $profileImageURL, isFollowed: $isFollowed)';
+    return 'LikerData(id: $id, name: $name, screenName: $screenName, imageUrl: $imageUrl, isFollowed: $isFollowed)';
   }
 
   @override
@@ -185,16 +181,16 @@ class _$LikerDataImpl implements _LikerData {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.screenName, screenName) ||
                 other.screenName == screenName) &&
-            (identical(other.profileImageURL, profileImageURL) ||
-                other.profileImageURL == profileImageURL) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.isFollowed, isFollowed) ||
                 other.isFollowed == isFollowed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, screenName, profileImageURL, isFollowed);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, screenName, imageUrl, isFollowed);
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +211,7 @@ abstract class _LikerData implements LikerData {
       {final String? id,
       final String? name,
       final String? screenName,
-      final String? profileImageURL,
+      final String? imageUrl,
       final bool? isFollowed}) = _$LikerDataImpl;
 
   factory _LikerData.fromJson(Map<String, dynamic> json) =
@@ -228,7 +224,7 @@ abstract class _LikerData implements LikerData {
   @override
   String? get screenName;
   @override
-  String? get profileImageURL;
+  String? get imageUrl;
   @override
   bool? get isFollowed;
   @override
@@ -390,7 +386,7 @@ mixin _$RetweeterData {
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get screenName => throw _privateConstructorUsedError;
-  String? get profileImageURL => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   bool? get isFollowed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -409,7 +405,7 @@ abstract class $RetweeterDataCopyWith<$Res> {
       {String? id,
       String? name,
       String? screenName,
-      String? profileImageURL,
+      String? imageUrl,
       bool? isFollowed});
 }
 
@@ -429,7 +425,7 @@ class _$RetweeterDataCopyWithImpl<$Res, $Val extends RetweeterData>
     Object? id = freezed,
     Object? name = freezed,
     Object? screenName = freezed,
-    Object? profileImageURL = freezed,
+    Object? imageUrl = freezed,
     Object? isFollowed = freezed,
   }) {
     return _then(_value.copyWith(
@@ -445,9 +441,9 @@ class _$RetweeterDataCopyWithImpl<$Res, $Val extends RetweeterData>
           ? _value.screenName
           : screenName // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       isFollowed: freezed == isFollowed
           ? _value.isFollowed
@@ -469,7 +465,7 @@ abstract class _$$RetweeterDataImplCopyWith<$Res>
       {String? id,
       String? name,
       String? screenName,
-      String? profileImageURL,
+      String? imageUrl,
       bool? isFollowed});
 }
 
@@ -487,7 +483,7 @@ class __$$RetweeterDataImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? screenName = freezed,
-    Object? profileImageURL = freezed,
+    Object? imageUrl = freezed,
     Object? isFollowed = freezed,
   }) {
     return _then(_$RetweeterDataImpl(
@@ -503,9 +499,9 @@ class __$$RetweeterDataImplCopyWithImpl<$Res>
           ? _value.screenName
           : screenName // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       isFollowed: freezed == isFollowed
           ? _value.isFollowed
@@ -519,11 +515,7 @@ class __$$RetweeterDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RetweeterDataImpl implements _RetweeterData {
   const _$RetweeterDataImpl(
-      {this.id,
-      this.name,
-      this.screenName,
-      this.profileImageURL,
-      this.isFollowed});
+      {this.id, this.name, this.screenName, this.imageUrl, this.isFollowed});
 
   factory _$RetweeterDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$RetweeterDataImplFromJson(json);
@@ -535,13 +527,13 @@ class _$RetweeterDataImpl implements _RetweeterData {
   @override
   final String? screenName;
   @override
-  final String? profileImageURL;
+  final String? imageUrl;
   @override
   final bool? isFollowed;
 
   @override
   String toString() {
-    return 'RetweeterData(id: $id, name: $name, screenName: $screenName, profileImageURL: $profileImageURL, isFollowed: $isFollowed)';
+    return 'RetweeterData(id: $id, name: $name, screenName: $screenName, imageUrl: $imageUrl, isFollowed: $isFollowed)';
   }
 
   @override
@@ -553,16 +545,16 @@ class _$RetweeterDataImpl implements _RetweeterData {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.screenName, screenName) ||
                 other.screenName == screenName) &&
-            (identical(other.profileImageURL, profileImageURL) ||
-                other.profileImageURL == profileImageURL) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.isFollowed, isFollowed) ||
                 other.isFollowed == isFollowed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, screenName, profileImageURL, isFollowed);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, screenName, imageUrl, isFollowed);
 
   @JsonKey(ignore: true)
   @override
@@ -583,7 +575,7 @@ abstract class _RetweeterData implements RetweeterData {
       {final String? id,
       final String? name,
       final String? screenName,
-      final String? profileImageURL,
+      final String? imageUrl,
       final bool? isFollowed}) = _$RetweeterDataImpl;
 
   factory _RetweeterData.fromJson(Map<String, dynamic> json) =
@@ -596,7 +588,7 @@ abstract class _RetweeterData implements RetweeterData {
   @override
   String? get screenName;
   @override
-  String? get profileImageURL;
+  String? get imageUrl;
   @override
   bool? get isFollowed;
   @override
@@ -765,7 +757,7 @@ mixin _$ReplierData {
   String? get username => throw _privateConstructorUsedError;
   String? get screenName => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
-  String? get profileImageURL => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   String? get followersCount => throw _privateConstructorUsedError;
   String? get followingCount => throw _privateConstructorUsedError;
   bool? get isFollowed => throw _privateConstructorUsedError;
@@ -791,7 +783,7 @@ abstract class $ReplierDataCopyWith<$Res> {
       String? username,
       String? screenName,
       String? bio,
-      String? profileImageURL,
+      String? imageUrl,
       String? followersCount,
       String? followingCount,
       bool? isFollowed});
@@ -818,7 +810,7 @@ class _$ReplierDataCopyWithImpl<$Res, $Val extends ReplierData>
     Object? username = freezed,
     Object? screenName = freezed,
     Object? bio = freezed,
-    Object? profileImageURL = freezed,
+    Object? imageUrl = freezed,
     Object? followersCount = freezed,
     Object? followingCount = freezed,
     Object? isFollowed = freezed,
@@ -856,9 +848,9 @@ class _$ReplierDataCopyWithImpl<$Res, $Val extends ReplierData>
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       followersCount: freezed == followersCount
           ? _value.followersCount
@@ -893,7 +885,7 @@ abstract class _$$ReplierDataImplCopyWith<$Res>
       String? username,
       String? screenName,
       String? bio,
-      String? profileImageURL,
+      String? imageUrl,
       String? followersCount,
       String? followingCount,
       bool? isFollowed});
@@ -918,7 +910,7 @@ class __$$ReplierDataImplCopyWithImpl<$Res>
     Object? username = freezed,
     Object? screenName = freezed,
     Object? bio = freezed,
-    Object? profileImageURL = freezed,
+    Object? imageUrl = freezed,
     Object? followersCount = freezed,
     Object? followingCount = freezed,
     Object? isFollowed = freezed,
@@ -956,9 +948,9 @@ class __$$ReplierDataImplCopyWithImpl<$Res>
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       followersCount: freezed == followersCount
           ? _value.followersCount
@@ -988,7 +980,7 @@ class _$ReplierDataImpl implements _ReplierData {
       this.username,
       this.screenName,
       this.bio,
-      this.profileImageURL,
+      this.imageUrl,
       this.followersCount,
       this.followingCount,
       this.isFollowed});
@@ -1013,7 +1005,7 @@ class _$ReplierDataImpl implements _ReplierData {
   @override
   final String? bio;
   @override
-  final String? profileImageURL;
+  final String? imageUrl;
   @override
   final String? followersCount;
   @override
@@ -1023,7 +1015,7 @@ class _$ReplierDataImpl implements _ReplierData {
 
   @override
   String toString() {
-    return 'ReplierData(replyId: $replyId, replyTweetId: $replyTweetId, replyUserId: $replyUserId, replyText: $replyText, createdAt: $createdAt, username: $username, screenName: $screenName, bio: $bio, profileImageURL: $profileImageURL, followersCount: $followersCount, followingCount: $followingCount, isFollowed: $isFollowed)';
+    return 'ReplierData(replyId: $replyId, replyTweetId: $replyTweetId, replyUserId: $replyUserId, replyText: $replyText, createdAt: $createdAt, username: $username, screenName: $screenName, bio: $bio, imageUrl: $imageUrl, followersCount: $followersCount, followingCount: $followingCount, isFollowed: $isFollowed)';
   }
 
   @override
@@ -1045,8 +1037,8 @@ class _$ReplierDataImpl implements _ReplierData {
             (identical(other.screenName, screenName) ||
                 other.screenName == screenName) &&
             (identical(other.bio, bio) || other.bio == bio) &&
-            (identical(other.profileImageURL, profileImageURL) ||
-                other.profileImageURL == profileImageURL) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.followersCount, followersCount) ||
                 other.followersCount == followersCount) &&
             (identical(other.followingCount, followingCount) ||
@@ -1067,7 +1059,7 @@ class _$ReplierDataImpl implements _ReplierData {
       username,
       screenName,
       bio,
-      profileImageURL,
+      imageUrl,
       followersCount,
       followingCount,
       isFollowed);
@@ -1096,7 +1088,7 @@ abstract class _ReplierData implements ReplierData {
       final String? username,
       final String? screenName,
       final String? bio,
-      final String? profileImageURL,
+      final String? imageUrl,
       final String? followersCount,
       final String? followingCount,
       final bool? isFollowed}) = _$ReplierDataImpl;
@@ -1121,7 +1113,7 @@ abstract class _ReplierData implements ReplierData {
   @override
   String? get bio;
   @override
-  String? get profileImageURL;
+  String? get imageUrl;
   @override
   String? get followersCount;
   @override

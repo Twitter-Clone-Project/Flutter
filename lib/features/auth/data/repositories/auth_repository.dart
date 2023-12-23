@@ -13,6 +13,7 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
+  Future<bool?> isEmailFound({required String newEmail});
   Future<bool?> forgetPassword({
     required String email,
   });
@@ -28,6 +29,8 @@ abstract class AuthRepository {
     required String otp,
     required String email,
     required bool isSignUp,
+    String? newEmail ,
+
   });
   Future<bool?> resetPassword({
     required String password,
@@ -103,7 +106,7 @@ class AuthRepositoryImpl implements AuthRepository {
         data: data,
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return true;
+        return response.data["status"]==true;
       } else {
         throw (response.data["message"]);
       }
@@ -111,6 +114,25 @@ class AuthRepositoryImpl implements AuthRepository {
       throw e.toString();
     }
   }
+
+
+  @override
+  Future<bool?> isEmailFound({required String newEmail}) async {
+    try {
+      var response = await HttpClient.dio.get(
+        EndPoints.isEmailFound(newEmail),
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data["data"]["isFound"]==true;
+      } else {
+        throw (response.data["message"]);
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+
 
   @override
   Future<bool?> updatePassword(
@@ -214,15 +236,19 @@ class AuthRepositoryImpl implements AuthRepository {
     required String otp,
     required String email,
     required bool isSignUp,
+    String? newEmail ,
   }) async {
     print(otp.length);
     print(getToken());
     try {
       final data = {
+        if(newEmail != null)
+        "newEmail": newEmail,
         "email": email,
         "otp": otp,
       };
       var response = await HttpClient.dio.post(
+        newEmail != null ? EndPoints.confirmProfileEmail :
         EndPoints.confirmEmail,
         data: data,
       );

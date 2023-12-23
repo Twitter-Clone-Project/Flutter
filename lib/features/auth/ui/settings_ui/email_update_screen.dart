@@ -10,6 +10,8 @@ import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
+import '../../../../utils/utils.dart';
+
 class EmailScreen extends StatefulHookConsumerWidget {
   const EmailScreen({super.key});
   @override
@@ -121,13 +123,20 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
               children: [
                 Spacer(),
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (AppKeys.updateemailFormKey.currentState!.validate()) {
-                      var result = ref
+                      var result =await  ref
                           .read(authNotifierProvider.notifier)
-                          .updateEmail(newEmail: _emailController.text);
+                          .isEmailFound(email: _emailController.text);
+
+                      if(result==false){
+                        Navigator.pushNamed(context, Routes.changeEmailOtpScreen,arguments: _emailController.text);
+
+                      }
+                      else{
+                        AppSnackbar.show(buildSnackBar(text: "Email already exist"));
+                      }
                     }
-                    Navigator.of(context).pop();
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(

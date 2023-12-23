@@ -427,7 +427,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                 },
                 child: CircleAvatar(
                   backgroundImage:
-                  NetworkImage(widget.tweet.user!.profileImageURL ?? ''),
+                  NetworkImage(widget.tweet.user!.imageUrl ?? ''),
                   backgroundColor: AppColors.whiteColor,
                   radius: 20,
                 ),

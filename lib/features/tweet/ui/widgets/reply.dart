@@ -84,7 +84,7 @@ class _ReplyState extends ConsumerState<Reply> {
                     width: 40,
                     height: 40,
                     fit: BoxFit.cover,
-                    imageUrl: widget.replier.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                    imageUrl: widget.replier.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
                     placeholder: (context, url) => Container(
                       color: Color(0xFF333639),
                     ),

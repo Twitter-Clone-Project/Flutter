@@ -65,7 +65,7 @@ class _AddReplyState extends ConsumerState<AddReply> {
                     .copyWith(color: AppColors.lightThinTextGray),
               ),
               TextSpan(
-                text: '${widget.tweet!.user!.screenName}',
+                text: '${widget.tweet.user?.username}',
                 style: AppTextStyle.textThemeDark.bodyLarge!
                     .copyWith(color: AppColors.primaryColor),
               ),

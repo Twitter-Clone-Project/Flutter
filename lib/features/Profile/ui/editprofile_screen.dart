@@ -106,7 +106,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                 removeBannerPhoto: removeBannerPicture);
         ref.read(authNotifierProvider.notifier).updateUser(
               name: result?.name,
-              profileImageURL: result?.imageUrl,
+              imageUrl: result?.imageUrl,
             );
         // ref.read(authNotif)
 

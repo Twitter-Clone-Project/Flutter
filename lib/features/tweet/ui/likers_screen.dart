@@ -84,7 +84,7 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
                             .watch(tweetNotifierProvider)
                             .likersList
                             .data![index]
-                            .profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                            .imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
                         placeholder: (context, url) => Container(
                           color: Color(0xFF333639),
                         ),

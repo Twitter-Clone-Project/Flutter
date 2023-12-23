@@ -25,7 +25,7 @@ mixin _$User {
   String? get username => throw _privateConstructorUsedError;
   String? get screenName => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  String? get profileImageURL => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   String? get bannerUrl => throw _privateConstructorUsedError;
   String? get followingsCount => throw _privateConstructorUsedError;
   String? get followersCount => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $UserCopyWith<$Res> {
       String? username,
       String? screenName,
       String? email,
-      String? profileImageURL,
+      String? imageUrl,
       String? bannerUrl,
       String? followingsCount,
       String? followersCount,
@@ -82,7 +82,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? username = freezed,
     Object? screenName = freezed,
     Object? email = freezed,
-    Object? profileImageURL = freezed,
+    Object? imageUrl = freezed,
     Object? bannerUrl = freezed,
     Object? followingsCount = freezed,
     Object? followersCount = freezed,
@@ -114,9 +114,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       bannerUrl: freezed == bannerUrl
           ? _value.bannerUrl
@@ -171,7 +171,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? username,
       String? screenName,
       String? email,
-      String? profileImageURL,
+      String? imageUrl,
       String? bannerUrl,
       String? followingsCount,
       String? followersCount,
@@ -198,7 +198,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? username = freezed,
     Object? screenName = freezed,
     Object? email = freezed,
-    Object? profileImageURL = freezed,
+    Object? imageUrl = freezed,
     Object? bannerUrl = freezed,
     Object? followingsCount = freezed,
     Object? followersCount = freezed,
@@ -230,9 +230,9 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       bannerUrl: freezed == bannerUrl
           ? _value.bannerUrl
@@ -283,7 +283,7 @@ class _$UserImpl implements _User {
       this.username,
       this.screenName,
       this.email,
-      this.profileImageURL =
+      this.imageUrl =
           "https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg",
       this.bannerUrl,
       this.followingsCount,
@@ -310,7 +310,7 @@ class _$UserImpl implements _User {
   final String? email;
   @override
   @JsonKey()
-  final String? profileImageURL;
+  final String? imageUrl;
   @override
   final String? bannerUrl;
   @override
@@ -332,7 +332,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(userId: $userId, name: $name, username: $username, screenName: $screenName, email: $email, profileImageURL: $profileImageURL, bannerUrl: $bannerUrl, followingsCount: $followingsCount, followersCount: $followersCount, birthDate: $birthDate, bio: $bio, location: $location, website: $website, isConfirmed: $isConfirmed, isOnline: $isOnline)';
+    return 'User(userId: $userId, name: $name, username: $username, screenName: $screenName, email: $email, imageUrl: $imageUrl, bannerUrl: $bannerUrl, followingsCount: $followingsCount, followersCount: $followersCount, birthDate: $birthDate, bio: $bio, location: $location, website: $website, isConfirmed: $isConfirmed, isOnline: $isOnline)';
   }
 
   @override
@@ -347,8 +347,8 @@ class _$UserImpl implements _User {
             (identical(other.screenName, screenName) ||
                 other.screenName == screenName) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.profileImageURL, profileImageURL) ||
-                other.profileImageURL == profileImageURL) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.bannerUrl, bannerUrl) ||
                 other.bannerUrl == bannerUrl) &&
             (identical(other.followingsCount, followingsCount) ||
@@ -376,7 +376,7 @@ class _$UserImpl implements _User {
       username,
       screenName,
       email,
-      profileImageURL,
+      imageUrl,
       bannerUrl,
       followingsCount,
       followersCount,
@@ -408,7 +408,7 @@ abstract class _User implements User {
       final String? username,
       final String? screenName,
       final String? email,
-      final String? profileImageURL,
+      final String? imageUrl,
       final String? bannerUrl,
       final String? followingsCount,
       final String? followersCount,
@@ -432,7 +432,7 @@ abstract class _User implements User {
   @override
   String? get email;
   @override
-  String? get profileImageURL;
+  String? get imageUrl;
   @override
   String? get bannerUrl;
   @override

@@ -235,7 +235,7 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
     //     ReplierData replier = ReplierData(
     //       replyUserId: replierUser.userId,
     //       username: replierUser.username,
-    //       profileImageURL: replierUser.profileImageURL,
+    //       imageUrl: replierUser.imageUrl,
     //       replyText: replyText,
     //     );
     //     List<ReplierData> updatedRepliersList =

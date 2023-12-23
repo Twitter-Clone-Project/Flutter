@@ -25,6 +25,7 @@ import '../features/auth/ui/intro_screen.dart';
 import '../features/auth/ui/login_screen.dart';
 import '../features/auth/ui/reCAPTCHA.dart';
 import '../features/auth/ui/reset_password.dart';
+import '../features/auth/ui/settings_ui/change_email_otp_screen.dart';
 import '../features/auth/ui/signup_screen.dart';
 import '../features/auth/ui/verify_otp_screen.dart';
 import '../features/chat/ui/chat_search_screen.dart';
@@ -66,6 +67,7 @@ class Routes {
 
   static const String searchResultsScreen = "/searchResultsScreen";
   static const String searchAllResultsScreen = "/searchAllResultsScreen";
+  static const String changeEmailOtpScreen = "/changeEmailOtpScreen";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -89,7 +91,10 @@ class Routes {
                 ));
         return MaterialPageRoute(builder: (_) => ChatScreen(conversation: data,));
       case chatSearchScreen:
-        return MaterialPageRoute(builder: (_) => ChatSearchScreen());
+        return MaterialPageRoute(builder: (_) => const ChatSearchScreen());
+      case changeEmailOtpScreen:
+        var data = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => ChangeEmailOtpScreen(email: data,));
       case registerScreen:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
       case reCAPTCHAscreen:

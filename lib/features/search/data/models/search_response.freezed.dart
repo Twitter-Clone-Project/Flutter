@@ -304,7 +304,7 @@ mixin _$UserData {
   String? get email => throw _privateConstructorUsedError;
   String? get screenName => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
-  String? get profileImageURL => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   bool? get isFollowed => throw _privateConstructorUsedError;
   bool? get isFollowing => throw _privateConstructorUsedError;
@@ -325,7 +325,7 @@ abstract class $UserDataCopyWith<$Res> {
       String? email,
       String? screenName,
       String? username,
-      String? profileImageURL,
+      String? imageUrl,
       String? bio,
       bool? isFollowed,
       bool? isFollowing});
@@ -348,7 +348,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? email = freezed,
     Object? screenName = freezed,
     Object? username = freezed,
-    Object? profileImageURL = freezed,
+    Object? imageUrl = freezed,
     Object? bio = freezed,
     Object? isFollowed = freezed,
     Object? isFollowing = freezed,
@@ -370,9 +370,9 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       bio: freezed == bio
           ? _value.bio
@@ -403,7 +403,7 @@ abstract class _$$UserDataImplCopyWith<$Res>
       String? email,
       String? screenName,
       String? username,
-      String? profileImageURL,
+      String? imageUrl,
       String? bio,
       bool? isFollowed,
       bool? isFollowing});
@@ -424,7 +424,7 @@ class __$$UserDataImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? screenName = freezed,
     Object? username = freezed,
-    Object? profileImageURL = freezed,
+    Object? imageUrl = freezed,
     Object? bio = freezed,
     Object? isFollowed = freezed,
     Object? isFollowing = freezed,
@@ -446,9 +446,9 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImageURL: freezed == profileImageURL
-          ? _value.profileImageURL
-          : profileImageURL // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       bio: freezed == bio
           ? _value.bio
@@ -474,7 +474,7 @@ class _$UserDataImpl implements _UserData {
       this.email,
       this.screenName,
       this.username,
-      this.profileImageURL,
+      this.imageUrl,
       this.bio,
       this.isFollowed,
       this.isFollowing});
@@ -491,7 +491,7 @@ class _$UserDataImpl implements _UserData {
   @override
   final String? username;
   @override
-  final String? profileImageURL;
+  final String? imageUrl;
   @override
   final String? bio;
   @override
@@ -501,7 +501,7 @@ class _$UserDataImpl implements _UserData {
 
   @override
   String toString() {
-    return 'UserData(id: $id, email: $email, screenName: $screenName, username: $username, profileImageURL: $profileImageURL, bio: $bio, isFollowed: $isFollowed, isFollowing: $isFollowing)';
+    return 'UserData(id: $id, email: $email, screenName: $screenName, username: $username, imageUrl: $imageUrl, bio: $bio, isFollowed: $isFollowed, isFollowing: $isFollowing)';
   }
 
   @override
@@ -515,8 +515,8 @@ class _$UserDataImpl implements _UserData {
                 other.screenName == screenName) &&
             (identical(other.username, username) ||
                 other.username == username) &&
-            (identical(other.profileImageURL, profileImageURL) ||
-                other.profileImageURL == profileImageURL) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.isFollowed, isFollowed) ||
                 other.isFollowed == isFollowed) &&
@@ -527,7 +527,7 @@ class _$UserDataImpl implements _UserData {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, email, screenName, username,
-      profileImageURL, bio, isFollowed, isFollowing);
+      imageUrl, bio, isFollowed, isFollowing);
 
   @JsonKey(ignore: true)
   @override
@@ -549,7 +549,7 @@ abstract class _UserData implements UserData {
       final String? email,
       final String? screenName,
       final String? username,
-      final String? profileImageURL,
+      final String? imageUrl,
       final String? bio,
       final bool? isFollowed,
       final bool? isFollowing}) = _$UserDataImpl;
@@ -566,7 +566,7 @@ abstract class _UserData implements UserData {
   @override
   String? get username;
   @override
-  String? get profileImageURL;
+  String? get imageUrl;
   @override
   String? get bio;
   @override

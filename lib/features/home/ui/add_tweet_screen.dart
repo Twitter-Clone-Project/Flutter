@@ -109,7 +109,7 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
                           imageUrl: ref
                               .watch(authNotifierProvider)
                               .user!
-                              .profileImageURL ?? '',
+                              .imageUrl ?? '',
                           placeholder: (context, url) => Image.asset(
                               AppAssets.whiteLogo,
                               fit: BoxFit.cover),

@@ -18,7 +18,7 @@ class User with _$User {
     String? screenName,
     String? email,
     @Default("https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg")
-    String? profileImageURL,
+    String? imageUrl,
     String? bannerUrl,
     String? followingsCount,
     String? followersCount,

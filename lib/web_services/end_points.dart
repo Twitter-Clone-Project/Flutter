@@ -7,6 +7,7 @@ class EndPoints {
   static const login = "/auth/signin";
   static const register = "/auth/signup";
   static const confirmEmail = "/auth/verifyEmail";
+  static const confirmProfileEmail = "/profile/verifyEmail";
   static const forgetPassword = "/auth/forgetPassword";
   static const resetPassword = "/auth/resetPassword";
   static const addTweet = "/tweets/add";
@@ -24,6 +25,7 @@ class EndPoints {
   static const startConversation = "/conversations/startConversation";
   static const unseenConversationsCnt = "/conversations/unseenConversationsCnt";
   static getMessagesHistory(String conversationId) => "/conversations/$conversationId/history";
+  static isEmailFound(String email) => "/users/$email/isEmailFound";
   static getUserProfile(String username) => "/profile/$username";
   static const resendConfirmEmail = "/auth/resendConfirmEmail";
   static getTimelineData(int page) => "/users/$page/timeline";

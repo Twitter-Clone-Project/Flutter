@@ -11,7 +11,7 @@ _$LikerDataImpl _$$LikerDataImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       name: json['name'] as String?,
       screenName: json['screenName'] as String?,
-      profileImageURL: json['profileImageURL'] as String?,
+      imageUrl: json['imageUrl'] as String?,
       isFollowed: json['isFollowed'] as bool?,
     );
 
@@ -20,7 +20,7 @@ Map<String, dynamic> _$$LikerDataImplToJson(_$LikerDataImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'screenName': instance.screenName,
-      'profileImageURL': instance.profileImageURL,
+      'imageUrl': instance.imageUrl,
       'isFollowed': instance.isFollowed,
     };
 
@@ -41,7 +41,7 @@ _$RetweeterDataImpl _$$RetweeterDataImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       name: json['name'] as String?,
       screenName: json['screenName'] as String?,
-      profileImageURL: json['profileImageURL'] as String?,
+      imageUrl: json['imageUrl'] as String?,
       isFollowed: json['isFollowed'] as bool?,
     );
 
@@ -50,7 +50,7 @@ Map<String, dynamic> _$$RetweeterDataImplToJson(_$RetweeterDataImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'screenName': instance.screenName,
-      'profileImageURL': instance.profileImageURL,
+      'imageUrl': instance.imageUrl,
       'isFollowed': instance.isFollowed,
     };
 
@@ -77,7 +77,7 @@ _$ReplierDataImpl _$$ReplierDataImplFromJson(Map<String, dynamic> json) =>
       username: json['username'] as String?,
       screenName: json['screenName'] as String?,
       bio: json['bio'] as String?,
-      profileImageURL: json['profileImageURL'] as String?,
+      imageUrl: json['imageUrl'] as String?,
       followersCount: json['followersCount'] as String?,
       followingCount: json['followingCount'] as String?,
       isFollowed: json['isFollowed'] as bool?,
@@ -93,7 +93,7 @@ Map<String, dynamic> _$$ReplierDataImplToJson(_$ReplierDataImpl instance) =>
       'username': instance.username,
       'screenName': instance.screenName,
       'bio': instance.bio,
-      'profileImageURL': instance.profileImageURL,
+      'imageUrl': instance.imageUrl,
       'followersCount': instance.followersCount,
       'followingCount': instance.followingCount,
       'isFollowed': instance.isFollowed,
