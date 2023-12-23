@@ -19,6 +19,10 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     getTimelineData(page: 1);
   }
 
+
+
+
+
   getTimelineData({
     required int page,
   }) async {

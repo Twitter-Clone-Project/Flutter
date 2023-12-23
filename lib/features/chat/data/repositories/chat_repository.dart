@@ -9,10 +9,40 @@ abstract class ChatRepository {
   getConversations();
   getMessagesHistory(String conversationId);
   sendMessage(String conversationId, String text ,String receiverId,String senderId);
-
+  startConversation(String id);
+  getUnseenConversationsCnt();
 }
 
 class ChatRepositoryImpl implements ChatRepository {
+  @override
+  getUnseenConversationsCnt() async {
+    try {
+      var response = await HttpClient.dio.get(EndPoints.unseenConversationsCnt);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data["data"]["unseenCnt"];
+      }
+      return  '';
+    } catch (e) {
+      rethrow;
+    }
+  }
+  @override
+  startConversation(String id) async {
+    var data={
+      "userIds":[id],
+    };
+    try {
+      var response = await HttpClient.dio.post(EndPoints.startConversation,data: data);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print(response.data);
+      }
+      return const ConversationsResponse(conversations: []);
+    } catch (e) {
+      rethrow;
+    }
+  }
   @override
   getConversations() async {
     try {
@@ -56,7 +86,6 @@ class ChatRepositoryImpl implements ChatRepository {
       rethrow;
     }
   }
-
 
 }
 
