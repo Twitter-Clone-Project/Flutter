@@ -204,7 +204,8 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
                                     child: TweetCompose(
                                       tweet: tweet,
                                       index: index,
-                                      whom: 3, // 0->Home, 1->Profile
+                                      whom: 3,
+                                      inMyProfile: 0,// 0->Home, 1->Profile
                                     ),
                                     onTap: () {
                                       Navigator.pushNamed(

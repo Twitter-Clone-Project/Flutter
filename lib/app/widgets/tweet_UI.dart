@@ -8,10 +8,10 @@ import 'package:x_clone/app/widgets/tweet_icon_button.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
-import 'package:x_clone/features/search/data/providers/search_provider.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
 import '../../features/home/data/models/home_response.dart';
+import '../../features/search/data/providers/search_provider.dart';
 import '../../theme/app_assets.dart';
 import '../../theme/app_colors.dart';
 
@@ -323,6 +323,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
           .data[index]
           .user!
           .username ??
+          '';
+    }
     else if (widget.whom == 3) {
       isliked = ref
           .watch(searchNotifierProvider)
@@ -471,53 +473,6 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                       ),
                     ],
                   ),
-
-                ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AnimatedSwitcher(
-                      duration: Duration(milliseconds: 500), // Set your desired animation duration
-                      transitionBuilder: (Widget child, Animation<double> animation) {
-                        return ScaleTransition(
-                          scale: animation,
-                          child: child,
-                        );
-                      },
-                      child: TweetIconButton(
-                        color: isRetweeted ? Colors.greenAccent : AppColors.lightThinTextGray,
-                        pathName: AppAssets.retweetIcon,
-                        text: retweetCount == 0 ? '' : retweetCount.toString(),
-                        onTap: () {
-                          isRetweeted = !isRetweeted;
-                          isRetweeted
-                              ? {
-                            ref
-                                .read(homeNotifierProvider.notifier)
-                                .addRetweet(tweetId: tweetId!),
-                            ref
-                                .read(profileNotifierProvider.notifier)
-                                .addRetweet(tweetId: tweetId!, whom: widget.whom),
-                            ref
-                                .read(searchNotifierProvider.notifier)
-                                .addRetweet(tweetId: tweetId!),
-                          }
-                              : {
-                            ref
-                                .read(homeNotifierProvider.notifier)
-                                .deleteRetweet(tweetId: tweetId!),
-                            ref
-                                .read(profileNotifierProvider.notifier)
-                                .deleteRetweet(tweetId: tweetId!, whom: widget.whom),
-                            ref
-                                .read(searchNotifierProvider.notifier)
-                                .deleteRetweet(tweetId: tweetId!),
-                          };
-                        },
-                        key: ValueKey<bool>(isRetweeted), // Use a key to identify the widget when it changes
                   if (text != null)
                     RichText(
                       text: TextSpan(
@@ -552,79 +507,123 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                         ),
                       ),
                     ),
-                    LikeButton(
-                      isLiked: isliked,
-                      size: 23,
-                      likeCount: likesCount,
-                      countBuilder: (likecount, isLiked, text) {
-                        return Text(
-                          likecount == 0 ? '' : text,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: isLiked
-                                ? Colors.pinkAccent
-                                : AppColors.lightThinTextGray,
-                          ),
-                        );
-                      },
-                      onTap: (isLiked) async {
-                        isLiked = !isLiked;
-                        isLiked
-                            ? {
-                                ref
-                                    .read(homeNotifierProvider.notifier)
-                                    .addLike(tweetId: tweetId!),
-                                ref
-                                    .read(profileNotifierProvider.notifier)
-                                    .addLike(
-                                        tweetId: tweetId!, whom: widget.whom),
-                                ref
-                                    .read(searchNotifierProvider.notifier)
-                                    .addLike(
-                                     tweetId: tweetId!),
-                              }
-                            : {
-                                ref
-                                    .read(homeNotifierProvider.notifier)
-                                    .deleteLike(tweetId: tweetId!),
-                                ref
-                                    .read(profileNotifierProvider.notifier)
-                                    .deleteLike(
-                                        tweetId: tweetId!, whom: widget.whom),
-                          ref
-                              .read(searchNotifierProvider.notifier)
-                              .deleteLike(
-                              tweetId: tweetId!),
-                              };
-                      },
-                      likeBuilder: (isLiked) {
-                        return AnimatedSwitcher(
-                          duration: Duration(milliseconds: 500), // Set your desired animation duration
-                          transitionBuilder: (Widget child, Animation<double> animation) {
-                            return ScaleTransition(
-                              scale: animation,
-                              child: child,
+                  Padding(
+                    padding:
+                    const EdgeInsets.only(top: 10, right: 10, left: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TweetIconButton(
+                          color: isRetweeted
+                              ? Colors.green
+                              : AppColors.lightThinTextGray,
+                          pathName: isRetweeted
+                              ? AppAssets.retweetIcon
+                              : AppAssets.retweetIcon,
+                          text:
+                          retweetCount == 0 ? '' : retweetCount.toString(),
+                          onTap: () {
+                            isRetweeted = !isRetweeted;
+                            isRetweeted
+                                ? {
+                              ref
+                                  .read(homeNotifierProvider.notifier)
+                                  .addRetweet(tweetId: tweetId!),
+                              ref
+                                  .read(profileNotifierProvider.notifier)
+                                  .addRetweet(
+                                  tweetId: tweetId,
+                                  whom: widget.whom,
+                                  inMyProfile: widget.inMyProfile),
+                              ref
+                                  .read(searchNotifierProvider.notifier)
+                                  .addRetweet(tweetId: tweetId),
+                            }
+                                : {
+                              ref
+                                  .read(homeNotifierProvider.notifier)
+                                  .deleteRetweet(tweetId: tweetId),
+                              ref
+                                  .read(profileNotifierProvider.notifier)
+                                  .deleteRetweet(
+                                  tweetId: tweetId!,
+                                  whom: widget.whom,
+                                  inMyProfile: widget.inMyProfile),
+                              ref
+                                  .read(searchNotifierProvider.notifier)
+                                  .deleteRetweet(tweetId: tweetId!),
+                            };
+                          },
+                        ),
+                        TweetIconButton(
+                          pathName: AppAssets.commentIcon,
+                          text:
+                          repliesCount == 0 ? '' : repliesCount.toString(),
+                          onTap: () {},
+                        ),
+                        LikeButton(
+                          isLiked: isliked,
+                          size: 20,
+                          likeCount: likesCount,
+                          countBuilder: (likecount, isLiked, text) {
+                            return Text(
+                              likecount == 0 ? '' : text,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: isLiked
+                                    ? Colors.red
+                                    : AppColors.lightThinTextGray,
+                              ),
                             );
                           },
-                          child: isLiked
-                              ? SvgPicture.asset(
-                            AppAssets.likeFilledIcon,
-                            key: Key('likeFilled'), // Use a key to identify the widget when it changes
-                            height: 20,
-                            width: 20,
-                            colorFilter: const ColorFilter.mode(
-                              Colors.pinkAccent,
-                              BlendMode.srcIn,
-                            ),
-                          )
-                              : SvgPicture.asset(
-                            AppAssets.likeOutlinedIcon,
-                            key: Key('likeOutlined'), // Use a key to identify the widget when it changes
-                            color: AppColors.lightThinTextGray,
-                          ),
-                        );
-                      },
-
+                          onTap: (isLiked) async {
+                            isLiked = !isLiked;
+                            isLiked
+                                ? {
+                              ref
+                                  .read(homeNotifierProvider.notifier)
+                                  .addLike(tweetId: tweetId!),
+                              ref
+                                  .read(profileNotifierProvider.notifier)
+                                  .addLike(
+                                  tweetId: tweetId!,
+                                  whom: widget.whom,
+                                  inMyProfile: widget.inMyProfile),
+                              ref
+                                  .read(searchNotifierProvider.notifier)
+                                  .addLike(
+                                  tweetId: tweetId),
+                            }
+                                : {
+                              ref
+                                  .read(homeNotifierProvider.notifier)
+                                  .deleteLike(tweetId: tweetId!),
+                              ref
+                                  .read(profileNotifierProvider.notifier)
+                                  .deleteLike(
+                                tweetId: tweetId!,
+                                whom: widget.whom,
+                                inMyProfile: widget.inMyProfile,
+                              ),
+                              ref
+                                  .read(searchNotifierProvider.notifier)
+                                  .deleteLike(
+                                  tweetId: tweetId!),
+                            };
+                          },
+                          likeBuilder: (isLiked) {
+                            return isLiked
+                                ? SvgPicture.asset(
+                              AppAssets.likeFilledIcon,
+                              color: Colors.red,
+                            )
+                                : SvgPicture.asset(
+                              AppAssets.likeOutlinedIcon,
+                              color: AppColors.lightThinTextGray,
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ],
