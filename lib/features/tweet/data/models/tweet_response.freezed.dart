@@ -177,7 +177,7 @@ class _$LikerDataImpl implements _LikerData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LikerDataImpl &&
@@ -341,7 +341,7 @@ class _$LikersListImpl implements _LikersList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LikersListImpl &&
@@ -545,7 +545,7 @@ class _$RetweeterDataImpl implements _RetweeterData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RetweeterDataImpl &&
@@ -709,7 +709,7 @@ class _$RetweetersListImpl implements _RetweetersList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RetweetersListImpl &&
@@ -1027,7 +1027,7 @@ class _$ReplierDataImpl implements _ReplierData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReplierDataImpl &&
@@ -1238,7 +1238,7 @@ class _$RepliersListImpl implements _RepliersList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RepliersListImpl &&

@@ -7,8 +7,10 @@ part 'chats_state.freezed.dart';
 @freezed
 class ChatState with _$ChatState {
   const factory ChatState({
-    @Default(ChatResponse(conversations: [])) ChatResponse chatResponse,
+    @Default(ConversationsResponse(conversations: [])) ConversationsResponse conversationsResponse,
+    @Default(ChatResponse(messages: [])) ChatResponse chatResponse,
     @Default(false) bool loading,
+    @Default(false) bool chatLoading,
     String? errorMessage,
 
   }) = _ChatState;

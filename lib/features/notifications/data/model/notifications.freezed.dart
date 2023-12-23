@@ -217,7 +217,7 @@ class _$NotificationDataImpl implements _NotificationData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NotificationDataImpl &&
@@ -391,7 +391,7 @@ class _$NotificationsListImpl implements _NotificationsList {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NotificationsListImpl &&

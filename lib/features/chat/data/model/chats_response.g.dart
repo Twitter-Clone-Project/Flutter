@@ -6,15 +6,17 @@ part of 'chats_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ChatResponseImpl _$$ChatResponseImplFromJson(Map<String, dynamic> json) =>
-    _$ChatResponseImpl(
+_$ConversationsResponseImpl _$$ConversationsResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ConversationsResponseImpl(
       conversations: (json['conversations'] as List<dynamic>?)
               ?.map((e) => Conversation.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
 
-Map<String, dynamic> _$$ChatResponseImplToJson(_$ChatResponseImpl instance) =>
+Map<String, dynamic> _$$ConversationsResponseImplToJson(
+        _$ConversationsResponseImpl instance) =>
     <String, dynamic>{
       'conversations': instance.conversations,
     };
@@ -99,4 +101,37 @@ Map<String, dynamic> _$$LastMessageImplToJson(_$LastMessageImpl instance) =>
       'text': instance.text,
       'timestamp': instance.timestamp,
       'isSeen': instance.isSeen,
+    };
+
+_$ChatResponseImpl _$$ChatResponseImplFromJson(Map<String, dynamic> json) =>
+    _$ChatResponseImpl(
+      messages: (json['messages'] as List<dynamic>?)
+              ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$$ChatResponseImplToJson(_$ChatResponseImpl instance) =>
+    <String, dynamic>{
+      'messages': instance.messages,
+    };
+
+_$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
+    _$MessageImpl(
+      senderId: json['senderId'] as String?,
+      messageId: json['messageId'] as String?,
+      text: json['text'] as String?,
+      time: json['time'] as String?,
+      isSeen: json['isSeen'] as bool?,
+      isFromMe: json['isFromMe'] as bool?,
+    );
+
+Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
+    <String, dynamic>{
+      'senderId': instance.senderId,
+      'messageId': instance.messageId,
+      'text': instance.text,
+      'time': instance.time,
+      'isSeen': instance.isSeen,
+      'isFromMe': instance.isFromMe,
     };

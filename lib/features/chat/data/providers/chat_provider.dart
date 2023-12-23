@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/chats_response.dart';
-import '../repositories/home_repository.dart';
+import '../repositories/chat_repository.dart';
 import '../states/chats_state.dart';
 
 
@@ -17,14 +17,28 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
   getChatsData() async {
     try {
       state = state.copyWith(loading: true);
-      final ChatResponse chatResponse = await chatRepository.getConversations();
+      final ConversationsResponse conversationsResponse = await chatRepository.getConversations();
       state = state.copyWith(
-          chatResponse: chatResponse,
+          conversationsResponse: conversationsResponse,
           loading: false);
-      return chatResponse;
+      return conversationsResponse;
     } catch (e) {
       state = state.copyWith(loading: false, errorMessage: e.toString());
-      return const ChatResponse(conversations: []);
+      return const ConversationsResponse(conversations: []);
+    }
+  }
+
+  getMessagesHistory(String conversationId) async {
+    try {
+      state = state.copyWith(chatLoading: true);
+      final ChatResponse chatResponse = await chatRepository.getMessagesHistory(conversationId);
+      state = state.copyWith(
+          chatResponse: chatResponse,
+          chatLoading: false);
+      return chatResponse;
+    } catch (e) {
+      state = state.copyWith(chatLoading: false, errorMessage: e.toString());
+      return const ChatResponse(messages: []);
     }
   }
 

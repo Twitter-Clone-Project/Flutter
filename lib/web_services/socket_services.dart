@@ -23,10 +23,13 @@ class SocketClient {
 
   static connect(String userId) {
     socket.onConnect((_) {
+      print("socccccccccccccccccccccccket connected");
       socket.emit("add-user", {
         "userId": userId,
       });
     });
+    socket.onConnectError((data) => print('Connect Error: $data'));
+    socket.onDisconnect((data) => print('Socket.I0 server disconnected')) ;
     socket.on("notification-receive", (data) async {
       handleNotificationReceiveWithNotification(data);
     });
