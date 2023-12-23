@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/web_services/socket_services.dart';
 
+import '../../../app/widgets/animation/animated_fade_out_in.dart';
 import '../../chat/data/providers/chat_provider.dart';
 import '../../chat/ui/chats_screen.dart';
 import '../../search/ui/search_screen.dart';
@@ -37,7 +38,9 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
       SocketClient.onMessageReceive(
           (data) => ref.read(chatNotifierProvider.notifier).onMessageReceive(data));
       SocketClient.statusOfContact((data){});
+      ref.read(chatNotifierProvider.notifier).getUnseenConversationsCnt();
     });
+
     super.initState();
   }
 
@@ -95,14 +98,29 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
                   ),
                   label: 'Notifications',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    ref.read(homeNotifierProvider).screenIndex == 3
-                        ? Icons.mail
-                        : Icons.mail_outlined,
-                  ),
-                  label: 'Messages',
-                ),
+        BottomNavigationBarItem(
+          icon: ref.watch(chatNotifierProvider).unseenCnt != '0' // Checking if the value is not '0'
+              ? Badge(
+            backgroundColor: AppColors.primaryColor,
+            textColor: Colors.white,
+            label: AnimatedFadeOutIn<String>(
+              initialData: '0',
+              data: ref.watch(chatNotifierProvider).unseenCnt,
+              builder: (value) => Text(value),
+            ),
+            child: Icon(
+              ref.read(homeNotifierProvider).screenIndex == 3
+                  ? Icons.mail
+                  : Icons.mail_outlined,
+            ),
+          )
+              : Icon(
+            ref.read(homeNotifierProvider).screenIndex == 3
+                ? Icons.mail
+                : Icons.mail_outlined,
+          ),
+          label: 'Messages',
+        ),
               ]),
         ),
         body: _children[homeProvider.screenIndex],

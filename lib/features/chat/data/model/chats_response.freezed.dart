@@ -1294,6 +1294,7 @@ mixin _$Message {
   String? get messageId => throw _privateConstructorUsedError;
   String? get text => throw _privateConstructorUsedError;
   String? get time => throw _privateConstructorUsedError;
+  String? get senderUsername => throw _privateConstructorUsedError;
   bool? get isSeen => throw _privateConstructorUsedError;
   bool? get isFromMe => throw _privateConstructorUsedError;
 
@@ -1312,6 +1313,7 @@ abstract class $MessageCopyWith<$Res> {
       String? messageId,
       String? text,
       String? time,
+      String? senderUsername,
       bool? isSeen,
       bool? isFromMe});
 }
@@ -1333,6 +1335,7 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? messageId = freezed,
     Object? text = freezed,
     Object? time = freezed,
+    Object? senderUsername = freezed,
     Object? isSeen = freezed,
     Object? isFromMe = freezed,
   }) {
@@ -1352,6 +1355,10 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
       time: freezed == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
+              as String?,
+      senderUsername: freezed == senderUsername
+          ? _value.senderUsername
+          : senderUsername // ignore: cast_nullable_to_non_nullable
               as String?,
       isSeen: freezed == isSeen
           ? _value.isSeen
@@ -1377,6 +1384,7 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
       String? messageId,
       String? text,
       String? time,
+      String? senderUsername,
       bool? isSeen,
       bool? isFromMe});
 }
@@ -1396,6 +1404,7 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? messageId = freezed,
     Object? text = freezed,
     Object? time = freezed,
+    Object? senderUsername = freezed,
     Object? isSeen = freezed,
     Object? isFromMe = freezed,
   }) {
@@ -1415,6 +1424,10 @@ class __$$MessageImplCopyWithImpl<$Res>
       time: freezed == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
+              as String?,
+      senderUsername: freezed == senderUsername
+          ? _value.senderUsername
+          : senderUsername // ignore: cast_nullable_to_non_nullable
               as String?,
       isSeen: freezed == isSeen
           ? _value.isSeen
@@ -1436,6 +1449,7 @@ class _$MessageImpl implements _Message {
       this.messageId,
       this.text,
       this.time,
+      this.senderUsername,
       this.isSeen,
       this.isFromMe});
 
@@ -1451,13 +1465,15 @@ class _$MessageImpl implements _Message {
   @override
   final String? time;
   @override
+  final String? senderUsername;
+  @override
   final bool? isSeen;
   @override
   final bool? isFromMe;
 
   @override
   String toString() {
-    return 'Message(senderId: $senderId, messageId: $messageId, text: $text, time: $time, isSeen: $isSeen, isFromMe: $isFromMe)';
+    return 'Message(senderId: $senderId, messageId: $messageId, text: $text, time: $time, senderUsername: $senderUsername, isSeen: $isSeen, isFromMe: $isFromMe)';
   }
 
   @override
@@ -1471,6 +1487,8 @@ class _$MessageImpl implements _Message {
                 other.messageId == messageId) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.time, time) || other.time == time) &&
+            (identical(other.senderUsername, senderUsername) ||
+                other.senderUsername == senderUsername) &&
             (identical(other.isSeen, isSeen) || other.isSeen == isSeen) &&
             (identical(other.isFromMe, isFromMe) ||
                 other.isFromMe == isFromMe));
@@ -1478,8 +1496,8 @@ class _$MessageImpl implements _Message {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, senderId, messageId, text, time, isSeen, isFromMe);
+  int get hashCode => Object.hash(runtimeType, senderId, messageId, text, time,
+      senderUsername, isSeen, isFromMe);
 
   @JsonKey(ignore: true)
   @override
@@ -1501,6 +1519,7 @@ abstract class _Message implements Message {
       final String? messageId,
       final String? text,
       final String? time,
+      final String? senderUsername,
       final bool? isSeen,
       final bool? isFromMe}) = _$MessageImpl;
 
@@ -1514,6 +1533,8 @@ abstract class _Message implements Message {
   String? get text;
   @override
   String? get time;
+  @override
+  String? get senderUsername;
   @override
   bool? get isSeen;
   @override

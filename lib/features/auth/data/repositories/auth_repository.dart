@@ -48,11 +48,25 @@ abstract class AuthRepository {
 
   getMobileNumber();
 
+  Future<bool?> unmuteUser({
+    required String username,
+  });
+
+
+  Future<bool?> unblockUser({
+    required String username,
+  });
+
   User? getUserData();
 
   String? getToken();
   Future<bool?> updateUsername({required String newUsername});
   Future<bool?> updateEmail({required String newEmail});
+  Future<bool?> updatePassword(
+      {required String currentPassword,
+      required String newPassword,
+      required String newPasswordConfirm});
+
   Future<MutersList> fetchMutersData();
   Future<BlockersList> fetchBlockersData();
 }
@@ -90,6 +104,31 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
+      } else {
+        throw (response.data["message"]);
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<bool?> updatePassword(
+      {required String currentPassword,
+      required String newPassword,
+      required String newPasswordConfirm}) async {
+    try {
+      final data = {
+        "currentPassword": currentPassword,
+        "newPassword": newPassword,
+        "newPasswordConfirm": newPasswordConfirm,
+      };
+      var response = await HttpClient.dio.patch(
+        EndPoints.updatePassword,
+        data: data,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data["status"];
       } else {
         throw (response.data["message"]);
       }
@@ -366,7 +405,39 @@ class AuthRepositoryImpl implements AuthRepository {
       rethrow;
     }
   }
+  @override
+  Future<bool?> unblockUser({required String username}) async {
+    try {
+      var response =
+      await HttpClient.dio.delete(EndPoints.unblockUser(username));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw (response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool?> unmuteUser({required String username}) async {
+    try {
+      var response =
+      await HttpClient.dio.delete(EndPoints.unmuteUser(username));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      throw (response.data["message"]);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
+
+
+
+
+
 //
 // @override
 // Future<User?> updateUser({String? phone, String? name}) async {

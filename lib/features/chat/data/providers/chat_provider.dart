@@ -89,11 +89,12 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
         conversationsResponse: state.conversationsResponse.copyWith(conversations: state.conversationsResponse.conversations.map((e) {
           if(e.contact?.id == message.senderId){
             conversationId=e.conversationId??'';
-            return e.copyWith(lastMessage: LastMessage(text: message.text,timestamp: message.time,isSeen: message.isSeen,isFromMe: false,));
+            return e.copyWith(lastMessage: LastMessage(text: message.text,timestamp: DateTime.now().toString(),isSeen: message.isSeen,isFromMe: false,));
           }
           return e;
         }).toList())
     );
+    getUnseenConversationsCnt();
     sortChats(conversationId);
   }
 
@@ -123,6 +124,47 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
           return e;
         }).toList())
     );
+  }
+
+
+  startConversation(String id) async {
+    try {
+      state = state.copyWith(loading: true);
+      await chatRepository.startConversation(id);
+      getChatsData();
+    } catch (e) {
+      state = state.copyWith(loading: false, errorMessage: e.toString());
+      // return const ConversationsResponse(conversations: []);
+    }
+  }
+  markAsSeen(int index) async {
+    try {
+      state =state.copyWith(
+        conversationsResponse: state.conversationsResponse.copyWith(
+          conversations: state.conversationsResponse.conversations.map((e) {
+            if(e.conversationId==state.conversationsResponse.conversations[index].conversationId){
+              return e.copyWith(
+                lastMessage: e.lastMessage?.copyWith(
+                  isSeen: true,
+                ),
+              );
+            }
+            return e;
+          }).toList(),
+        ),
+      );
+      getUnseenConversationsCnt();
+    } catch (e) {
+      state = state.copyWith(loading: false, errorMessage: e.toString());
+    }
+  }
+  getUnseenConversationsCnt() async {
+    try {
+      final response = await chatRepository.getUnseenConversationsCnt();
+      state = state.copyWith(unseenCnt: response.toString());
+    } catch (e) {
+      rethrow;
+    }
   }
 
 }

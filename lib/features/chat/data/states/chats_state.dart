@@ -11,6 +11,7 @@ class ChatState with _$ChatState {
     @Default(ChatResponse(messages: [])) ChatResponse chatResponse,
     @Default(false) bool loading,
     @Default(false) bool chatLoading,
+    @Default('0')String unseenCnt,
     String? errorMessage,
 
   }) = _ChatState;

@@ -78,35 +78,39 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 40,
-              width: MediaQuery.of(context).size.width*0.9,
-              child: TextField(
-                textAlign: TextAlign.center,
-                onTap: () {
-                  // Navigator.pushNamed(context, Routes.searchResultsScreen, arguments: "");
-
-                },              //controller: searchController,
-                onSubmitted: (value) {},
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(10).copyWith(
-                    left: 20,
-                  ),
-                  fillColor: AppColors.borderDarkGray,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: const BorderSide(
-                      color: AppColors.borderDarkGray,
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, Routes.chatSearchScreen,);
+                },
+              child: SizedBox(
+                height: 40,
+                width: MediaQuery.of(context).size.width*0.9,
+                child: IgnorePointer(
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    onTap: null,              //controller: searchController,
+                    onSubmitted: (value) {},
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(10).copyWith(
+                        left: 20,
+                      ),
+                      fillColor: AppColors.borderDarkGray,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(
+                          color: AppColors.borderDarkGray,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                        borderSide: const BorderSide(
+                          color: AppColors.borderDarkGray,
+                        ),
+                      ),
+                      hintText: 'Search Direct Messages',
                     ),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: const BorderSide(
-                      color: AppColors.borderDarkGray,
-                    ),
-                  ),
-                  hintText: 'Search Direct Messages',
                 ),
               ),
             ),
@@ -129,6 +133,8 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
         itemBuilder: (BuildContext context, int index) =>
             InkWell(
               onTap: () {
+                ref.read(chatNotifierProvider.notifier).markAsSeen(index);
+
                 Navigator.pushNamed(context, Routes.chatScreen, arguments: conversations[index]);
               },
               child: Container(
@@ -145,7 +151,7 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
                           width: 50,
                           height: 50,
                           fit: BoxFit.cover,
-                          imageUrl: conversations[index].contact!.imageUrl!,
+                          imageUrl: conversations[index].contact!.imageUrl??'',
                           placeholder: (context, url) => Image.asset(
                               AppAssets.whiteLogo,
                               fit: BoxFit.cover),
@@ -191,9 +197,9 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
                                     ),
                                   ),
                                   const Spacer(),
-                                  Text(getFormattedDate(conversations[index].lastMessage!.timestamp),
+                                  Text(getFormattedDate(conversations[index].lastMessage?.timestamp),
                                       style: Theme.of(context).textTheme.bodyText2),
-                                  if(conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false)
+                                  if(conversations[index].lastMessage!=null&&conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false)
                                     const Padding(
                                       padding: EdgeInsets.only(left : 5.0),
                                       child: Icon(Icons.circle, color: Colors.blue, size: 10,),
@@ -202,11 +208,11 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
                                 ],
                               ),
                               const SizedBox(height: 5,),
-                              Text(conversations[index].lastMessage!.text!,
+                              Text(conversations[index].lastMessage?.text??'',
                                   style: TextStyle(
-                                    fontWeight: conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false?FontWeight.bold:FontWeight.normal,
+                                    fontWeight: conversations[index].lastMessage!=null&&conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false?FontWeight.bold:FontWeight.normal,
                                     fontSize: 16,
-                                    color: conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false?Colors.white:Colors.grey,
+                                    color: conversations[index].lastMessage!=null&&conversations[index].lastMessage!.isSeen==false&&conversations[index].lastMessage!.isFromMe==false?Colors.white:Colors.grey,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,),
