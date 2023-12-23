@@ -110,6 +110,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   },
                                   child: CachedNetworkImage(
                                     fit: BoxFit.cover,
+
                                     imageUrl: userProfile.bannerUrl ??
                                         'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
                                     placeholder: (context, url) => Container(
@@ -157,6 +158,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             width: profileImageDiameter * 0.8,
                                             height: profileImageDiameter * 0.8,
                                             fit: BoxFit.cover,
+
                                             imageUrl: userProfile.imageUrl ??
                                                 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
                                             placeholder: (context, url) =>
@@ -366,6 +368,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       },
                                       child: CachedNetworkImage(
                                         fit: BoxFit.cover,
+
                                         imageUrl: userProfile.bannerUrl ??
                                             'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
                                         placeholder: (context, url) =>
@@ -415,6 +418,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               },
                                               child: ClipOval(
                                                 child: CachedNetworkImage(
+
                                                   width: profileImageDiameter *
                                                       0.8,
                                                   height: profileImageDiameter *

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,6 +11,8 @@ import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_text.dart';
 import 'package:x_clone/theme/app_colors.dart';
+
+import '../../../theme/app_assets.dart';
 
 class EditProfileScreen extends StatefulHookConsumerWidget {
   const EditProfileScreen({super.key});
@@ -257,9 +260,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                                 )
                               : userProfile.bannerUrl != "" &&
                                       !removeBannerPicture
-                                  ? Image(
-                                      image:
-                                          NetworkImage(userProfile.bannerUrl))
+                                  ? CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        imageUrl: userProfile.bannerUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                        placeholder: (context, url) => Container(
+                                          color: Color(0xFF333639),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(AppAssets.whiteLogo,
+                                                fit: BoxFit.cover),
+                                      )
                                   : Container(
                                       color: Color(0xFF333639),
                                     ),
@@ -303,9 +313,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                                                     FileImage(_profileImage!),
                                                 fit: BoxFit.cover)
                                             : userProfile.bannerUrl != ""
-                                                ? Image(
-                                                    image: NetworkImage(
-                                                        userProfile.imageUrl!))
+                                                ? CachedNetworkImage(
+                                          fit: BoxFit.cover,
+                                          imageUrl: userProfile.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                          placeholder: (context, url) => Container(
+                                            color: Color(0xFF333639),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(AppAssets.whiteLogo,
+                                                  fit: BoxFit.cover),
+                                        )
                                                 : Container(
                                                     color: Color(0xFF333639),
                                                   ),

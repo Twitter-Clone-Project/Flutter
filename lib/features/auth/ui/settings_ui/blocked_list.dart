@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/routes.dart';
@@ -6,6 +7,8 @@ import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
+
+import '../../../../theme/app_assets.dart';
 
 class BlockersScreen extends StatefulHookConsumerWidget {
   const BlockersScreen({super.key});
@@ -72,15 +75,23 @@ class _BlockersScreenState extends ConsumerState<BlockersScreen> {
                 //         .data![index]
                 //         .screenName);
               },
-              child: CircleAvatar(
-                backgroundColor: AppColors.whiteColor,
-                backgroundImage: NetworkImage(ref
-                    .watch(authNotifierProvider)
-                    .blockedList
-                    .users![index]
-                    .imageUrl ??
-                    'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                radius: 20,
+              child: ClipOval(
+                child: CachedNetworkImage(
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                  imageUrl: ref
+                      .watch(authNotifierProvider)
+                      .blockedList
+                      .users![index]
+                      .imageUrl ?? '',
+                  placeholder: (context, url) => Image.asset(
+                      AppAssets.whiteLogo,
+                      fit: BoxFit.cover),
+                  errorWidget: (context, url, error) =>
+                      Image.asset(AppAssets.whiteLogo,
+                          fit: BoxFit.cover),
+                ),
               ),
             ),
             title: Text(
