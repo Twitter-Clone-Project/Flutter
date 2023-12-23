@@ -115,10 +115,14 @@ class ProfileRepositoryImpl implements ProfileRepository {
         "name": name,
       });
 
-      data.fields.add(MapEntry("birthDate", birthDate ?? ""));
-      data.fields.add(MapEntry("bio", bio ?? ""));
-      data.fields.add(MapEntry("location", location ?? ""));
-      data.fields.add(MapEntry("website", website ?? ""));
+      if (birthDate != null && birthDate.isNotEmpty)
+        data.fields.add(MapEntry("birthDate", birthDate ?? ""));
+      if (bio != null && bio.isNotEmpty)
+        data.fields.add(MapEntry("bio", bio ?? ""));
+      if (location != null && location.isNotEmpty)
+        data.fields.add(MapEntry("location", location ?? ""));
+      if (website != null && website.isNotEmpty)
+        data.fields.add(MapEntry("website", website));
 
       if (profilePhoto != null) {
         var file = await MultipartFile.fromFile(
