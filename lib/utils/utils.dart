@@ -12,7 +12,15 @@ SnackBar buildSnackBar(
       behavior: SnackBarBehavior.floating,
       duration: const Duration(seconds: 3),
     );
-
+bool containsOnlyOneCharacter(String input) {
+  // Check if all characters in the string are the same as the first character
+  for (int i = 1; i < input.length; i++) {
+    if (input[i] != input[0]) {
+      return false; // If any character is different, return false
+    }
+  }
+  return true;
+}
 
 List<int> findIndexesOfTweetsWithId(List<Tweet> tweets, int id) {
   List<int> indexesWithId = [];
@@ -61,11 +69,10 @@ String getFullDateTime(String? originalDateString) {
 
   DateTime originalDate = DateTime.parse(originalDateString);
 
-  String formattedDateTime = DateFormat('HH:mm • dd MMM yy').format(originalDate);
+  String formattedDateTime =
+      DateFormat('HH:mm • dd MMM yy').format(originalDate);
   return formattedDateTime;
 }
-
-
 
 String getFormattedDateDifference(String? originalDateString) {
   if (originalDateString == null || originalDateString.isEmpty) return '';
@@ -93,7 +100,7 @@ String getFormattedDateDifference(String? originalDateString) {
 }
 
 String getFormattedDate(String? originalDateString) {
-  if(originalDateString == null||originalDateString.isEmpty) return '';
+  if (originalDateString == null || originalDateString.isEmpty) return '';
   DateTime originalDate = DateTime.parse(originalDateString);
   DateTime now = DateTime.now();
 

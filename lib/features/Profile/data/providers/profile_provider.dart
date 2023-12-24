@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:x_clone/features/Profile/data/model/user_profile.dart';
 import 'package:x_clone/features/Profile/data/repositories/profile_repository.dart';
@@ -6,6 +7,7 @@ import 'package:x_clone/features/Profile/data/states/profile_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/features/auth/data/model/user.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
+import 'package:x_clone/utils/utils.dart';
 
 import '../../../home/data/models/home_response.dart';
 
@@ -591,6 +593,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
     required String tweetId,
     required String replyText,
     required User replierUser,
+    required ReplierData replier,
   }) async {
     try {
       if (replyText.isEmpty) return false;
@@ -598,13 +601,6 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
       int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
       if (tweetIndex != -1) {
-        ReplierData replier = ReplierData(
-          replyUserId: replierUser.userId,
-          username: replierUser.username,
-          imageUrl: replierUser.imageUrl,
-          replyText: replyText,
-          replyTweetId: tweetId,
-        );
         List<ReplierData> updatedRepliersList =
             List<ReplierData>.from(state.ProfileTweetsRepliersList.data!);
         updatedRepliersList.add(replier);
@@ -626,14 +622,8 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       int likedTweetIndex =
           likedTweetList.indexWhere((tweet) => tweet.id == tweetId);
       if (likedTweetIndex != -1) {
-        ReplierData replier = ReplierData(
-          replyUserId: replierUser.userId,
-          username: replierUser.username,
-          imageUrl: replierUser.imageUrl,
-          replyText: replyText,
-        );
         List<ReplierData> updatedRepliersList =
-            List<ReplierData>.from(state.ProfileTweetsRepliersList.data!);
+            List<ReplierData>.from(state.ProfileLikedTweetsRepliersList.data!);
         updatedRepliersList.add(replier);
         RepliersList updatedList = RepliersList(data: updatedRepliersList);
         likedTweetList[likedTweetIndex] =
@@ -688,7 +678,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       //Check in ProfileLikedTweetList
       if (likedTweetIndex != -1) {
         List<ReplierData> updatedRepliersList =
-            List<ReplierData>.from(state.ProfileTweetsRepliersList.data!);
+            List<ReplierData>.from(state.ProfileLikedTweetsRepliersList.data!);
         int replyindex =
             updatedRepliersList.indexWhere((reply) => reply.replyId == replyId);
         if (replyindex != -1) {
@@ -696,15 +686,15 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
           RepliersList updatedList = RepliersList(data: updatedRepliersList);
           likedTweetList[likedTweetIndex] =
               likedTweetList[likedTweetIndex].copyWith(
-            repliesCount: state
-                    .profileTweetsResponse.data[likedTweetIndex].repliesCount! -
+            repliesCount: state.profileLikedTweetsResponse.data[likedTweetIndex]
+                    .repliesCount! -
                 1,
           );
           state = state.copyWith(
-            profileTweetsResponse:
-                state.profileTweetsResponse.copyWith(data: likedTweetList),
+            profileLikedTweetsResponse:
+                state.profileLikedTweetsResponse.copyWith(data: likedTweetList),
             loading: false,
-            ProfileTweetsRepliersList: updatedList,
+            ProfileLikedTweetsRepliersList: updatedList,
           );
         }
       } else {
@@ -791,6 +781,38 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         //errorMessage: e.toString(),
         ProfileTweetsRepliersList: const RepliersList(data: []),
       );
+    }
+  }
+
+  Future<bool> addTweet(
+      {String? tweetText, List<MultipartFile>? attachments}) async {
+    List<String> trends = [];
+    if (tweetText != null) {
+      List<String> words = tweetText.split(' ');
+      for (String word in words) {
+        int i = 0;
+        if (word.startsWith('#') && !containsOnlyOneCharacter(word)) {
+          for (i = 0; i < word.length; i++) {
+            if (word[i] != '#') break;
+          }
+          if (word.substring(i).isNotEmpty) {
+            trends.add(word.substring(i));
+          }
+        }
+      }
+    }
+    try {
+      final Tweet result = await profileRepository.addTweet(
+          tweetText: tweetText, media: attachments, trends: trends);
+      List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
+      tweetlist.add(result);
+      state = state.copyWith(
+          profileTweetsResponse:
+              state.profileTweetsResponse.copyWith(data: tweetlist));
+      return true;
+    } catch (e) {
+      return false;
+      // Handle error
     }
   }
 

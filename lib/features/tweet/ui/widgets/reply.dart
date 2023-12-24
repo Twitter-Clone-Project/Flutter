@@ -8,6 +8,7 @@ import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
+import 'package:x_clone/utils/utils.dart';
 
 import '../../../../theme/app_assets.dart';
 
@@ -62,10 +63,23 @@ class _ReplyState extends ConsumerState<Reply> {
 
   @override
   Widget build(BuildContext context) {
-    String screenName = widget.replier.username!;
-    String truncatedText = (screenName.length > 20)
-        ? '${screenName.substring(0, 20)}' // Truncate if it exceeds maxLength
-        : screenName; // Use full text if it's within the limit
+    String screenName = widget.replier.screenName!;
+    String username = widget.replier.username!;
+
+    String truncatedText = ((screenName.length + username.length) > 20)
+        ? screenName.length > 20
+            ? '${screenName.substring(0, 20)}'
+            : screenName
+        : screenName;
+
+    String truncatedText2 = ((screenName.length + username.length) > 20)
+        ? 20 - truncatedText.length == 0
+            ? ""
+            : '@${username.substring(0, 20 - truncatedText.length)}..'
+        : username;
+    String truncatedText3 = (truncatedText.length < screenName.length)
+        ? '${truncatedText}...'
+        : truncatedText;
     return Column(
       children: [
         Row(
@@ -84,15 +98,14 @@ class _ReplyState extends ConsumerState<Reply> {
                     width: 40,
                     height: 40,
                     fit: BoxFit.cover,
-                    imageUrl: widget.replier.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                    imageUrl: widget.replier.imageUrl ??
+                        'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
                     placeholder: (context, url) => Container(
                       color: Color(0xFF333639),
                     ),
                     errorWidget: (context, url, error) =>
-                        Image.asset(AppAssets.whiteLogo,
-                            fit: BoxFit.cover),
+                        Image.asset(AppAssets.whiteLogo, fit: BoxFit.cover),
                   ),
-
                 ),
               ),
             ),
@@ -105,7 +118,7 @@ class _ReplyState extends ConsumerState<Reply> {
                     children: [
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                       Text(
-                        widget.replier.screenName!,
+                        truncatedText3,
                         style: const TextStyle(
                           color: AppColors.whiteColor,
                           fontSize: 18,
@@ -118,17 +131,16 @@ class _ReplyState extends ConsumerState<Reply> {
                       ),
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                       Text(
-                        '@${truncatedText}',
+                        truncatedText2,
                         style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
                           color: AppColors.lightThinTextGray,
                         ),
                       ),
-                      // SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                      //Date
-                      // Text(
-                      //   'date',
-                      //   style: const TextStyle(color: AppColors.lightGray),
-                      // )
+                      SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
+                      Text(
+                        "• ${getFormattedDateDifference(widget.replier.createdAt)}",
+                        style: TextStyle(color: AppColors.lightThinTextGray),
+                      ),
                     ],
                   ),
                   Padding(

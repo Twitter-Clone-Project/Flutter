@@ -19,10 +19,6 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     getTimelineData(page: 1);
   }
 
-
-
-
-
   getTimelineData({
     required int page,
   }) async {
@@ -145,7 +141,7 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
         loading: true,
       );
       final RepliersList repliers =
-      await homeRepository.fetchRepliersData(tweetId: tweetId);
+          await homeRepository.fetchRepliersData(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
       int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
       if (tweetIndex != -1) {
@@ -170,25 +166,25 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
-  addTweet({String? tweetText, List<MultipartFile>? attachments}) async {
-    List<String> trends = [];
-    if (tweetText != null) {
-      List<String> words = tweetText.split(' ');
-      for (String word in words) {
-        if (word.startsWith('#')) {
-          trends.add(word.substring(1));
-        }
-      }
-    }
-    try {
-      homeRepository.addTweet(
-          tweetText: tweetText, media: attachments, trends: trends);
-      return true;
-    } catch (e) {
-      return false;
-      // Handle error
-    }
-  }
+  // addTweet({String? tweetText, List<MultipartFile>? attachments}) async {
+  //   List<String> trends = [];
+  //   if (tweetText != null) {
+  //     List<String> words = tweetText.split(' ');
+  //     for (String word in words) {
+  //       if (word.startsWith('#')) {
+  //         trends.add(word.substring(1));
+  //       }
+  //     }
+  //   }
+  //   try {
+  //     homeRepository.addTweet(
+  //         tweetText: tweetText, media: attachments, trends: trends);
+  //     return true;
+  //   } catch (e) {
+  //     return false;
+  //     // Handle error
+  //   }
+  // }
 
   deleteTweet({required String tweetId}) async {
     try {
@@ -210,40 +206,39 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
-  Future<bool> addReply({
+  Future<ReplierData?> addReply({
     required String tweetId,
     required String replyText,
     required User replierUser,
   }) async {
     try {
-      if (replyText.isEmpty) return false;
-      final ReplierData replier =
-      await homeRepository.addReply(tweetId: tweetId, replyText: replyText);
-      List<Tweet> tweetlist = List.from(state.homeResponse.data);
-      // int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-      RepliersList updatedList = const RepliersList(data: []);
-      for (int i = 0; i < tweetlist.length; i++) {
-        if (tweetlist[i].id == tweetId) {
-          List<ReplierData> updatedRepliersList =
+      if (replyText.isNotEmpty) {
+        final ReplierData replier = await homeRepository.addReply(
+            tweetId: tweetId, replyText: replyText);
+        List<Tweet> tweetlist = List.from(state.homeResponse.data);
+        // int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+        RepliersList updatedList = const RepliersList(data: []);
+        for (int i = 0; i < tweetlist.length; i++) {
+          if (tweetlist[i].id == tweetId) {
+            List<ReplierData> updatedRepliersList =
+                List<ReplierData>.from(state.repliersList.data!);
 
-          List<ReplierData>.from(state.repliersList.data!);
-
-          updatedRepliersList.add(replier);
-          updatedList = RepliersList(data: updatedRepliersList);
-          tweetlist[i] = tweetlist[i].copyWith(
-            repliesCount: state.homeResponse.data[i].repliesCount! + 1,
-          );
+            updatedRepliersList.add(replier);
+            updatedList = RepliersList(data: updatedRepliersList);
+            tweetlist[i] = tweetlist[i].copyWith(
+              repliesCount: state.homeResponse.data[i].repliesCount! + 1,
+            );
+          }
         }
+        state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist),
+          loading: false,
+          repliersList: updatedList,
+        );
+        return replier;
       }
-      state = state.copyWith(
-        homeResponse: state.homeResponse.copyWith(data: tweetlist),
-        loading: false,
-        repliersList: updatedList,
-      );
-
-      return true;
     } catch (e) {
-      return false;
+      throw e;
     }
   }
 
@@ -256,7 +251,7 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
       for (int i = 0; i < tweetlist.length; i++) {
         if (tweetlist[i].id == tweetId) {
           List<ReplierData> updatedRepliersList =
-          List<ReplierData>.from(state.repliersList.data!);
+              List<ReplierData>.from(state.repliersList.data!);
           int replyIndex = updatedRepliersList
               .indexWhere((reply) => reply.replyId == replyId);
           updatedRepliersList.removeAt(replyIndex);
@@ -284,7 +279,7 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
 }
 
 final homeNotifierProvider =
-StateNotifierProvider<HomeNotifierProvider, HomeState>((ref) {
+    StateNotifierProvider<HomeNotifierProvider, HomeState>((ref) {
   final homeRepository = ref.watch(homeRepositoryProvider);
 
   return HomeNotifierProvider(homeRepository);

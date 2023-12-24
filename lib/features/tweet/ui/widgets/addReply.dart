@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/models/home_response.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
+import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/features/tweet/data/providers/tweet_provider.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
@@ -138,24 +140,72 @@ class _AddReplyState extends ConsumerState<AddReply> {
                 ),
               ),
               const Spacer(),
+              280 - _replyController.text.length > -10
+                  ? Padding(
+                      padding:
+                          const EdgeInsets.only(left: 30, top: 15, right: 10),
+                      child: CircularPercentIndicator(
+                        radius: 15,
+                        lineWidth: 3,
+                        backgroundColor: const Color.fromARGB(255, 52, 58, 62),
+                        progressColor: _replyController.text.length > 280
+                            ? Colors.red
+                            : 280 - _replyController.text.length <= 20
+                                ? Colors.orange
+                                : AppColors.primaryColor,
+                        percent: _replyController.text.length < 281
+                            ? _replyController.text.length / 280
+                            : 1,
+                        center: 280 - _replyController.text.length < 0
+                            ? Text(
+                                "${280 - _replyController.text.length}",
+                                style: AppTextStyle.textThemeDark.bodyMedium!
+                                    .copyWith(color: Colors.red),
+                              )
+                            : 280 - _replyController.text.length <= 20
+                                ? Text(
+                                    "${280 - _replyController.text.length}",
+                                    style: AppTextStyle
+                                        .textThemeDark.bodyMedium!
+                                        .copyWith(
+                                            color: AppColors.lightThinTextGray),
+                                  )
+                                : null,
+                      ),
+                    )
+                  : Padding(
+                      padding:
+                          const EdgeInsets.only(left: 30, top: 15, right: 12),
+                      child: Text(
+                        "${280 - _replyController.text.length}",
+                        style: AppTextStyle.textThemeDark.bodyMedium!
+                            .copyWith(color: Colors.red),
+                      ),
+                    ),
               Padding(
                 padding: const EdgeInsets.only(right: 10, top: 15),
                 child: TextButton(
                   onPressed: isButtonEnabled
-                      ? () {
+                      ? () async {
                           String trimmedText = _replyController.text.trim();
-                          ref.read(homeNotifierProvider.notifier).addReply(
-                                tweetId: widget.tweet.id!,
-                                replyText: trimmedText,
-                                replierUser: userProvider.user!,
-                              );
-                          ref.read(profileNotifierProvider.notifier).addReply(
-                                tweetId: widget.tweet.id!,
-                                replyText: trimmedText,
-                                replierUser: userProvider.user!,
-                              );
-                          _replyController.text = '';
-                          varWidget = 0;
+                          if (trimmedText.isNotEmpty &&
+                              _replyController.text.length < 280) {
+                            final ReplierData? result = await ref
+                                .read(homeNotifierProvider.notifier)
+                                .addReply(
+                                  tweetId: widget.tweet.id!,
+                                  replyText: trimmedText,
+                                  replierUser: userProvider.user!,
+                                );
+                            ref.read(profileNotifierProvider.notifier).addReply(
+                                  tweetId: widget.tweet.id!,
+                                  replyText: trimmedText,
+                                  replierUser: userProvider.user!,
+                                  replier: result!,
+                                );
+                            _replyController.text = '';
+                            varWidget = 0;
+                          }
                         }
                       : null,
                   style: ButtonStyle(

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/home/ui/widget/rounded_button.dart';
@@ -23,6 +25,12 @@ class AddTweetScreen extends StatefulHookConsumerWidget {
 
 class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
   TextEditingController _tweetTextController = TextEditingController();
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+    _tweetTextController;
+  }
 
   @override
   void dispose() {
@@ -67,8 +75,12 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
           ),
         ),
         actions: [
-          RoundedButton(
-            onTap: () async {
+          TextButton(
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(AppColors.TwitterBlue),
+            ),
+            onPressed: () async {
               List<MultipartFile> multipartimgs = [];
               for (var file in imgs) {
                 MultipartFile multipartFile = await MultipartFile.fromFile(
@@ -77,14 +89,18 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
                 multipartimgs.add(multipartFile);
               }
               String trimmedText = _tweetTextController.text.trim();
-              if (trimmedText.isNotEmpty) {
-                ref.read(homeNotifierProvider.notifier).addTweet(
+              if (trimmedText.isNotEmpty &&
+                  _tweetTextController.text.length < 280) {
+                ref.read(profileNotifierProvider.notifier).addTweet(
                     tweetText: trimmedText, attachments: multipartimgs);
+                Navigator.pop(context);
               }
-
-              Navigator.pop(context);
             },
-            label: 'Post',
+            child: Text(
+              "Post",
+              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                  color: AppColors.whiteColor, fontWeight: FontWeight.bold),
+            ),
           )
         ],
       ),
@@ -101,21 +117,25 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
-                      child: ClipOval(
-                        child: CachedNetworkImage(
-                          width: 40,
-                          height: 40,
-                          fit: BoxFit.cover,
-                          imageUrl: ref
-                              .watch(authNotifierProvider)
-                              .user!
-                              .imageUrl ?? '',
-                          placeholder: (context, url) => Image.asset(
-                              AppAssets.whiteLogo,
-                              fit: BoxFit.cover),
-                          errorWidget: (context, url, error) =>
-                              Image.asset(AppAssets.whiteLogo,
-                                  fit: BoxFit.cover),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.cover,
+                            imageUrl: ref
+                                    .watch(authNotifierProvider)
+                                    .user!
+                                    .imageUrl ??
+                                '',
+                            placeholder: (context, url) => Image.asset(
+                                AppAssets.whiteLogo,
+                                fit: BoxFit.cover),
+                            errorWidget: (context, url, error) => Image.asset(
+                                AppAssets.whiteLogo,
+                                fit: BoxFit.cover),
+                          ),
                         ),
                       ),
                     ),
@@ -135,6 +155,9 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
                               border: InputBorder.none,
                             ),
                             maxLines: null,
+                            onChanged: (_) {
+                              setState(() {});
+                            },
                           ),
                           if (imgs.isNotEmpty)
                             CarouselSlider(
@@ -268,6 +291,57 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
                           ),
                         ),
                       ),
+                      const Spacer(),
+                      280 - _tweetTextController.text.length > -10
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 30, top: 15, right: 10),
+                              child: CircularPercentIndicator(
+                                radius: 15,
+                                lineWidth: 3,
+                                backgroundColor:
+                                    const Color.fromARGB(255, 52, 58, 62),
+                                progressColor: _tweetTextController
+                                            .text.length >
+                                        280
+                                    ? Colors.red
+                                    : 280 - _tweetTextController.text.length <=
+                                            20
+                                        ? Colors.orange
+                                        : AppColors.primaryColor,
+                                percent: _tweetTextController.text.length < 281
+                                    ? _tweetTextController.text.length / 280
+                                    : 1,
+                                center: 280 - _tweetTextController.text.length <
+                                        0
+                                    ? Text(
+                                        "${280 - _tweetTextController.text.length}",
+                                        style: AppTextStyle
+                                            .textThemeDark.bodyMedium!
+                                            .copyWith(color: Colors.red),
+                                      )
+                                    : 280 - _tweetTextController.text.length <=
+                                            20
+                                        ? Text(
+                                            "${280 - _tweetTextController.text.length}",
+                                            style: AppTextStyle
+                                                .textThemeDark.bodyMedium!
+                                                .copyWith(
+                                                    color: AppColors
+                                                        .lightThinTextGray),
+                                          )
+                                        : null,
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 30, top: 15, right: 12),
+                              child: Text(
+                                "${280 - _tweetTextController.text.length}",
+                                style: AppTextStyle.textThemeDark.bodyMedium!
+                                    .copyWith(color: Colors.red),
+                              ),
+                            ),
                     ],
                   ),
                 ),
