@@ -206,39 +206,39 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
-  Future<bool> addReply({
+  Future<ReplierData?> addReply({
     required String tweetId,
     required String replyText,
     required User replierUser,
   }) async {
     try {
-      if (replyText.isEmpty) return false;
-      final ReplierData replier =
-          await homeRepository.addReply(tweetId: tweetId, replyText: replyText);
-      List<Tweet> tweetlist = List.from(state.homeResponse.data);
-      // int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-      RepliersList updatedList = const RepliersList(data: []);
-      for (int i = 0; i < tweetlist.length; i++) {
-        if (tweetlist[i].id == tweetId) {
-          List<ReplierData> updatedRepliersList =
-              List<ReplierData>.from(state.repliersList.data!);
+      if (replyText.isNotEmpty) {
+        final ReplierData replier = await homeRepository.addReply(
+            tweetId: tweetId, replyText: replyText);
+        List<Tweet> tweetlist = List.from(state.homeResponse.data);
+        // int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+        RepliersList updatedList = const RepliersList(data: []);
+        for (int i = 0; i < tweetlist.length; i++) {
+          if (tweetlist[i].id == tweetId) {
+            List<ReplierData> updatedRepliersList =
+                List<ReplierData>.from(state.repliersList.data!);
 
-          updatedRepliersList.add(replier);
-          updatedList = RepliersList(data: updatedRepliersList);
-          tweetlist[i] = tweetlist[i].copyWith(
-            repliesCount: state.homeResponse.data[i].repliesCount! + 1,
-          );
+            updatedRepliersList.add(replier);
+            updatedList = RepliersList(data: updatedRepliersList);
+            tweetlist[i] = tweetlist[i].copyWith(
+              repliesCount: state.homeResponse.data[i].repliesCount! + 1,
+            );
+          }
         }
+        state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist),
+          loading: false,
+          repliersList: updatedList,
+        );
+        return replier;
       }
-      state = state.copyWith(
-        homeResponse: state.homeResponse.copyWith(data: tweetlist),
-        loading: false,
-        repliersList: updatedList,
-      );
-
-      return true;
     } catch (e) {
-      return false;
+      throw e;
     }
   }
 
