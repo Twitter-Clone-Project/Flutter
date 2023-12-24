@@ -402,14 +402,22 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                   color: AppColors.lightThinTextGray,
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                Text(
-                  widget.tweet.retweetedUser!.username !=
-                      ref.watch(authNotifierProvider).user!.username
-                      ? "${widget.tweet.retweetedUser!.screenName} reposted"
-                      : "You reposted",
-                  style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
-                      color: AppColors.lightThinTextGray,
-                      fontWeight: FontWeight.bold),
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: 0.7 * MediaQuery.of(context).size.width,
+                  ),
+                  child: Text(
+                    widget.tweet.retweetedUser!.username !=
+                        ref.watch(authNotifierProvider).user!.username
+                        ? "${widget.tweet.retweetedUser!.screenName} reposted"
+                        : "You reposted",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
+                        color: AppColors.lightThinTextGray,
+
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),
@@ -443,10 +451,17 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        userName,
-                        style: AppTextStyle.textThemeDark.bodyLarge!
-                            .copyWith(fontWeight: FontWeight.bold),
+                      Container(
+                        constraints: BoxConstraints(
+                          maxWidth: 0.4 * MediaQuery.of(context).size.width,
+                        ),
+                        child: Text(
+                          userName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyle.textThemeDark.bodyLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
                       Text(
