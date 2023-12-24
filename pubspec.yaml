@@ -46,20 +46,18 @@ dependencies:
   percent_indicator: ^4.2.3
 
 
-#flutter_native_splash:
-#  color: "#ffffff"
-#  image: "res/assets/logoLight.png"
-#  #  background_image: "res/assets/logoLight.png"
-#  android: true
-#  ios: true
-#  web: false
-#  android_gravity: fill
-#  ios_content_mode: scaleAspectFill
-#  android_12:
-#    color: "#ffffff"
-#    image: "res/assets/logoLight.png"
-#    #    background_image: "res/assets/logoLight.png"
-#    android_gravity: fill
+flutter_native_splash:
+  color: "#000000"
+  image: "res/assets/splash.png"
+  android: true
+  ios: true
+  web: false
+  android_gravity: fill
+  ios_content_mode: scaleAspectFill
+  android_12:
+    color: "#000000"
+    image: "res/assets/splash.png"
+    android_gravity: fill
 
 
 

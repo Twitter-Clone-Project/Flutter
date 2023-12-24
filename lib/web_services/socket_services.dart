@@ -108,10 +108,6 @@ class SocketClient {
       "conversationId": conversationId,
       "contactId": contactId,
     });
-    socket.off("msg-receive");
-    socket.on("msg-receive", (data) async {
-      await handleMessageReceiveWithNotification(data);
-    });
   }
 
   static onMessageReceive(Function callback) {
