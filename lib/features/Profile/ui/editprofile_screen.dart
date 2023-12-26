@@ -286,15 +286,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                               : userProfile.bannerUrl != "" &&
                                       !removeBannerPicture
                                   ? CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        imageUrl: userProfile.bannerUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
-                                        placeholder: (context, url) => Container(
-                                          color: Color(0xFF333639),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(AppAssets.whiteLogo,
-                                                fit: BoxFit.cover),
-                                      )
+                                      fit: BoxFit.cover,
+                                      imageUrl: userProfile.bannerUrl ??
+                                          'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                      placeholder: (context, url) => Container(
+                                        color: Color(0xFF333639),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(AppAssets.whiteLogo,
+                                              fit: BoxFit.cover),
+                                    )
                                   : Container(
                                       color: Color(0xFF333639),
                                     ),
@@ -339,15 +340,21 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                                                 fit: BoxFit.cover)
                                             : userProfile.bannerUrl != ""
                                                 ? CachedNetworkImage(
-                                          fit: BoxFit.cover,
-                                          imageUrl: userProfile.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
-                                          placeholder: (context, url) => Container(
-                                            color: Color(0xFF333639),
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              Image.asset(AppAssets.whiteLogo,
-                                                  fit: BoxFit.cover),
-                                        )
+                                                    fit: BoxFit.cover,
+                                                    imageUrl: userProfile
+                                                            .imageUrl ??
+                                                        'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Container(
+                                                      color: Color(0xFF333639),
+                                                    ),
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        Image.asset(
+                                                            AppAssets.whiteLogo,
+                                                            fit: BoxFit.cover),
+                                                  )
                                                 : Container(
                                                     color: Color(0xFF333639),
                                                   ),
@@ -369,6 +376,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                           children: [
                             TextFormField(
                               controller: _nameController,
+                              maxLength: 15,
                               decoration: const InputDecoration(
                                 labelText: 'Name',
                               ),
@@ -386,6 +394,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                             ),
                             TextFormField(
                               controller: _bioController,
+                              maxLength: 150,
+                              maxLines: null,
                               decoration: InputDecoration(labelText: 'Bio'),
                               validator: (value) {
                                 if (value != null) return null;
@@ -401,6 +411,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                             ),
                             TextFormField(
                               controller: _locationController,
+                              maxLength: 30,
                               decoration:
                                   InputDecoration(labelText: 'Location'),
                               validator: (value) {
@@ -416,6 +427,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
                             ),
                             TextFormField(
                               controller: _websiteController,
+                              maxLength: 120,
                               decoration: InputDecoration(labelText: 'Website'),
                               validator: (value) {
                                 if (value != null) return null;
