@@ -18,7 +18,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   void initState() {
     Future.delayed(
       const Duration(seconds: 0),
-          () {
+      () {
         ref.read(searchNotifierProvider.notifier).fetchTrendingData();
       },
     );
@@ -43,15 +43,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   radius: 17,
                   backgroundColor: const Color.fromARGB(255, 59, 158, 59),
                   backgroundImage: NetworkImage(
-                      ref.watch(authNotifierProvider).user!.imageUrl ??
-                          ''),
-                  child: Text(
-                    "${ref.watch(authNotifierProvider).user!.name?[0]}",
-                    style: AppTextStyle.textThemeDark.headline6!.copyWith(
-                      color: Colors.white,
-                      fontSize: 17,
-                    ),
-                  ),
+                      ref.watch(authNotifierProvider).user!.imageUrl ?? ''),
                 ),
               ],
             ),
@@ -60,9 +52,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             height: 40,
             child: TextField(
               onTap: () {
-                Navigator.pushNamed(context, Routes.searchResultsScreen, arguments: "");
-
-              },              //controller: searchController,
+                Navigator.pushNamed(context, Routes.searchResultsScreen,
+                    arguments: "");
+              }, //controller: searchController,
               onSubmitted: (value) {},
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(10).copyWith(
@@ -101,11 +93,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: ref.watch(searchNotifierProvider).trendingList.data!.length,
+                itemCount:
+                    ref.watch(searchNotifierProvider).trendingList.data!.length,
                 itemBuilder: (ctx, index) => GestureDetector(
                   onTap: () {
                     // Navigate to search_allresults_screen with the trend as a query
-                    String trendQuery = ref.watch(searchNotifierProvider).trendingList.data![index].name!;
+                    String trendQuery = ref
+                        .watch(searchNotifierProvider)
+                        .trendingList
+                        .data![index]
+                        .name!;
                     Navigator.pushNamed(
                       context,
                       Routes.searchAllResultsScreen,

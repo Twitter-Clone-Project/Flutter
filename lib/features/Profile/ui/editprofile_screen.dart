@@ -55,20 +55,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
     super.initState();
   }
 
-  /// Opens a date picker dialog and allows the user to select a date.
-  ///
-  /// This function displays a date picker dialog using the provided [context]
-  /// and allows the user to select a date. The selected date is then stored in
-  /// the [_selectedDate] variable and displayed in the [_dateOfBirthController]
-  /// text field in the format 'yyyy-MM-dd'.
-  ///
-  /// Example:
-  /// ```dart
-  /// _selectDate(context);
-  /// ```
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-      locale: context.locale,
+      locale: const Locale('en', 'US'),
       context: context,
       initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime(1900),
@@ -82,30 +71,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
     }
   }
 
-
-  /// A function that allows the user to pick an image from the gallery and set it as the profile image.
-  ///
-  /// The function takes a callback function [setImage] as a parameter, which is responsible for setting the selected image.
-  /// It uses the [ImagePicker] class to open the gallery and select an image.
-  /// If an image is successfully picked, the [setImage] function is called with the selected image file.
-  ///
-  /// Example usage:
-  /// ```dart
-  /// _pickImage((File image) {
-  ///   // Set the selected image as the profile image
-  ///   setState(() {
-  ///     profileImage = image;
-  ///   });
-  /// });
-  /// ```
-  Future<void> _pickImage(Function(File) setImage) async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setImage(File(pickedFile.path));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -115,6 +80,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
     var userProfile = ref.watch(profileNotifierProvider).userProfile;
 
     bool isLoading = ref.watch(profileNotifierProvider).loading;
+
+    Future<void> _pickImage(Function(File) setImage) async {
+      final pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        setImage(File(pickedFile.path));
+      }
+    }
 
     void onSubmit() async {
       if (AppKeys.updateProfileFormKey.currentState!.validate()) {
@@ -134,6 +108,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
               name: result?.name,
               imageUrl: result?.imageUrl,
             );
+        // ref.read(authNotif)
 
         if (result != null) {
           Navigator.pop(context);

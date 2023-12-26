@@ -65,6 +65,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     Icons.add,
                     color: AppColors.whiteColor,
                   ),
+                  elevation: 2.0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
                 )
               : null,
       body: ref.watch(profileNotifierProvider).profileLoading

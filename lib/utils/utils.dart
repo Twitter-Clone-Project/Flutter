@@ -22,6 +22,18 @@ bool containsOnlyOneCharacter(String input) {
   return true;
 }
 
+List<String> splitHashWord(String word) {
+  List<String> result = ['', '']; // Initializing with empty strings
+
+  int index = 0;
+  while (index < word.length && word[index] == '#') {
+    index++;
+  }
+  result[0] = word.substring(0, index - 1);
+  result[1] = word.substring(index - 1);
+  return result;
+}
+
 List<int> findIndexesOfTweetsWithId(List<Tweet> tweets, int id) {
   List<int> indexesWithId = [];
 
