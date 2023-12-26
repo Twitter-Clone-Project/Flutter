@@ -101,7 +101,7 @@ void main() {
       expect(notifier.state.loading, isFalse);
       expect(notifier.state.errorMessage, isNull);
     });
-    
+
 
 
   });
