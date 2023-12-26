@@ -73,6 +73,36 @@ void main() {
       expect(notifier.state.usersList, equals(mockUsersList));
       expect(notifier.state.loading, isFalse);
     });
+    test('Change screen index updates state', () {
+      final notifier = container.read(searchNotifierProvider.notifier);
+      const newIndex = 2;
+
+      notifier.changePageIndex(newIndex);
+
+      expect(notifier.state.screenIndex, equals(newIndex));
+    });
+
+    test('Reset searched users updates state', () async {
+      final notifier = container.read(searchNotifierProvider.notifier);
+
+      await notifier.resetSearchedUsers();
+
+      expect(notifier.state.usersList.data, isEmpty);
+      expect(notifier.state.loading, isFalse);
+      expect(notifier.state.errorMessage, isNull);
+    });
+
+    test('Reset searched tweets updates state', () async {
+      final notifier = container.read(searchNotifierProvider.notifier);
+
+      await notifier.resetSearchedTweets();
+
+      expect(notifier.state.tweetList.data, isEmpty);
+      expect(notifier.state.loading, isFalse);
+      expect(notifier.state.errorMessage, isNull);
+    });
+    
+
 
   });
 }
