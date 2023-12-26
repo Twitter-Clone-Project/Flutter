@@ -57,15 +57,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         height: 40,
                         fit: BoxFit.cover,
                         imageUrl: ref
-                            .watch(authNotifierProvider)
-                            .user!
-                            .imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
-                        placeholder: (context, url) => Image.asset(
-                            AppAssets.whiteLogo,
-                            fit: BoxFit.cover),
+                                .watch(authNotifierProvider)
+                                .user!
+                                .imageUrl ??
+                            'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                        placeholder: (context, url) =>
+                            Image.asset(AppAssets.whiteLogo, fit: BoxFit.cover),
                         errorWidget: (context, url, error) =>
-                            Image.asset(AppAssets.whiteLogo,
-                                fit: BoxFit.cover),
+                            Image.asset(AppAssets.whiteLogo, fit: BoxFit.cover),
                       ),
                     ),
                   ),
@@ -75,13 +74,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       width: 40,
                       height: 40,
                       fit: BoxFit.cover,
-                      imageUrl: 'https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1702425600&semt=ais',
-                    placeholder: (context, url) => Image.asset(
-                          AppAssets.whiteLogo,
-                          fit: BoxFit.cover),
+                      imageUrl:
+                          'https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1702425600&semt=ais',
+                      placeholder: (context, url) =>
+                          Image.asset(AppAssets.whiteLogo, fit: BoxFit.cover),
                       errorWidget: (context, url, error) =>
-                          Image.asset(AppAssets.whiteLogo,
-                              fit: BoxFit.cover),
+                          Image.asset(AppAssets.whiteLogo, fit: BoxFit.cover),
                     ),
                   ),
                   const Spacer(),
@@ -164,10 +162,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           onPressed: () {
             Navigator.pushNamed(context, Routes.addTweet);
           },
-          child: const Icon(
+          child: Icon(
             Icons.add,
             color: AppColors.whiteColor,
           ),
+          elevation: 2.0,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
       ),
     );
