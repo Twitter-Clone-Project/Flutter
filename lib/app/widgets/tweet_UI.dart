@@ -134,8 +134,6 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     String userName = widget.tweet.user?.screenName ?? '';
     String handle = widget.tweet.user?.username ?? '';
     int? repliesCount = widget.tweet.repliesCount;
-    print("====================Testing=====================");
-    print(widget.whom);
 
     if (widget.whom == 0) {
       isliked =
@@ -392,7 +390,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                     children: [
                       Container(
                         constraints: BoxConstraints(
-                          maxWidth: 0.4 * MediaQuery.of(context).size.width,
+                          maxWidth: 0.3 * MediaQuery.of(context).size.width,
                         ),
                         child: Text(
                           userName,
@@ -450,6 +448,11 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                               ),
                               TextSpan(
                                 text: strings[1],
+                                style: AppTextStyle.textThemeDark.bodyLarge!
+                                    .copyWith(color: AppColors.primaryColor),
+                              ),
+                              TextSpan(
+                                text: ' ',
                                 style: AppTextStyle.textThemeDark.bodyLarge!
                                     .copyWith(color: AppColors.primaryColor),
                               ),

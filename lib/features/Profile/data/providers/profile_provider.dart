@@ -339,8 +339,6 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       required int inMyProfile}) async {
     try {
       //ProfileTweetList
-      print("inmyprofile===============");
-      print(inMyProfile);
       List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
       int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
       for (int i = 0; i < tweetlist.length; i++) {
