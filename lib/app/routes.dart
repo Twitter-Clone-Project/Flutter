@@ -69,6 +69,17 @@ class Routes {
   static const String searchAllResultsScreen = "/searchAllResultsScreen";
   static const String changeEmailOtpScreen = "/changeEmailOtpScreen";
 
+  /// Generates the appropriate route based on the provided [settings].
+  ///
+  /// The [settings] parameter contains the name of the route and optional arguments.
+  /// The method uses a switch statement to match the route name and returns the corresponding [Route].
+  /// If no matching route is found, a default route is returned with a centered text widget displaying an error message.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// Route<dynamic> route = generateRoute(RouteSettings(name: 'homeScreen'));
+  /// Navigator.push(context, route);
+  /// ```
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case initRoute:
@@ -89,12 +100,18 @@ class Routes {
             builder: (_) => ChatScreen(
                   conversation: data,
                 ));
-        return MaterialPageRoute(builder: (_) => ChatScreen(conversation: data,));
+        return MaterialPageRoute(
+            builder: (_) => ChatScreen(
+                  conversation: data,
+                ));
       case chatSearchScreen:
         return MaterialPageRoute(builder: (_) => const ChatSearchScreen());
       case changeEmailOtpScreen:
         var data = settings.arguments as String;
-        return MaterialPageRoute(builder: (_) => ChangeEmailOtpScreen(email: data,));
+        return MaterialPageRoute(
+            builder: (_) => ChangeEmailOtpScreen(
+                  email: data,
+                ));
       case registerScreen:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
       case reCAPTCHAscreen:
