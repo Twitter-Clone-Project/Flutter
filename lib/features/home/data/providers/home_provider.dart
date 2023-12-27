@@ -300,6 +300,15 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
+  removeallTweetsofUser(String username, bool result) {
+    if (result) {
+      List<Tweet> tweetlist = List.from(state.homeResponse.data);
+      tweetlist.removeWhere((tweet) => tweet.user!.username == username);
+      state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist));
+    }
+  }
+
   changePageIndex(index) {
     state = state.copyWith(screenIndex: index);
   }
