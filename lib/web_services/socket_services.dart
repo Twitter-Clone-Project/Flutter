@@ -131,9 +131,9 @@ class SocketClient {
     socket.off("notification-receive");
     socket.on("notification-receive", (data) async {
       var notificationData = NotificationData.fromJson(data);
-      if (data["type"] == "FOLLOW")
+      if (notificationData.type == "FOLLOW")
         SocketClient._onFollowReceive(notificationData);
-      else if (data["type"] == "UNFOLLOW")
+      else if (notificationData.type == "UNFOLLOW")
         SocketClient._onUnFollowReceive(notificationData);
       SocketClient._onNotificationReceive(notificationData);
 
@@ -157,11 +157,12 @@ class SocketClient {
     socket.off("notification-receive");
     socket.on("notification-receive", (data) {
       var notificationData = NotificationData.fromJson(data);
-      if (data["type"] == "FOLLOW")
+      if (notificationData.type == "FOLLOW")
         SocketClient._onFollowReceive(notificationData);
-      else if (data["type"] == "UNFOLLOW")
+      else if (notificationData.type == "UNFOLLOW")
         SocketClient._onUnFollowReceive(notificationData);
       SocketClient._onNotificationReceive(notificationData);
+
       callback(data);
     });
   }

@@ -30,25 +30,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {});
+    print("hello world");
+    final auth = ref.read(authNotifierProvider.notifier);
     if (SocketClient.socket.disconnected) {
       SocketClient.connect(
         ref.read(authNotifierProvider).user!.userId!,
         onNotification: (notification) {
-          ref
-              .read(notificationsNotifierProvider.notifier)
-              .onNotification(notification);
+          if (mounted)
+            ref
+                .read(notificationsNotifierProvider.notifier)
+                .onNotification(notification);
         },
         onFollow: (notification) {
-          ref.read(authNotifierProvider.notifier).incFollowers();
+          auth.incFollowers();
         },
         onUnFollow: (notification) {
-          ref.read(authNotifierProvider.notifier).decFollowers();
+          auth.decFollowers();
         },
       );
+    } else {
+      ref.read(notificationsNotifierProvider.notifier).removeListener(
+            ref.read(authNotifierProvider).user!.userId!,
+          );
     }
-    ref.read(notificationsNotifierProvider.notifier).removeListener(
-          ref.read(authNotifierProvider).user!.userId!,
-        );
 
     super.initState();
   }
