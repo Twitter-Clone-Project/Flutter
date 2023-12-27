@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/auth/ui/widgets/custom_text.dart';
+import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import '../../../app/routes.dart';
@@ -215,21 +216,36 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     }
                                     break;
                                   case "block":
-                                    bool success = await ref
-                                        .read(profileNotifierProvider.notifier)
-                                        .toggleBlockStatus(
-                                            userProfile.username!);
-                                    userProfile.isFollowed!
-                                        ? ref
-                                            .read(authNotifierProvider.notifier)
-                                            .decFollowings(success)
-                                        : null;
-                                    showFlushbar(
-                                        context,
-                                        success,
-                                        "You blocked ${userProfile.username}",
-                                        " block failed, try again later");
-                                    break;
+                                    {
+                                      bool success = await ref
+                                          .read(
+                                              profileNotifierProvider.notifier)
+                                          .toggleBlockStatus(
+                                              userProfile.username!);
+
+                                      userProfile.isFollowed!
+                                          ? ref
+                                              .read(
+                                                  homeNotifierProvider.notifier)
+                                              .removeallTweetsofUser(
+                                                  userProfile.username!,
+                                                  success)
+                                          : null;
+
+                                      userProfile.isFollowed!
+                                          ? ref
+                                              .read(
+                                                  authNotifierProvider.notifier)
+                                              .decFollowings(success)
+                                          : null;
+
+                                      showFlushbar(
+                                          context,
+                                          success,
+                                          "You blocked ${userProfile.username}",
+                                          " block failed, try again later");
+                                      break;
+                                    }
                                   case "unmute":
                                     bool success = await ref
                                         .read(profileNotifierProvider.notifier)
@@ -246,6 +262,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         .read(profileNotifierProvider.notifier)
                                         .toggleMuteStatus(
                                             userProfile.username!);
+
                                     showFlushbar(
                                         context,
                                         success,
@@ -674,6 +691,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                                     .toggleFollowStatus(
                                                                         userProfile
                                                                             .username!);
+                                                                userProfile
+                                                                        .isFollowed!
+                                                                    ? ref
+                                                                        .read(homeNotifierProvider
+                                                                            .notifier)
+                                                                        .removeallTweetsofUser(
+                                                                            userProfile.username!,
+                                                                            success)
+                                                                    : null;
                                                                 ref
                                                                     .read(authNotifierProvider
                                                                         .notifier)
@@ -761,6 +787,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               profileNotifierProvider.notifier)
                                           .toggleBlockStatus(
                                               userProfile.username!);
+                                      userProfile.isFollowed!
+                                          ? ref
+                                              .read(
+                                                  homeNotifierProvider.notifier)
+                                              .removeallTweetsofUser(
+                                                  userProfile.username!,
+                                                  success)
+                                          : null;
+
+                                      userProfile.isFollowed!
+                                          ? ref
+                                              .read(
+                                                  authNotifierProvider.notifier)
+                                              .decFollowings(success)
+                                          : null;
                                       showFlushbar(
                                           context,
                                           success,
@@ -773,6 +814,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               profileNotifierProvider.notifier)
                                           .toggleMuteStatus(
                                               userProfile.username!);
+
                                       showFlushbar(
                                           context,
                                           success,
@@ -785,6 +827,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               profileNotifierProvider.notifier)
                                           .toggleMuteStatus(
                                               userProfile.username!);
+                                      if (userProfile.isFollowed!) {
+                                        ref
+                                            .read(homeNotifierProvider.notifier)
+                                            .removeallTweetsofUser(
+                                                userProfile.username!, success);
+                                      }
                                       showFlushbar(
                                           context,
                                           success,
@@ -1179,6 +1227,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                       .notifier)
                                                   .toggleMuteStatus(
                                                       userProfile.username!);
+
                                               showFlushbar(
                                                   context,
                                                   success,
