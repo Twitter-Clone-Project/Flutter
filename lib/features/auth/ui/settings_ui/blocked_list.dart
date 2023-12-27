@@ -62,7 +62,7 @@ class _BlockersScreenState extends ConsumerState<BlockersScreen> {
       ),
       body: authprov.loading!
           ? Center(child: CircularProgressIndicator())
-          : authprov.mutersList.users!.isEmpty ?  Center(
+          : authprov.blockedList.users!.isEmpty ?  Center(
         child: Text(
           "You haven't blocked anyone.",
           style: const TextStyle(
@@ -136,14 +136,19 @@ class _BlockersScreenState extends ConsumerState<BlockersScreen> {
               }
             },
             child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: AppColors.whiteColor,
-                backgroundImage: NetworkImage(
-                  ref.watch(authNotifierProvider).blockedList.users![index].imageUrl ??
-                      'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+              leading: ClipOval(
+                child: CachedNetworkImage(
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                  imageUrl: ref.watch(authNotifierProvider).blockedList.users![index].imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                  placeholder: (context, url) => Container(
+                    color: Color(AppColors.blackColor.value),
+                  ),
+                  errorWidget: (context, url, error) =>
+                      Image.asset(AppAssets.whiteLogo,
+                          fit: BoxFit.cover),
                 ),
-                radius: 20,
-
               ),
               title: Text(
                 blocker.name!,

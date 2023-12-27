@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:x_clone/features/Profile/data/providers/profile_provider.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
+import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/features/home/data/providers/home_provider.dart';
 import 'package:x_clone/features/home/ui/widget/rounded_button.dart';
 import 'package:x_clone/theme/app_assets.dart';
@@ -75,31 +76,31 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
           ),
         ),
         actions: [
-          TextButton(
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(AppColors.TwitterBlue),
-            ),
-            onPressed: () async {
-              List<MultipartFile> multipartimgs = [];
-              for (var file in imgs) {
-                MultipartFile multipartFile = await MultipartFile.fromFile(
-                  file.path,
-                );
-                multipartimgs.add(multipartFile);
-              }
-              String trimmedText = _tweetTextController.text.trim();
-              if (trimmedText.isNotEmpty &&
-                  _tweetTextController.text.length < 280) {
-                ref.read(profileNotifierProvider.notifier).addTweet(
-                    tweetText: trimmedText, attachments: multipartimgs);
-                Navigator.pop(context);
-              }
-            },
-            child: Text(
-              "Post",
-              style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                  color: AppColors.whiteColor, fontWeight: FontWeight.bold),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 8),
+            child: CustomButton(
+              onPressed: () async {
+                List<MultipartFile> multipartimgs = [];
+                for (var file in imgs) {
+                  MultipartFile multipartFile = await MultipartFile.fromFile(
+                    file.path,
+                  );
+                  multipartimgs.add(multipartFile);
+                }
+                String trimmedText = _tweetTextController.text.trim();
+                if (trimmedText.isNotEmpty &&
+                    _tweetTextController.text.length < 280) {
+                  ref.read(profileNotifierProvider.notifier).addTweet(
+                      tweetText: trimmedText, attachments: multipartimgs);
+                  Navigator.pop(context);
+                }
+              },
+              text: 'Post',
+              horizontalPadding: 14,
+              disabled: (_tweetTextController.text.trim().isNotEmpty &&
+                  _tweetTextController.text.length < 280)? false: true,
+              filled: (_tweetTextController.text.trim().isNotEmpty &&
+                  _tweetTextController.text.length < 280)? true: false,
             ),
           )
         ],
