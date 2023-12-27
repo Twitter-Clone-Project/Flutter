@@ -23,7 +23,10 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
 
       oldList.insert(0, NotificationData.fromJson(data));
 
-      state = state.copyWith(notifications: NotificationsList(data: oldList));
+      state = state.copyWith(
+        notifications: NotificationsList(data: oldList),
+        unseenNotificationsCount: state.unseenNotificationsCount + 1,
+      );
     });
   }
 
@@ -34,10 +37,12 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
   markNotificationsAsSeen(String userId) {
     SocketClient.markNotificationsAsSeen(userId);
     state = state.copyWith(
-        notifications: NotificationsList(
-            data: state.notifications.data
-                .map((e) => e.copyWith(isSeen: true))
-                .toList()));
+      notifications: NotificationsList(
+          data: state.notifications.data
+              .map((e) => e.copyWith(isSeen: true))
+              .toList()),
+      unseenNotificationsCount: 0,
+    );
   }
 
   getNotifications({
@@ -54,9 +59,16 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
 
       notifications = NotificationResponse.data;
 
+      int cnt = 0;
+      for (final notification in notifications) {
+        if (!notification.isSeen) cnt++;
+      }
+
       state = state.copyWith(
-          loading: false,
-          notifications: NotificationsList(data: notifications));
+        loading: false,
+        notifications: NotificationsList(data: notifications),
+        unseenNotificationsCount: cnt,
+      );
     } catch (e) {
       state = state.copyWith(loading: false, errorMessage: e.toString());
       return const NotificationsList(data: []);

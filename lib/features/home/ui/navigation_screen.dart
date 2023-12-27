@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/home/ui/widget/main_drawer_widget.dart';
+import 'package:x_clone/features/notifications/data/providers/notification_provider.dart';
 import 'package:x_clone/features/notifications/ui/notifications_screen.dart';
 import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
@@ -34,11 +35,14 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 0), () {
-      SocketClient.onMessageReceive(
-          (data) => ref.read(chatNotifierProvider.notifier).onMessageReceive(data));
-      SocketClient.statusOfContact((data){});
+    Future.delayed(const Duration(seconds: 0), () async {
+      SocketClient.onMessageReceive((data) =>
+          ref.read(chatNotifierProvider.notifier).onMessageReceive(data));
+      SocketClient.statusOfContact((data) {});
       ref.read(chatNotifierProvider.notifier).getUnseenConversationsCnt();
+      await ref
+          .read(notificationsNotifierProvider.notifier)
+          .getNotifications(page: 0);
     });
     super.initState();
   }
@@ -90,11 +94,32 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
                   label: 'Search',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    ref.read(homeNotifierProvider).screenIndex == 2
-                        ? CupertinoIcons.bell_fill
-                        : CupertinoIcons.bell,
-                  ),
+                  icon: ref
+                              .watch(notificationsNotifierProvider)
+                              .unseenNotificationsCount !=
+                          0
+                      ? Badge(
+                          backgroundColor: AppColors.primaryColor,
+                          textColor: Colors.white,
+                          label: AnimatedFadeOutIn<String>(
+                            initialData: '0',
+                            data: ref
+                                .watch(notificationsNotifierProvider)
+                                .unseenNotificationsCount
+                                .toString(),
+                            builder: (value) => Text(value),
+                          ),
+                          child: Icon(
+                            ref.read(homeNotifierProvider).screenIndex == 2
+                                ? CupertinoIcons.bell_fill
+                                : CupertinoIcons.bell,
+                          ),
+                        )
+                      : Icon(
+                          ref.read(homeNotifierProvider).screenIndex == 2
+                              ? CupertinoIcons.bell_fill
+                              : CupertinoIcons.bell,
+                        ),
                   label: 'Notifications',
                 ),
                 BottomNavigationBarItem(

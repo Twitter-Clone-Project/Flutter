@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$NotificationsState {
   NotificationsList get notifications => throw _privateConstructorUsedError;
+  int get unseenNotificationsCount => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   int get screenIndex => throw _privateConstructorUsedError;
@@ -35,6 +36,7 @@ abstract class $NotificationsStateCopyWith<$Res> {
   @useResult
   $Res call(
       {NotificationsList notifications,
+      int unseenNotificationsCount,
       bool loading,
       String? errorMessage,
       int screenIndex,
@@ -57,6 +59,7 @@ class _$NotificationsStateCopyWithImpl<$Res, $Val extends NotificationsState>
   @override
   $Res call({
     Object? notifications = null,
+    Object? unseenNotificationsCount = null,
     Object? loading = null,
     Object? errorMessage = freezed,
     Object? screenIndex = null,
@@ -67,6 +70,10 @@ class _$NotificationsStateCopyWithImpl<$Res, $Val extends NotificationsState>
           ? _value.notifications
           : notifications // ignore: cast_nullable_to_non_nullable
               as NotificationsList,
+      unseenNotificationsCount: null == unseenNotificationsCount
+          ? _value.unseenNotificationsCount
+          : unseenNotificationsCount // ignore: cast_nullable_to_non_nullable
+              as int,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -105,6 +112,7 @@ abstract class _$$NotificationsStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {NotificationsList notifications,
+      int unseenNotificationsCount,
       bool loading,
       String? errorMessage,
       int screenIndex,
@@ -126,6 +134,7 @@ class __$$NotificationsStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? notifications = null,
+    Object? unseenNotificationsCount = null,
     Object? loading = null,
     Object? errorMessage = freezed,
     Object? screenIndex = null,
@@ -136,6 +145,10 @@ class __$$NotificationsStateImplCopyWithImpl<$Res>
           ? _value.notifications
           : notifications // ignore: cast_nullable_to_non_nullable
               as NotificationsList,
+      unseenNotificationsCount: null == unseenNotificationsCount
+          ? _value.unseenNotificationsCount
+          : unseenNotificationsCount // ignore: cast_nullable_to_non_nullable
+              as int,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -161,6 +174,7 @@ class __$$NotificationsStateImplCopyWithImpl<$Res>
 class _$NotificationsStateImpl implements _NotificationsState {
   const _$NotificationsStateImpl(
       {this.notifications = const NotificationsList(data: []),
+      this.unseenNotificationsCount = 0,
       this.loading = true,
       this.errorMessage = null,
       this.screenIndex = 0,
@@ -169,6 +183,9 @@ class _$NotificationsStateImpl implements _NotificationsState {
   @override
   @JsonKey()
   final NotificationsList notifications;
+  @override
+  @JsonKey()
+  final int unseenNotificationsCount;
   @override
   @JsonKey()
   final bool loading;
@@ -183,7 +200,7 @@ class _$NotificationsStateImpl implements _NotificationsState {
 
   @override
   String toString() {
-    return 'NotificationsState(notifications: $notifications, loading: $loading, errorMessage: $errorMessage, screenIndex: $screenIndex, error: $error)';
+    return 'NotificationsState(notifications: $notifications, unseenNotificationsCount: $unseenNotificationsCount, loading: $loading, errorMessage: $errorMessage, screenIndex: $screenIndex, error: $error)';
   }
 
   @override
@@ -193,6 +210,9 @@ class _$NotificationsStateImpl implements _NotificationsState {
             other is _$NotificationsStateImpl &&
             (identical(other.notifications, notifications) ||
                 other.notifications == notifications) &&
+            (identical(
+                    other.unseenNotificationsCount, unseenNotificationsCount) ||
+                other.unseenNotificationsCount == unseenNotificationsCount) &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
@@ -202,8 +222,8 @@ class _$NotificationsStateImpl implements _NotificationsState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, notifications, loading, errorMessage, screenIndex, error);
+  int get hashCode => Object.hash(runtimeType, notifications,
+      unseenNotificationsCount, loading, errorMessage, screenIndex, error);
 
   @JsonKey(ignore: true)
   @override
@@ -216,6 +236,7 @@ class _$NotificationsStateImpl implements _NotificationsState {
 abstract class _NotificationsState implements NotificationsState {
   const factory _NotificationsState(
       {final NotificationsList notifications,
+      final int unseenNotificationsCount,
       final bool loading,
       final String? errorMessage,
       final int screenIndex,
@@ -223,6 +244,8 @@ abstract class _NotificationsState implements NotificationsState {
 
   @override
   NotificationsList get notifications;
+  @override
+  int get unseenNotificationsCount;
   @override
   bool get loading;
   @override
