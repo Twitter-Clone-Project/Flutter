@@ -1,3 +1,4 @@
+
 import 'package:another_flushbar/flushbar_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _BlockersScreenState extends ConsumerState<BlockersScreen> {
     super.initState();
     Future.delayed(
       const Duration(seconds: 0),
-      () {
+          () {
         ref.read(authNotifierProvider.notifier).getBlockedUsers();
       },
     );
@@ -60,113 +61,111 @@ class _BlockersScreenState extends ConsumerState<BlockersScreen> {
         ),
       ),
       body: authprov.loading!
-          ? const Center(child: CircularProgressIndicator())
-          : authprov.blockedList.users!.isEmpty
-              ? const Center(
-                  child: Text(
-                    "You haven't blocked anyone.",
-                    style: TextStyle(
-                      color: AppColors.whiteColor,
-                      fontSize: 22,
-                      fontFamily: 'Chirp',
+          ? Center(child: CircularProgressIndicator())
+          : authprov.blockedList.users!.isEmpty ?  Center(
+        child: Text(
+          "You haven't blocked anyone.",
+          style: const TextStyle(
+            color:
+            AppColors.whiteColor,
+            fontSize: 22,
+            fontFamily: 'Chirp',
+          ),
+        ),
+      )
+          : ListView.builder(
+        itemCount: authprov.blockedList.users!.length,
+        itemBuilder: (context, index) {
+          final blocker =
+          ref.watch(authNotifierProvider).blockedList.users![index];
+          return GestureDetector(
+            onTap: () async {
+              bool confirmUnblock = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    backgroundColor: AppColors.blackColor,
+                    title: Text(
+                      'Unblock ${blocker.name}?',
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        fontFamily: 'Chirp',
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                )
-              : ListView.builder(
-                  itemCount: authprov.blockedList.users!.length,
-                  itemBuilder: (context, index) {
-                    final blocker = ref
-                        .watch(authNotifierProvider)
-                        .blockedList
-                        .users![index];
-                    return GestureDetector(
-                      onTap: () async {
-                        bool confirmUnblock = await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: AppColors.blackColor,
-                              title: Text(
-                                'Unblock ${blocker.name}?',
-                                style: const TextStyle(
-                                  fontSize: 18.0,
-                                  fontFamily: 'Chirp',
-                                  color: Colors.white,
-                                ),
-                              ),
-                              content: const CustomText(
-                                'They will be able to follow you and view your posts.',
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(false); // User canceled unblock
-                                  },
-                                  child: const Text(
-                                    'Cancel',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.white,
-                                      fontFamily: 'Chirp',
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(true); // User confirmed unblock
-                                  },
-                                  child: const Text(
-                                    'Unblock',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.white,
-                                      fontFamily: 'Chirp',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-
-                        // If the user confirmed unblock, then proceed
-                        if (confirmUnblock == true) {
-                          await ref
-                              .read(authNotifierProvider.notifier)
-                              .unblockUser(blocker.username!);
-                        }
-                      },
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: AppColors.whiteColor,
-                          backgroundImage: NetworkImage(
-                            ref
-                                    .watch(authNotifierProvider)
-                                    .blockedList
-                                    .users![index]
-                                    .imageUrl ??
-                                'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
-                          ),
-                          radius: 20,
-                        ),
-                        title: Text(
-                          blocker.name!,
-                          style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Text(
-                          '@${blocker.username}',
-                          style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                            color: AppColors.lightGray,
+                    content: const CustomText(
+                      'They will be able to follow you and view your posts.',
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false); // User canceled unblock
+                        },
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.white,
+                            fontFamily: 'Chirp',
                           ),
                         ),
                       ),
-                    );
-                  },
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true); // User confirmed unblock
+                        },
+                        child: const Text(
+                          'Unblock',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.white,
+                            fontFamily: 'Chirp',
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              // If the user confirmed unblock, then proceed
+              if (confirmUnblock == true) {
+                await ref
+                    .read(authNotifierProvider.notifier)
+                    .unblockUser(blocker.username!);
+              }
+            },
+            child: ListTile(
+              leading: ClipOval(
+                child: CachedNetworkImage(
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                  imageUrl: ref.watch(authNotifierProvider).blockedList.users![index].imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                  placeholder: (context, url) => Container(
+                    color: Color(AppColors.blackColor.value),
+                  ),
+                  errorWidget: (context, url, error) =>
+                      Image.asset(AppAssets.whiteLogo,
+                          fit: BoxFit.cover),
                 ),
+              ),
+              title: Text(
+                blocker.name!,
+                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                '@${blocker.username}',
+                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                  color: AppColors.lightGray,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

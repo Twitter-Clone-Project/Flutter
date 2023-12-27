@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -8,6 +9,7 @@ import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
 import '../../../app/widgets/tweet_UI.dart';
+import '../../../theme/app_assets.dart';
 
 class SearchAllResultsScreen extends StatefulHookConsumerWidget {
   const SearchAllResultsScreen({super.key, required this.query});
@@ -35,7 +37,7 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
     _searchFocusNode = FocusNode();
     _tweetsController = RefreshController();
     _usersController = RefreshController();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
 
     Future.delayed(
       const Duration(seconds: 0),
@@ -64,7 +66,7 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
         return false;
       },
       child: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.pureBlack,
@@ -136,6 +138,16 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
                       fontFamily: 'Chirp',
                     ),
                   ),
+                ),
+                Tab(
+                  child: Text(
+                    "Mentions",
+                    style: TextStyle(
+                      color: AppColors.whiteColor,
+                      fontSize: 16,
+                      fontFamily: 'Chirp',
+                    ),
+                  ),
                 )
               ],
               indicatorColor: Colors.white,
@@ -150,7 +162,7 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
                         .watch(searchNotifierProvider)
                         .tweetList.data.isEmpty
                         ? SmartRefresher(
-                          controller: _tweetsController,
+                          controller: RefreshController(),
                           header: const ClassicHeader(
                             releaseText: 'Release to refresh',
                             refreshingText: 'Refreshing...',
@@ -167,7 +179,7 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
                           onRefresh: _onRefresh,
                           child:  const Center(
                       child: Text(
-                          "No Tweets :(",
+                          "No Tweets",
                           style: const TextStyle(
                             color: AppColors.whiteColor,
                             fontSize: 22,
@@ -229,7 +241,37 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
                   searchProvider.loading
                       ? const Center(child: CircularProgressIndicator(color: AppColors.whiteColor,
                     strokeWidth: 1,))
-                      : SmartRefresher(
+                      : ref
+                      .watch(searchNotifierProvider)
+                      .usersList.data.isEmpty
+                      ? SmartRefresher(
+                    controller: RefreshController(),
+                    header: const ClassicHeader(
+                      releaseText: 'Release to refresh',
+                      refreshingText: 'Refreshing...',
+                      completeText: 'Refresh completed',
+                      failedText: 'Refresh failed',
+                      idleText: 'Pull down to refresh',
+                    ),
+                    enablePullDown: true,
+                    enablePullUp: true,
+                    footer: const ClassicFooter(
+                      loadingText: 'Load for more',
+                    ),
+                    onLoading: _onTweetsLoading,
+                    onRefresh: _onRefresh,
+                    child:  const Center(
+                      child: Text(
+                        "No Users",
+                        style: const TextStyle(
+                          color: AppColors.whiteColor,
+                          fontSize: 22,
+                          fontFamily: 'Chirp',
+                        ),
+                      ),
+                    ),
+                  )
+                  : SmartRefresher(
                     controller: _usersController,
                     header: const ClassicHeader(
                       releaseText: 'Release to refresh',
@@ -261,11 +303,20 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
                                           onTap: () {
                                             Navigator.pushNamed(context, Routes.profileScreen, arguments: user.username);
                                           },
-                                          child: CircleAvatar(
-                                            backgroundColor: AppColors.whiteColor,
-                                            backgroundImage: NetworkImage(user.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                                            radius: 20,
+                                          child: ClipOval(
+                                          child: CachedNetworkImage(
+                                          width: 40,
+                                          height: 40,
+                                          fit: BoxFit.cover,
+                                          imageUrl: user.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                          placeholder: (context, url) => Container(
+                                          color: Color(AppColors.blackColor.value),
                                           ),
+                                          errorWidget: (context, url, error) =>
+                                          Image.asset(AppAssets.whiteLogo,
+                                          fit: BoxFit.cover),
+                                          ),
+                                          )
                                         ),
                                         const SizedBox(width: 8),
                                         Expanded(
@@ -303,6 +354,16 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
                     },
                   ),
                       ),
+                  Center(
+                    child: const Text(
+                      "No Mentions",
+                      style: TextStyle(
+                        color: AppColors.whiteColor,
+                        fontSize: 22,
+                        fontFamily: 'Chirp',
+                      ),
+                    ),
+                  )
                 ],
               ),
           ),

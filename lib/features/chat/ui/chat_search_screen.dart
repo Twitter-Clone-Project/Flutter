@@ -146,7 +146,7 @@ class _ChatSearchScreenState extends ConsumerState<ChatSearchScreen> {
                         children: [
                           CircleAvatar(
                             backgroundColor: AppColors.whiteColor,
-                            backgroundImage: NetworkImage(user.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
+                            backgroundImage: NetworkImage(user.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
                             radius: 20,
                           ),
                           const SizedBox(width: 8),

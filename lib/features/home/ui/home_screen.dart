@@ -86,7 +86,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   IconButton(
                     icon: const Icon(Icons.settings),
                     onPressed: () {
-                      //TODO Settings
+                      Navigator.pushNamed(context, Routes.settingsScreen);
                     },
                   ),
                 ],
