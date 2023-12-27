@@ -4,28 +4,53 @@ class NotificationServices {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  /// Initializes the notification services.
+  ///
+  /// This function sets up the necessary configurations for the notification services
+  /// on both Android and iOS platforms. It initializes the Flutter Local Notifications Plugin
+  /// and requests the necessary permissions for displaying notifications.
+  ///
+  /// Example:
+  /// ```dart
+  /// await NotificationsServices.init();
+  /// ```
+  ///
+  /// Note: Make sure to call this function before using any other notification-related functions.
   static Future init() async {
     var androidInitialize =
         new AndroidInitializationSettings('@mipmap/ic_launcher');
-    // var iOSInitialize = new IOSInitializationSettings();
+    var iOSInitialize = new DarwinInitializationSettings();
 
-    var initializationSettings =
-        new InitializationSettings(android: androidInitialize);
+    var initializationSettings = new InitializationSettings(
+      android: androidInitialize,
+      iOS: iOSInitialize,
+    );
 
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()!
         .requestNotificationsPermission();
 
-    // flutterLocalNotificationsPlugin
-    //     .resolvePlatformSpecificImplementation<
-    //         AndroidFlutterLocalNotificationsPlugin>()!
-    //     .requestExactAlarmsPermission();
-
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  static Future showNotification({
+  /// Shows a notification with the given [title], [body], and [id].
+  ///
+  /// The [title] is the title of the notification.
+  /// The [body] is the content of the notification.
+  /// The [id] is a unique identifier for the notification.
+  ///
+  /// This method uses the [flutterLocalNotificationsPlugin] to display the notification.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// await showNotification(
+  ///   title: 'New Message',
+  ///   body: 'You have a new message',
+  ///   id: '123',
+  /// );
+  /// ```
+  static Future<void> showNotification({
     required String title,
     required String body,
     required String id,
@@ -34,14 +59,20 @@ class NotificationServices {
         const AndroidNotificationDetails(
       'notification',
       'channelName',
-      // playSound: true,
-      // sound: RawResourceAndroidNotificationSound('notification'),
       importance: Importance.max,
       priority: Priority.high,
     );
+    DarwinNotificationDetails iOSNotificationDetails =
+        const DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
 
-    NotificationDetails notificationDetails =
-        new NotificationDetails(android: androidNotificationDetails);
+    NotificationDetails notificationDetails = NotificationDetails(
+      android: androidNotificationDetails,
+      iOS: iOSNotificationDetails,
+    );
 
     await flutterLocalNotificationsPlugin.show(
       int.tryParse(id) ?? 0,
@@ -50,46 +81,4 @@ class NotificationServices {
       notificationDetails,
     );
   }
-
-  // static void scheduleNotification() async {
-  //   AndroidNotificationDetails androidNotificationDetails =
-  //       const AndroidNotificationDetails(
-  //     'notification',
-  //     'channelName',
-  //     // playSound: true,
-  //     // sound: RawResourceAndroidNotificationSound('notification'),
-  //     importance: Importance.max,
-  //     priority: Priority.high,
-  //   );
-
-  //   var generalNotificationDetails =
-  //       NotificationDetails(android: androidNotificationDetails);
-
-  //   var scheduledTime =
-  //       tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5));
-
-  //   await flutterLocalNotificationsPlugin.zonedSchedule(
-  //       0,
-  //       "Scheduled Task",
-  //       "You scheduled a Local Notification",
-  //       scheduledTime,
-  //       generalNotificationDetails,
-  //       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-  //       uiLocalNotificationDateInterpretation:
-  //           UILocalNotificationDateInterpretation.absoluteTime);
-  // }
-
-//   Future showNotification({
-//   required FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-//   }) async {
-//   var androidDetails = AndroidNotificationDetails(
-//       "channelId",
-//       "channelName",
-//       importance: Importance.high);
-//   var generalNotificationDetails =
-//       NotificationDetails(android: androidDetails);
-
-//   await flutterLocalNotificationsPlugin.show(
-//       0, "Task", "You created a Local Notification", generalNotificationDetails);
-// }
 }

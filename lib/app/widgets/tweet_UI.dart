@@ -552,6 +552,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                           },
                           onTap: (isLiked) async {
                             isLiked = !isLiked;
+
                             if (isLiked) {
                               final bool result = await ref
                                   .read(homeNotifierProvider.notifier)
@@ -583,6 +584,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                                   .deleteLike(tweetId: tweetId!);
                             }
                             ;
+
                           },
                           likeBuilder: (isLiked) {
                             return isLiked
