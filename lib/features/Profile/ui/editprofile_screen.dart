@@ -108,8 +108,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
               name: result?.name,
               imageUrl: result?.imageUrl,
             );
-        // ref.read(authNotif)
-
         if (result != null) {
           Navigator.pop(context);
         }
