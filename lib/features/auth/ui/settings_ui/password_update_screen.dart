@@ -209,6 +209,17 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
       ),
     );
   }
+  /// Shows a Flushbar notification with a success or failure message.
+  ///
+  /// This method is responsible for displaying a Flushbar notification in the given [context].
+  /// The [success] parameter determines whether the notification should display a success or failure message.
+  /// The [successful] parameter is the success message to be displayed when [success] is true.
+  /// The [failed] parameter is the failure message to be displayed when [success] is false.
+  ///
+  /// Example:
+  /// ```dart
+  /// showFlushbar(context, true, 'Password updated successfully', 'Failed to update password');
+  /// ```
   void showFlushbar(
       BuildContext context, bool success, String successful, String failed) {
     Flushbar(
