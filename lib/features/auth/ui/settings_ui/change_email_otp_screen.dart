@@ -42,6 +42,25 @@ class ChangeEmailOtpScreenState extends ConsumerState<ChangeEmailOtpScreen> {
     startResendTimer();
   }
 
+  /// Starts a timer to resend the OTP (One-Time Password) for changing email.
+  ///
+  /// The timer is started using the [Timer.periodic] method, which executes the
+  /// provided callback function every second. Inside the callback function,
+  /// the [_resendTimer] value is decremented by 1 each time, until it reaches 0.
+  /// Once the [_resendTimer] reaches 0, the timer is cancelled using the
+  /// [_timer.cancel()] method.
+  ///
+  /// Example:
+  /// ```dart
+  /// void main() {
+  ///   ChangeEmailOTPScreen screen = ChangeEmailOTPScreen();
+  ///   screen.startResendTimer();
+  /// }
+  /// ```
+  ///
+  /// In the above example, the `startResendTimer` method is called on an instance
+  /// of the `ChangeEmailOTPScreen` class, which starts the timer to resend the OTP.
+  ///```
   void startResendTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
