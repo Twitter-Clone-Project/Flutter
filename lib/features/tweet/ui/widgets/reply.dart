@@ -66,20 +66,20 @@ class _ReplyState extends ConsumerState<Reply> {
     String screenName = widget.replier.screenName!;
     String username = widget.replier.username!;
 
-    String truncatedText = ((screenName.length + username.length) > 20)
-        ? screenName.length > 20
-            ? '${screenName.substring(0, 20)}'
-            : screenName
-        : screenName;
+    // String truncatedText = ((screenName.length + username.length) > 20)
+    //     ? screenName.length > 20
+    //         ? '${screenName.substring(0, 20)}'
+    //         : screenName
+    //     : screenName;
 
-    String truncatedText2 = ((screenName.length + username.length) > 20)
-        ? 20 - truncatedText.length == 0
-            ? ""
-            : '@${username.substring(0, 20 - truncatedText.length)}..'
-        : username;
-    String truncatedText3 = (truncatedText.length < screenName.length)
-        ? '${truncatedText}...'
-        : truncatedText;
+    // String truncatedText2 = ((screenName.length + username.length) > 20)
+    //     ? 20 - truncatedText.length == 0
+    //         ? ""
+    //         : '@${username.substring(0, 20 - truncatedText.length)}..'
+    //     : username;
+    // String truncatedText3 = (truncatedText.length < screenName.length)
+    //     ? '${truncatedText}...'
+    //     : truncatedText;
     return Column(
       children: [
         Row(
@@ -117,23 +117,36 @@ class _ReplyState extends ConsumerState<Reply> {
                   Row(
                     children: [
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                      Text(
-                        truncatedText3,
-                        style: const TextStyle(
-                          color: AppColors.whiteColor,
-                          fontSize: 18,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        constraints: BoxConstraints(
+                          maxWidth: 0.5 * MediaQuery.of(context).size.width,
                         ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines:
-                            1, // Set the maximum number of lines before truncating
+                        child: Text(
+                          widget.replier.screenName!,
+                          style: const TextStyle(
+                            color: AppColors.whiteColor,
+                            fontSize: 18,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines:
+                              1, // Set the maximum number of lines before truncating
+                        ),
                       ),
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),
-                      Text(
-                        truncatedText2,
-                        style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                          color: AppColors.lightThinTextGray,
+                      Container(
+                        constraints: BoxConstraints(
+                          maxWidth: 0.3 * MediaQuery.of(context).size.width,
+                        ),
+                        child: Text(
+                          widget.replier.username!,
+                          style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                            color: AppColors.lightThinTextGray,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines:
+                              1, // Set the maximum number of lines before truncating
                         ),
                       ),
                       SizedBox(width: 0.01 * MediaQuery.of(context).size.width),

@@ -49,11 +49,9 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
 
   Future<bool> addLike({required String tweetId}) async {
     try {
-      bool response = await homeRepository.addLike(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
       for (int i = 0; i < tweetlist.length; i++) {
         if (tweetlist[i].id == tweetId) {
-          print("founded from home");
           tweetlist[i] = tweetlist[i].copyWith(
             isLiked: true,
             likesCount: tweetlist[i].likesCount! + 1,
@@ -64,6 +62,7 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
         homeResponse: state.homeResponse.copyWith(data: tweetlist),
         loading: false,
       );
+      bool response = await homeRepository.addLike(tweetId: tweetId);
       if (!response) {
         for (int i = 0; i < tweetlist.length; i++) {
           if (tweetlist[i].id == tweetId) {
@@ -86,7 +85,6 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
 
   Future<bool> deleteLike({required String tweetId}) async {
     try {
-      bool response = await homeRepository.deleteLike(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
       for (int i = 0; i < tweetlist.length; i++) {
         if (tweetlist[i].id == tweetId) {
@@ -100,6 +98,7 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
         homeResponse: state.homeResponse.copyWith(data: tweetlist),
         loading: false,
       );
+      bool response = await homeRepository.deleteLike(tweetId: tweetId);
       if (!response) {
         for (int i = 0; i < tweetlist.length; i++) {
           if (tweetlist[i].id == tweetId) {
@@ -194,7 +193,6 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
       );
     }
   }
-
   // addTweet({String? tweetText, List<MultipartFile>? attachments}) async {
   //   List<String> trends = [];
   //   if (tweetText != null) {

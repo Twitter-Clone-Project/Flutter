@@ -219,6 +219,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                         .read(profileNotifierProvider.notifier)
                                         .toggleBlockStatus(
                                             userProfile.username!);
+                                    userProfile.isFollowed!
+                                        ? ref
+                                            .read(authNotifierProvider.notifier)
+                                            .decFollowings(success)
+                                        : null;
                                     showFlushbar(
                                         context,
                                         success,
@@ -562,12 +567,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                         ? CustomButton(
                                                             onPressed:
                                                                 () async {
-                                                              ref
+                                                              final bool result = await ref
                                                                   .read(profileNotifierProvider
                                                                       .notifier)
                                                                   .toggleFollowStatus(
                                                                       userProfile
                                                                           .username!);
+
+                                                              ref
+                                                                  .read(authNotifierProvider
+                                                                      .notifier)
+                                                                  .incFollowings(
+                                                                      result);
                                                             },
                                                             text: 'Follow',
                                                             filled: true,
@@ -663,6 +674,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                                     .toggleFollowStatus(
                                                                         userProfile
                                                                             .username!);
+                                                                ref
+                                                                    .read(authNotifierProvider
+                                                                        .notifier)
+                                                                    .decFollowings(
+                                                                        success);
                                                                 showFlushbar(
                                                                     context,
                                                                     success,
