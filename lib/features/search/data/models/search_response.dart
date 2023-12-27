@@ -46,7 +46,7 @@ class UserData with _$UserData {
     String? email,
     String? screenName,
     String? username,
-    String? imageUrl,
+    String? profileImageURL,
     String? bio,
     bool? isFollowed,
     bool? isFollowing,

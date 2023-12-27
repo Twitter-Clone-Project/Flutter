@@ -604,6 +604,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   /// ```
   isEmailFound({required String email}) async {
     try {
+      print("555555555555555555555555");
       final result = await _repo.isEmailFound(newEmail: email);
       print(result);
       return result;
@@ -779,6 +780,45 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<void> incFollowings(bool result) async {
+    if (result) {
+      final int followingCount = int.parse(state.user!.followingsCount!) + 1;
+      state = state.copyWith(
+        user: state.user!.copyWith(
+          followingsCount: followingCount.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> decFollowings(bool result) async {
+    if (result) {
+      final int followingCount = int.parse(state.user!.followingsCount!) - 1;
+      state = state.copyWith(
+        user: state.user!.copyWith(
+          followingsCount: followingCount.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> incFollowers() async {
+    final int followingCount = int.parse(state.user!.followersCount!) + 1;
+    state = state.copyWith(
+      user: state.user!.copyWith(
+        followersCount: followingCount.toString(),
+      ),
+    );
+  }
+
+  Future<void> decFollowers() async {
+    final int followingCount = int.parse(state.user!.followersCount!) - 1;
+    state = state.copyWith(
+      user: state.user!.copyWith(
+        followersCount: followingCount.toString(),
+      ),
+    );
+  }
 // void resetErrorMessage() {
 //   state = state.copyWith(loading: false, errorMessage: "");
 // }

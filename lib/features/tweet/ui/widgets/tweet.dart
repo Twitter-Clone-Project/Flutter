@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -403,11 +404,19 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                   Navigator.pushNamed(context, Routes.profileScreen,
                       arguments: widget.tweet.user!.username);
                 },
-                child: CircleAvatar(
-                  backgroundColor: AppColors.whiteColor,
-                  backgroundImage:
-                      NetworkImage(widget.tweet.user!.imageUrl ?? ''),
-                  radius: 20,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                    imageUrl: widget.tweet.user!.imageUrl ??
+                        'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                    placeholder: (context, url) => Container(
+                      color: Color(AppColors.blackColor.value),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        Image.asset(AppAssets.whiteLogo, fit: BoxFit.cover),
+                  ),
                 ),
               ),
               SizedBox(width: 0.02 * MediaQuery.of(context).size.width),
@@ -465,6 +474,9 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
         SizedBox(
           height: 0.005 * MediaQuery.of(context).size.height,
         ),
+        const SizedBox(
+          height: 8,
+        ),
         if (text != null)
           Padding(
             padding: EdgeInsets.symmetric(
@@ -513,6 +525,9 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                 ),
               ),
             ),
+        const SizedBox(
+          height: 12,
+        ),
         Padding(
           padding: EdgeInsets.symmetric(
               horizontal: 0.005 * MediaQuery.of(context).size.width,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/routes.dart';
@@ -6,9 +7,13 @@ import 'package:x_clone/features/search/data/providers/search_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
+import '../../../theme/app_assets.dart';
+
 class SearchResultsScreen extends StatefulHookConsumerWidget {
   const SearchResultsScreen({super.key, required this.query});
+
   final String query;
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _SearchResultsScreenState();
@@ -21,7 +26,8 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
   @override
   void initState() {
     super.initState();
-    _searchController = TextEditingController(text: widget.query); // Set the initial text
+    _searchController =
+        TextEditingController(text: widget.query); // Set the initial text
     _searchFocusNode = FocusNode();
 
     // Request focus on the search field when the screen is first opened
@@ -29,20 +35,18 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
       FocusScope.of(context).requestFocus(_searchFocusNode);
     });
 
-
     // Reset searched users
-    if(widget.query==""){
+    if (widget.query == "") {
       ref.read(searchNotifierProvider.notifier).resetSearchedUsers();
     }
 
     Future.delayed(
       const Duration(seconds: 0),
-          () {
+      () {
         ref.read(searchNotifierProvider.notifier).fetchTrendingData();
       },
     );
   }
-
 
   @override
   void dispose() {
@@ -77,24 +81,21 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                 height: 40,
                 child: TextField(
                   onChanged: (String value) async {
-                    if(value!=""){
+                    if (value != "") {
                       await ref
                           .read(searchNotifierProvider.notifier)
                           .getSearchedUsers(page: 1, query: value);
                     }
-
                   },
                   controller: _searchController,
                   focusNode: _searchFocusNode,
                   onSubmitted: (value) {
-                    ref
-                        .read(searchNotifierProvider.notifier)
-                        .getSearchedTweets(page: 1, query: value.replaceAll("#", ""));
-                    ref
-                        .read(searchNotifierProvider.notifier)
-                        .getSearchedUsers(page: 1, query: value.replaceAll("#", ""));
-                    Navigator.pushNamed(context, Routes.searchAllResultsScreen, arguments: value);
-
+                    ref.read(searchNotifierProvider.notifier).getSearchedTweets(
+                        page: 1, query: value.replaceAll("#", ""));
+                    ref.read(searchNotifierProvider.notifier).getSearchedUsers(
+                        page: 1, query: value.replaceAll("#", ""));
+                    Navigator.pushNamed(context, Routes.searchAllResultsScreen,
+                        arguments: value);
                   },
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(10).copyWith(
@@ -122,71 +123,94 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
             Divider(
               thickness: 0.2,
               height: 1,
-              color: AppColors.lightThinTextGray, // You can set the color of the divider
+              color: AppColors
+                  .lightThinTextGray, // You can set the color of the divider
             ),
           ],
         ),
       ),
       body: searchProvider.loading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.whiteColor,
-        strokeWidth: 1,))
+          ? const Center(
+              child: CircularProgressIndicator(
+              color: AppColors.whiteColor,
+              strokeWidth: 1,
+            ))
           : ListView.builder(
-        itemCount: searchProvider.usersList.data!.length,
-        itemBuilder: (context, index) {
-          final user = ref.watch(searchNotifierProvider).usersList.data![index];
-          return Column(
-            children: [
-              ListTile(
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              itemCount: searchProvider.usersList.data!.length,
+              itemBuilder: (context, index) {
+                final user =
+                    ref.watch(searchNotifierProvider).usersList.data![index];
+                return Column(
                   children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, Routes.profileScreen, arguments: user.username);
-                          },
-                          child: CircleAvatar(
-                            backgroundColor: AppColors.whiteColor,
-                            backgroundImage: NetworkImage(user.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg'),
-                            radius: 20,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    ListTile(
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                             children: [
-                              Text(
-                                user.screenName!,
-                                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                                  fontWeight: FontWeight.bold,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.profileScreen,
+                                      arguments: user.username);
+                                },
+                                child: ClipOval(
+                                  child: CachedNetworkImage(
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.cover,
+                                    imageUrl: user.profileImageURL ??
+                                        'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                    placeholder: (context, url) => Container(
+                                      color: Color(AppColors.blackColor.value),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(AppAssets.whiteLogo,
+                                            fit: BoxFit.cover),
+                                  ),
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
                               ),
-                              Text(
-                                '@${user.username}',
-                                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                                  color: AppColors.lightGray,
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      user.screenName!,
+                                      style: AppTextStyle
+                                          .textThemeDark.bodyLarge!
+                                          .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      '@${user.username}',
+                                      style: AppTextStyle
+                                          .textThemeDark.bodyLarge!
+                                          .copyWith(
+                                        color: AppColors.lightGray,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      // trailing: buildTrailingWidget(follower, context),
                     ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
+                    // const SizedBox(height: 4,),
                   ],
-                ),
-                // trailing: buildTrailingWidget(follower, context),
-              ),
-              const SizedBox(height: 4,),
-              // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
-              // const SizedBox(height: 4,),
-            ],
-          );
-        },
-      ),
+                );
+              },
+            ),
     );
   }
 }
