@@ -185,7 +185,6 @@ class SocketClient {
       "text": text,
       "receiverId": receiverId,
       "senderId": senderId,
-      "isSeen": false,
     });
   }
 
@@ -247,6 +246,7 @@ class SocketClient {
   static onMessageReceive(Function callback) {
     socket.off("msg-receive");
     socket.on("msg-receive", (data) async {
+      print(data);
       await handleMessageReceiveWithNotification(data);
       callback(data);
     });
@@ -274,9 +274,10 @@ class SocketClient {
   static statusOfContact(Function callback) {
     socket.off("status-of-contact");
     socket.on("status-of-contact", (data) async {
-      print(data);
       if (data["inConversation"] == true) {
-        openConversationIds.add(data["conversationId"]);
+        if(openConversationIds.contains(data["conversationId"])==false) {
+          openConversationIds.add(data["conversationId"]);
+        }
         callback(data);
       } else if (data["inConversation"] == false) {
         openConversationIds.remove(data["conversationId"]);

@@ -573,7 +573,17 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                           pathName: AppAssets.commentIcon,
                           text:
                               repliesCount == 0 ? '' : repliesCount.toString(),
-                          onTap: () {},
+                          onTap: () {
+    Navigator.pushNamed(
+    context,
+    Routes.tweetScreen,
+    arguments: {
+    "tweet": widget.tweet,
+    "index": widget.index,
+    "whom": widget.whom, //0->Home , 1->Profile
+    },
+    );
+                          },
                         ),
                         LikeButton(
                           isLiked: isliked,
