@@ -243,7 +243,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               ),
             ),
             IconButton(
-              onPressed: textController.text.isEmpty
+              onPressed: textController.text.trim().isEmpty
                   ? null
                   : () {
                 if (textController.text.isNotEmpty) {
@@ -257,11 +257,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               },
               icon: CircleAvatar(
                 backgroundColor: AppColors.primaryColor.withOpacity(
-                    textController.text.isEmpty ? 0.7 : 1),
+                    textController.text.trim().isEmpty ? 0.7 : 1),
                 child: Icon(
                   Icons.send,
                   color: AppColors.whiteColor.withOpacity(
-                      textController.text.isEmpty ? 0.5 : 1),                ),
+                      textController.text.trim().isEmpty ? 0.5 : 1),                ),
               ),
             ),
           ],

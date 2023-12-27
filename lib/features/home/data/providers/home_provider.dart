@@ -47,9 +47,8 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
-  addLike({required String tweetId}) async {
+  Future<bool> addLike({required String tweetId}) async {
     try {
-      homeRepository.addLike(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
       for (int i = 0; i < tweetlist.length; i++) {
         if (tweetlist[i].id == tweetId) {
@@ -63,15 +62,29 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
         homeResponse: state.homeResponse.copyWith(data: tweetlist),
         loading: false,
       );
-      return true;
+      bool response = await homeRepository.addLike(tweetId: tweetId);
+      if (!response) {
+        for (int i = 0; i < tweetlist.length; i++) {
+          if (tweetlist[i].id == tweetId) {
+            tweetlist[i] = tweetlist[i].copyWith(
+              isLiked: false,
+              likesCount: tweetlist[i].likesCount! - 1,
+            );
+          }
+        }
+        state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+      }
+      return response;
     } catch (e) {
       return false;
     }
   }
 
-  deleteLike({required String tweetId}) async {
+  Future<bool> deleteLike({required String tweetId}) async {
     try {
-      homeRepository.deleteLike(tweetId: tweetId);
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
       for (int i = 0; i < tweetlist.length; i++) {
         if (tweetlist[i].id == tweetId) {
@@ -85,7 +98,22 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
         homeResponse: state.homeResponse.copyWith(data: tweetlist),
         loading: false,
       );
-      return true;
+      bool response = await homeRepository.deleteLike(tweetId: tweetId);
+      if (!response) {
+        for (int i = 0; i < tweetlist.length; i++) {
+          if (tweetlist[i].id == tweetId) {
+            tweetlist[i] = tweetlist[i].copyWith(
+              isLiked: true,
+              likesCount: tweetlist[i].likesCount! + 1,
+            );
+          }
+        }
+        state = state.copyWith(
+          homeResponse: state.homeResponse.copyWith(data: tweetlist),
+          loading: false,
+        );
+      }
+      return response;
     } catch (e) {
       return false;
     }
@@ -165,7 +193,6 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
       );
     }
   }
-
   // addTweet({String? tweetText, List<MultipartFile>? attachments}) async {
   //   List<String> trends = [];
   //   if (tweetText != null) {

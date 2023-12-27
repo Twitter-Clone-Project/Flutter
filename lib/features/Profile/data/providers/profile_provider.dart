@@ -160,7 +160,44 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       );
 
       if (result != null) {
-        state = state.copyWith(userProfile: updatedUserProfile, loading: false);
+        var newprofileTweetsResponse = state.profileTweetsResponse;
+        List<Tweet> tweetlist = List.from(newprofileTweetsResponse.data);
+        for (int i = 0; i < tweetlist.length; i++) {
+          if (tweetlist[i].user!.userId == userProfile.userId) {
+            tweetlist[i] = tweetlist[i].copyWith(
+              user: tweetlist[i].user!.copyWith(
+                    name: result.name,
+                    imageUrl: result.imageUrl,
+                    screenName: result.name,
+                  ),
+            );
+          }
+        }
+        var newLikedprofileTweetsResponse = state.profileLikedTweetsResponse;
+        List<Tweet> LikedList = List.from(newLikedprofileTweetsResponse.data);
+        for (int i = 0; i < LikedList.length; i++) {
+          if (LikedList[i].user!.userId == userProfile.userId) {
+            LikedList[i] = LikedList[i].copyWith(
+              user: LikedList[i].user!.copyWith(
+                    name: result.name,
+                    imageUrl: result.imageUrl,
+                    screenName: result.name,
+                  ),
+            );
+          }
+        }
+        newLikedprofileTweetsResponse =
+            newLikedprofileTweetsResponse.copyWith(data: LikedList);
+        newprofileTweetsResponse =
+            newprofileTweetsResponse.copyWith(data: tweetlist);
+
+        state = state.copyWith(
+          profileLikedTweetsResponse: newLikedprofileTweetsResponse,
+          profileTweetsResponse: newprofileTweetsResponse,
+          userProfile: updatedUserProfile,
+          loading: false,
+        );
+
         return updatedUserProfile;
       }
       //TODO Edit the following line to update the state to the newest updated user profile
@@ -345,7 +382,7 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
         if (tweetlist[i].id == tweetId) {
           tweetlist[i] = tweetlist[i].copyWith(
             isLiked: true,
-            likesCount: tweetlist[i].likesCount! - 1,
+            likesCount: tweetlist[i].likesCount! + 1,
           );
         }
       }

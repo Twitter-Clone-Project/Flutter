@@ -145,13 +145,12 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     return _repo.getToken();
   }
 
-  confirmEmail(
-      {required String otp,
-      required String email,
-      required bool isSignup,
-        String? newEmail ,
-
-      }) async {
+  confirmEmail({
+    required String otp,
+    required String email,
+    required bool isSignup,
+    String? newEmail,
+  }) async {
     try {
       state = state.copyWith(otpLoading: true, errorMessage: '');
 
@@ -159,7 +158,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         otp: otp,
         email: email,
         isSignUp: isSignup,
-          newEmail : newEmail,
+        newEmail: newEmail,
       );
       if (isSignup) {
         _onUserLoggedIn(user);
@@ -297,7 +296,9 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
   updateEmail({required String newEmail}) async {
     try {
-       var result= await _repo.updateEmail(newEmail: newEmail,);
+      var result = await _repo.updateEmail(
+        newEmail: newEmail,
+      );
 
       return result;
     } catch (e) {
@@ -309,7 +310,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   isEmailFound({required String email}) async {
     try {
       print("555555555555555555555555");
-      final result = await _repo.isEmailFound( newEmail: email);
+      final result = await _repo.isEmailFound(newEmail: email);
       print(result);
       return result;
     } catch (e) {
@@ -426,6 +427,45 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<void> incFollowings(bool result) async {
+    if (result) {
+      final int followingCount = int.parse(state.user!.followingsCount!) + 1;
+      state = state.copyWith(
+        user: state.user!.copyWith(
+          followingsCount: followingCount.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> decFollowings(bool result) async {
+    if (result) {
+      final int followingCount = int.parse(state.user!.followingsCount!) - 1;
+      state = state.copyWith(
+        user: state.user!.copyWith(
+          followingsCount: followingCount.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> incFollowers() async {
+    final int followingCount = int.parse(state.user!.followersCount!) + 1;
+    state = state.copyWith(
+      user: state.user!.copyWith(
+        followersCount: followingCount.toString(),
+      ),
+    );
+  }
+
+  Future<void> decFollowers() async {
+    final int followingCount = int.parse(state.user!.followersCount!) - 1;
+    state = state.copyWith(
+      user: state.user!.copyWith(
+        followersCount: followingCount.toString(),
+      ),
+    );
+  }
 // void resetErrorMessage() {
 //   state = state.copyWith(loading: false, errorMessage: "");
 // }
