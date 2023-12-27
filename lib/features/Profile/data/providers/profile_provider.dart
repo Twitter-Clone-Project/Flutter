@@ -339,13 +339,15 @@ class ProfileNotifierProvider extends StateNotifier<UserProfileState> {
       required int inMyProfile}) async {
     try {
       //ProfileTweetList
+      print("inmyprofile===============");
+      print(inMyProfile);
       List<Tweet> tweetlist = List.from(state.profileTweetsResponse.data);
       int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
       for (int i = 0; i < tweetlist.length; i++) {
         if (tweetlist[i].id == tweetId) {
           tweetlist[i] = tweetlist[i].copyWith(
             isLiked: true,
-            likesCount: tweetlist[i].likesCount! - 1,
+            likesCount: tweetlist[i].likesCount! + 1,
           );
         }
       }

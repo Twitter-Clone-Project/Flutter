@@ -117,51 +117,6 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
           );
         },
       );
-    } else {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            color: AppColors.pureBlack,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline_outlined,
-                    color: AppColors.lightThinTextGray,
-                  ),
-                  title: const Text('Follow'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline_outlined,
-                    color: AppColors.lightThinTextGray,
-                  ),
-                  title: const Text('Mute'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline_outlined,
-                    color: AppColors.lightThinTextGray,
-                  ),
-                  title: const Text('Block'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      );
     }
   }
 
@@ -179,6 +134,8 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     String userName = widget.tweet.user?.screenName ?? '';
     String handle = widget.tweet.user?.username ?? '';
     int? repliesCount = widget.tweet.repliesCount;
+    print("====================Testing=====================");
+    print(widget.whom);
 
     if (widget.whom == 0) {
       isliked =
@@ -592,36 +549,39 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                           },
                           onTap: (isLiked) async {
                             isLiked = !isLiked;
-                            isLiked
-                                ? {
-                                    ref
-                                        .read(homeNotifierProvider.notifier)
-                                        .addLike(tweetId: tweetId!),
-                                    ref
-                                        .read(profileNotifierProvider.notifier)
-                                        .addLike(
-                                            tweetId: tweetId!,
-                                            whom: widget.whom,
-                                            inMyProfile: widget.inMyProfile),
-                                    ref
-                                        .read(searchNotifierProvider.notifier)
-                                        .addLike(tweetId: tweetId),
-                                  }
-                                : {
-                                    ref
-                                        .read(homeNotifierProvider.notifier)
-                                        .deleteLike(tweetId: tweetId!),
-                                    ref
-                                        .read(profileNotifierProvider.notifier)
-                                        .deleteLike(
-                                          tweetId: tweetId!,
-                                          whom: widget.whom,
-                                          inMyProfile: widget.inMyProfile,
-                                        ),
-                                    ref
-                                        .read(searchNotifierProvider.notifier)
-                                        .deleteLike(tweetId: tweetId!),
-                                  };
+
+                            if (isLiked) {
+                              final bool result = await ref
+                                  .read(homeNotifierProvider.notifier)
+                                  .addLike(tweetId: tweetId!);
+
+                              ref
+                                  .read(profileNotifierProvider.notifier)
+                                  .addLike(
+                                      tweetId: tweetId!,
+                                      whom: widget.whom,
+                                      inMyProfile: widget.inMyProfile);
+
+                              ref
+                                  .read(searchNotifierProvider.notifier)
+                                  .addLike(tweetId: tweetId);
+                            } else {
+                              ref
+                                  .read(homeNotifierProvider.notifier)
+                                  .deleteLike(tweetId: tweetId!);
+                              ref
+                                  .read(profileNotifierProvider.notifier)
+                                  .deleteLike(
+                                    tweetId: tweetId!,
+                                    whom: widget.whom,
+                                    inMyProfile: widget.inMyProfile,
+                                  );
+                              ref
+                                  .read(searchNotifierProvider.notifier)
+                                  .deleteLike(tweetId: tweetId!);
+                            }
+                            ;
+
                           },
                           likeBuilder: (isLiked) {
                             return isLiked
