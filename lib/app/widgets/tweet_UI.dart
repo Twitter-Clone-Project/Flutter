@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -38,6 +39,7 @@ class TweetCompose extends StatefulHookConsumerWidget {
 
 class _TweetComposeState extends ConsumerState<TweetCompose> {
   late var likeIcon = AppAssets.likeOutlinedIcon;
+
   @override
   void initState() {
     super.initState();
@@ -134,8 +136,6 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
     String userName = widget.tweet.user?.screenName ?? '';
     String handle = widget.tweet.user?.username ?? '';
     int? repliesCount = widget.tweet.repliesCount;
-    print("====================Testing=====================");
-    print(widget.whom);
 
     if (widget.whom == 0) {
       isliked =
@@ -319,7 +319,6 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
           '';
     }
     // Handle Images Of Tweet
-
     List<NetworkImage> images = (widget.tweet.attachmentsUrl ?? [])
         .map((url) => NetworkImage(url))
         .toList();
@@ -372,11 +371,20 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                   Navigator.pushNamed(context, Routes.profileScreen,
                       arguments: widget.tweet.user!.username);
                 },
-                child: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage(widget.tweet.user!.imageUrl ?? ''),
-                  backgroundColor: AppColors.whiteColor,
-                  radius: 20,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                    imageUrl: widget.tweet.user!.imageUrl ??
+                        'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                    placeholder: (context, url) =>
+                        Container(
+                          color: Color(AppColors.blackColor.value),
+                        ),
+                    errorWidget: (context, url, error) =>
+                        Image.asset(AppAssets.whiteLogo, fit: BoxFit.cover),
+                  ),
                 ),
               ),
             ),
@@ -392,7 +400,7 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                     children: [
                       Container(
                         constraints: BoxConstraints(
-                          maxWidth: 0.4 * MediaQuery.of(context).size.width,
+                          maxWidth: 0.3 * MediaQuery.of(context).size.width,
                         ),
                         child: Text(
                           userName,
@@ -450,6 +458,11 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                               ),
                               TextSpan(
                                 text: strings[1],
+                                style: AppTextStyle.textThemeDark.bodyLarge!
+                                    .copyWith(color: AppColors.primaryColor),
+                              ),
+                              TextSpan(
+                                text: ' ',
                                 style: AppTextStyle.textThemeDark.bodyLarge!
                                     .copyWith(color: AppColors.primaryColor),
                               ),
@@ -531,16 +544,17 @@ class _TweetComposeState extends ConsumerState<TweetCompose> {
                           text:
                               repliesCount == 0 ? '' : repliesCount.toString(),
                           onTap: () {
-    Navigator.pushNamed(
-    context,
-    Routes.tweetScreen,
-    arguments: {
-    "tweet": widget.tweet,
-    "index": widget.index,
-    "whom": widget.whom, //0->Home , 1->Profile
-    },
-    );
-                          },
+                            Navigator.pushNamed(
+                              context,
+                              Routes.tweetScreen,
+                              arguments: {
+                                "tweet": widget.tweet,
+                                "index": widget.index,
+                                "whom":
+                                widget.whom, //0->Home , 1->Profile
+                              },
+                            );
+                            },
                         ),
                         LikeButton(
                           isLiked: isliked,
