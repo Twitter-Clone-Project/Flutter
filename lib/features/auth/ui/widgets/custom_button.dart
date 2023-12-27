@@ -10,6 +10,7 @@ class CustomButton extends StatelessWidget {
   final double? verticalPadding; 
   final double? horizontalPadding;
   final bool red;
+  final bool disabled;
 
 
   const CustomButton({
@@ -20,6 +21,7 @@ class CustomButton extends StatelessWidget {
     this.horizontalPadding,
     this.verticalPadding,
     this.red = false,
+    this.disabled = false,
     required this.onPressed,
   });
 
@@ -31,6 +33,8 @@ class CustomButton extends StatelessWidget {
 
     textColor = red ? AppColors.warningColor : textColor;
     borderColor = red ? AppColors.warningColor : borderColor;
+
+    textColor = disabled ? AppColors.lightThinTextGray : textColor;
 
     return Container(
       decoration: BoxDecoration(

@@ -18,10 +18,11 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
         ) {}
 
   init(String userId) {
-    SocketClient.onNotificationReceive((data) {
-      final oldList = List<NotificationData>.from(state.notifications.data);
+    SocketClient.onNotificationReceive(
+      (data) {
+        final oldList = List<NotificationData>.from(state.notifications.data);
 
-      oldList.insert(0, NotificationData.fromJson(data));
+        oldList.insert(0, NotificationData.fromJson(data));
 
       state = state.copyWith(
         notifications: NotificationsList(data: oldList),

@@ -58,6 +58,6 @@ class EndPoints {
   static getBlockersData() => "/users/blockedUsers";
   static searchUsers(int page, String query) => "/users/search/$page?query=$query";
   static searchTweets(int page, String query) => "/tweets/search/$page?query=$query";
-
+  static getMentions(int page, String username) => "/users/$username/mentions/$page";
 }
 

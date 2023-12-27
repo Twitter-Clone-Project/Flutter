@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/routes.dart';
@@ -5,6 +6,8 @@ import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/features/search/data/providers/search_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
+
+import '../../../theme/app_assets.dart';
 
 class SearchScreen extends StatefulHookConsumerWidget {
   const SearchScreen({super.key});
@@ -39,12 +42,20 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 17,
-                  backgroundColor: const Color.fromARGB(255, 59, 158, 59),
-                  backgroundImage: NetworkImage(
-                      ref.watch(authNotifierProvider).user!.imageUrl ?? ''),
-                ),
+                ClipOval(
+                  child: CachedNetworkImage(
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                    imageUrl: ref.watch(authNotifierProvider).user!.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                    placeholder: (context, url) => Container(
+                      color: Color(AppColors.blackColor.value),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        Image.asset(AppAssets.whiteLogo,
+                            fit: BoxFit.cover),
+                  ),
+                )
               ],
             ),
           ),
