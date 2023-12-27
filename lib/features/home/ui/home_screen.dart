@@ -31,11 +31,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   void initState() {
     Future.delayed(const Duration(seconds: 0), () {});
     if (SocketClient.socket.disconnected) {
-      SocketClient.connect(ref.read(authNotifierProvider).user!.userId!);
+      SocketClient.connect(
+        ref.read(authNotifierProvider).user!.userId!,
+        onNotification: (notification) {
+          ref
+              .read(notificationsNotifierProvider.notifier)
+              .onNotification(notification);
+        },
+        onFollow: (notification) {
+          ref.read(authNotifierProvider.notifier).incFollowers();
+        },
+        onUnFollow: (notification) {
+          ref.read(authNotifierProvider.notifier).decFollowers();
+        },
+      );
     }
     ref.read(notificationsNotifierProvider.notifier).removeListener(
-      ref.read(authNotifierProvider).user!.userId!,
-    );
+          ref.read(authNotifierProvider).user!.userId!,
+        );
 
     super.initState();
   }
