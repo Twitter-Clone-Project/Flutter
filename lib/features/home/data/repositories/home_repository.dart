@@ -7,8 +7,8 @@ import '../models/home_response.dart';
 
 abstract class HomeRepository {
   getTimeline(int page);
-  addLike({required String tweetId});
-  deleteLike({required String tweetId});
+  Future<bool> addLike({required String tweetId});
+  Future<bool> deleteLike({required String tweetId});
   addRetweet({required String tweetId});
   deleteRetweet({required String tweetId});
   addReply({required String tweetId, required String replyText});
@@ -35,20 +35,26 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<void> addLike({required String tweetId}) async {
+  Future<bool> addLike({required String tweetId}) async {
     try {
       var response = await HttpClient.dio.post(EndPoints.addLike(tweetId));
-      if (response.statusCode == 200 || response.statusCode == 201) {}
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      return false;
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<void> deleteLike({required String tweetId}) async {
+  Future<bool> deleteLike({required String tweetId}) async {
     try {
       var response = await HttpClient.dio.delete(EndPoints.deleteLike(tweetId));
-      if (response.statusCode == 200 || response.statusCode == 201) {}
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      return false;
     } catch (e) {
       rethrow;
     }

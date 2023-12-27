@@ -221,9 +221,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               .user!
               .username ??
           '';
-    }
-    else if (widget.whom == 1)
-    {
+    } else if (widget.whom == 1) {
       isliked = ref
               .watch(profileNotifierProvider)
               .profileTweetsResponse
@@ -275,8 +273,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               .user!
               .username ??
           '';
-    }
-    else if (widget.whom == 2) {
+    } else if (widget.whom == 2) {
       isliked = ref
               .watch(profileNotifierProvider)
               .profileLikedTweetsResponse
@@ -399,6 +396,7 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               vertical: 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
                 onTap: () {
@@ -421,24 +419,45 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
                       Navigator.pushNamed(context, Routes.profileScreen,
                           arguments: widget.tweet.user!.username);
                     },
-                    child: Text(userName,
-                        style: AppTextStyle.textThemeDark.bodyLarge!
-                            .copyWith(fontWeight: FontWeight.bold)),
+                    child: Container(
+                      constraints: BoxConstraints(
+                        maxWidth: 0.75 * MediaQuery.of(context).size.width,
+                      ),
+                      child: Text(userName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyle.textThemeDark.bodyLarge!
+                              .copyWith(fontWeight: FontWeight.bold)),
+                    ),
                   ),
-                  Text(
-                    '@$handle',
-                    style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                      color: AppColors.lightThinTextGray,
+                  Container(
+                    constraints: BoxConstraints(
+                      maxWidth: 0.75 * MediaQuery.of(context).size.width,
+                    ),
+                    child: Text(
+                      '@$handle',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
+                        color: AppColors.lightThinTextGray,
+                      ),
                     ),
                   )
                 ],
               ),
               const Spacer(),
-              IconButton(
-                icon: const Icon(Icons.more_vert),
-                onPressed: () {
+              InkWell(
+                onTap: () {
                   _openBottomSheetForDelete(context);
                 },
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 2),
+                  child: Icon(
+                    Icons.more_vert,
+                    size: 17,
+                    color: AppColors.lightThinTextGray,
+                  ),
+                ),
               ),
             ],
           ),
@@ -455,11 +474,19 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
               text: TextSpan(
                 style: AppTextStyle.textThemeDark.bodyLarge!,
                 children: text.split(' ').map((word) {
-                  if (word.startsWith('#')) {
-                    return TextSpan(
-                        text: '$word ',
+                  if (word.startsWith('#') && !containsOnlyOneCharacter(word)) {
+                    List<String> strings = splitHashWord(word);
+                    return TextSpan(children: [
+                      TextSpan(
+                        text: strings[0],
+                        style: AppTextStyle.textThemeDark.bodyLarge,
+                      ),
+                      TextSpan(
+                        text: strings[1],
                         style: AppTextStyle.textThemeDark.bodyLarge!
-                            .copyWith(color: AppColors.primaryColor));
+                            .copyWith(color: AppColors.primaryColor),
+                      ),
+                    ]);
                   } else {
                     return TextSpan(text: '$word ');
                   }
@@ -495,7 +522,6 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
             style: TextStyle(color: AppColors.lightThinTextGray),
           ),
         ),
-
         const Divider(color: AppColors.lightThinTextGray, thickness: 0.3),
         Padding(
           padding: EdgeInsets.symmetric(

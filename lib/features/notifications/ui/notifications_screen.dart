@@ -34,7 +34,6 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final notifications = ref.watch(notificationsNotifierProvider);
@@ -63,6 +62,9 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                     .markNotificationsAsSeen(
                         ref.read(authNotifierProvider).user!.userId!);
               },
+              elevation: 2.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
               child: const Icon(
                 Icons.check,
                 color: AppColors.whiteColor,
@@ -175,13 +177,12 @@ class _NotificationState extends State<Notification> {
                     width: 32,
                     height: 32,
                     fit: BoxFit.cover,
-                    imageUrl: senderImgUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
-                    placeholder: (context, url) => Image.asset(
-                        AppAssets.whiteLogo,
-                        fit: BoxFit.cover),
+                    imageUrl: senderImgUrl ??
+                        'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                    placeholder: (context, url) =>
+                        Image.asset(AppAssets.whiteLogo, fit: BoxFit.cover),
                     errorWidget: (context, url, error) =>
-                        Image.asset(AppAssets.whiteLogo,
-                            fit: BoxFit.cover),
+                        Image.asset(AppAssets.whiteLogo, fit: BoxFit.cover),
                   ),
                 ),
               ),
