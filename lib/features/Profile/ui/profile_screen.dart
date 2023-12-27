@@ -851,7 +851,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                             ),
                                           ),
                                           Visibility(
-                                            visible: userProfile.bio != null,
+                                            visible: userProfile.bio != null && userProfile.bio !='',
                                             replacement: const SizedBox(
                                               height: 12,
                                             ),

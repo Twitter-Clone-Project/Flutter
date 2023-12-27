@@ -308,7 +308,7 @@ class _SearchAllResultsScreenState extends ConsumerState<SearchAllResultsScreen>
                                           width: 40,
                                           height: 40,
                                           fit: BoxFit.cover,
-                                          imageUrl: user.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                          imageUrl: user.profileImageURL ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
                                           placeholder: (context, url) => Container(
                                           color: Color(AppColors.blackColor.value),
                                           ),
