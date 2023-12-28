@@ -12,6 +12,10 @@ import '../../../theme/app_assets.dart';
 import '../../auth/data/providers/auth_provider.dart';
 import '../data/model/user_profile.dart';
 
+/// A screen that displays the followers of a user.
+///
+/// This screen is responsible for showing a list of followers for a specific user.
+/// It includes a refresh functionality and a back button to navigate back to the previous screen.
 class FollowersScreen extends StatefulHookConsumerWidget {
   const FollowersScreen({super.key, required this.username});
   final String username;
@@ -40,11 +44,11 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
         backgroundColor: AppColors.pureBlack,
         title: const Text(
           'Followers',
-            style: TextStyle(
-              color: AppColors.whiteColor,
-              fontSize: 22,
-              fontFamily: 'Chirp',
-            ),
+          style: TextStyle(
+            color: AppColors.whiteColor,
+            fontSize: 22,
+            fontFamily: 'Chirp',
+          ),
         ),
         leading: IconButton(
           icon: const Icon(
@@ -61,99 +65,117 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
         ),
       ),
       body: profileProv.loading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.whiteColor,
-          strokeWidth: 1,))
+          ? const Center(
+              child: CircularProgressIndicator(
+              color: AppColors.whiteColor,
+              strokeWidth: 1,
+            ))
           : ListView.builder(
-        itemCount: profileProv.followersList.data!.length,
-        itemBuilder: (context, index) {
-          final follower = ref.watch(profileNotifierProvider).followersList.data![index];
-          return Column(
-            children: [
-              ListTile(
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              itemCount: profileProv.followersList.data!.length,
+              itemBuilder: (context, index) {
+                final follower = ref
+                    .watch(profileNotifierProvider)
+                    .followersList
+                    .data![index];
+                return Column(
                   children: [
-                    follower.isFollowing!
-                        ? Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 8),
-                          child: const Row(
+                    ListTile(
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          follower.isFollowing!
+                              ? Row(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(bottom: 8),
+                                      child: const Row(
+                                        children: [
+                                          Icon(
+                                            Icons.person,
+                                            size: 16,
+                                            color: AppColors.lightGray,
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            'Follows you',
+                                            style: TextStyle(
+                                                color: AppColors.lightGray,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox.shrink(),
+                          Row(
                             children: [
-                              Icon(
-                                Icons.person,
-                                size: 16,
-                                color: AppColors.lightGray,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.profileScreen,
+                                      arguments: follower.username);
+                                },
+                                child: ClipOval(
+                                  child: CachedNetworkImage(
+                                    width: 32,
+                                    height: 32,
+                                    fit: BoxFit.cover,
+                                    imageUrl: follower.imageUrl ??
+                                        'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
+                                    placeholder: (context, url) => Container(
+                                      color: Color(0xFF333639),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(AppAssets.whiteLogo,
+                                            fit: BoxFit.cover),
+                                  ),
+                                ),
                               ),
-                              SizedBox(width: 4),
-                              Text(
-                                'Follows you',
-                                style: TextStyle(color: AppColors.lightGray, fontSize: 12),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      follower.name!,
+                                      style: AppTextStyle
+                                          .textThemeDark.bodyLarge!
+                                          .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      '@${follower.username}',
+                                      style: AppTextStyle
+                                          .textThemeDark.bodyLarge!
+                                          .copyWith(
+                                        color: AppColors.lightGray,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    )
-                        : const SizedBox.shrink(),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, Routes.profileScreen, arguments: follower.username);
-                          },
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                              width: 32,
-                              height: 32,
-                              fit: BoxFit.cover,
-                              imageUrl: follower.imageUrl ?? 'https://kady-twitter-images.s3.amazonaws.com/defaultProfile.jpg',
-                              placeholder: (context, url) => Container(
-                                color: Color(0xFF333639),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  Image.asset(AppAssets.whiteLogo,
-                                      fit: BoxFit.cover),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                follower.name!,
-                                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                '@${follower.username}',
-                                style: AppTextStyle.textThemeDark.bodyLarge!.copyWith(
-                                  color: AppColors.lightGray,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      // trailing: buildTrailingWidget(follower, context),
                     ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
+                    // const SizedBox(height: 4,),
                   ],
-                ),
-                // trailing: buildTrailingWidget(follower, context),
-              ),
-              const SizedBox(height: 4,),
-              // const Divider(height: 1, thickness: 0.2, color: AppColors.lightThinTextGray), // Divider between items
-              // const SizedBox(height: 4,),
-            ],
-          );
-        },
-      ),
+                );
+              },
+            ),
     );
   }
+
   Widget? buildTrailingWidget(FollowerData follower, BuildContext context) {
     if (follower.username == ref.watch(authNotifierProvider).user?.username) {
       return null; // or any other widget if you don't want to show anything
@@ -169,7 +191,8 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
             horizontalPadding: 20,
             text: follower.isFollowing! ? 'Following' : 'Follow',
             onPressed: () async {
-              ref.read(profileNotifierProvider.notifier)
+              ref
+                  .read(profileNotifierProvider.notifier)
                   .toggleFollowStatus(follower.username!);
               _onRefresh();
             },
@@ -179,11 +202,13 @@ class _FollowersScreenState extends ConsumerState<FollowersScreen> {
       ),
     );
   }
+
   loadData() async {
-    await       ref
+    await ref
         .read(profileNotifierProvider.notifier)
         .getFollowers(username: widget.username);
   }
+
   void _onRefresh() async {
     await loadData();
     _controller.refreshCompleted();
