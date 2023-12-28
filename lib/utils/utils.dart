@@ -4,16 +4,31 @@ import 'package:x_clone/features/home/data/models/home_response.dart';
 
 import '../app/app_keys.dart';
 
-SnackBar buildSnackBar(
-        {required String text, Color backgroundColor = Colors.red}) =>
-    SnackBar(
-      content: Text(text),
-      backgroundColor: backgroundColor,
-      behavior: SnackBarBehavior.floating,
-      duration: const Duration(seconds: 3),
-    );
+/// Builds a [SnackBar] widget with the specified [text] and [backgroundColor].
+///
+/// Example usage:
+/// ```dart
+/// SnackBar snackBar = buildSnackBar(text: 'Hello, world!', backgroundColor: Colors.blue);
+/// AppSnackbar.show(snackBar);
+/// ```
+SnackBar buildSnackBar({required String text, Color backgroundColor = Colors.red}) {
+  return SnackBar(
+    content: Text(text),
+    backgroundColor: backgroundColor,
+    behavior: SnackBarBehavior.floating,
+    duration: const Duration(seconds: 3),
+  );
+}
+
+/// Checks if the [input] string contains only one character repeated multiple times.
+///
+/// Example usage:
+/// ```dart
+/// bool result = containsOnlyOneCharacter('aaaaa');
+/// print(result); // Output: true
+/// ```
 bool containsOnlyOneCharacter(String input) {
-  // Check if all characters in the string are the same as the first character
+// Check if all characters in the string are the same as the first character
   for (int i = 1; i < input.length; i++) {
     if (input[i] != input[0]) {
       return false; // If any character is different, return false
@@ -22,6 +37,13 @@ bool containsOnlyOneCharacter(String input) {
   return true;
 }
 
+/// Splits the [word] into two parts: a prefix of consecutive '#' characters and the remaining part.
+///
+/// Example usage:
+/// ```dart
+/// List<String> result = splitHashWord('###hello');
+/// print(result); // Output: ['', 'hello']
+/// ```
 List<String> splitHashWord(String word) {
   List<String> result = ['', '']; // Initializing with empty strings
 
@@ -34,6 +56,14 @@ List<String> splitHashWord(String word) {
   return result;
 }
 
+/// Finds the indexes of tweets in the [tweets] list that have the specified [id].
+///
+/// Example usage:
+/// ```dart
+/// List<Tweet> tweets = [...];
+/// List<int> indexes = findIndexesOfTweetsWithId(tweets, 123);
+/// print(indexes); // Output: [0, 2, 5]
+/// ```
 List<int> findIndexesOfTweetsWithId(List<Tweet> tweets, int id) {
   List<int> indexesWithId = [];
 
@@ -46,18 +76,39 @@ List<int> findIndexesOfTweetsWithId(List<Tweet> tweets, int id) {
   return indexesWithId;
 }
 
+/// Checks if the [email] string is a valid email address.
+///
+/// Example usage:
+/// ```dart
+/// bool isValid = isEmailValid('test@example.com');
+/// print(isValid); // Output: true
+/// ```
 bool isEmailValid(String email) {
   RegExp emailRegExp =
       RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
   return emailRegExp.hasMatch(email);
 }
 
+/// Checks if the [username] string is a valid username.
+///
+/// Example usage:
+/// ```dart
+/// bool isValid = isValidUsername('john_doe123');
+/// print(isValid); // Output: true
+/// ```
 bool isValidUsername(String username) {
   RegExp usernameRegex =
       RegExp(r"^(?![_-])(?!.*[_-]{2})[a-zA-Z0-9_-]+(?<![_-])$");
   return usernameRegex.hasMatch(username);
 }
 
+/// Extension on [AppKeys] to show a [SnackBar] using [scaffoldMessengerKey].
+///
+/// Example usage:
+/// ```dart
+/// SnackBar snackBar = buildSnackBar(text: 'Hello, world!');
+/// AppKeys.show(snackBar);
+/// ```
 extension AppSnackbar on AppKeys {
   static show(snackBar) {
     AppKeys.scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
@@ -65,6 +116,13 @@ extension AppSnackbar on AppKeys {
   }
 }
 
+/// Extension on [BuildContext] to check if the widget is mounted.
+///
+/// Example usage:
+/// ```dart
+/// bool isMounted = context.mounted;
+/// print(isMounted); // Output: true or false
+/// ```
 extension ContextExtension on BuildContext {
   bool get mounted {
     try {
@@ -76,6 +134,13 @@ extension ContextExtension on BuildContext {
   }
 }
 
+/// Formats the [originalDateString] into a full date and time string.
+///
+/// Example usage:
+/// ```dart
+/// String formattedDateTime = getFullDateTime('2022-01-01T12:34:56');
+/// print(formattedDateTime); // Output: '12:34 • 01 Jan 22'
+/// ```
 String getFullDateTime(String? originalDateString) {
   if (originalDateString == null || originalDateString.isEmpty) return '';
 
@@ -86,6 +151,13 @@ String getFullDateTime(String? originalDateString) {
   return formattedDateTime;
 }
 
+/// Formats the [originalDateString] into a formatted date difference string.
+///
+/// Example usage:
+/// ```dart
+/// String formattedDateDifference = getFormattedDateDifference('2022-01-01T12:34:56');
+/// print(formattedDateDifference); // Output: '1d'
+/// ```
 String getFormattedDateDifference(String? originalDateString) {
   if (originalDateString == null || originalDateString.isEmpty) return '';
 
@@ -111,6 +183,13 @@ String getFormattedDateDifference(String? originalDateString) {
   }
 }
 
+/// Formats the [originalDateString] into a formatted date string.
+///
+/// Example usage:
+/// ```dart
+/// String formattedDate = getFormattedDate('2022-01-01T12:34:56');
+/// print(formattedDate); // Output: 'Jan 01, 2022'
+/// ```
 String getFormattedDate(String? originalDateString) {
   if (originalDateString == null || originalDateString.isEmpty) return '';
   DateTime originalDate = DateTime.parse(originalDateString);
@@ -131,4 +210,5 @@ String getFormattedDate(String? originalDateString) {
   }
 }
 
+/// List of open conversation IDs.
 List<String> openConversationIds = [];
