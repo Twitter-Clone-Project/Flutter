@@ -41,9 +41,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           backgroundColor: AppColors.pureBlack,
           leading: InkWell(
             onTap: () {
+              Scaffold.of(context).openDrawer();
               // Navigate to the profile screen when the user taps on the leading icon.
-              Navigator.pushNamed(context, Routes.profileScreen,
-                  arguments: ref.watch(authNotifierProvider).user?.username);
+              // Navigator.pushNamed(context, Routes.profileScreen,
+              //     arguments: ref.watch(authNotifierProvider).user?.username);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -135,11 +136,20 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         color: AppColors.darkGray,
                       ),
                     ),
-                    subtitle: Text(
-                      '${ref.watch(searchNotifierProvider).trendingList.data![index].name}',
-                      style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${ref.watch(searchNotifierProvider).trendingList.data![index].name}',
+                          style: AppTextStyle.textThemeDark.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${ref.watch(searchNotifierProvider).trendingList.data![index].count} posts',
+                          style: AppTextStyle.textThemeDark.bodyMedium
+                        ),
+                      ],
                     ),
                   ),
                 ),

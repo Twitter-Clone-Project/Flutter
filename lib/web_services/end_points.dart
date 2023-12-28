@@ -1,5 +1,5 @@
-const baseUrl = "https://twitter-clone.onthewifi.com:2023/api/v1/";
-const base = "https://twitter-clone.onthewifi.com:2023";
+const baseUrl = "https://10.0.2.2:2023/api/v1/";
+const base = "https://10.0.2.2:2023";
 
 /// This class contains the endpoints for various API requests.
 class EndPoints {

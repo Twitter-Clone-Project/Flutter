@@ -9,11 +9,13 @@ part of 'search_response.dart';
 _$TrendDataImpl _$$TrendDataImplFromJson(Map<String, dynamic> json) =>
     _$TrendDataImpl(
       name: json['name'] as String?,
+      count: json['count'] as String?,
     );
 
 Map<String, dynamic> _$$TrendDataImplToJson(_$TrendDataImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'count': instance.count,
     };
 
 _$TrendingListImpl _$$TrendingListImplFromJson(Map<String, dynamic> json) =>

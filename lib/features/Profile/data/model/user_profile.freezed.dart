@@ -877,14 +877,31 @@ FollowerData _$FollowerDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$FollowerData {
+  /// The unique identifier of the user.
   String? get userId => throw _privateConstructorUsedError;
+
+  /// The username of the user.
   String? get username => throw _privateConstructorUsedError;
+
+  /// The name of the user.
   String? get name => throw _privateConstructorUsedError;
+
+  /// The bio of the user.
   String? get bio => throw _privateConstructorUsedError;
+
+  /// The URL of the user's profile image.
   String? get imageUrl => throw _privateConstructorUsedError;
+
+  /// Indicates whether the user is followed by the current user.
   bool? get isFollowed => throw _privateConstructorUsedError;
+
+  /// Indicates whether the current user is following the user.
   bool? get isFollowing => throw _privateConstructorUsedError;
+
+  /// The number of followers the user has.
   String? get followersCount => throw _privateConstructorUsedError;
+
+  /// The number of users the user is following.
   String? get followingCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1074,22 +1091,39 @@ class _$FollowerDataImpl implements _FollowerData {
   factory _$FollowerDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$FollowerDataImplFromJson(json);
 
+  /// The unique identifier of the user.
   @override
   final String? userId;
+
+  /// The username of the user.
   @override
   final String? username;
+
+  /// The name of the user.
   @override
   final String? name;
+
+  /// The bio of the user.
   @override
   final String? bio;
+
+  /// The URL of the user's profile image.
   @override
   final String? imageUrl;
+
+  /// Indicates whether the user is followed by the current user.
   @override
   final bool? isFollowed;
+
+  /// Indicates whether the current user is following the user.
   @override
   final bool? isFollowing;
+
+  /// The number of followers the user has.
   @override
   final String? followersCount;
+
+  /// The number of users the user is following.
   @override
   final String? followingCount;
 
@@ -1155,22 +1189,40 @@ abstract class _FollowerData implements FollowerData {
       _$FollowerDataImpl.fromJson;
 
   @override
+
+  /// The unique identifier of the user.
   String? get userId;
   @override
+
+  /// The username of the user.
   String? get username;
   @override
+
+  /// The name of the user.
   String? get name;
   @override
+
+  /// The bio of the user.
   String? get bio;
   @override
+
+  /// The URL of the user's profile image.
   String? get imageUrl;
   @override
+
+  /// Indicates whether the user is followed by the current user.
   bool? get isFollowed;
   @override
+
+  /// Indicates whether the current user is following the user.
   bool? get isFollowing;
   @override
+
+  /// The number of followers the user has.
   String? get followersCount;
   @override
+
+  /// The number of users the user is following.
   String? get followingCount;
   @override
   @JsonKey(ignore: true)

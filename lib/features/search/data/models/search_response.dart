@@ -10,6 +10,7 @@ part 'search_response.g.dart';
 abstract class TrendData with _$TrendData {
   const factory TrendData({
     String? name,
+    String? count,
   }) = _TrendData;
 
   factory TrendData.fromJson(Map<String, dynamic> json) =>

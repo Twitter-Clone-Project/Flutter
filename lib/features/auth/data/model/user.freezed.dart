@@ -21,37 +21,22 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   String? get userId => throw _privateConstructorUsedError;
-
   String? get name => throw _privateConstructorUsedError;
-
   String? get username => throw _privateConstructorUsedError;
-
   String? get screenName => throw _privateConstructorUsedError;
-
   String? get email => throw _privateConstructorUsedError;
-
   String? get imageUrl => throw _privateConstructorUsedError;
-
   String? get bannerUrl => throw _privateConstructorUsedError;
-
   String? get followingsCount => throw _privateConstructorUsedError;
-
   String? get followersCount => throw _privateConstructorUsedError;
-
   String? get birthDate => throw _privateConstructorUsedError;
-
   String? get bio => throw _privateConstructorUsedError;
-
   String? get location => throw _privateConstructorUsedError;
-
   String? get website => throw _privateConstructorUsedError;
-
   bool? get isConfirmed => throw _privateConstructorUsedError;
-
   bool? get isOnline => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }
@@ -60,7 +45,6 @@ mixin _$User {
 abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
-
   @useResult
   $Res call(
       {String? userId,
@@ -87,7 +71,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -180,7 +163,6 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$$UserImplCopyWith(
           _$UserImpl value, $Res Function(_$UserImpl) then) =
       __$$UserImplCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call(
@@ -441,49 +423,34 @@ abstract class _User implements User {
 
   @override
   String? get userId;
-
   @override
   String? get name;
-
   @override
   String? get username;
-
   @override
   String? get screenName;
-
   @override
   String? get email;
-
   @override
   String? get imageUrl;
-
   @override
   String? get bannerUrl;
-
   @override
   String? get followingsCount;
-
   @override
   String? get followersCount;
-
   @override
   String? get birthDate;
-
   @override
   String? get bio;
-
   @override
   String? get location;
-
   @override
   String? get website;
-
   @override
   bool? get isConfirmed;
-
   @override
   bool? get isOnline;
-
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
@@ -497,17 +464,12 @@ MuterData _$MuterDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MuterData {
   String? get userId => throw _privateConstructorUsedError;
-
   String? get username => throw _privateConstructorUsedError;
-
   String? get name => throw _privateConstructorUsedError;
-
   String? get bio => throw _privateConstructorUsedError;
-
   String? get imageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
   $MuterDataCopyWith<MuterData> get copyWith =>
       throw _privateConstructorUsedError;
@@ -517,7 +479,6 @@ mixin _$MuterData {
 abstract class $MuterDataCopyWith<$Res> {
   factory $MuterDataCopyWith(MuterData value, $Res Function(MuterData) then) =
       _$MuterDataCopyWithImpl<$Res, MuterData>;
-
   @useResult
   $Res call(
       {String? userId,
@@ -534,7 +495,6 @@ class _$MuterDataCopyWithImpl<$Res, $Val extends MuterData>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -578,7 +538,6 @@ abstract class _$$MuterDataImplCopyWith<$Res>
   factory _$$MuterDataImplCopyWith(
           _$MuterDataImpl value, $Res Function(_$MuterDataImpl) then) =
       __$$MuterDataImplCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call(
@@ -702,19 +661,14 @@ abstract class _MuterData implements MuterData {
 
   @override
   String? get userId;
-
   @override
   String? get username;
-
   @override
   String? get name;
-
   @override
   String? get bio;
-
   @override
   String? get imageUrl;
-
   @override
   @JsonKey(ignore: true)
   _$$MuterDataImplCopyWith<_$MuterDataImpl> get copyWith =>
@@ -730,7 +684,6 @@ mixin _$MutersList {
   List<MuterData>? get users => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
   $MutersListCopyWith<MutersList> get copyWith =>
       throw _privateConstructorUsedError;
@@ -741,7 +694,6 @@ abstract class $MutersListCopyWith<$Res> {
   factory $MutersListCopyWith(
           MutersList value, $Res Function(MutersList) then) =
       _$MutersListCopyWithImpl<$Res, MutersList>;
-
   @useResult
   $Res call({List<MuterData>? users});
 }
@@ -753,7 +705,6 @@ class _$MutersListCopyWithImpl<$Res, $Val extends MutersList>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -777,7 +728,6 @@ abstract class _$$MutersListImplCopyWith<$Res>
   factory _$$MutersListImplCopyWith(
           _$MutersListImpl value, $Res Function(_$MutersListImpl) then) =
       __$$MutersListImplCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call({List<MuterData>? users});
@@ -814,7 +764,6 @@ class _$MutersListImpl implements _MutersList {
       _$$MutersListImplFromJson(json);
 
   final List<MuterData>? _users;
-
   @override
   List<MuterData>? get users {
     final value = _users;
@@ -864,7 +813,6 @@ abstract class _MutersList implements MutersList {
 
   @override
   List<MuterData>? get users;
-
   @override
   @JsonKey(ignore: true)
   _$$MutersListImplCopyWith<_$MutersListImpl> get copyWith =>
@@ -878,17 +826,12 @@ BlockerData _$BlockerDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BlockerData {
   String? get userId => throw _privateConstructorUsedError;
-
   String? get username => throw _privateConstructorUsedError;
-
   String? get name => throw _privateConstructorUsedError;
-
   String? get bio => throw _privateConstructorUsedError;
-
   String? get imageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
   $BlockerDataCopyWith<BlockerData> get copyWith =>
       throw _privateConstructorUsedError;
@@ -899,7 +842,6 @@ abstract class $BlockerDataCopyWith<$Res> {
   factory $BlockerDataCopyWith(
           BlockerData value, $Res Function(BlockerData) then) =
       _$BlockerDataCopyWithImpl<$Res, BlockerData>;
-
   @useResult
   $Res call(
       {String? userId,
@@ -916,7 +858,6 @@ class _$BlockerDataCopyWithImpl<$Res, $Val extends BlockerData>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -960,7 +901,6 @@ abstract class _$$BlockerDataImplCopyWith<$Res>
   factory _$$BlockerDataImplCopyWith(
           _$BlockerDataImpl value, $Res Function(_$BlockerDataImpl) then) =
       __$$BlockerDataImplCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call(
@@ -1084,19 +1024,14 @@ abstract class _BlockerData implements BlockerData {
 
   @override
   String? get userId;
-
   @override
   String? get username;
-
   @override
   String? get name;
-
   @override
   String? get bio;
-
   @override
   String? get imageUrl;
-
   @override
   @JsonKey(ignore: true)
   _$$BlockerDataImplCopyWith<_$BlockerDataImpl> get copyWith =>
@@ -1112,7 +1047,6 @@ mixin _$BlockersList {
   List<BlockerData>? get users => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
   $BlockersListCopyWith<BlockersList> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1123,7 +1057,6 @@ abstract class $BlockersListCopyWith<$Res> {
   factory $BlockersListCopyWith(
           BlockersList value, $Res Function(BlockersList) then) =
       _$BlockersListCopyWithImpl<$Res, BlockersList>;
-
   @useResult
   $Res call({List<BlockerData>? users});
 }
@@ -1135,7 +1068,6 @@ class _$BlockersListCopyWithImpl<$Res, $Val extends BlockersList>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -1159,7 +1091,6 @@ abstract class _$$BlockersListImplCopyWith<$Res>
   factory _$$BlockersListImplCopyWith(
           _$BlockersListImpl value, $Res Function(_$BlockersListImpl) then) =
       __$$BlockersListImplCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call({List<BlockerData>? users});
@@ -1196,7 +1127,6 @@ class _$BlockersListImpl implements _BlockersList {
       _$$BlockersListImplFromJson(json);
 
   final List<BlockerData>? _users;
-
   @override
   List<BlockerData>? get users {
     final value = _users;
@@ -1247,7 +1177,6 @@ abstract class _BlockersList implements BlockersList {
 
   @override
   List<BlockerData>? get users;
-
   @override
   @JsonKey(ignore: true)
   _$$BlockersListImplCopyWith<_$BlockersListImpl> get copyWith =>

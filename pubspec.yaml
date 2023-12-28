@@ -52,12 +52,12 @@ flutter_native_splash:
   android: true
   ios: true
   web: false
-  android_gravity: fill
+  android_gravity: center
   ios_content_mode: scaleAspectFill
   android_12:
     color: "#000000"
     image: "res/assets/splash.png"
-    android_gravity: fill
+    android_gravity: center
 
 
 

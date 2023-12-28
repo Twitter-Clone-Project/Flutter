@@ -21,6 +21,7 @@ TrendData _$TrendDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TrendData {
   String? get name => throw _privateConstructorUsedError;
+  String? get count => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +34,7 @@ abstract class $TrendDataCopyWith<$Res> {
   factory $TrendDataCopyWith(TrendData value, $Res Function(TrendData) then) =
       _$TrendDataCopyWithImpl<$Res, TrendData>;
   @useResult
-  $Res call({String? name});
+  $Res call({String? name, String? count});
 }
 
 /// @nodoc
@@ -50,11 +51,16 @@ class _$TrendDataCopyWithImpl<$Res, $Val extends TrendData>
   @override
   $Res call({
     Object? name = freezed,
+    Object? count = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      count: freezed == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -68,7 +74,7 @@ abstract class _$$TrendDataImplCopyWith<$Res>
       __$$TrendDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name});
+  $Res call({String? name, String? count});
 }
 
 /// @nodoc
@@ -83,11 +89,16 @@ class __$$TrendDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = freezed,
+    Object? count = freezed,
   }) {
     return _then(_$TrendDataImpl(
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      count: freezed == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -96,17 +107,19 @@ class __$$TrendDataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TrendDataImpl implements _TrendData {
-  const _$TrendDataImpl({this.name});
+  const _$TrendDataImpl({this.name, this.count});
 
   factory _$TrendDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$TrendDataImplFromJson(json);
 
   @override
   final String? name;
+  @override
+  final String? count;
 
   @override
   String toString() {
-    return 'TrendData(name: $name)';
+    return 'TrendData(name: $name, count: $count)';
   }
 
   @override
@@ -114,12 +127,13 @@ class _$TrendDataImpl implements _TrendData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TrendDataImpl &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.count, count) || other.count == count));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name);
+  int get hashCode => Object.hash(runtimeType, name, count);
 
   @JsonKey(ignore: true)
   @override
@@ -136,13 +150,16 @@ class _$TrendDataImpl implements _TrendData {
 }
 
 abstract class _TrendData implements TrendData {
-  const factory _TrendData({final String? name}) = _$TrendDataImpl;
+  const factory _TrendData({final String? name, final String? count}) =
+      _$TrendDataImpl;
 
   factory _TrendData.fromJson(Map<String, dynamic> json) =
       _$TrendDataImpl.fromJson;
 
   @override
   String? get name;
+  @override
+  String? get count;
   @override
   @JsonKey(ignore: true)
   _$$TrendDataImplCopyWith<_$TrendDataImpl> get copyWith =>
