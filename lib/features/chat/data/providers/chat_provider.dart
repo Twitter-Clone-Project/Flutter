@@ -163,7 +163,7 @@ class ChatNotifierProvider extends StateNotifier<ChatState> {
       final response = await chatRepository.getUnseenConversationsCnt();
       state = state.copyWith(unseenCnt: response.toString());
     } catch (e) {
-      rethrow;
+      print(e.toString());
     }
   }
 

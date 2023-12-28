@@ -21,11 +21,6 @@ void main() async {
       isInDebugMode:
           false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
-  // Workmanager().registerPeriodicTask(
-  //   "task-identifier",
-  //   "simpleTask",
-  //   frequency: Duration(seconds: 10),
-  // );
 
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,

@@ -36,14 +36,6 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   }
 
   @override
-  void dispose() {
-    ref
-        .read(notificationsNotifierProvider.notifier)
-        .removeListener(ref.read(authNotifierProvider).user!.userId!);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final notifications = ref.watch(notificationsNotifierProvider);
 
