@@ -30,6 +30,17 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
     });
   }
 
+  onNotification(NotificationData notification) {
+    final oldList = List<NotificationData>.from(state.notifications.data);
+
+    oldList.insert(0, notification);
+
+    state = state.copyWith(
+      notifications: NotificationsList(data: oldList),
+      unseenNotificationsCount: state.unseenNotificationsCount + 1,
+    );
+  }
+
   removeListener(String userId) {
     SocketClient.disconnectNotification();
   }
