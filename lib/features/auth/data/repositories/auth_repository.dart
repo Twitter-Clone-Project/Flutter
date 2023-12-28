@@ -13,10 +13,13 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
+
   Future<bool?> isEmailFound({required String newEmail});
+
   Future<bool?> forgetPassword({
     required String email,
   });
+
   Future<User?> register({
     required String username,
     required String email,
@@ -25,21 +28,24 @@ abstract class AuthRepository {
     required String birthDate,
     required String reCaptchaText,
   });
+
   Future<User?> confirmEmail({
     required String otp,
     required String email,
     required bool isSignUp,
-    String? newEmail ,
-
+    String? newEmail,
   });
+
   Future<bool?> resetPassword({
     required String password,
     required String passwordConfirm,
     required String email,
   });
+
   Future<String?> resendOtp({
     required String email,
   });
+
 //   Future<User?> updateUser({String? phone, String? name});
   Future<void> registerFCMToken({required String token});
 
@@ -55,7 +61,6 @@ abstract class AuthRepository {
     required String username,
   });
 
-
   Future<bool?> unblockUser({
     required String username,
   });
@@ -63,14 +68,18 @@ abstract class AuthRepository {
   User? getUserData();
 
   String? getToken();
+
   Future<bool?> updateUsername({required String newUsername});
+
   Future<bool?> updateEmail({required String newEmail});
+
   Future<bool?> updatePassword(
       {required String currentPassword,
       required String newPassword,
       required String newPasswordConfirm});
 
   Future<MutersList> fetchMutersData();
+
   Future<BlockersList> fetchBlockersData();
 }
 
@@ -106,7 +115,7 @@ class AuthRepositoryImpl implements AuthRepository {
         data: data,
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return response.data["status"]==true;
+        return response.data["status"] == true;
       } else {
         throw (response.data["message"]);
       }
@@ -114,7 +123,6 @@ class AuthRepositoryImpl implements AuthRepository {
       throw e.toString();
     }
   }
-
 
   @override
   Future<bool?> isEmailFound({required String newEmail}) async {
@@ -123,7 +131,7 @@ class AuthRepositoryImpl implements AuthRepository {
         EndPoints.isEmailFound(newEmail),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return response.data["data"]["isFound"]==true;
+        return response.data["data"]["isFound"] == true;
       } else {
         throw (response.data["message"]);
       }
@@ -131,8 +139,6 @@ class AuthRepositoryImpl implements AuthRepository {
       throw e.toString();
     }
   }
-
-
 
   @override
   Future<bool?> updatePassword(
@@ -236,20 +242,20 @@ class AuthRepositoryImpl implements AuthRepository {
     required String otp,
     required String email,
     required bool isSignUp,
-    String? newEmail ,
+    String? newEmail,
   }) async {
     print(otp.length);
     print(getToken());
     try {
       final data = {
-        if(newEmail != null)
-        "newEmail": newEmail,
+        if (newEmail != null) "newEmail": newEmail,
         "email": email,
         "otp": otp,
       };
       var response = await HttpClient.dio.post(
-        newEmail != null ? EndPoints.confirmProfileEmail :
-        EndPoints.confirmEmail,
+        newEmail != null
+            ? EndPoints.confirmProfileEmail
+            : EndPoints.confirmEmail,
         data: data,
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -431,11 +437,12 @@ class AuthRepositoryImpl implements AuthRepository {
       rethrow;
     }
   }
+
   @override
   Future<bool?> unblockUser({required String username}) async {
     try {
       var response =
-      await HttpClient.dio.delete(EndPoints.unblockUser(username));
+          await HttpClient.dio.delete(EndPoints.unblockUser(username));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
@@ -449,7 +456,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool?> unmuteUser({required String username}) async {
     try {
       var response =
-      await HttpClient.dio.delete(EndPoints.unmuteUser(username));
+          await HttpClient.dio.delete(EndPoints.unmuteUser(username));
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       }
@@ -459,10 +466,6 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 }
-
-
-
-
 
 //
 // @override
