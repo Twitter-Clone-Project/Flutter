@@ -18,14 +18,26 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
         ) {}
 
   init(String userId) {
-    SocketClient.onNotificationReceive(
-      (data) {
-        final oldList = List<NotificationData>.from(state.notifications.data);
+    SocketClient.onNotificationReceive((data) {
+      final oldList = List<NotificationData>.from(state.notifications.data);
 
-        oldList.insert(0, NotificationData.fromJson(data));
+      oldList.insert(0, NotificationData.fromJson(data));
 
-        state = state.copyWith(notifications: NotificationsList(data: oldList));
-      },
+      state = state.copyWith(
+        notifications: NotificationsList(data: oldList),
+        unseenNotificationsCount: state.unseenNotificationsCount + 1,
+      );
+    });
+  }
+
+  onNotification(NotificationData notification) {
+    final oldList = List<NotificationData>.from(state.notifications.data);
+
+    oldList.insert(0, notification);
+
+    state = state.copyWith(
+      notifications: NotificationsList(data: oldList),
+      unseenNotificationsCount: state.unseenNotificationsCount + 1,
     );
   }
 
@@ -36,10 +48,12 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
   markNotificationsAsSeen(String userId) {
     SocketClient.markNotificationsAsSeen(userId);
     state = state.copyWith(
-        notifications: NotificationsList(
-            data: state.notifications.data
-                .map((e) => e.copyWith(isSeen: true))
-                .toList()));
+      notifications: NotificationsList(
+          data: state.notifications.data
+              .map((e) => e.copyWith(isSeen: true))
+              .toList()),
+      unseenNotificationsCount: 0,
+    );
   }
 
   getNotifications({
@@ -56,9 +70,16 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
 
       notifications = NotificationResponse.data;
 
+      int cnt = 0;
+      for (final notification in notifications) {
+        if (!notification.isSeen) cnt++;
+      }
+
       state = state.copyWith(
-          loading: false,
-          notifications: NotificationsList(data: notifications));
+        loading: false,
+        notifications: NotificationsList(data: notifications),
+        unseenNotificationsCount: cnt,
+      );
     } catch (e) {
       state = state.copyWith(loading: false, errorMessage: e.toString());
       return const NotificationsList(data: []);

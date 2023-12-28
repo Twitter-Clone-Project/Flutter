@@ -9,6 +9,10 @@ import '../features/chat/data/model/chats_response.dart' as chats;
 import '../utils/utils.dart';
 
 class SocketClient {
+  static Function(NotificationData) _onFollowReceive = (notification) {};
+  static Function(NotificationData) _onUnFollowReceive = (notification) {};
+  static Function(NotificationData) _onNotificationReceive = (notification) {};
+
   /// Handles the receiving of a notification with the provided [data].
   ///
   /// This function takes in a dynamic [data] parameter and converts it into a [NotificationData] object.
@@ -26,7 +30,8 @@ class SocketClient {
   ///
   /// handleNotificationReceiveWithNotification(data);
   /// ```
-  static handleNotificationReceiveWithNotification(dynamic data) async {
+  static handleNotificationReceiveWithNotification(
+      Map<String, dynamic> data) async {
     var notificationData = NotificationData.fromJson(data);
 
     await NotificationServices.showNotification(
@@ -57,8 +62,6 @@ class SocketClient {
   ///
   /// Note: This function assumes that the [NotificationServices.showNotification] method is implemented and available.
   static handleMessageReceiveWithNotification(Map<String, dynamic> data) async {
-    print(data);
-
     chats.Message message = chats.Message.fromJson(data);
     if (message.isFromMe != null && message.isFromMe == true) return;
 
@@ -88,19 +91,26 @@ class SocketClient {
   /// ```dart
   /// SocketServices.connect("12");
   /// ```
-  static connect(String userId) {
+  static connect(
+    String userId, {
+    Function(NotificationData)? onFollow,
+    Function(NotificationData)? onUnFollow,
+    Function(NotificationData)? onMessage,
+    Function(NotificationData)? onNotification,
+  }) {
     socket.onConnect((_) {
       socket.emit("add-user", {
         "userId": userId,
       });
     });
+    SocketClient._onFollowReceive = onFollow ?? (notifiaction) {};
+    SocketClient._onUnFollowReceive = onUnFollow ?? (notifiaction) {};
+    SocketClient._onNotificationReceive = onNotification ?? (notifiaction) {};
 
     socket.onConnectError((data) => print('Connect Error: $data'));
     socket.onDisconnect((data) => print('Socket.I0 server disconnected'));
 
-    socket.on("notification-receive", (data) async {
-      await handleNotificationReceiveWithNotification(data);
-    });
+    SocketClient.disconnectNotification();
 
     socket.connect();
   }
@@ -120,6 +130,13 @@ class SocketClient {
   static disconnectNotification() {
     socket.off("notification-receive");
     socket.on("notification-receive", (data) async {
+      var notificationData = NotificationData.fromJson(data);
+      if (notificationData.type == "FOLLOW")
+        SocketClient._onFollowReceive(notificationData);
+      else if (notificationData.type == "UNFOLLOW")
+        SocketClient._onUnFollowReceive(notificationData);
+      SocketClient._onNotificationReceive(notificationData);
+
       await handleNotificationReceiveWithNotification(data);
     });
   }
@@ -139,6 +156,13 @@ class SocketClient {
   static onNotificationReceive(Function callback) {
     socket.off("notification-receive");
     socket.on("notification-receive", (data) {
+      var notificationData = NotificationData.fromJson(data);
+      if (notificationData.type == "FOLLOW")
+        SocketClient._onFollowReceive(notificationData);
+      else if (notificationData.type == "UNFOLLOW")
+        SocketClient._onUnFollowReceive(notificationData);
+      SocketClient._onNotificationReceive(notificationData);
+
       callback(data);
     });
   }
@@ -275,7 +299,7 @@ class SocketClient {
     socket.off("status-of-contact");
     socket.on("status-of-contact", (data) async {
       if (data["inConversation"] == true) {
-        if(openConversationIds.contains(data["conversationId"])==false) {
+        if (openConversationIds.contains(data["conversationId"]) == false) {
           openConversationIds.add(data["conversationId"]);
         }
         callback(data);
