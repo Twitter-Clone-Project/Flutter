@@ -16,6 +16,10 @@ import '../../search/ui/search_screen.dart';
 import '../data/providers/home_provider.dart';
 import 'home_screen.dart';
 
+/// A screen widget that displays a navigation bar at the bottom and switches between different screens based on user interaction.
+///
+/// The [NavigationScreen] widget is a stateful widget that manages the state of the currently selected screen index and renders the appropriate screen based on the selected index.
+/// It also provides a bottom navigation bar for easy navigation between screens.
 class NavigationScreen extends StatefulHookConsumerWidget {
   const NavigationScreen({super.key});
 
@@ -153,6 +157,10 @@ class _NavigationScreenState extends ConsumerState<NavigationScreen>
     );
   }
 
+  /// Callback function that is called when a tab is tapped in the bottom navigation bar.
+  ///
+  /// The [index] parameter represents the index of the tapped tab.
+  /// This function updates the selected screen index in the [homeProvider] and triggers a rebuild of the widget.
   void onTabTapped(int index) {
     ref.read(homeNotifierProvider.notifier).changePageIndex(index);
   }

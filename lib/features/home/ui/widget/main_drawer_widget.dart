@@ -9,6 +9,9 @@ import '../../../../theme/app_assets.dart';
 import '../../../auth/data/providers/auth_provider.dart';
 import '../../data/providers/home_provider.dart';
 
+/// A widget that represents the main drawer of the application.
+/// The main drawer displays the user's profile information, such as their name, username, number of followers, and number of followings.
+/// It also provides navigation options to the user, such as accessing their profile and settings.
 class MainDrawer extends ConsumerWidget {
   const MainDrawer({super.key});
 

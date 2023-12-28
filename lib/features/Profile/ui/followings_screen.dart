@@ -11,6 +11,8 @@ import '../../../theme/app_assets.dart';
 import '../../auth/data/providers/auth_provider.dart';
 import '../data/model/user_profile.dart';
 
+/// A screen widget that displays the list of users that the current user is following.
+/// It provides a visual representation of the users' profile images, names, and follow status.
 class FollowingsScreen extends StatefulHookConsumerWidget {
   const FollowingsScreen({super.key, required this.username});
 
@@ -24,6 +26,7 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
   @override
   void initState() {
     super.initState();
+    // Fetch the list of followings for the given username
     Future.delayed(const Duration(seconds: 0), () {
       ref
           .read(profileNotifierProvider.notifier)
@@ -108,6 +111,7 @@ class _FollowingsScreenState extends ConsumerState<FollowingsScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
+                                  // Navigate to the profile screen of the selected user
                                   Navigator.pushNamed(
                                       context, Routes.profileScreen,
                                       arguments: following.username);

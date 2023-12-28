@@ -10,37 +10,49 @@ import '../../../utils/utils.dart';
 import '../../../web_services/socket_services.dart';
 import '../data/providers/chat_provider.dart';
 
+/// A screen that displays a chat conversation.
+///
+/// This screen is responsible for displaying the chat conversation between the user and a contact.
+/// It includes a header with the contact's information, a list of messages, and an input field to send new messages.
 class ChatScreen extends StatefulHookConsumerWidget {
   final Conversation conversation;
-  const ChatScreen({super.key,required this.conversation});
+  const ChatScreen({super.key, required this.conversation});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends ConsumerState<ChatScreen> {
-  TextEditingController textController =TextEditingController();
+  TextEditingController textController = TextEditingController();
   String? clickedMessageId;
 
   @override
   void initState() {
+    // Fetches the message history for the conversation and opens a chat socket connection.
     Future.delayed(const Duration(seconds: 0), () {
-      ref.read(chatNotifierProvider.notifier).getMessagesHistory(widget.conversation.conversationId??'');
-      SocketClient.chatOpen(conversationId: widget.conversation.conversationId??'', senderId: ref.read(authNotifierProvider).user?.userId??'', contactId: widget.conversation.contact?.id??'');
-      SocketClient.statusOfContact((data){
-        if(data["conversationId"]==widget.conversation.conversationId)
-          {
-            ref.read(chatNotifierProvider.notifier).updateMessageStatus();
-          }
+      ref
+          .read(chatNotifierProvider.notifier)
+          .getMessagesHistory(widget.conversation.conversationId ?? '');
+      SocketClient.chatOpen(
+          conversationId: widget.conversation.conversationId ?? '',
+          senderId: ref.read(authNotifierProvider).user?.userId ?? '',
+          contactId: widget.conversation.contact?.id ?? '');
+      SocketClient.statusOfContact((data) {
+        if (data["conversationId"] == widget.conversation.conversationId) {
+          ref.read(chatNotifierProvider.notifier).updateMessageStatus();
+        }
       });
-
     });
 
     super.initState();
   }
+
   @override
   void dispose() {
-    SocketClient.chatClose(conversationId: widget.conversation.conversationId??'', contactId: widget.conversation.contact?.id??'');
+    // Closes the chat socket connection when the screen is disposed.
+    SocketClient.chatClose(
+        conversationId: widget.conversation.conversationId ?? '',
+        contactId: widget.conversation.contact?.id ?? '');
     super.dispose();
   }
 
@@ -49,11 +61,13 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     final chatState = ref.watch(chatNotifierProvider);
     return SafeArea(
       child: Scaffold(
-        body:
-        Column(
+        body: Column(
           children: [
+            // Header with contact information and navigation buttons.
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 10,),
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+              ),
               width: double.infinity,
               child: Row(
                 children: [
@@ -61,13 +75,16 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child:const Icon(Icons.arrow_back_ios_rounded,size: 30,),
-
+                    child: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                      size: 30,
+                    ),
                   ),
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.profileScreen, arguments: widget.conversation.contact!.username);
+                      Navigator.pushNamed(context, Routes.profileScreen,
+                          arguments: widget.conversation.contact!.username);
                     },
                     child: Column(
                       children: [
@@ -76,16 +93,20 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                             width: 40,
                             height: 40,
                             fit: BoxFit.cover,
-                            imageUrl: widget.conversation.contact?.imageUrl ?? '',
+                            imageUrl:
+                                widget.conversation.contact?.imageUrl ?? '',
                             placeholder: (context, url) => Image.asset(
                                 AppAssets.whiteLogo,
                                 fit: BoxFit.cover),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                         ),
-                        const SizedBox(height: 5,),
+                        const SizedBox(
+                          height: 5,
+                        ),
                         Text(
-                          widget.conversation.contact?.name??'',
+                          widget.conversation.contact?.name ?? '',
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
@@ -106,12 +127,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             ),
             chatState.chatLoading
                 ? const Expanded(
-                  child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                )
-                :
-            buildMessageList(chatState.chatResponse.messages),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : buildMessageList(chatState.chatResponse.messages),
             const Divider(),
             buildMessageInput(),
           ],
@@ -120,92 +140,90 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     );
   }
 
-
-
-
-
+  /// Builds the list of messages.
+  ///
+  /// This widget takes a list of messages and displays them in a scrollable list.
+  /// The messages are displayed in reverse order, with the latest message at the bottom.
+  /// If the list is empty, a "No Messages" text is displayed.
   Widget buildMessageList(List<Message> messages) {
-    messages=messages.reversed.toList();
-    if(messages.isEmpty)
-      {
-        return const Expanded(
-          child: Center(
-            child: Text('No Messages'),
-          ),
-        );
-      }
-      else
-      {
-        return Expanded(
-          child: ListView.builder(
-            reverse: true,
-            itemCount: messages.length,
-            itemBuilder: (context, index) {
-              return buildMessageItem(messages[index]);
-            },
-          ),
-        );
-      }
-
-  }
-  //
-  Widget buildMessageItem(Message message) {
-
-    var alignment =
-    message.isFromMe==true ? Alignment.centerRight : Alignment.centerLeft;
-    return
-      Container(
-        alignment: alignment,
-        child: InkWell(
-          onTap: () {
-            if(clickedMessageId==message.messageId)
-            {
-              clickedMessageId=null;
-            }
-            else
-            {
-              clickedMessageId=message.messageId;
-            }
-            setState(() {});
+    messages = messages.reversed.toList();
+    if (messages.isEmpty) {
+      return const Expanded(
+        child: Center(
+          child: Text('No Messages'),
+        ),
+      );
+    } else {
+      return Expanded(
+        child: ListView.builder(
+          reverse: true,
+          itemCount: messages.length,
+          itemBuilder: (context, index) {
+            return buildMessageItem(messages[index]);
           },
-          child: Column(
-            crossAxisAlignment: message.isFromMe==true?CrossAxisAlignment.end:CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.all(10),
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.7,
-                ),
-                decoration: BoxDecoration(
-                  color: message.isFromMe==true
-                      ? AppColors.primaryColor
-                      : AppColors.borderDarkGray,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  message.text??'',
-                  style: const TextStyle(
-                    color: Colors.white),
-                ),
-              ),
-              if(clickedMessageId==message.messageId)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text(
-                  "${getFormattedDate(message.time)} ${message.isFromMe==false?'':message.isSeen==true?'Seen':'Sent'}",
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                    ),
-                  ),
-                )
-            ],
-          ),
-        ), // Column
-      ) ;
+        ),
+      );
+    }
   }
 
+//
+  /// Builds a single message item.
+  ///
+  /// This widget displays a single message item in the chat conversation.
+  /// The alignment of the message depends on whether it is sent by the user or the contact.
+  /// Tapping on the message toggles its selection state.
+  Widget buildMessageItem(Message message) {
+    var alignment =
+        message.isFromMe == true ? Alignment.centerRight : Alignment.centerLeft;
+    return Container(
+      alignment: alignment,
+      child: InkWell(
+        onTap: () {
+          if (clickedMessageId == message.messageId) {
+            clickedMessageId = null;
+          } else {
+            clickedMessageId = message.messageId;
+          }
+          setState(() {});
+        },
+        child: Column(
+          crossAxisAlignment: message.isFromMe == true
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.7,
+              ),
+              decoration: BoxDecoration(
+                color: message.isFromMe == true
+                    ? AppColors.primaryColor
+                    : AppColors.borderDarkGray,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                message.text ?? '',
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+            if (clickedMessageId == message.messageId)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  "${getFormattedDate(message.time)} ${message.isFromMe == false ? '' : message.isSeen == true ? 'Seen' : 'Sent'}",
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+              )
+          ],
+        ),
+      ), // Column
+    );
+  }
 
   buildMessageInput() {
     return Container(
@@ -246,29 +264,28 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               onPressed: textController.text.trim().isEmpty
                   ? null
                   : () {
-                if (textController.text.isNotEmpty) {
-                  ref.read(chatNotifierProvider.notifier).sendMessage(
-                      widget.conversation.conversationId??'',
-                      textController.text,
-                      widget.conversation.contact?.id??'',
-                      ref.read(authNotifierProvider).user?.userId??'');
-                  textController.clear();
-                }
-              },
+                      if (textController.text.isNotEmpty) {
+                        ref.read(chatNotifierProvider.notifier).sendMessage(
+                            widget.conversation.conversationId ?? '',
+                            textController.text,
+                            widget.conversation.contact?.id ?? '',
+                            ref.read(authNotifierProvider).user?.userId ?? '');
+                        textController.clear();
+                      }
+                    },
               icon: CircleAvatar(
-                backgroundColor: AppColors.primaryColor.withOpacity(
-                    textController.text.trim().isEmpty ? 0.7 : 1),
+                backgroundColor: AppColors.primaryColor
+                    .withOpacity(textController.text.trim().isEmpty ? 0.7 : 1),
                 child: Icon(
                   Icons.send,
                   color: AppColors.whiteColor.withOpacity(
-                      textController.text.trim().isEmpty ? 0.5 : 1),                ),
+                      textController.text.trim().isEmpty ? 0.5 : 1),
+                ),
               ),
             ),
           ],
         ),
       ),
-    )
-    ;
+    );
   }
-
 }

@@ -8,6 +8,20 @@ import 'package:x_clone/features/auth/ui/widgets/custom_button.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
+/// A screen widget for updating the user's password.
+///
+/// This widget provides a user interface for the user to change their password.
+/// It includes text fields for entering the current password, new password, and
+/// confirming the new password. It also includes validation for the entered
+/// passwords and displays error messages if the passwords do not meet the
+/// required criteria.
+///
+/// Example usage:
+/// ```dart
+/// PasswordScreen(
+///   key: Key('passwordScreen'),
+/// )
+/// ```
 class PasswordScreen extends StatefulHookConsumerWidget {
   const PasswordScreen({super.key});
 
@@ -102,8 +116,9 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                   ),
                   subtitle: TextFormField(
                     controller: _newPasswordController,
-                    obscureText: true,
-                    // Set this to true to hide the entered text
+                    obscureText:
+                        true, // Set this to true to hide the entered text
+
                     // validator: (value) {
                     //   if (value == null || value.isEmpty) {
                     //     return 'Please enter a value';
@@ -211,6 +226,18 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
       ),
     );
   }
+
+  /// Shows a Flushbar notification with a success or failure message.
+  ///
+  /// This method is responsible for displaying a Flushbar notification in the given [context].
+  /// The [success] parameter determines whether the notification should display a success or failure message.
+  /// The [successful] parameter is the success message to be displayed when [success] is true.
+  /// The [failed] parameter is the failure message to be displayed when [success] is false.
+  ///
+  /// Example:
+  /// ```dart
+  /// showFlushbar(context, true, 'Password updated successfully', 'Failed to update password');
+  /// ```
 
   void showFlushbar(
       BuildContext context, bool success, String successful, String failed) {

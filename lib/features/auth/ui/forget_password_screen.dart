@@ -13,6 +13,11 @@ import '../../../theme/app_colors.dart';
 import '../../../utils/utils.dart';
 import '../data/providers/auth_provider.dart';
 
+/// A screen widget for the forget password feature.
+///
+/// This widget displays a screen where users can enter their email address
+/// to initiate the forget password process. It includes a cancel button,
+/// a logo, an email input field, and a "Next" button to proceed to the next step.
 class ForgetPasswordScreen extends StatefulHookConsumerWidget {
   const ForgetPasswordScreen({Key? key}) : super(key: key);
 

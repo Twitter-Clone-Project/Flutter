@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../theme/app_colors.dart';
 
+/// A widget that displays an image in full screen.
+///
+/// This widget takes an [imageUrl] as a required parameter and displays the image in full screen.
+/// It provides a back button in the app bar to navigate back to the previous screen.
 class FullScreenImage extends StatelessWidget {
   const FullScreenImage({super.key, required this.imageUrl});
   final String imageUrl;

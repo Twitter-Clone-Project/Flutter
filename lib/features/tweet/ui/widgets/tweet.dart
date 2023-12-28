@@ -16,6 +16,25 @@ import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 import 'package:x_clone/utils/utils.dart';
 
+/// A widget that represents a single tweet.
+///
+/// This widget is responsible for displaying a single tweet along with its
+/// associated information such as the index, the user it belongs to, and
+/// whether it is being displayed in the user's profile or not.
+///
+/// Example usage:
+/// ```dart
+/// TweetComponent(
+///   tweet: Tweet(
+///     id: 1,
+///     content: 'Hello, world!',
+///     author: 'John Doe',
+///   ),
+///   index: 0,
+///   whom: 123,
+///   inMyProfile: 1,
+/// )
+/// ```
 class TweetComponent extends StatefulHookConsumerWidget {
   final Tweet tweet;
   final int index;
@@ -42,6 +61,20 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     super.initState();
   }
 
+  /// Formats the count value into a human-readable format.
+  ///
+  /// If the count is less than 1000, it returns the count as a string.
+  /// If the count is between 1000 and 999,999, it converts the count into
+  /// thousands (k) format with one decimal place if necessary.
+  /// If the count is greater than or equal to 1,000,000, it converts the count
+  /// into millions (M) format with one decimal place if necessary.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// String formattedCount = formatCount(500); // returns "500"
+  /// String formattedCount2 = formatCount(1500); // returns "1.5k"
+  /// String formattedCount3 = formatCount(1000000); // returns "1.0M"
+  /// ```
   String formatCount(int count) {
     if (count < 1000) {
       return count.toString();
@@ -58,6 +91,23 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     }
   }
 
+  /// Displays a dialog with a grid of images.
+  ///
+  /// This function takes in a [BuildContext] and a list of [NetworkImage] objects
+  /// and displays a dialog with a grid of images. The number of columns in the grid
+  /// can be adjusted by changing the value of `crossAxisCount` in the
+  /// [SliverGridDelegateWithFixedCrossAxisCount] widget.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// List<NetworkImage> images = [
+  ///   NetworkImage('https://example.com/image1.jpg'),
+  ///   NetworkImage('https://example.com/image2.jpg'),
+  ///   NetworkImage('https://example.com/image3.jpg'),
+  /// ];
+  ///
+  /// _showImageDialog(context, images);
+  /// ```
   void _showImageDialog(BuildContext context, List<NetworkImage> images) {
     showDialog(
       context: context,
@@ -82,6 +132,21 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
       },
     );
   }
+
+  /// Opens a bottom sheet for deleting the tweet.
+  ///
+  /// This method is called when the user taps on the tweet and the tweet's
+  /// author is the same as the currently logged-in user. It shows a modal
+  /// bottom sheet with the option to delete the tweet. When the user taps on
+  /// the "Delete Post" option, the tweet is deleted from both the home feed and
+  /// the user's profile. The bottom sheet is then closed and the user is
+  /// navigated back to the previous screen.
+  ///
+  /// Example usage:
+  ///
+  /// ```dart
+  /// _openBottomSheetForDelete(context);
+  /// ```
 
   void _openBottomSheetForDelete(BuildContext context) {
     if (widget.tweet.user!.username ==
@@ -181,6 +246,17 @@ class _TweetComposeState extends ConsumerState<TweetComponent> {
     int? repliesCount = widget.tweet.repliesCount;
 
     //Handle if Click From Home Or Profile
+    /// This widget represents a tweet and displays various information about the tweet, such as the number of likes, retweets, and replies.
+    /// The information displayed depends on the value of the `whom` parameter.
+    ///
+    /// Example usage:
+    ///
+    /// ```dart
+    /// Tweet(
+    ///   whom: 0,
+    /// )
+    /// ```
+
     if (widget.whom == 0) {
       isliked =
           ref.watch(homeNotifierProvider).homeResponse.data[index].isLiked ??

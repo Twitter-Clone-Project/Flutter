@@ -9,6 +9,23 @@ import 'package:x_clone/theme/app_colors.dart';
 
 import '../../../theme/app_assets.dart';
 
+/// A screen widget that displays a list of notifications.
+///
+/// This widget is responsible for fetching and displaying a list of notifications.
+/// It uses the `notificationsNotifierProvider` to fetch the notifications data
+/// and renders the UI accordingly. It also provides a floating action button to
+/// mark all notifications as seen.
+///
+/// Example usage:
+///
+/// ```dart
+/// Navigator.push(
+///   context,
+///   MaterialPageRoute(
+///     builder: (context) => NotificationsScreen(),
+///   ),
+/// );
+/// ```
 class NotificationsScreen extends StatefulHookConsumerWidget {
   const NotificationsScreen({super.key});
 
@@ -25,6 +42,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   void initState() {
     super.initState();
 
+    // Fetch notifications and initialize user
     Future.delayed(const Duration(seconds: 0), () {
       ref
           .read(notificationsNotifierProvider.notifier)
@@ -87,6 +105,25 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   }
 }
 
+/// A widget that represents a single notification.
+///
+/// This widget displays the details of a notification, such as the content,
+/// sender information, and timestamp. It also provides an `InkWell` widget
+/// that allows the user to interact with the notification based on its type.
+///
+/// Example usage:
+///
+/// ```dart
+/// Notification(
+///   notificationId: '123',
+///   timestamp: '2022-01-01 12:00:00',
+///   isSeen: false,
+///   content: 'You have a new follower!',
+///   senderImgUrl: 'https://example.com/profile.jpg',
+///   senderUsername: 'john_doe',
+///   type: 'FOLLOW',
+/// );
+/// ```
 class Notification extends StatefulWidget {
   String notificationId;
   bool isSeen;

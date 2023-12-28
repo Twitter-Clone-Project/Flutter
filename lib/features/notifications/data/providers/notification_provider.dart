@@ -8,6 +8,7 @@ import 'package:x_clone/features/notifications/data/repositories/notifications_r
 import 'package:x_clone/features/notifications/data/state/notifications_state.dart';
 import 'package:x_clone/web_services/socket_services.dart';
 
+/// A provider class that manages the state and business logic for notifications.
 class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
   final NotificationsRepository notificationsRepository;
 
@@ -17,6 +18,10 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
           state ?? const NotificationsState(loading: true),
         ) {}
 
+  /// Initializes the notification provider by setting up a socket client to listen for notification events.
+  ///
+  /// The [userId] parameter is used to identify the user for whom the notifications are being received.
+  /// When a new notification is received, it is added to the top of the existing list of notifications.
   init(String userId) {
     SocketClient.onNotificationReceive((data) {
       final oldList = List<NotificationData>.from(state.notifications.data);
@@ -41,10 +46,17 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
     );
   }
 
+  /// Removes the listener for notification events.
+  ///
+  /// The [userId] parameter is used to identify the user for whom the notifications were being received.
   removeListener(String userId) {
     SocketClient.disconnectNotification();
   }
 
+  /// Marks all notifications as seen for a specific user.
+  ///
+  /// The [userId] parameter is used to identify the user for whom the notifications should be marked as seen.
+  /// This function updates the state by marking all notifications as seen and notifying the UI.
   markNotificationsAsSeen(String userId) {
     SocketClient.markNotificationsAsSeen(userId);
     state = state.copyWith(
@@ -56,6 +68,12 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
     );
   }
 
+  /// Retrieves notifications for a specific page.
+  ///
+  /// The [page] parameter specifies the page number of notifications to retrieve.
+  /// This function updates the state with the retrieved notifications and notifies the UI.
+  /// If the notifications list is empty, it sets the loading state to true.
+  /// If an error occurs during the retrieval process, it sets the loading state to false and sets an error message.
   getNotifications({
     required int page,
   }) async {
@@ -87,6 +105,7 @@ class NotificationsNotifierProvider extends StateNotifier<NotificationsState> {
   }
 }
 
+/// A provider instance that can be used to access the notifications notifier provider.
 final notificationsNotifierProvider =
     StateNotifierProvider<NotificationsNotifierProvider, NotificationsState>(
         (ref) {

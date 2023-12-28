@@ -12,6 +12,23 @@ import 'package:x_clone/theme/app_text_style.dart';
 
 import '../../../../utils/utils.dart';
 
+/// A screen widget for updating the user's email address.
+///
+/// This widget allows the user to change their current email address to a new one.
+/// It provides a form with two input fields: one for the current email address and
+/// another for the new email address. The user can enter the new email address and
+/// validate it using the provided validation rules. If the validation is successful,
+/// the user can tap the "Done" button to proceed with the email update process.
+/// If the new email address is already associated with another account, an error
+/// message will be displayed.
+///
+/// Example usage:
+///
+/// ```dart
+/// EmailScreen(
+///   key: Key('emailScreen'),
+/// )
+/// ```
 class EmailScreen extends StatefulHookConsumerWidget {
   const EmailScreen({super.key});
 
@@ -22,7 +39,7 @@ class EmailScreen extends StatefulHookConsumerWidget {
 class _EmailScreenState extends ConsumerState<EmailScreen> {
   @override
   void initState() {
-    // TODO: implement initState
+// TODO: implement initState
     super.initState();
     _emailController = TextEditingController(
         text: ref.read(authNotifierProvider).user!.email ?? "");

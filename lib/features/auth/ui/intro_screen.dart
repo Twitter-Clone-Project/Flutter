@@ -8,11 +8,19 @@ import '../../../app/routes.dart';
 import '../../../theme/app_assets.dart';
 import '../../../theme/app_colors.dart';
 
+/// A screen widget that displays the introduction screen of the application.
+/// It provides options for users to continue with Google, login, or sign up.
 class IntroScreen extends ConsumerWidget {
   const IntroScreen({super.key});
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
+    /// Builds the UI of the intro screen.
+    ///
+    /// The [context] parameter is the build context of the widget tree.
+    /// The [ref] parameter is a reference to the widget's dependencies.
+    ///
+    /// Returns a [SafeArea] widget containing the scaffold with the app bar and body.
     return  SafeArea(
       child: Scaffold(
         appBar: AppBar(

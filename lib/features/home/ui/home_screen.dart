@@ -16,6 +16,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
+/// The home screen of the application.
+///
+/// This screen displays the main content of the application, including the user's tweets,
+/// navigation options, and settings. It also handles refreshing and loading more tweets.
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({super.key});
 
@@ -27,8 +31,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     with AutomaticKeepAliveClientMixin {
   final RefreshController _controller = RefreshController();
   int pageIndex = 0;
+
   @override
   void initState() {
+    // Delay execution for 0 seconds
     Future.delayed(const Duration(seconds: 0), () {});
     final auth = ref.read(authNotifierProvider.notifier);
     final notificationProvider =
@@ -193,12 +199,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
   }
 
+  /// A method that is called when the user performs a refresh action on the home screen.
+  /// It resets the `pageIndex` to 1, loads data asynchronously, and completes the refresh indicator.
+  /// 
+  /// Example usage:
+  /// 
+  /// ```dart
+  /// void _onRefresh() async {
+  ///   pageIndex = 1;
+  ///   await loadData();
+  ///   _controller.refreshCompleted();
+  /// }
+  /// ```
   void _onRefresh() async {
     pageIndex = 1;
     await loadData();
     _controller.refreshCompleted();
   }
 
+  /// A function that handles the loading logic in the home screen.
+  ///
+  /// This function is responsible for determining whether to load more data or display a "No Data" message.
+  /// It checks if the length of the data received from the provider is equal to the total number of data available.
+  /// If they are equal, it calls the `_controller.loadNoData()` function to indicate that there is no more data to load.
+  /// Otherwise, it increments the `pageIndex` variable and calls the `loadData()` function to load more data.
+  /// Finally, it calls the `_controller.loadComplete()` function to indicate that the loading process is complete.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// _onLoading();
+  /// ```
   void _onLoading() async {
     final provider = ref.read(homeNotifierProvider);
 
@@ -212,10 +242,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     }
   }
 
+
+
+  /// Loads data for the home screen.
+  ///
+  /// This function is responsible for loading data for the home screen. It calls the `getTimelineData` method of the `homeNotifierProvider` to fetch timeline data based on the specified page index.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// loadData();
+  /// ```
   loadData() async {
     await ref.read(homeNotifierProvider.notifier).getTimelineData(
-          page: pageIndex,
-        );
+      page: pageIndex,
+    );
   }
 
   @override

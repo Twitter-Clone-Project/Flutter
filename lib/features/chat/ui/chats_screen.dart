@@ -12,6 +12,11 @@ import '../../home/data/providers/home_provider.dart';
 import '../data/model/chats_response.dart';
 import '../data/providers/chat_provider.dart';
 
+/// A screen that displays a list of chat conversations.
+///
+/// This screen is responsible for showing the user's chat conversations. It
+/// includes a search bar, a list of chats, and options to open the settings
+/// screen or open a specific chat conversation.
 class ChatsScreen extends StatefulHookConsumerWidget {
   const ChatsScreen({super.key});
 
@@ -22,6 +27,7 @@ class ChatsScreen extends StatefulHookConsumerWidget {
 class _ChatScreenState extends ConsumerState<ChatsScreen> {
   @override
   void initState() {
+    // Fetches the chat data when the screen is initialized.
     Future.delayed(const Duration(seconds: 0), () {
       ref.read(chatNotifierProvider.notifier).getChatsData();
     });
@@ -37,6 +43,7 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
         body:
         Column(
           children: [
+            // Header section
             Container(
               padding: const EdgeInsets.symmetric(vertical: 10,),
               width: MediaQuery.of(context).size.width*0.9,
@@ -78,10 +85,11 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
                 ],
               ),
             ),
+            // Search bar
             InkWell(
               onTap: () {
                 Navigator.pushNamed(context, Routes.chatSearchScreen,);
-                },
+              },
               child: SizedBox(
                 height: 40,
                 width: MediaQuery.of(context).size.width*0.9,
@@ -115,6 +123,7 @@ class _ChatScreenState extends ConsumerState<ChatsScreen> {
               ),
             ),
             const Divider(),
+            // Chat list
             chatState.loading? Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.45),
               child: const Center(child: CircularProgressIndicator(),),

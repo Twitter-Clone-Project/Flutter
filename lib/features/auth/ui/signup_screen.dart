@@ -16,6 +16,19 @@ import '../../../theme/app_colors.dart';
 import '../../../utils/utils.dart';
 import '../data/providers/auth_provider.dart';
 
+/// A screen widget for user registration.
+///
+/// This widget provides a user interface for users to create their account by
+/// entering their name, username, email, date of birth, and password.
+/// It includes form validation for each input field and displays error messages
+/// if the input is invalid.
+///
+/// Example usage:
+/// ```dart
+/// RegisterScreen(
+///   key: Key('registerScreen'),
+/// )
+/// ```
 class RegisterScreen extends StatefulHookConsumerWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 

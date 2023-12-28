@@ -9,6 +9,7 @@ import 'package:x_clone/features/tweet/data/states/tweet_state.dart';
 
 import '../../../home/data/models/home_response.dart';
 
+/// A notifier provider for managing the state of search-related features.
 class SearchNotifierProvider extends StateNotifier<SearchState> {
   SearchNotifierProvider(this.searchRepository, [SearchState? state])
       : super(state ?? const SearchState()) {
@@ -20,6 +21,13 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
     state = state.copyWith(screenIndex: index);
   }
 
+  /// Fetches trending data.
+  ///
+  /// This function updates the state of the provider by setting the [loading]
+  /// flag to true, then fetches the trending data from the [searchRepository].
+  /// If the data is successfully fetched, it updates the [trendingList] and sets
+  /// the [loading] flag to false. If an error occurs during the fetch, it sets
+  /// the [errorMessage] and [loading] flag accordingly.
   Future<void> fetchTrendingData() async {
     state = state.copyWith(
       loading: true,
@@ -39,6 +47,15 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
   }
 
 
+  /// Searches for users based on the provided query and page number.
+  ///
+  /// This function searches for users using the [searchRepository] by providing
+  /// the [query] and [page] number. It updates the state of the provider by setting
+  /// the [loading] flag to true and the [usersIndex] to 0 if it's the first page.
+  /// If the search is successful, it updates the [usersList] with the fetched data,
+  /// sets the [loading] flag to false, and updates the [usersIndex] to the current page.
+  /// If an error occurs during the search, it sets the [errorMessage], [loading] flag,
+  /// and returns an empty [UsersList].
   getSearchedUsers({
     required String query,
     required int page,
@@ -48,7 +65,7 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
         state = state.copyWith(loading: true, usersIndex: 0);
       }
       final UsersList usersList =
-      await searchRepository.searchUsers(query: query, page: page);
+          await searchRepository.searchUsers(query: query, page: page);
       final List<UserData> users;
 
       if (page == 1) {
@@ -72,7 +89,16 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
     }
   }
 
-
+  
+  /// Searches for tweets based on the provided query and page number.
+  ///
+  /// This function searches for tweets using the [searchRepository] by providing
+  /// the [query] and [page] number. It updates the state of the provider by setting
+  /// the [loading] flag to true and the [tweetsIndex] to 0 if it's the first page.
+  /// If the search is successful, it updates the [tweetList] with the fetched data,
+  /// sets the [loading] flag to false, and updates the [tweetsIndex] to the current page.
+  /// If an error occurs during the search, it sets the [errorMessage], [loading] flag,
+  /// and returns an empty [TweetList].
   getSearchedTweets({
     required String query,
     required int page,
@@ -82,7 +108,7 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
         state = state.copyWith(loading: true, tweetsIndex: 0);
       }
       final TweetList tweetList =
-      await searchRepository.searchTweets(query: query, page: page);
+          await searchRepository.searchTweets(query: query, page: page);
       final List<Tweet> tweets;
 
       if (page == 1) {
@@ -105,6 +131,11 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
       return const TweetList(data: [], total: 0);
     }
   }
+
+  /// Sets the loading state to true.
+  ///
+  /// This function updates the state of the provider by setting the [loading]
+  /// flag to true and clears the [errorMessage].
   Future<void> loading() async {
     state = state.copyWith(
       loading: true,
@@ -112,97 +143,129 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
     );
   }
 
+  /// Resets the searched users list.
+  ///
+  /// This function updates the state of the provider by resetting the [usersList]
+  /// to an empty state, setting the [loading] flag to false, and clearing the [errorMessage].
   Future<void> resetSearchedUsers() async {
     state = state.copyWith(
       usersList: const UsersList(data: []),
-      // Assuming UsersList has a factory method for an empty state
+// Assuming UsersList has a factory method for an empty state
       loading: false,
       errorMessage: null,
     );
   }
 
+  /// Resets the searched tweets list.
+  ///
+  /// This function updates the state of the provider by resetting the [tweetList]
+  /// to an empty state, setting the [loading] flag to false, and clearing the [errorMessage].
   Future<void> resetSearchedTweets() async {
     state = state.copyWith(
       tweetList: const TweetList(data: []),
-      // Assuming UsersList has a factory method for an empty state
+// Assuming UsersList has a factory method for an empty state
       loading: false,
       errorMessage: null,
     );
   }
 
 
-    addLike({required String tweetId}) async {
-      try {
-        List<Tweet> tweetlist = List.from(state.tweetList.data);
-        int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
-        if (tweetIndex != -1) {
-          tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-            isLiked: true,
-            likesCount: tweetlist[tweetIndex].likesCount! + 1,
-          );
-          state = state.copyWith(
-            tweetList: state.tweetList.copyWith(data: tweetlist),
-            loading: false,
-          );
-          return true;
-        } else {
-          return false;
-        }
-      } catch (e) {
+  /// Adds a like to a tweet.
+  ///
+  /// This function adds a like to the tweet with the specified [tweetId]. It updates
+  /// the state of the provider by modifying the corresponding tweet in the [tweetList]
+  /// to set [isLiked] to true and increment [likesCount] by 1. If the tweet is found
+  /// and updated successfully, it returns true. Otherwise, it returns false.
+  addLike({required String tweetId}) async {
+    try {
+      List<Tweet> tweetlist = List.from(state.tweetList.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isLiked: true,
+          likesCount: tweetlist[tweetIndex].likesCount! + 1,
+        );
+        state = state.copyWith(
+          tweetList: state.tweetList.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
         return false;
       }
+    } catch (e) {
+      return false;
     }
+  }
 
-    deleteLike({required String tweetId}) async {
-      try {
-        List<Tweet> tweetlist = List.from(state.tweetList.data);
-        int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+  /// Deletes a like from a tweet.
+  ///
+  /// This function deletes a like from the tweet with the specified [tweetId]. It updates
+  /// the state of the provider by modifying the corresponding tweet in the [tweetList]
+  /// to set [isLiked] to false and decrement [likesCount] by 1. If the tweet is found
+  /// and updated successfully, it returns true. Otherwise, it returns false.
+  deleteLike({required String tweetId}) async {
+    try {
+      List<Tweet> tweetlist = List.from(state.tweetList.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
 
-        if (tweetIndex != -1) {
-          tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-            isLiked: false,
-            likesCount: tweetlist[tweetIndex].likesCount! - 1,
-          );
-          state = state.copyWith(
-            tweetList: state.tweetList.copyWith(data: tweetlist),
-            loading: false,
-          );
-          return true;
-        } else {
-          return false;
-        }
-      } catch (e) {
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isLiked: false,
+          likesCount: tweetlist[tweetIndex].likesCount! - 1,
+        );
+        state = state.copyWith(
+          tweetList: state.tweetList.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
         return false;
       }
+    } catch (e) {
+      return false;
     }
+  }
 
-    addRetweet({required String tweetId}) async {
-      try {
-        List<Tweet> tweetlist = List.from(state.tweetList.data);
-        int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+  /// Adds a retweet to a tweet.
+  ///
+  /// This function adds a retweet to the tweet with the specified [tweetId]. It updates
+  /// the state of the provider by modifying the corresponding tweet in the [tweetList]
+  /// to set [isRetweeted] to true and increment [retweetsCount] by 1. If the tweet is found
+  /// and updated successfully, it returns true. Otherwise, it returns false.
+  addRetweet({required String tweetId}) async {
+    try {
+      List<Tweet> tweetlist = List.from(state.tweetList.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
 
-        if (tweetIndex != -1) {
-          tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
-            isRetweeted: true,
-            retweetsCount: tweetlist[tweetIndex].retweetsCount! + 1,
-          );
-          state = state.copyWith(
-            tweetList: state.tweetList.copyWith(data: tweetlist),
-            loading: false,
-          );
-          return true;
-        } else {
-          return false;
-        }
-      } catch (e) {
+      if (tweetIndex != -1) {
+        tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
+          isRetweeted: true,
+          retweetsCount: tweetlist[tweetIndex].retweetsCount! + 1,
+        );
+        state = state.copyWith(
+          tweetList: state.tweetList.copyWith(data: tweetlist),
+          loading: false,
+        );
+        return true;
+      } else {
         return false;
       }
+    } catch (e) {
+      return false;
     }
+  }
 
-    deleteRetweet({required String tweetId}) async {
-      try {
-        List<Tweet> tweetlist = List.from(state.tweetList.data);
-        int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
+  /// Deletes a retweet from a tweet.
+  ///
+  /// This function deletes a retweet from the tweet with the specified [tweetId]. It updates
+  /// the state of the provider by modifying the corresponding tweet in the [tweetList]
+  /// to set [isRetweeted] to false and decrement [retweetsCount] by 1. If the tweet is found
+  /// and updated successfully, it returns true. Otherwise, it returns false.
+  deleteRetweet({required String tweetId}) async {
+    try {
+      List<Tweet> tweetlist = List.from(state.tweetList.data);
+      int tweetIndex = tweetlist.indexWhere((tweet) => tweet.id == tweetId);
 
         if (tweetIndex != -1) {
           tweetlist[tweetIndex] = tweetlist[tweetIndex].copyWith(
@@ -261,6 +324,22 @@ class SearchNotifierProvider extends StateNotifier<SearchState> {
 
 }
 
+/// A provider that manages the state of search functionality.
+///
+/// This provider is responsible for handling the state of search functionality
+/// in the application. It uses a [SearchRepository] to perform search operations
+/// and updates the [SearchState] accordingly.
+///
+/// Example usage:
+/// ```
+/// final searchNotifier = useProvider(searchNotifierProvider);
+///
+/// // Perform a search
+/// searchNotifier.search('keyword');
+///
+/// // Access the search results
+/// final results = searchNotifier.state.results;
+/// ```
 final searchNotifierProvider =
     StateNotifierProvider<SearchNotifierProvider, SearchState>(
   (ref) {

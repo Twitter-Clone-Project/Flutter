@@ -10,9 +10,21 @@ import 'package:x_clone/theme/app_text_style.dart';
 import '../widgets/custom_text.dart';
 import '../../../../theme/app_assets.dart';
 
+/// A screen widget that displays a list of muted users.
+/// 
+/// This widget is responsible for rendering the UI of the muted users screen.
+/// It shows a list of users that have been muted by the current user.
+/// The user can choose to unmute a user by tapping on their name.
+/// 
+/// Example usage:
+/// 
+/// ```dart
+/// MutersScreen(
+///   key: Key('mutersScreen'),
+/// )
+/// ```
 class MutersScreen extends StatefulHookConsumerWidget {
   const MutersScreen({super.key});
-
   @override
   ConsumerState<MutersScreen> createState() => _MutersScreenState();
 }

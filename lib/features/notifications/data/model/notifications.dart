@@ -7,34 +7,48 @@ import 'package:x_clone/features/auth/data/model/user.dart';
 part 'notifications.freezed.dart';
 part 'notifications.g.dart';
 
+/// Converts a JSON string to a [NotificationData] object.
+///
+/// Example usage:
+/// ```dart
+/// String jsonString = '{"notificationId": "123", "timestamp": "2022-01-01", "isSeen": true, "type": "message", "content": "Hello", "senderImgUrl": "https://example.com/image.jpg", "senderUsername": "John"}';
+/// NotificationData notificationData = NotificationDataFromJson(jsonString);
+/// ```
 NotificationData NotificationDataFromJson(String str) =>
     NotificationData.fromJson(json.decode(str));
 
+/// Converts a [NotificationData] object to a JSON string.
+///
+/// Example usage:
+/// ```dart
+/// NotificationData notificationData = NotificationData(
+///   notificationId: "123",
+///   timestamp: "2022-01-01",
+///   isSeen: true,
+///   type: "message",
+///   content: "Hello",
+///   senderImgUrl: "https://example.com/image.jpg",
+///   senderUsername: "John",
+/// );
+/// String jsonString = NotificationDataToJson(notificationData);
+/// ```
 String NotificationDataToJson(NotificationData data) =>
     json.encode(data.toJson());
 
-/* 
-{
-  "status":true,
-  "data":{
-    "notifications":[
-        {
-          "notificationId":"3",
-          "timestamp":"2023-12-18T22:20:41.921Z",
-          "isSeen":false,
-          "type":"FOLLOW", // CHAT, MENTION, FOLLOW, UNFOLLOW
-          "content":"Yousef Rabia followed you",
-          "senderImgUrl":"https://kady-twitter-images.s3.amazonaws.com/1000000034.jpg",
-          "senderUsername":"ddcdvfbg"
-          
-        }
-      ]
-    }
-  }
-}
-
- */
-
+/// Represents a notification data object.
+///
+/// Example usage:
+/// ```dart
+/// NotificationData notificationData = NotificationData(
+///   notificationId: "123",
+///   timestamp: "2022-01-01",
+///   isSeen: true,
+///   type: "message",
+///   content: "Hello",
+///   senderImgUrl: "https://example.com/image.jpg",
+///   senderUsername: "John",
+/// );
+/// ```
 @freezed
 class NotificationData with _$NotificationData {
   const factory NotificationData({
@@ -47,16 +61,86 @@ class NotificationData with _$NotificationData {
     @Default("") String senderUsername,
   }) = _NotificationData;
 
+  /// Creates a [NotificationData] object from a JSON map.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// Map<String, dynamic> json = {
+  ///   "notificationId": "123",
+  ///   "timestamp": "2022-01-01",
+  ///   "isSeen": true,
+  ///   "type": "message",
+  ///   "content": "Hello",
+  ///   "senderImgUrl": "https://example.com/image.jpg",
+  ///   "senderUsername": "John",
+  /// };
+  /// NotificationData notificationData = NotificationData.fromJson(json);
+  /// ```
   factory NotificationData.fromJson(Map<String, dynamic> json) =>
       _$NotificationDataFromJson(json);
 }
 
+/// Represents a list of notifications.
+///
+/// Example usage:
+/// ```dart
+/// NotificationsList notificationsList = NotificationsList(
+///   data: [
+///     NotificationData(
+///       notificationId: "123",
+///       timestamp: "2022-01-01",
+///       isSeen: true,
+///       type: "message",
+///       content: "Hello",
+///       senderImgUrl: "https://example.com/image.jpg",
+///       senderUsername: "John",
+///     ),
+///     NotificationData(
+///       notificationId: "456",
+///       timestamp: "2022-01-02",
+///       isSeen: false,
+///       type: "like",
+///       content: "Your post was liked",
+///       senderImgUrl: "https://example.com/image.jpg",
+///       senderUsername: "Jane",
+///     ),
+///   ],
+/// );
+/// ```
 @freezed
 class NotificationsList with _$NotificationsList {
   const factory NotificationsList({
     @Default([]) List<NotificationData> data,
   }) = _NotificationsList;
 
+  /// Creates a [NotificationsList] object from a JSON map.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// Map<String, dynamic> json = {
+  ///   "data": [
+  ///     {
+  ///       "notificationId": "123",
+  ///       "timestamp": "2022-01-01",
+  ///       "isSeen": true,
+  ///       "type": "message",
+  ///       "content": "Hello",
+  ///       "senderImgUrl": "https://example.com/image.jpg",
+  ///       "senderUsername": "John",
+  ///     },
+  ///     {
+  ///       "notificationId": "456",
+  ///       "timestamp": "2022-01-02",
+  ///       "isSeen": false,
+  ///       "type": "like",
+  ///       "content": "Your post was liked",
+  ///       "senderImgUrl": "https://example.com/image.jpg",
+  ///       "senderUsername": "Jane",
+  ///     },
+  ///   ],
+  /// };
+  /// NotificationsList notificationsList = NotificationsList.fromJson(json);
+  /// ```
   factory NotificationsList.fromJson(Map<String, dynamic> json) =>
       _$NotificationsListFromJson(json);
 }

@@ -9,9 +9,15 @@ import 'package:x_clone/theme/app_text_style.dart';
 
 import '../../../theme/app_assets.dart';
 
+/// A screen that displays the list of users who have liked a tweet.
+/// 
+/// This screen is responsible for fetching and displaying the list of users who have liked a specific tweet.
+/// It uses the `tweetNotifierProvider` to fetch the likers data and displays it in a `ListView.builder`.
+/// The screen also provides a back button in the app bar to navigate back to the previous screen.
 class LikersScreen extends StatefulHookConsumerWidget {
   const LikersScreen({super.key, required this.tweetId});
   final String? tweetId;
+
   @override
   ConsumerState<LikersScreen> createState() => _LikersScreenState();
 }
@@ -21,6 +27,7 @@ class _LikersScreenState extends ConsumerState<LikersScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // Fetch the likers data after a delay of 0 seconds
     Future.delayed(const Duration(seconds: 0), () {
       ref
           .read(tweetNotifierProvider.notifier)

@@ -14,6 +14,19 @@ import 'package:x_clone/theme/app_colors.dart';
 
 import '../../../theme/app_assets.dart';
 
+/// A screen widget that allows the user to edit their profile.
+///
+/// This widget displays a form where the user can update their profile information,
+/// including their name, bio, location, website, and date of birth. The user can also
+/// upload a profile picture and a banner photo. Once the user submits the form, their
+/// profile is updated and saved.
+///
+/// Example usage:
+/// ```dart
+/// EditProfileScreen(
+///   key: Key('editProfileScreen'),
+/// )
+/// ```
 class EditProfileScreen extends StatefulHookConsumerWidget {
   const EditProfileScreen({super.key});
 
@@ -23,7 +36,6 @@ class EditProfileScreen extends StatefulHookConsumerWidget {
 
 class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
     with TickerProviderStateMixin {
-  late TabController _tabcontroller;
 
   File? _profileImage;
   File? _bannerImage;
@@ -55,6 +67,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
     super.initState();
   }
 
+  /// Displays a date picker dialog and allows the user to select a date.
+  ///
+  /// This method shows a date picker dialog with the specified initial date,
+  /// minimum date, and maximum date. When the user selects a date, it updates
+  /// the selected date in the text field.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// _selectDate(context);
+  /// ```
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       locale: const Locale('en', 'US'),
@@ -81,6 +103,17 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
 
     bool isLoading = ref.watch(profileNotifierProvider).loading;
 
+    /// Allows the user to pick an image from the gallery.
+    ///
+    /// This method opens the image picker and allows the user to select an image
+    /// from their device's gallery. The selected image is then set as the profile
+    /// image or the banner image, depending on the `setImage` function passed as
+    /// a parameter.
+    ///
+    /// Example usage:
+    /// ```dart
+    /// _pickImage(setProfileImage);
+    /// ```
     Future<void> _pickImage(Function(File) setImage) async {
       final pickedFile =
           await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -90,6 +123,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
       }
     }
 
+    /// Submits the updated profile information to the server.
+    ///
+    /// This method validates the form fields and sends a request to update the user's
+    /// profile information. If the update is successful, the user is navigated back
+    /// to the previous screen.
+    ///
+    /// Example usage:
+    /// ```dart
+    /// onSubmit();
+    /// ```
     void onSubmit() async {
       if (AppKeys.updateProfileFormKey.currentState!.validate()) {
         var result = await ref

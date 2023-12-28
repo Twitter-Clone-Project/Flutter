@@ -2,17 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:x_clone/theme/app_colors.dart';
 
+/// A custom button widget that can be used to create buttons with different styles and functionalities.
 class CustomButton extends StatelessWidget {
   final String text;
   final bool filled;
   final String? svgIcon;
   final VoidCallback? onPressed;
-  final double? verticalPadding; 
+  final double? verticalPadding;
   final double? horizontalPadding;
   final bool red;
   final bool disabled;
 
-
+  /// Creates a custom button.
+  ///
+  /// The [text] parameter is required and specifies the text to be displayed on the button.
+  ///
+  /// The [filled] parameter determines whether the button should be filled with a background color or transparent.
+  ///
+  /// The [svgIcon] parameter is an optional SVG icon path that can be displayed alongside the text on the button.
+  ///
+  /// The [horizontalPadding] and [verticalPadding] parameters can be used to adjust the padding around the button's content.
+  ///
+  /// The [red] parameter determines whether the button should have a red color scheme.
+  ///
+  /// The [disabled] parameter determines whether the button should be disabled.
+  ///
+  /// The [onPressed] parameter is a callback function that will be called when the button is pressed.
   const CustomButton({
     super.key,
     required this.text,
@@ -38,7 +53,6 @@ class CustomButton extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        
         borderRadius: BorderRadius.circular(30.0),
         color: buttonColor,
         border: Border.all(
@@ -54,7 +68,9 @@ class CustomButton extends StatelessWidget {
           ),
           onTap: onPressed,
           child: Padding(
-            padding:  EdgeInsets.symmetric(vertical: verticalPadding?? 6.0, horizontal:  horizontalPadding?? 8.0),
+            padding: EdgeInsets.symmetric(
+                vertical: verticalPadding ?? 6.0,
+                horizontal: horizontalPadding ?? 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -74,10 +90,10 @@ class CustomButton extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16.0,
                     color: textColor,
-                    fontFamily: 'Chirp', // Use the font family name specified in pubspec.yaml
+                    fontFamily:
+                        'Chirp', // Use the font family name specified in pubspec.yaml
                   ),
                 ),
-
               ],
             ),
           ),

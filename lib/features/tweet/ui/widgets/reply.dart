@@ -12,19 +12,27 @@ import 'package:x_clone/utils/utils.dart';
 
 import '../../../../theme/app_assets.dart';
 
+/// A widget that represents a reply to a tweet.
+///
+/// The [Reply] widget displays information about the replier, such as their profile picture, screen name, and username.
+/// It also provides the functionality to delete the reply if the replier is the authenticated user.
 class Reply extends StatefulHookConsumerWidget {
   Reply({
     super.key,
     required this.replier,
     required this.whom,
   });
-  ReplierData replier;
+ReplierData replier;
   int whom;
   @override
   ConsumerState<Reply> createState() => _ReplyState();
 }
 
 class _ReplyState extends ConsumerState<Reply> {
+  /// Opens a bottom sheet to confirm the deletion of the reply.
+  ///
+  /// This method is called when the replier is the authenticated user and they tap on the delete reply option.
+  /// It shows a modal bottom sheet with a delete button, and upon tapping the button, it deletes the reply from the tweet and the user's profile.
   void _openBottomSheetForDeleteReply(BuildContext context) {
     if (widget.replier.replyUserId ==
         ref.read(authNotifierProvider).user!.userId) {

@@ -5,11 +5,39 @@ import 'dart:convert';
 part 'tweet_response.freezed.dart';
 part 'tweet_response.g.dart';
 
+/// Converts a JSON string to a [LikersList] object.
+///
+/// Example usage:
+/// ```dart
+/// String jsonString = '{"data": [{"id": "1", "name": "John", "screenName": "john123", "imageUrl": "https://example.com/image.jpg", "isFollowed": true}]}';
+/// LikersList likersList = LikersResponseFromJson(jsonString);
+/// ```
 LikersList LikersResponseFromJson(String str) =>
     LikersList.fromJson(json.decode(str));
 
+/// Converts a [LikersList] object to a JSON string.
+///
+/// Example usage:
+/// ```dart
+/// LikersList likersList = LikersList(data: [
+///   LikerData(id: "1", name: "John", screenName: "john123", imageUrl: "https://example.com/image.jpg", isFollowed: true),
+/// ]);
+/// String jsonString = LikersResponseToJson(likersList);
+/// ```
 String LikersResponseToJson(LikersList data) => json.encode(data.toJson());
 
+/// Represents a liker's data.
+///
+/// Example usage:
+/// ```dart
+/// LikerData liker = LikerData(
+///   id: "1",
+///   name: "John",
+///   screenName: "john123",
+///   imageUrl: "https://example.com/image.jpg",
+///   isFollowed: true,
+/// );
+/// ```
 @freezed
 class LikerData with _$LikerData {
   const factory LikerData({
@@ -24,6 +52,14 @@ class LikerData with _$LikerData {
       _$LikerDataFromJson(json);
 }
 
+/// Represents a list of likers.
+///
+/// Example usage:
+/// ```dart
+/// LikersList likersList = LikersList(data: [
+///   LikerData(id: "1", name: "John", screenName: "john123", imageUrl: "https://example.com/image.jpg", isFollowed: true),
+/// ]);
+/// ```
 @freezed
 class LikersList with _$LikersList {
   const factory LikersList({
@@ -34,12 +70,40 @@ class LikersList with _$LikersList {
       _$LikersListFromJson(json);
 }
 
+/// Converts a JSON string to a [RetweetersList] object.
+///
+/// Example usage:
+/// ```dart
+/// String jsonString = '{"data": [{"id": "1", "name": "John", "screenName": "john123", "imageUrl": "https://example.com/image.jpg", "isFollowed": true}]}';
+/// RetweetersList retweetersList = RetweetersResponseFromJson(jsonString);
+/// ```
 RetweetersList RetweetersResponseFromJson(String str) =>
     RetweetersList.fromJson(json.decode(str));
 
+/// Converts a [RetweetersList] object to a JSON string.
+///
+/// Example usage:
+/// ```dart
+/// RetweetersList retweetersList = RetweetersList(data: [
+///   RetweeterData(id: "1", name: "John", screenName: "john123", imageUrl: "https://example.com/image.jpg", isFollowed: true),
+/// ]);
+/// String jsonString = RetweetersResponseToJson(retweetersList);
+/// ```
 String RetweetersResponseToJson(RetweetersList data) =>
     json.encode(data.toJson());
 
+/// Represents a retweeter's data.
+///
+/// Example usage:
+/// ```dart
+/// RetweeterData retweeter = RetweeterData(
+///   id: "1",
+///   name: "John",
+///   screenName: "john123",
+///   imageUrl: "https://example.com/image.jpg",
+///   isFollowed: true,
+/// );
+/// ```
 @freezed
 class RetweeterData with _$RetweeterData {
   const factory RetweeterData({
@@ -54,6 +118,14 @@ class RetweeterData with _$RetweeterData {
       _$RetweeterDataFromJson(json);
 }
 
+/// Represents a list of retweeters.
+///
+/// Example usage:
+/// ```dart
+/// RetweetersList retweetersList = RetweetersList(data: [
+///   RetweeterData(id: "1", name: "John", screenName: "john123", imageUrl: "https://example.com/image.jpg", isFollowed: true),
+/// ]);
+/// ```
 @freezed
 class RetweetersList with _$RetweetersList {
   const factory RetweetersList({
@@ -64,11 +136,59 @@ class RetweetersList with _$RetweetersList {
       _$RetweetersListFromJson(json);
 }
 
+/// Converts a JSON string to a [RepliersList] object.
+///
+/// Example usage:
+/// ```dart
+/// String jsonString = '{"data": [{"replyId": "1", "replyTweetId": "2", "replyUserId": "3", "replyText": "Hello", "createdAt": "2022-01-01", "username": "john123", "screenName": "john123", "bio": "Software Engineer", "imageUrl": "https://example.com/image.jpg", "followersCount": "100", "followingCount": "50", "isFollowed": true}]}';
+/// RepliersList repliersList = RepliersResponseFromJson(jsonString);
+/// ```
 RepliersList RepliersResponseFromJson(String str) =>
     RepliersList.fromJson(json.decode(str));
 
+/// Converts a [RepliersList] object to a JSON string.
+///
+/// Example usage:
+/// ```dart
+/// RepliersList repliersList = RepliersList(data: [
+///   ReplierData(
+///     replyId: "1",
+///     replyTweetId: "2",
+///     replyUserId: "3",
+///     replyText: "Hello",
+///     createdAt: "2022-01-01",
+///     username: "john123",
+///     screenName: "john123",
+///     bio: "Software Engineer",
+///     imageUrl: "https://example.com/image.jpg",
+///     followersCount: "100",
+///     followingCount: "50",
+///     isFollowed: true,
+///   ),
+/// ]);
+/// String jsonString = RepliersResponseToJson(repliersList);
+/// ```
 String RepliersResponseToJson(RepliersList data) => json.encode(data.toJson());
 
+/// Represents a replier's data.
+///
+/// Example usage:
+/// ```dart
+/// ReplierData replier = ReplierData(
+///   replyId: "1",
+///   replyTweetId: "2",
+///   replyUserId: "3",
+///   replyText: "Hello",
+///   createdAt: "2022-01-01",
+///   username: "john123",
+///   screenName: "john123",
+///   bio: "Software Engineer",
+///   imageUrl: "https://example.com/image.jpg",
+///   followersCount: "100",
+///   followingCount: "50",
+///   isFollowed: true,
+/// );
+/// ```
 @freezed
 class ReplierData with _$ReplierData {
   const factory ReplierData({
@@ -90,6 +210,27 @@ class ReplierData with _$ReplierData {
       _$ReplierDataFromJson(json);
 }
 
+/// Represents a list of repliers.
+///
+/// Example usage:
+/// ```dart
+/// RepliersList repliersList = RepliersList(data: [
+///   ReplierData(
+///     replyId: "1",
+///     replyTweetId: "2",
+///     replyUserId: "3",
+///     replyText: "Hello",
+///     createdAt: "2022-01-01",
+///     username: "john123",
+///     screenName: "john123",
+///     bio: "Software Engineer",
+///     imageUrl: "https://example.com/image.jpg",
+///     followersCount: "100",
+///     followingCount: "50",
+///     isFollowed: true,
+///   ),
+/// ]);
+/// ```
 @freezed
 class RepliersList with _$RepliersList {
   const factory RepliersList({

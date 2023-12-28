@@ -2,7 +2,26 @@ import 'package:dio/dio.dart';
 
 import 'models/error_response.dart';
 
+/// A class that represents custom HTTP exceptions.
+/// It extends the [Exception] class.
 class HttpExceptions implements Exception {
+  /// Constructs an [HttpExceptions] object from a [DioException].
+  /// It handles different types of [DioException] and throws corresponding custom exceptions.
+  ///
+  /// Throws a [DeadlineExceededException] if the [DioException] type is connectionTimeout,
+  /// sendTimeout, receiveTimeout, connectionError, or badCertificate.
+  ///
+  /// Throws a [BadRequestException] if the [DioException] type is badResponse and the response status code is 400, 422, or 404.
+  ///
+  /// Throws an [UnauthorizedException] if the [DioException] type is badResponse and the response status code is 401 or 403.
+  ///
+  /// Throws a [NotFoundException] if the [DioException] type is badResponse and the response status code is 404.
+  ///
+  /// Throws a [ConflictException] if the [DioException] type is badResponse and the response status code is 409.
+  ///
+  /// Throws an [InternalServerErrorException] if the [DioException] type is badResponse and the response status code is 500.
+  ///
+  /// Throws a [NoInternetConnectionException] if the [DioException] type is unknown.
   HttpExceptions.fromDioException(DioException dioException) {
     switch (dioException.type) {
       case DioExceptionType.connectionTimeout:
@@ -41,7 +60,10 @@ class HttpExceptions implements Exception {
   }
 }
 
+/// A custom exception class that represents a bad request.
+/// It extends the [DioException] class.
 class BadRequestException extends DioException {
+  /// Constructs a [BadRequestException] object with the specified request options and response.
   BadRequestException(RequestOptions r, Response? response)
       : super(requestOptions: r, response: response);
 
@@ -57,7 +79,10 @@ class BadRequestException extends DioException {
   }
 }
 
+/// A custom exception class that represents an internal server error.
+/// It extends the [DioException] class.
 class InternalServerErrorException extends DioException {
+  /// Constructs an [InternalServerErrorException] object with the specified request options and response.
   InternalServerErrorException(RequestOptions r, Response? response)
       : super(requestOptions: r, response: response);
 
@@ -73,7 +98,10 @@ class InternalServerErrorException extends DioException {
   }
 }
 
+/// A custom exception class that represents a conflict.
+/// It extends the [DioException] class.
 class ConflictException extends DioException {
+  /// Constructs a [ConflictException] object with the specified request options and response.
   ConflictException(RequestOptions r, Response? response)
       : super(requestOptions: r, response: response);
 
@@ -85,7 +113,10 @@ class ConflictException extends DioException {
   }
 }
 
+/// A custom exception class that represents an unauthorized access.
+/// It extends the [DioException] class.
 class UnauthorizedException extends DioException {
+  /// Constructs an [UnauthorizedException] object with the specified request options and response.
   UnauthorizedException(RequestOptions r, Response? response)
       : super(requestOptions: r, response: response);
 
@@ -97,7 +128,10 @@ class UnauthorizedException extends DioException {
   }
 }
 
+/// A custom exception class that represents a not found error.
+/// It extends the [DioException] class.
 class NotFoundException extends DioException {
+  /// Constructs a [NotFoundException] object with the specified request options and response.
   NotFoundException(RequestOptions r, Response? response)
       : super(requestOptions: r, response: response);
 
@@ -109,7 +143,10 @@ class NotFoundException extends DioException {
   }
 }
 
+/// A custom exception class that represents a no internet connection error.
+/// It extends the [DioException] class.
 class NoInternetConnectionException extends DioException {
+  /// Constructs a [NoInternetConnectionException] object with the specified request options.
   NoInternetConnectionException(RequestOptions r) : super(requestOptions: r);
 
   @override
@@ -118,7 +155,10 @@ class NoInternetConnectionException extends DioException {
   }
 }
 
+/// A custom exception class that represents a deadline exceeded error.
+/// It extends the [DioException] class.
 class DeadlineExceededException extends DioException {
+  /// Constructs a [DeadlineExceededException] object with the specified request options.
   DeadlineExceededException(RequestOptions r) : super(requestOptions: r);
 
   @override

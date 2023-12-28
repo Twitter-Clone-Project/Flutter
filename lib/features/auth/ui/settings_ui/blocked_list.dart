@@ -11,6 +11,11 @@ import 'package:x_clone/theme/app_text_style.dart';
 import '../widgets/custom_text.dart';
 import '../../../../theme/app_assets.dart';
 
+/// A screen that displays a list of blocked users.
+///
+/// This screen is used to show a list of users that have been blocked by the current user.
+/// It provides the functionality to unblock a user by tapping on their name.
+/// The screen also displays a message if there are no blocked users.
 class BlockersScreen extends StatefulHookConsumerWidget {
   const BlockersScreen({super.key});
 

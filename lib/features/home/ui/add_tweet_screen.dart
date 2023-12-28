@@ -17,6 +17,11 @@ import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+/// A screen widget for adding a new tweet.
+///
+/// This widget allows the user to compose a new tweet by entering text and attaching images.
+/// It provides a text input field for the tweet text and a button to post the tweet.
+/// The user can also attach up to 4 images to the tweet.
 class AddTweetScreen extends StatefulHookConsumerWidget {
   const AddTweetScreen({super.key});
 
@@ -26,6 +31,7 @@ class AddTweetScreen extends StatefulHookConsumerWidget {
 
 class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
   TextEditingController _tweetTextController = TextEditingController();
+
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
@@ -41,6 +47,11 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
   }
 
   List<File> imgs = [];
+
+  /// Opens the image picker to select multiple images.
+  ///
+  /// This function uses the [ImagePicker] package to allow the user to pick multiple images from their device.
+  /// It returns a list of [File] objects representing the selected images.
   Future<List<File>> pickImages() async {
     List<File> attachments = [];
     final ImagePicker picker = ImagePicker();
@@ -55,6 +66,10 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
     return attachments;
   }
 
+  /// Callback function for picking images.
+  ///
+  /// This function is called when the user taps on the attach images button.
+  /// It calls the [pickImages] function to open the image picker and update the [imgs] list with the selected images.
   void onPickImages() async {
     imgs = await pickImages();
     setState(() {});
@@ -126,9 +141,9 @@ class _AddTweetScreenState extends ConsumerState<AddTweetScreen> {
                             height: 40,
                             fit: BoxFit.cover,
                             imageUrl: ref
-                                    .watch(authNotifierProvider)
-                                    .user!
-                                    .imageUrl ??
+                                .watch(authNotifierProvider)
+                                .user!
+                                .imageUrl ??
                                 '',
                             placeholder: (context, url) => Image.asset(
                                 AppAssets.whiteLogo,
