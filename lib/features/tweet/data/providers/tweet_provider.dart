@@ -4,17 +4,40 @@ import 'package:x_clone/features/tweet/data/models/tweet_response.dart';
 import 'package:x_clone/features/tweet/data/repositories/tweet_repository.dart';
 import 'package:x_clone/features/tweet/data/states/tweet_state.dart';
 
+/// A provider class that manages the state and business logic related to tweets.
 class TweetNotifierProvider extends StateNotifier<TweetState> {
   TweetNotifierProvider(this.tweetRepository, [TweetState? state])
       : super(state ?? const TweetState()) {
     init();
   }
+
   final TweetRepository tweetRepository;
+
+  /// Initializes the provider.
   init() {}
+
+  /// Changes the current page index.
+  ///
+  /// This function updates the [TweetState] by setting the [screenIndex] to the specified [index].
+  ///
+  /// Example usage:
+  /// ```dart
+  /// tweetNotifierProvider.changePageIndex(2);
+  /// ```
   changePageIndex(index) {
     state = state.copyWith(screenIndex: index);
   }
 
+  /// Retrieves the likers of a tweet.
+  ///
+  /// This function fetches the likers data from the [tweetRepository] using the specified [tweetId].
+  /// If the data is successfully fetched, it updates the [TweetState] by setting the [likersList] to the fetched data.
+  /// Otherwise, it sets the [errorMessage] to 'Failed to fetch likers'.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// await tweetNotifierProvider.getLikers(tweetId: '123');
+  /// ```
   Future<void> getLikers({required String tweetId}) async {
     state = state.copyWith(
       loading: true,
@@ -34,6 +57,16 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
     }
   }
 
+  /// Retrieves the retweeters of a tweet.
+  ///
+  /// This function fetches the retweeters data from the [tweetRepository] using the specified [tweetId].
+  /// If the data is successfully fetched, it updates the [TweetState] by setting the [retweetersList] to the fetched data.
+  /// Otherwise, it sets the [errorMessage] to 'Failed to fetch likers'.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// await tweetNotifierProvider.getRetweeters(tweetId: '123');
+  /// ```
   Future<void> getRetweeters({required String tweetId}) async {
     state = state.copyWith(
       loading: true,
@@ -54,6 +87,7 @@ class TweetNotifierProvider extends StateNotifier<TweetState> {
   }
 }
 
+/// A provider instance of [TweetNotifierProvider] that can be used to access the tweet-related state and functions.
 final tweetNotifierProvider =
     StateNotifierProvider<TweetNotifierProvider, TweetState>(
   (ref) {
