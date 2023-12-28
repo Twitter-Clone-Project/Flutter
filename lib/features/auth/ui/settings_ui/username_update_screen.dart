@@ -7,6 +7,7 @@ import 'package:x_clone/theme/app_text_style.dart';
 
 class UsernameScreen extends StatefulHookConsumerWidget {
   const UsernameScreen({super.key});
+
   @override
   ConsumerState<UsernameScreen> createState() => _UsernameScreenState();
 }
