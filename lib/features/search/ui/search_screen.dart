@@ -9,6 +9,10 @@ import 'package:x_clone/theme/app_text_style.dart';
 
 import '../../../theme/app_assets.dart';
 
+/// A screen widget that displays a search interface.
+///
+/// This widget is responsible for rendering the search screen UI, including the app bar,
+/// search input field, and a list of trending search results.
 class SearchScreen extends StatefulHookConsumerWidget {
   const SearchScreen({super.key});
 
@@ -19,6 +23,7 @@ class SearchScreen extends StatefulHookConsumerWidget {
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   void initState() {
+    // Fetch trending data when the screen is initialized.
     Future.delayed(
       const Duration(seconds: 0),
       () {
@@ -36,6 +41,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           backgroundColor: AppColors.pureBlack,
           leading: InkWell(
             onTap: () {
+              // Navigate to the profile screen when the user taps on the leading icon.
               Navigator.pushNamed(context, Routes.profileScreen,
                   arguments: ref.watch(authNotifierProvider).user?.username);
             },
@@ -63,6 +69,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             height: 40,
             child: TextField(
               onTap: () {
+                // Navigate to the search results screen when the user taps on the search input field.
                 Navigator.pushNamed(context, Routes.searchResultsScreen,
                     arguments: "");
               }, //controller: searchController,
