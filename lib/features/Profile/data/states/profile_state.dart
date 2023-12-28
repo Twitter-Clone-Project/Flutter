@@ -5,6 +5,37 @@ import '../model/user_profile.dart';
 
 part 'profile_state.freezed.dart';
 
+/// Represents the state of the user profile.
+///
+/// This class is used to store the various states and data related to the user profile.
+/// It includes information such as profile tweets, liked tweets, user profile details,
+/// followers list, followings list, error messages, loading states, and more.
+///
+/// Example usage:
+/// ```dart
+/// UserProfileState userProfileState = UserProfileState(
+///   profileTweetsResponse: ProfileTweetsResponse(data: [], total: 0),
+///   profileLikedTweetsResponse: ProfileLikedTweetsResponse(data: [], total: 0),
+///   userprofile: UserProfile(imageUrl: "", bannerUrl: ""),
+///   followersList: FollowersList(data: []),
+///   followingsList: FollowingsList(data: []),
+///   errorMessage: null,
+///   profileLoading: true,
+///   loading: true,
+///   tweetsRefreshing: true,
+///   tweetsLoading: true,
+///   isBlocked: false,
+///   isMuted: false,
+///   isFollowed: false,
+///   screenIndex: 0,
+///   myPostsIndex: 0,
+///   myLikedPostsIndex: 0,
+///   userProfile: UserProfile(),
+///   error: null,
+///   ProfileTweetsRepliersList: RepliersList(data: []),
+///   ProfileLikedTweetsRepliersList: RepliersList(data: []),
+/// );
+/// ```
 @freezed
 class UserProfileState with _$UserProfileState {
   const factory UserProfileState({
