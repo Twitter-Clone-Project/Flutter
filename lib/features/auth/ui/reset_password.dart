@@ -13,6 +13,19 @@ import '../../../theme/app_colors.dart';
 import '../../../utils/utils.dart';
 import '../data/providers/auth_provider.dart';
 
+/// A screen widget for resetting the password.
+///
+/// This widget allows the user to reset their password by providing a new password
+/// and confirming it. It includes form validation for password length and matching
+/// password confirmation. The widget also provides a cancel button to navigate back
+/// to the previous screen and a done button to submit the new password.
+///
+/// Example usage:
+/// ```dart
+/// ResetPasswordScreen(
+///   email: 'example@example.com',
+/// )
+/// ```
 class ResetPasswordScreen extends StatefulHookConsumerWidget {
   final String email;
   const ResetPasswordScreen({Key? key,required this.email}) : super(key: key);
@@ -27,6 +40,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   final TextEditingController _passwordConfirmationController = TextEditingController();
   bool obscureTextNewPassword = true;
   bool obscureTextConfirmPassword = true;
+
   @override
   Widget build(BuildContext context) {
     final auth = ref.watch(authNotifierProvider);
@@ -156,6 +170,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                     filled: true,
                     text: 'Done',
                     onPressed: () async {
+                      // Perform password reset logic here
                       if (AppKeys.resetFormKey.currentState!.validate()) {
                         final result = await ref.read(authNotifierProvider.notifier).resetPassword(
                           email: widget.email,
