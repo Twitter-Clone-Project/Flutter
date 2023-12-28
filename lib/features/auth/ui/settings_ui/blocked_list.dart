@@ -18,6 +18,7 @@ import '../../../../theme/app_assets.dart';
 /// The screen also displays a message if there are no blocked users.
 class BlockersScreen extends StatefulHookConsumerWidget {
   const BlockersScreen({super.key});
+
   @override
   ConsumerState<BlockersScreen> createState() => _BlockersScreenState();
 }

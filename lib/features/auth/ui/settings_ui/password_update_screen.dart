@@ -24,6 +24,7 @@ import 'package:x_clone/theme/app_text_style.dart';
 /// ```
 class PasswordScreen extends StatefulHookConsumerWidget {
   const PasswordScreen({super.key});
+
   @override
   ConsumerState<PasswordScreen> createState() => _PasswordScreenState();
 }
@@ -117,6 +118,7 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                     controller: _newPasswordController,
                     obscureText:
                         true, // Set this to true to hide the entered text
+
                     // validator: (value) {
                     //   if (value == null || value.isEmpty) {
                     //     return 'Please enter a value';
@@ -236,6 +238,7 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
   /// ```dart
   /// showFlushbar(context, true, 'Password updated successfully', 'Failed to update password');
   /// ```
+
   void showFlushbar(
       BuildContext context, bool success, String successful, String failed) {
     Flushbar(

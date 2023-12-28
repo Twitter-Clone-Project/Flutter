@@ -21,6 +21,7 @@ import '../../data/providers/auth_provider.dart';
 /// It also handles the logic for updating the email address and resending the OTP.
 class ChangeEmailOtpScreen extends StatefulHookConsumerWidget {
   final String email;
+
   const ChangeEmailOtpScreen({super.key, required this.email});
 
   @override
@@ -222,3 +223,4 @@ class ChangeEmailOtpScreenState extends ConsumerState<ChangeEmailOtpScreen> {
     );
   }
 }
+

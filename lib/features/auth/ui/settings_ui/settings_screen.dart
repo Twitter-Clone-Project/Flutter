@@ -19,7 +19,6 @@ class SettingsScreen extends StatefulHookConsumerWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(seconds: 0), () {});
   }

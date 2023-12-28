@@ -1071,7 +1071,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                                 InkWell(
                                                   onTap: () {
                                                     if (userProfile
-                                                            .followersCount !=
+                                                            .followingsCount !=
                                                         "0") {
                                                       Navigator.pushNamed(
                                                         context,

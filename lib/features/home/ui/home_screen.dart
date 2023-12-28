@@ -37,14 +37,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     // Delay execution for 0 seconds
     Future.delayed(const Duration(seconds: 0), () {});
     final auth = ref.read(authNotifierProvider.notifier);
+    final notificationProvider =
+        ref.read(notificationsNotifierProvider.notifier);
     if (SocketClient.socket.disconnected) {
       SocketClient.connect(
         ref.read(authNotifierProvider).user!.userId!,
         onNotification: (notification) {
-          if (mounted)
-            ref
-                .read(notificationsNotifierProvider.notifier)
-                .onNotification(notification);
+          notificationProvider.onNotification(notification);
         },
         onFollow: (notification) {
           auth.incFollowers();

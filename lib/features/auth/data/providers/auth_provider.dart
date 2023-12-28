@@ -98,6 +98,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   bool isUserLoggedIn() {
     return state.user != null;
   }
+
 // login(){
 //     // state = state.copyWith(
 //     //   loading: true,

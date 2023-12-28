@@ -13,10 +13,13 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
+
   Future<bool?> isEmailFound({required String newEmail});
+
   Future<bool?> forgetPassword({
     required String email,
   });
+
   Future<User?> register({
     required String username,
     required String email,
@@ -25,20 +28,24 @@ abstract class AuthRepository {
     required String birthDate,
     required String reCaptchaText,
   });
+
   Future<User?> confirmEmail({
     required String otp,
     required String email,
     required bool isSignUp,
     String? newEmail,
   });
+
   Future<bool?> resetPassword({
     required String password,
     required String passwordConfirm,
     required String email,
   });
+
   Future<String?> resendOtp({
     required String email,
   });
+
 //   Future<User?> updateUser({String? phone, String? name});
   Future<void> registerFCMToken({required String token});
 
@@ -61,14 +68,18 @@ abstract class AuthRepository {
   User? getUserData();
 
   String? getToken();
+
   Future<bool?> updateUsername({required String newUsername});
+
   Future<bool?> updateEmail({required String newEmail});
+
   Future<bool?> updatePassword(
       {required String currentPassword,
       required String newPassword,
       required String newPasswordConfirm});
 
   Future<MutersList> fetchMutersData();
+
   Future<BlockersList> fetchBlockersData();
 }
 
@@ -168,6 +179,8 @@ class AuthRepositoryImpl implements AuthRepository {
   /// bool isEmailFound = await authRepository.isEmailFound(newEmail: 'example@example.com');
   /// print(isEmailFound); // true or false
   /// ```
+
+  @override
   Future<bool?> isEmailFound({required String newEmail}) async {
     try {
       var response = await HttpClient.dio.get(
@@ -209,6 +222,7 @@ class AuthRepositoryImpl implements AuthRepository {
   ///   print('Password update failed: $e');
   /// }
   /// ```
+
   @override
   Future<bool?> updatePassword(
       {required String currentPassword,

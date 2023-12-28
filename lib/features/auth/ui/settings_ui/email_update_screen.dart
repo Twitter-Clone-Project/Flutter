@@ -31,6 +31,7 @@ import '../../../../utils/utils.dart';
 /// ```
 class EmailScreen extends StatefulHookConsumerWidget {
   const EmailScreen({super.key});
+
   @override
   ConsumerState<EmailScreen> createState() => _EmailScreenState();
 }

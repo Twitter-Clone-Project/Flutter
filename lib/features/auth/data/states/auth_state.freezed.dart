@@ -17,17 +17,29 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AuthState {
   User? get user => throw _privateConstructorUsedError;
+
   String? get token => throw _privateConstructorUsedError;
+
   bool? get isLogin => throw _privateConstructorUsedError;
+
   bool get loginLoading => throw _privateConstructorUsedError;
+
   bool get otpLoading => throw _privateConstructorUsedError;
+
   bool get googleLoading => throw _privateConstructorUsedError;
+
   bool get forgetPasswordLoading => throw _privateConstructorUsedError;
+
   bool get resetPasswordLoading => throw _privateConstructorUsedError;
+
   String? get errorMessage => throw _privateConstructorUsedError;
+
   bool get registerLoading => throw _privateConstructorUsedError;
+
   bool? get loading => throw _privateConstructorUsedError;
+
   MutersList get mutersList => throw _privateConstructorUsedError;
+
   BlockersList get blockedList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -39,6 +51,7 @@ mixin _$AuthState {
 abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
+
   @useResult
   $Res call(
       {User? user,
@@ -56,7 +69,9 @@ abstract class $AuthStateCopyWith<$Res> {
       BlockersList blockedList});
 
   $UserCopyWith<$Res>? get user;
+
   $MutersListCopyWith<$Res> get mutersList;
+
   $BlockersListCopyWith<$Res> get blockedList;
 }
 
@@ -67,6 +82,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -178,6 +194,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
   factory _$$AuthStateImplCopyWith(
           _$AuthStateImpl value, $Res Function(_$AuthStateImpl) then) =
       __$$AuthStateImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call(
@@ -197,8 +214,10 @@ abstract class _$$AuthStateImplCopyWith<$Res>
 
   @override
   $UserCopyWith<$Res>? get user;
+
   @override
   $MutersListCopyWith<$Res> get mutersList;
+
   @override
   $BlockersListCopyWith<$Res> get blockedList;
 }
@@ -419,30 +438,43 @@ abstract class _AuthState implements AuthState {
 
   @override
   User? get user;
+
   @override
   String? get token;
+
   @override
   bool? get isLogin;
+
   @override
   bool get loginLoading;
+
   @override
   bool get otpLoading;
+
   @override
   bool get googleLoading;
+
   @override
   bool get forgetPasswordLoading;
+
   @override
   bool get resetPasswordLoading;
+
   @override
   String? get errorMessage;
+
   @override
   bool get registerLoading;
+
   @override
   bool? get loading;
+
   @override
   MutersList get mutersList;
+
   @override
   BlockersList get blockedList;
+
   @override
   @JsonKey(ignore: true)
   _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>
