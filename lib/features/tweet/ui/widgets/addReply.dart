@@ -13,6 +13,12 @@ import 'package:x_clone/theme/app_assets.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
+/// A widget that allows users to add a reply to a tweet.
+///
+/// This widget displays a text field where users can enter their reply to a tweet.
+/// It also provides options for adding images, GIFs, lists, and locations to the reply.
+/// The widget updates the UI based on user interactions and notifies the parent widget
+/// when the reply is submitted.
 class AddReply extends StatefulHookConsumerWidget {
   final Tweet tweet;
   final int index;
