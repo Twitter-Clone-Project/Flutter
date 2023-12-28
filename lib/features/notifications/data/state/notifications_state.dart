@@ -25,6 +25,7 @@ part 'notifications_state.freezed.dart';
 class NotificationsState with _$NotificationsState {
   const factory NotificationsState({
     @Default(NotificationsList(data: [])) NotificationsList notifications,
+    @Default(0) int unseenNotificationsCount,
     @Default(true) bool loading,
     @Default(null) String? errorMessage,
     @Default(0) int screenIndex,

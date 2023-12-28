@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:x_clone/app/routes.dart';
 import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
+import 'package:x_clone/features/notifications/data/providers/notification_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:x_clone/web_services/socket_services.dart';
@@ -35,10 +36,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   void initState() {
     // Delay execution for 0 seconds
     Future.delayed(const Duration(seconds: 0), () {});
-
-    // Connect to the socket if it is disconnected
+    final auth = ref.read(authNotifierProvider.notifier);
     if (SocketClient.socket.disconnected) {
-      SocketClient.connect(ref.read(authNotifierProvider).user!.userId!);
+      SocketClient.connect(
+        ref.read(authNotifierProvider).user!.userId!,
+        onNotification: (notification) {
+          if (mounted)
+            ref
+                .read(notificationsNotifierProvider.notifier)
+                .onNotification(notification);
+        },
+        onFollow: (notification) {
+          auth.incFollowers();
+        },
+        onUnFollow: (notification) {
+          auth.decFollowers();
+        },
+      );
+    } else {
+      ref.read(notificationsNotifierProvider.notifier).removeListener(
+            ref.read(authNotifierProvider).user!.userId!,
+          );
     }
 
     super.initState();
