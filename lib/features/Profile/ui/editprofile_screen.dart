@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -153,6 +154,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen>
             );
         if (result != null) {
           Navigator.pop(context);
+        } else {
+          Flushbar(
+            message: ref.read(profileNotifierProvider).error,
+            duration: const Duration(seconds: 3),
+            backgroundColor: AppColors.warningColor,
+          ).show(context);
         }
       }
     }
