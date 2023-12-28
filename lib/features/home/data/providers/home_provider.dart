@@ -8,6 +8,7 @@ import '../models/home_response.dart';
 import '../repositories/home_repository.dart';
 import '../states/home_state.dart';
 
+/// A provider class that manages the state and business logic for the home screen.
 class HomeNotifierProvider extends StateNotifier<HomeState> {
   HomeNotifierProvider(this.homeRepository) : super(const HomeState()) {
     init();
@@ -15,10 +16,15 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
 
   final HomeRepository homeRepository;
 
+  /// Initializes the provider by calling the `getTimelineData` function with page 1.
   init() {
     getTimelineData(page: 1);
   }
 
+  /// Retrieves timeline data from the repository based on the given page number.
+  ///
+  /// The `page` parameter specifies the page number to retrieve.
+  /// Returns a [HomeResponse] object containing the timeline data.
   getTimelineData({
     required int page,
   }) async {
@@ -47,6 +53,10 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
+  /// Adds a like to a tweet.
+  ///
+  /// The `tweetId` parameter specifies the ID of the tweet to add a like to.
+  /// Returns `true` if the like is added successfully, `false` otherwise.
   Future<bool> addLike({required String tweetId}) async {
     try {
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
@@ -83,6 +93,10 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
+  /// Deletes a like from a tweet.
+  ///
+  /// The `tweetId` parameter specifies the ID of the tweet to delete the like from.
+  /// Returns `true` if the like is deleted successfully, `false` otherwise.
   Future<bool> deleteLike({required String tweetId}) async {
     try {
       List<Tweet> tweetlist = List.from(state.homeResponse.data);
@@ -119,6 +133,10 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
+  /// Adds a retweet to a tweet.
+  ///
+  /// The `tweetId` parameter specifies the ID of the tweet to add a retweet to.
+  /// Returns `true` if the retweet is added successfully, `false` otherwise.
   addRetweet({required String tweetId}) async {
     try {
       homeRepository.addRetweet(tweetId: tweetId);
@@ -141,6 +159,10 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
+  /// Deletes a retweet from a tweet.
+  ///
+  /// The `tweetId` parameter specifies the ID of the tweet to delete the retweet from.
+  /// Returns `true` if the retweet is deleted successfully, `false` otherwise.
   deleteRetweet({required String tweetId}) async {
     try {
       homeRepository.deleteRetweet(tweetId: tweetId);
@@ -163,6 +185,9 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     }
   }
 
+  /// Retrieves the repliers for a tweet.
+  ///
+  /// The `tweetId` parameter specifies the ID of the tweet to retrieve the repliers for.
   Future<void> getRepliers({required String tweetId}) async {
     try {
       state = state.copyWith(
@@ -188,7 +213,7 @@ class HomeNotifierProvider extends StateNotifier<HomeState> {
     } catch (e) {
       state = state.copyWith(
         loading: false,
-        //errorMessage: e.toString(),
+//errorMessage: e.toString(),
         repliersList: const RepliersList(data: []),
       );
     }
