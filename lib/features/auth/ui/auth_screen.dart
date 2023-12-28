@@ -5,6 +5,11 @@ import '../../home/ui/navigation_screen.dart';
 import '../data/providers/auth_provider.dart';
 import 'intro_screen.dart';
 
+/// A screen widget that displays the authentication flow.
+///
+/// The [AuthScreen] widget is responsible for rendering the appropriate screen based on the user's authentication status.
+/// If the user is logged in and their account is confirmed, it navigates to the [NavigationScreen].
+/// Otherwise, it displays the [IntroScreen] to guide the user through the authentication process.
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
