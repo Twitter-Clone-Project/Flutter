@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 import 'app_text_style.dart';
 
+/// A class that defines the custom theme for the application.
 class CustomTheme {
+  /// The dark theme for the application.
   static ThemeData darkTheme = ThemeData.dark().copyWith(
       scaffoldBackgroundColor: AppColors.pureBlack,
       brightness: Brightness.dark,
