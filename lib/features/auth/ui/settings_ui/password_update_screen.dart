@@ -10,6 +10,7 @@ import 'package:x_clone/theme/app_text_style.dart';
 
 class PasswordScreen extends StatefulHookConsumerWidget {
   const PasswordScreen({super.key});
+
   @override
   ConsumerState<PasswordScreen> createState() => _PasswordScreenState();
 }
@@ -101,7 +102,8 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                   ),
                   subtitle: TextFormField(
                     controller: _newPasswordController,
-                    obscureText: true, // Set this to true to hide the entered text
+                    obscureText: true,
+                    // Set this to true to hide the entered text
                     // validator: (value) {
                     //   if (value == null || value.isEmpty) {
                     //     return 'Please enter a value';
@@ -147,15 +149,14 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                 ),
               ),
               SizedBox(height: 16),
-
-
             ],
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16.0),
             child: CustomButton(
               horizontalPadding: 10,
-              onPressed: () async { // Mark the function as async
+              onPressed: () async {
+                // Mark the function as async
                 final currentPassword = _currentPasswordController.text;
                 final newPassword = _newPasswordController.text;
                 final confirmPassword = _confirmPasswordController.text;
@@ -169,18 +170,21 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                     // Display an error if the "New password" and "Confirm password" do not match
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('New password and Confirm password must match.'),
+                        content: Text(
+                            'New password and Confirm password must match.'),
                       ),
                     );
                     return;
                   }
 
                   // Perform the update password logic if all checks pass
-                  final result = await ref.read(authNotifierProvider.notifier).updatePassword(
-                    currentPassword: currentPassword,
-                    newPassword: newPassword,
-                    newPasswordConfirm: confirmPassword,
-                  );
+                  final result = await ref
+                      .read(authNotifierProvider.notifier)
+                      .updatePassword(
+                        currentPassword: currentPassword,
+                        newPassword: newPassword,
+                        newPasswordConfirm: confirmPassword,
+                      );
 
                   if (result == true) {
                     Navigator.of(context).pop();
@@ -188,27 +192,26 @@ class _PasswordScreenState extends ConsumerState<PasswordScreen> {
                       context,
                       result,
                       "Password updated successfully",
-                      "Updating password failed, please try again",);
-                  }
-                  else {
+                      "Updating password failed, please try again",
+                    );
+                  } else {
                     showFlushbar(
                       context,
                       result,
                       "Password updated successfully",
-                      "Updating password failed",);
+                      "Updating password failed",
+                    );
                   }
-
-
                 }
               },
               text: "Update Password",
             ),
-
           ),
         ],
       ),
     );
   }
+
   void showFlushbar(
       BuildContext context, bool success, String successful, String failed) {
     Flushbar(
