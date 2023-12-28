@@ -12,6 +12,11 @@ import '../../../theme/app_colors.dart';
 import '../../../utils/utils.dart';
 import '../data/providers/auth_provider.dart';
 
+/// A screen widget for the login functionality.
+///
+/// This widget provides a user interface for the login screen. It includes
+/// input fields for email and password, as well as buttons for login and
+/// forgot password actions.
 class LoginScreen extends StatefulHookConsumerWidget {
   const LoginScreen({super.key});
 
