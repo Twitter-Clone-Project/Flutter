@@ -5,6 +5,23 @@ import 'package:x_clone/features/auth/data/providers/auth_provider.dart';
 import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 
+/// A screen widget for updating the username.
+///
+/// This widget allows the user to change their current username to a new one.
+/// It provides a form with two text fields: one for the current username and
+/// another for the new username. The user can enter a new username and validate
+/// it using the provided validation rules. Once the form is submitted, the
+/// username is updated and the screen is closed.
+///
+/// Example usage:
+/// ```dart
+/// Navigator.push(
+///   context,
+///   MaterialPageRoute(
+///     builder: (context) => UsernameScreen(),
+///   ),
+/// );
+/// ```
 class UsernameScreen extends StatefulHookConsumerWidget {
   const UsernameScreen({super.key});
   @override
@@ -16,10 +33,14 @@ class _UsernameScreenState extends ConsumerState<UsernameScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    
+    // Initialize the text controllers with the current username
     _userNameController = TextEditingController(
         text: ref.read(authNotifierProvider).user!.username ?? "");
     _userNameeController = TextEditingController(
         text: ref.read(authNotifierProvider).user!.username ?? "");
+    
+    // Delay the execution of the code inside the Future by 0 seconds
     Future.delayed(const Duration(seconds: 0), () {});
   }
 
