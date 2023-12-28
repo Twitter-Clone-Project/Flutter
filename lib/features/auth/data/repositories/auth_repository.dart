@@ -234,6 +234,18 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  /// Fetches user data from the server.
+  ///
+  /// This function sends a GET request to the server to fetch user data.
+  /// It saves the fetched user data locally and returns the user object.
+  /// If an error occurs during the request, it rethrows the exception.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// AuthRepository authRepository = AuthRepository();
+  /// User? user = await authRepository.fetchUserData();
+  /// print(user?.name);
+  /// ```
   @override
   Future<User?> fetchUserData() async {
     try {
@@ -332,6 +344,15 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  /// A repository class that handles authentication related operations.
+  /// Confirms the email by sending the OTP and validating it.
+  ///
+  /// The [otp] parameter is the one-time password sent to the user's email.
+  /// The [email] parameter is the user's email address.
+  /// The [isSignUp] parameter indicates whether the email confirmation is for sign up or password reset.
+  /// The [newEmail] parameter is an optional parameter used when updating the user's email.
+  ///
+  /// Returns a [User] object if the email confirmation is successful, otherwise throws an error.
   @override
   Future<User?> confirmEmail({
     required String otp,
