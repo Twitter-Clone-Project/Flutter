@@ -15,6 +15,11 @@ import 'package:x_clone/theme/app_colors.dart';
 import 'package:x_clone/theme/app_text_style.dart';
 import '../../home/data/models/home_response.dart';
 
+/// A screen widget that displays a tweet and its replies.
+///
+/// This widget is responsible for rendering the UI of a tweet screen, including the tweet itself,
+/// the list of replies, and the ability to add a new reply. It also handles the initialization
+/// of the screen by fetching the replies based on the tweet and the user's profile.
 class TweetScreen extends StatefulHookConsumerWidget {
   TweetScreen(
       {super.key,
@@ -34,6 +39,8 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    // Fetch the replies based on the tweet and the user's profile.
     Future.delayed(
       const Duration(seconds: 0),
       () {
@@ -52,6 +59,7 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
   Widget build(BuildContext context) {
     final userProvider = ref.watch(authNotifierProvider);
     final homeProvider = ref.watch(homeNotifierProvider);
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 65,
@@ -88,6 +96,7 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                 child: SingleChildScrollView(
               child: Column(
                 children: [
+                  // Display the tweet component.
                   TweetComponent(
                     tweet: widget.tweet,
                     index: widget.index,
@@ -100,8 +109,9 @@ class _TweetScreenState extends ConsumerState<TweetScreen> {
                                     .username
                             ? 1
                             : 0,
-                    //if i am in myProfile-> 1 , Other profile-> 1
+//if i am in myProfile-> 1 , Other profile-> 1
                   ),
+                  // Display the list of replies based on the context.
                   widget.whom == 0
                       ? homeProvider.loading
                           ? const Center(child: CircularProgressIndicator())
