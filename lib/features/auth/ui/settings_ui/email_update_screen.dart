@@ -14,6 +14,7 @@ import '../../../../utils/utils.dart';
 
 class EmailScreen extends StatefulHookConsumerWidget {
   const EmailScreen({super.key});
+
   @override
   ConsumerState<EmailScreen> createState() => _EmailScreenState();
 }
@@ -125,16 +126,17 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
                 TextButton(
                   onPressed: () async {
                     if (AppKeys.updateemailFormKey.currentState!.validate()) {
-                      var result =await  ref
+                      var result = await ref
                           .read(authNotifierProvider.notifier)
                           .isEmailFound(email: _emailController.text);
 
-                      if(result==false){
-                        Navigator.pushNamed(context, Routes.changeEmailOtpScreen,arguments: _emailController.text);
-
-                      }
-                      else{
-                        AppSnackbar.show(buildSnackBar(text: "Email already exist"));
+                      if (result == false) {
+                        Navigator.pushNamed(
+                            context, Routes.changeEmailOtpScreen,
+                            arguments: _emailController.text);
+                      } else {
+                        AppSnackbar.show(
+                            buildSnackBar(text: "Email already exist"));
                       }
                     }
                   },

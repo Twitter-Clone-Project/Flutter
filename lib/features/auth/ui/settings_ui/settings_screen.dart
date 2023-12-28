@@ -10,6 +10,7 @@ import 'package:x_clone/theme/app_text_style.dart';
 
 class SettingsScreen extends StatefulHookConsumerWidget {
   const SettingsScreen({super.key});
+
   @override
   ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
@@ -17,7 +18,6 @@ class SettingsScreen extends StatefulHookConsumerWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(seconds: 0), () {});
   }
