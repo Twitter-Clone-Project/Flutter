@@ -9,9 +9,15 @@ import 'package:x_clone/theme/app_text_style.dart';
 
 import '../../../theme/app_assets.dart';
 
+/// A screen that displays the list of users who have retweeted a tweet.
+/// 
+/// This screen is responsible for fetching and displaying the retweeters of a tweet.
+/// It shows the retweeter's profile picture, name, and screen name.
+/// The screen also provides an option to navigate to the retweeter's profile screen.
 class RetweetersScreen extends StatefulHookConsumerWidget {
   const RetweetersScreen({super.key, required this.tweetId});
   final String? tweetId;
+
   @override
   ConsumerState<RetweetersScreen> createState() => _RetweetersScreenState();
 }
@@ -21,6 +27,7 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // Fetch the retweeters of the tweet after a delay of 0 seconds
     Future.delayed(const Duration(seconds: 0), () {
       ref
           .read(tweetNotifierProvider.notifier)
@@ -31,8 +38,6 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
   @override
   Widget build(BuildContext context) {
     final tweetprov = ref.watch(tweetNotifierProvider);
-    // print("===============sasa==================");
-    // print(tweetprov.retweetrsList.data);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 65,
@@ -68,6 +73,7 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
                 return ListTile(
                   leading: GestureDetector(
                     onTap: () {
+                      // Navigate to the profile screen of the retweeter
                       Navigator.pushNamed(context, Routes.profileScreen,
                           arguments: ref
                               .watch(tweetNotifierProvider)
@@ -106,7 +112,7 @@ class _RetweetersScreenState extends ConsumerState<RetweetersScreen> {
                       color: AppColors.lightGray,
                     ),
                   ),
-                  // trailing: retweeter.isFollowed!
+// trailing: retweeter.isFollowed!
                   //     ? Container(
                   //         width: 100,
                   //         height: 40,
