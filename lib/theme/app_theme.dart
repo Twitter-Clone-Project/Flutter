@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:x_clone/theme/pallete.dart';
 
-class AppTheme {
-  static ThemeData theme = ThemeData.dark().copyWith(
-    scaffoldBackgroundColor: Palette.backgroundColor,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Palette.backgroundColor,
-      elevation: 2,
-      shadowColor: Colors.grey,
-    ),
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: Palette.blueColor,
-    ),
-  );
+import 'app_colors.dart';
+import 'app_text_style.dart';
+
+/// A class that defines the custom theme for the application.
+class CustomTheme {
+  /// The dark theme for the application.
+  static ThemeData darkTheme = ThemeData.dark().copyWith(
+      scaffoldBackgroundColor: AppColors.pureBlack,
+      brightness: Brightness.dark,
+      primaryColor: AppColors.primaryColor,
+      backgroundColor: AppColors.blackColor,
+      textTheme: AppTextStyle.textThemeDark,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: AppColors.blackColor,
+        titleTextStyle: TextStyle(
+            color: AppColors.whiteColor, fontFamily: AppTextStyle.fontName),
+        elevation: 0,
+        iconTheme: IconThemeData(color: AppColors.primaryColor),
+        actionsIconTheme: IconThemeData(color: AppColors.primaryColor),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: AppColors.pureBlack,
+          elevation: 4,
+          selectedIconTheme: IconThemeData(size: 28),
+          selectedItemColor: AppColors.whiteColor,
+          unselectedItemColor: AppColors.whiteColor,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed));
 }
