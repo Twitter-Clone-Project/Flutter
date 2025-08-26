@@ -5,7 +5,7 @@
 Hello there, world-changers! You've stumbled upon our X clone project. Prepare to be amazed! 🚀
 
 
-- Yousef Mohamed Rabia <img src='https://i.postimg.cc/jntXm1Zw/klipartz-com.png' border='0' alt='klipartz-com' width=25/>
+- Youssef Mohamed Rabie <img src='https://i.postimg.cc/jntXm1Zw/klipartz-com.png' border='0' alt='klipartz-com' width=25/>
 - Mostafa Mohamed Elsayed Ahmed Tawfiq
 - Mohamed Yehia Al-ahmad Al-omar
 - Walid Osama Khames
@@ -40,7 +40,7 @@ Our goal is to create a functional X Clone app and gain valuable experience in t
 
 Feel free to reach out to us if you have questions, ideas, or just want to share funny memes, you can contact us:
 
-- Yousef Mohamed Rabia:                [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/yousef-rabia-b260a9201/)
+- Youssef Mohamed Rabie:                [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)]([https://www.linkedin.com/in/yousef-rabia-b260a9201/](https://www.linkedin.com/in/youssefrabie/))
 - Mostafa Mohamed Elsayed Ahmed Tawfiq: [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com)
 - Mohamed Yehia Al-ahmad Al-omar: [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com)
 - Walid Osama Khames: [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/walid-khamees/)
